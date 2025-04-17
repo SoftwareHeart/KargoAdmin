@@ -1,0 +1,85 @@
+﻿@model KargoAdmin.Models.ViewModels.BlogCreateViewModel
+
+@{
+    ViewData["Title"] = "Yeni Blog Yazısı";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Yeni Blog Yazısı</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/Admin">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Blog")">Blog Listesi</a></li>
+        <li class="breadcrumb-item active">Yeni Blog Yazısı</li>
+    </ol>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-edit me-1"></i>
+            Blog Yazısı Ekle
+        </div>
+        <div class="card-body">
+            <form asp-action="Create" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Title" class="form-label">Başlık</label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Content" class="form-label">İçerik</label>
+                    <textarea asp-for="Content" id="editor" class="form-control"></textarea>
+                    <span asp-validation-for="Content" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ImageFile" class="form-label">Resim</label>
+                    <input type="file" name="ImageFile" id="ImageFile" class="form-control" accept="image/*" />
+                    <small class="form-text text-muted">Resim eklemek isteğe bağlıdır.</small>
+                </div>
+
+                <div class="mb-3 form-check">
+                    <input asp-for="IsPublished" class="form-check-input" />
+                    <label asp-for="IsPublished" class="form-check-label">Yayınla</label>
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save me-1"></i> Kaydet
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-1"></i> Listeye Dön
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+    <script>
+        // CKEditor'ü devre dışı bırak (geçici olarak)
+        /*
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .catch(error => {
+                console.error(error);
+            });
+        */
+
+        // Form gönderilmeden önce validasyonu düzenle
+        $(document).ready(function () {
+            $("form").on("submit", function () {
+                // ImageFile alanını doğrulama sürecinden çıkar
+                $("[name='ImageFile']").rules("remove", "required");
+                return true;
+            });
+        });
+    </script>
+}

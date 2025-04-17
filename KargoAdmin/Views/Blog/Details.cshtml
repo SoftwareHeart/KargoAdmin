@@ -1,0 +1,37 @@
+﻿@model Blog
+
+@{
+    ViewData["Title"] = "Blog Detayları";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Blog Detayları</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/Admin">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Blog")">Blog Listesi</a></li>
+        <li class="breadcrumb-item active">Blog Detayları</li>
+    </ol>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-info-circle me-1"></i>
+            Blog Yazısı Bilgileri
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-8">
+                    <h2>@Model.Title</h2>
+                    <div class="mb-3">
+                        <span class="badge bg-primary me-2">Yayın Tarihi: @Model.PublishDate.ToString("dd.MM.yyyy HH:mm")</span>
+                        <span class="badge bg-secondary me-2">Güncelleme: @Model.UpdateDate.ToString("dd.MM.yyyy HH:mm")</span>
+                        @if (Model.IsPublished)
+                        {
+                            <span class="badge bg-success">Yayında</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-warning text-dark">Taslak</span>
+                        }
+                    </div>
+                    <p class="text-muted">
