@@ -35,3 +35,83 @@
                         }
                     </div>
                     <p class="text-muted">
+                        <strong>Yazar:</strong> @Model.Author.FirstName @Model.Author.LastName
+                    </p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <div class="btn-group" role="group">
+                        <a href="@Url.Action("Edit", "Blog", new { id = Model.Id })" class="btn btn-primary">
+                            <i class="fas fa-edit me-1"></i> Düzenle
+                        </a>
+                        <a href="@Url.Action("Delete", "Blog", new { id = Model.Id })" class="btn btn-danger">
+                            <i class="fas fa-trash me-1"></i> Sil
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+            {
+                <div class="text-center mb-4">
+                    <img src="/uploads/@Model.ImageUrl" class="img-fluid rounded" style="max-height: 400px;" alt="@Model.Title" />
+                </div>
+            }
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">İçerik</h5>
+                </div>
+                <div class="card-body">
+                    @Html.Raw(Model.Content)
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Meta Bilgiler</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th style="width: 200px;">ID</th>
+                                <td>@Model.Id</td>
+                            </tr>
+                            <tr>
+                                <th>Yayın Durumu</th>
+                                <td>
+                                    @if (Model.IsPublished)
+                                    {
+                                        <span class="text-success"><i class="fas fa-check-circle me-1"></i> Yayında</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-warning"><i class="fas fa-exclamation-circle me-1"></i> Taslak</span>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Yayın Tarihi</th>
+                                <td>@Model.PublishDate.ToString("dd.MM.yyyy HH:mm:ss")</td>
+                            </tr>
+                            <tr>
+                                <th>Son Güncelleme</th>
+                                <td>@Model.UpdateDate.ToString("dd.MM.yyyy HH:mm:ss")</td>
+                            </tr>
+                            <tr>
+                                <th>Yazar</th>
+                                <td>@Model.Author.FirstName @Model.Author.LastName (@Model.Author.Email)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-1"></i> Listeye Dön
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
