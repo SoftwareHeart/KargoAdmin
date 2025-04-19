@@ -1,0 +1,69 @@
+﻿@model SettingsViewModel
+@{
+    ViewData["Title"] = "Site Ayarları";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Site Ayarları</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/Admin">Dashboard</a></li>
+        <li class="breadcrumb-item active">Site Ayarları</li>
+    </ol>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-cogs me-1"></i>
+            Genel Ayarlar
+        </div>
+        <div class="card-body">
+            <form asp-action="Settings" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="mb-3">
+                    <label asp-for="SiteTitle" class="form-label">Site Başlığı</label>
+                    <input asp-for="SiteTitle" class="form-control" />
+                    <span asp-validation-for="SiteTitle" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="SiteDescription" class="form-label">Site Açıklaması</label>
+                    <textarea asp-for="SiteDescription" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="SiteDescription" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ContactEmail" class="form-label">İletişim E-posta</label>
+                    <input asp-for="ContactEmail" class="form-control" />
+                    <span asp-validation-for="ContactEmail" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ContactPhone" class="form-label">İletişim Telefon</label>
+                    <input asp-for="ContactPhone" class="form-control" />
+                    <span asp-validation-for="ContactPhone" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="FacebookUrl" class="form-label">Facebook URL</label>
+                    <input asp-for="FacebookUrl" class="form-control" />
+                    <span asp-validation-for="FacebookUrl" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="TwitterUrl" class="form-label">Twitter URL</label>
+                    <input asp-for="TwitterUrl" class="form-control" />
+                    <span asp-validation-for="TwitterUrl" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="InstagramUrl" class="form-label">Instagram URL</label>
+                    <input asp-for="InstagramUrl" class="form-control" />
+                    <span asp-validation-for="InstagramUrl" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Kaydet</button>
+            </form>
+        </div>
+    </div>
+</div>

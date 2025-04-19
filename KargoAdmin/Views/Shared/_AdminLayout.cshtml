@@ -28,10 +28,14 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#!">Ayarlar</a></li>
-                    <li><a class="dropdown-item" href="#!">Hesabım</a></li>
+                    <li><a class="dropdown-item" asp-controller="Admin" asp-action="Profile"><i class="fas fa-user-circle me-1"></i> Profilim</a></li>
+                    <li><a class="dropdown-item" asp-controller="Admin" asp-action="Settings"><i class="fas fa-cogs me-1"></i> Ayarlar</a></li>
                     <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="#!">Çıkış Yap</a></li>
+                    <li>
+                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                            <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt me-1"></i> Çıkış Yap</button>
+                        </form>
+                    </li>
                 </ul>
             </li>
         </ul>
@@ -51,7 +55,15 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-blog"></i></div>
                             Blog Yönetimi
                         </a>
-                        <!-- Diğer menü öğeleri buraya eklenebilir -->
+                        <div class="sb-sidenav-menu-heading">Sistem</div>
+                        <a class="nav-link" href="@Url.Action("Settings", "Admin")">
+                            <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
+                            Site Ayarları
+                        </a>
+                        <a class="nav-link" href="@Url.Action("Profile", "Admin")">
+                            <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
+                            Profilim
+                        </a>
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
