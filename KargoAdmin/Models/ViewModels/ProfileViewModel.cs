@@ -17,8 +17,7 @@ namespace KargoAdmin.Models.ViewModels
         [Display(Name = "E-posta")]
         public string Email { get; set; }
 
-        [Phone(ErrorMessage = "Geçerli bir telefon numarası giriniz")]
         [Display(Name = "Telefon")]
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
     }
 }

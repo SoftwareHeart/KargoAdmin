@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace KargoAdmin.Controllers
@@ -42,7 +43,7 @@ namespace KargoAdmin.Controllers
         // Blog oluşturma sayfası
         public IActionResult Create()
         {
-            return View();
+            return View(new BlogCreateViewModel { IsPublished = true });
         }
 
         // Blog oluşturma (POST)
@@ -64,6 +65,9 @@ namespace KargoAdmin.Controllers
 
                 var user = await _userManager.GetUserAsync(User);
 
+                // URL uyumlu slug oluştur
+                string slug = GenerateSlug(model.Title);
+
                 var blog = new Blog
                 {
                     Title = model.Title,
@@ -72,11 +76,17 @@ namespace KargoAdmin.Controllers
                     PublishDate = DateTime.Now,
                     UpdateDate = DateTime.Now,
                     IsPublished = model.IsPublished,
-                    AuthorId = user.Id
+                    AuthorId = user.Id,
+                    MetaDescription = model.MetaDescription ?? "", // Null ise boş string
+                    Tags = model.Tags ?? "", // Null ise boş string
+                    Slug = slug,
+                    ViewCount = 0
                 };
 
                 _context.Add(blog);
                 await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Blog yazısı başarıyla oluşturuldu.";
                 return RedirectToAction(nameof(Index));
             }
 
@@ -103,7 +113,9 @@ namespace KargoAdmin.Controllers
                 Title = blog.Title,
                 Content = blog.Content,
                 ExistingImageUrl = blog.ImageUrl,
-                IsPublished = blog.IsPublished
+                IsPublished = blog.IsPublished,
+                MetaDescription = blog.MetaDescription,
+                Tags = blog.Tags
             };
 
             return View(model);
@@ -121,7 +133,8 @@ namespace KargoAdmin.Controllers
 
             // ImageFile için ModelState doğrulamasını kaldır
             ModelState.Remove("ImageFile");
-            ModelState.Remove("ExistingImageUrl"); 
+            ModelState.Remove("ExistingImageUrl");
+            ModelState.Remove("Tags");
 
             if (ModelState.IsValid)
             {
@@ -133,11 +146,19 @@ namespace KargoAdmin.Controllers
                         return NotFound();
                     }
 
+                    // URL uyumlu slug oluştur (başlık değiştiyse)
+                    if (blog.Title != model.Title)
+                    {
+                        blog.Slug = GenerateSlug(model.Title);
+                    }
+
                     // Blog bilgilerini güncelle
                     blog.Title = model.Title;
                     blog.Content = model.Content;
                     blog.IsPublished = model.IsPublished;
                     blog.UpdateDate = DateTime.Now;
+                    blog.MetaDescription = model.MetaDescription;
+                    blog.Tags = model.Tags;
 
                     // Yeni resim yüklendiyse işle
                     if (model.ImageFile != null && model.ImageFile.Length > 0)
@@ -151,12 +172,23 @@ namespace KargoAdmin.Controllers
                         // Yeni resmi yükle
                         blog.ImageUrl = await UploadImage(model.ImageFile);
                     }
-                    // Resim olmadığında mevcut değeri koru (ImageUrl güncellenmeyecek)
+
+                    // Eğer varsa ve true ise mevcut görseli sil
+                    bool deleteExistingImage = false;
+                    if (bool.TryParse(Request.Form["DeleteExistingImage"], out deleteExistingImage) && deleteExistingImage)
+                    {
+                        if (!string.IsNullOrEmpty(blog.ImageUrl))
+                        {
+                            DeleteImage(blog.ImageUrl);
+                            blog.ImageUrl = null;
+                        }
+                    }
 
                     _context.Update(blog);
                     await _context.SaveChangesAsync();
 
                     // Başarılı güncelleme, listeye dön
+                    TempData["SuccessMessage"] = "Blog yazısı başarıyla güncellendi.";
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
@@ -170,6 +202,7 @@ namespace KargoAdmin.Controllers
             // Kod buraya ulaşırsa (hata varsa) modelini tekrar view'e döndür
             return View(model);
         }
+
         // Blog silme
         public async Task<IActionResult> Delete(int? id)
         {
@@ -205,6 +238,8 @@ namespace KargoAdmin.Controllers
 
             _context.Blogs.Remove(blog);
             await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Blog yazısı başarıyla silindi.";
             return RedirectToAction(nameof(Index));
         }
 
@@ -265,6 +300,33 @@ namespace KargoAdmin.Controllers
             {
                 System.IO.File.Delete(filePath);
             }
+        }
+
+        // SEO dostu URL oluşturmak için slug oluşturucu
+        private string GenerateSlug(string title)
+        {
+            // Türkçe karakterleri değiştir
+            string turkishChars = "ığüşöçĞÜŞİÖÇ";
+            string englishChars = "igusocGUSIOC";
+
+            for (int i = 0; i < turkishChars.Length; i++)
+            {
+                title = title.Replace(turkishChars[i], englishChars[i]);
+            }
+
+            // Boşlukları, özel karakterleri, sembolleri temizle
+            string slug = Regex.Replace(title.ToLower(), @"[^a-z0-9\s-]", "");
+
+            // Boşlukları tire ile değiştir
+            slug = Regex.Replace(slug, @"\s+", "-");
+
+            // Ardışık tireleri tek tire yap
+            slug = Regex.Replace(slug, @"-+", "-");
+
+            // Başta ve sonda tire varsa kaldır
+            slug = slug.Trim('-');
+
+            return slug;
         }
     }
 }

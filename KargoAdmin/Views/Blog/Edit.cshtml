@@ -13,71 +13,412 @@
         <li class="breadcrumb-item active">Blog Düzenle</li>
     </ol>
 
-    <div class="card mb-4">
-        <div class="card-header">
-            <i class="fas fa-edit me-1"></i>
-            Blog Düzenle - #@Model.Id
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        <div class="card-body">
-            <form asp-action="Edit" enctype="multipart/form-data">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="Id" />
-                <input type="hidden" asp-for="ExistingImageUrl" />
+    }
 
-                <div class="mb-3">
-                    <label asp-for="Title" class="form-label">Başlık</label>
-                    <input asp-for="Title" class="form-control" />
-                    <span asp-validation-for="Title" class="text-danger"></span>
-                </div>
+    <form asp-action="Edit" enctype="multipart/form-data" id="blogForm">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-edit me-1"></i>
+                        Blog Düzenle - #@Model.Id
+                    </div>
+                    <div class="card-body">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="ExistingImageUrl" />
 
-                <div class="mb-3">
-                    <label asp-for="Content" class="form-label">İçerik</label>
-                    <textarea asp-for="Content" id="editor" class="form-control"></textarea>
-                    <span asp-validation-for="Content" class="text-danger"></span>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Resim</label>
-                    @if (!string.IsNullOrEmpty(Model.ExistingImageUrl))
-                    {
-                        <div class="mb-2">
-                            <img src="/uploads/@Model.ExistingImageUrl" style="max-height: 150px; max-width: 300px;" />
-                            <p class="text-muted">Mevcut resim</p>
+                        <div class="mb-3">
+                            <label asp-for="Title" class="form-label">Başlık</label>
+                            <input asp-for="Title" class="form-control form-control-lg" placeholder="Blog yazısı başlığı" autofocus />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                            <div class="form-text">SEO için önemli: Başlığınız 60 karakterden az olmalıdır.</div>
+                            <div class="progress mt-1" style="height: 3px;" id="titleProgress">
+                                <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                            </div>
                         </div>
-                    }
-                    <input type="file" name="ImageFile" id="ImageFile" class="form-control" accept="image/*" />
-                    <input type="hidden" name="ExistingImageUrl" value="@Model.ExistingImageUrl" />
-                    <small class="form-text text-muted">Yeni bir resim yüklemezseniz, mevcut resim kullanılmaya devam edecektir.</small>
+
+                        <div class="mb-3">
+                            <label asp-for="Content" class="form-label">İçerik</label>
+                            <textarea asp-for="Content" id="editor" class="form-control" rows="10"></textarea>
+                            <span asp-validation-for="Content" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="MetaDescription" class="form-label">Meta Açıklama</label>
+                            <textarea asp-for="MetaDescription" class="form-control" rows="2" maxlength="160" placeholder="Google aramaları için kısa bir açıklama"></textarea>
+                            <div class="form-text">
+                                <span id="metaDescriptionCounter">0</span>/160 karakter - Bu açıklama Google arama sonuçlarında görünecektir.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Tags" class="form-label">Etiketler</label>
+                            <div class="tag-input-container" id="tagContainer">
+                                <input type="text" class="tag-input" id="tagInput" placeholder="Etiket ekle ve Enter'a bas" />
+                            </div>
+                            <input type="hidden" asp-for="Tags" id="tagsHidden" />
+                            <div class="form-text">Etiketler yazınızın kategorize edilmesine yardımcı olur.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <!-- Görsel Yükleme Kartı -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-image me-1"></i>
+                        Kapak Görseli
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center mb-3">
+                            <div class="image-preview-container">
+                                @if (!string.IsNullOrEmpty(Model.ExistingImageUrl))
+                                {
+                                    <img id="imagePreview" src="/uploads/@Model.ExistingImageUrl" class="img-fluid rounded mb-2" style="max-height: 200px; width: auto;" />
+                                    <div id="dropZone" class="dropzone-area d-none">
+                                        <i class="fas fa-cloud-upload-alt fa-3x mb-2"></i>
+                                        <p>Görsel yüklemek için tıklayın veya sürükleyin</p>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <img id="imagePreview" src="/img/placeholder-image.png" class="img-fluid rounded mb-2 d-none" style="max-height: 200px; width: auto;" />
+                                    <div id="dropZone" class="dropzone-area">
+                                        <i class="fas fa-cloud-upload-alt fa-3x mb-2"></i>
+                                        <p>Görsel yüklemek için tıklayın veya sürükleyin</p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <input type="file" name="ImageFile" id="ImageFile" class="form-control d-none" accept="image/*" />
+                        <div class="d-grid gap-2">
+                            <button type="button" id="selectImageBtn" class="btn btn-outline-primary">
+                                <i class="fas fa-image me-1"></i> Görsel Seç
+                            </button>
+                            @if (!string.IsNullOrEmpty(Model.ExistingImageUrl))
+                            {
+                                <button type="button" id="removeImageBtn" class="btn btn-outline-danger">
+                                    <i class="fas fa-trash me-1"></i> Görseli Kaldır
+                                </button>
+                            }
+                        </div>
+                        <div class="form-text mt-2 text-center">Önerilen boyut: 1200x630px (16:9)</div>
+                    </div>
                 </div>
 
-                <div class="mb-3 form-check">
-                    <input asp-for="IsPublished" class="form-check-input" />
-                    <label asp-for="IsPublished" class="form-check-label">Yayınla</label>
+                <!-- Yayınlama Seçenekleri Kartı -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-cog me-1"></i>
+                        Yayınlama Seçenekleri
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label d-block">Yayın Durumu</label>
+                            <div class="form-check form-switch">
+                                <input asp-for="IsPublished" class="form-check-input" role="switch" id="publishSwitch" />
+                                <label asp-for="IsPublished" class="form-check-label">Yayınla</label>
+                            </div>
+                            <small class="form-text text-muted">
+                                @if (Model.IsPublished)
+                                {
+                                    <span class="text-success">Bu blog yazısı şu anda yayında.</span>
+                                }
+                                else
+                                {
+                                    <span class="text-warning">Bu blog yazısı şu anda taslak modunda.</span>
+                                }
+                            </small>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="mt-4">
-                    <button type="submit" class="btn btn-success">
+                <!-- SEO Önizleme Kartı -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-search me-1"></i>
+                        Google Önizleme
+                    </div>
+                    <div class="card-body">
+                        <div class="seo-preview">
+                            <div class="seo-preview-title" id="seoTitle">@Model.Title</div>
+                            <div class="seo-preview-url">www.kargotanitim.com/blog/...</div>
+                            <div class="seo-preview-description" id="seoDescription">
+                                @if (string.IsNullOrEmpty(Model.MetaDescription))
+                                {
+                                    <span class="text-muted">Meta açıklama ekleyerek Google'da nasıl görüneceğini kontrol edin.</span>
+                                }
+                                else
+                                {
+                                    @Model.MetaDescription
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Butonlar -->
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg">
                         <i class="fas fa-save me-1"></i> Güncelle
                     </button>
-                    <a asp-action="Index" class="btn btn-secondary">
+                    <a asp-action="Index" class="btn btn-outline-secondary">
                         <i class="fas fa-arrow-left me-1"></i> Listeye Dön
                     </a>
                 </div>
-            </form>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.js"></script>
     <script>
+        // CKEditor Entegrasyonu
+        let editor;
+
         ClassicEditor
-            .create(document.querySelector('#editor'))
+            .create(document.querySelector('#editor'), {
+                toolbar: {
+                    items: [
+                        'heading', '|',
+                        'bold', 'italic', 'strikethrough', 'underline', 'link', '|',
+                        'bulletedList', 'numberedList', '|',
+                        'outdent', 'indent', '|',
+                        'blockQuote', 'insertTable', 'horizontalLine', '|',
+                        'undo', 'redo'
+                    ]
+                },
+                language: 'tr'
+            })
+            .then(newEditor => {
+                editor = newEditor;
+            })
             .catch(error => {
                 console.error(error);
             });
+
+        // Görsel Önizleme
+        document.getElementById('selectImageBtn').addEventListener('click', function() {
+            document.getElementById('ImageFile').click();
+        });
+
+        document.getElementById('ImageFile').addEventListener('change', function(e) {
+            previewImage(this);
+        });
+
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const preview = document.getElementById('imagePreview');
+                    preview.src = e.target.result;
+                    preview.classList.remove('d-none');
+                    document.getElementById('dropZone').classList.add('d-none');
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Görseli kaldır
+        if (document.getElementById('removeImageBtn')) {
+            document.getElementById('removeImageBtn').addEventListener('click', function() {
+                const preview = document.getElementById('imagePreview');
+                preview.src = '/img/placeholder-image.png';
+                preview.classList.add('d-none');
+                document.getElementById('dropZone').classList.remove('d-none');
+                document.getElementById('ImageFile').value = '';
+
+                // Varolan görseli silmek istediğimizi belirtmek için gizli bir input ekleyelim
+                if (document.getElementById('ExistingImageUrl').value) {
+                    if (!document.getElementById('DeleteExistingImage')) {
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.id = 'DeleteExistingImage';
+                        input.name = 'DeleteExistingImage';
+                        input.value = 'true';
+                        document.getElementById('blogForm').appendChild(input);
+                    }
+                }
+            });
+        }
+
+        // Sürükle-Bırak
+        const dropZone = document.getElementById('dropZone');
+
+        if (dropZone) {
+            dropZone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                dropZone.classList.add('dragover');
+            });
+
+            dropZone.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+            });
+
+            dropZone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+
+                const fileInput = document.getElementById('ImageFile');
+                fileInput.files = e.dataTransfer.files;
+                previewImage(fileInput);
+            });
+
+            dropZone.addEventListener('click', function() {
+                document.getElementById('ImageFile').click();
+            });
+        }
+
+        // Başlık karakter sayacı
+        const titleInput = document.getElementById('Title');
+        const titleProgress = document.querySelector('#titleProgress .progress-bar');
+
+        titleInput.addEventListener('input', function() {
+            const maxLength = 60;
+            const currentLength = this.value.length;
+            const percentage = (currentLength / maxLength) * 100;
+
+            titleProgress.style.width = percentage + '%';
+
+            if (percentage > 85) {
+                titleProgress.classList.remove('bg-success', 'bg-warning');
+                titleProgress.classList.add('bg-danger');
+            } else if (percentage > 60) {
+                titleProgress.classList.remove('bg-success', 'bg-danger');
+                titleProgress.classList.add('bg-warning');
+            } else {
+                titleProgress.classList.remove('bg-warning', 'bg-danger');
+                titleProgress.classList.add('bg-success');
+            }
+
+            // SEO önizleme güncellemesi
+            document.getElementById('seoTitle').textContent = this.value;
+        });
+
+        // İlk yükleme sırasında mevcut başlık ilerlemesini göster
+        if (titleInput.value) {
+            const maxLength = 60;
+            const currentLength = titleInput.value.length;
+            const percentage = (currentLength / maxLength) * 100;
+
+            titleProgress.style.width = percentage + '%';
+
+            if (percentage > 85) {
+                titleProgress.classList.add('bg-danger');
+            } else if (percentage > 60) {
+                titleProgress.classList.add('bg-warning');
+            } else {
+                titleProgress.classList.add('bg-success');
+            }
+        }
+
+        // Meta açıklama karakter sayacı
+        const metaDescInput = document.getElementById('MetaDescription');
+        const metaCounter = document.getElementById('metaDescriptionCounter');
+
+        metaDescInput.addEventListener('input', function() {
+            const currentLength = this.value.length;
+            metaCounter.textContent = currentLength;
+
+            if (currentLength > 140) {
+                metaCounter.classList.add('text-danger');
+                metaCounter.classList.remove('text-warning', 'text-success');
+            } else if (currentLength > 100) {
+                metaCounter.classList.add('text-warning');
+                metaCounter.classList.remove('text-danger', 'text-success');
+            } else {
+                metaCounter.classList.add('text-success');
+                metaCounter.classList.remove('text-danger', 'text-warning');
+            }
+
+            // SEO önizleme güncellemesi
+            document.getElementById('seoDescription').textContent = this.value ||
+                "Meta açıklama ekleyerek Google'da nasıl görüneceğini kontrol edin.";
+        });
+
+        // İlk yükleme sırasında mevcut karakter sayısını göster
+        if (metaDescInput.value) {
+            metaCounter.textContent = metaDescInput.value.length;
+
+            const currentLength = metaDescInput.value.length;
+            if (currentLength > 140) {
+                metaCounter.classList.add('text-danger');
+            } else if (currentLength > 100) {
+                metaCounter.classList.add('text-warning');
+            } else {
+                metaCounter.classList.add('text-success');
+            }
+        }
+
+        // Etiket sistemi
+        const tagInput = document.getElementById('tagInput');
+        const tagContainer = document.getElementById('tagContainer');
+        const tagsHidden = document.getElementById('tagsHidden');
+        const tags = [];
+
+        // Mevcut etiketleri yükle
+        if (tagsHidden.value) {
+            const existingTags = tagsHidden.value.split(',');
+            existingTags.forEach(tag => {
+                if (tag.trim() !== '') {
+                    addTag(tag.trim());
+                }
+            });
+        }
+
+        tagInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ',') {
+                e.preventDefault();
+
+                const value = this.value.trim();
+                if (value && !tags.includes(value)) {
+                    addTag(value);
+                    this.value = '';
+                }
+            }
+        });
+
+        function addTag(text) {
+            const tag = document.createElement('div');
+            tag.className = 'tag-item';
+            tag.textContent = text;
+
+            const removeBtn = document.createElement('span');
+            removeBtn.className = 'tag-remove';
+            removeBtn.innerHTML = '&times;';
+            removeBtn.addEventListener('click', function() {
+                const index = tags.indexOf(text);
+                if (index !== -1) {
+                    tags.splice(index, 1);
+                }
+                tag.remove();
+                updateTagsInput();
+            });
+
+            tag.appendChild(removeBtn);
+            tagContainer.insertBefore(tag, tagInput);
+
+            tags.push(text);
+            updateTagsInput();
+        }
+
+        function updateTagsInput() {
+            tagsHidden.value = tags.join(',');
+        }
     </script>
 }

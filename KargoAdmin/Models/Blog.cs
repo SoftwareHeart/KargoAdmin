@@ -23,5 +23,20 @@ namespace KargoAdmin.Models
         public string AuthorId { get; set; }
 
         public ApplicationUser Author { get; set; }
+
+        // Yeni alanlar
+
+        // SEO için meta açıklaması
+        [StringLength(160)]
+        public string? MetaDescription { get; set; }
+
+        // Etiketler (virgülle ayrılmış)
+        public string? Tags { get; set; }
+
+        // Görüntülenme sayısı
+        public int ViewCount { get; set; } = 0;
+
+        // SEO dostu URL için slug
+        public string? Slug { get; set; }
     }
 }

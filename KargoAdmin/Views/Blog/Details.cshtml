@@ -13,105 +13,175 @@
         <li class="breadcrumb-item active">Blog Detayları</li>
     </ol>
 
-    <div class="card mb-4">
-        <div class="card-header">
-            <i class="fas fa-info-circle me-1"></i>
-            Blog Yazısı Bilgileri
-        </div>
-        <div class="card-body">
-            <div class="row mb-3">
-                <div class="col-md-8">
-                    <h2>@Model.Title</h2>
-                    <div class="mb-3">
-                        <span class="badge bg-primary me-2">Yayın Tarihi: @Model.PublishDate.ToString("dd.MM.yyyy HH:mm")</span>
-                        <span class="badge bg-secondary me-2">Güncelleme: @Model.UpdateDate.ToString("dd.MM.yyyy HH:mm")</span>
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="fas fa-file-alt me-1"></i>
+                        Blog İçeriği
+                    </div>
+                    <div>
                         @if (Model.IsPublished)
                         {
-                            <span class="badge bg-success">Yayında</span>
+                            <span class="badge bg-success">
+                                <i class="fas fa-check-circle me-1"></i> Yayında
+                            </span>
                         }
                         else
                         {
-                            <span class="badge bg-warning text-dark">Taslak</span>
+                            <span class="badge bg-warning text-dark">
+                                <i class="fas fa-clock me-1"></i> Taslak
+                            </span>
                         }
                     </div>
-                    <p class="text-muted">
-                        <strong>Yazar:</strong> @Model.Author.FirstName @Model.Author.LastName
-                    </p>
                 </div>
-                <div class="col-md-4 text-end">
-                    <div class="btn-group" role="group">
-                        <a href="@Url.Action("Edit", "Blog", new { id = Model.Id })" class="btn btn-primary">
-                            <i class="fas fa-edit me-1"></i> Düzenle
-                        </a>
-                        <a href="@Url.Action("Delete", "Blog", new { id = Model.Id })" class="btn btn-danger">
-                            <i class="fas fa-trash me-1"></i> Sil
-                        </a>
+                <div class="card-body">
+                    <h2 class="mb-3">@Model.Title</h2>
+
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <div class="text-center mb-4">
+                            <img src="/uploads/@Model.ImageUrl" class="img-fluid rounded shadow" style="max-height: 400px;" alt="@Model.Title" />
+                        </div>
+                    }
+
+                    <div class="blog-content">
+                        @Html.Raw(Model.Content)
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.Tags))
+                    {
+                        <div class="mt-4 p-3 bg-light rounded">
+                            <h6 class="mb-2">Etiketler:</h6>
+                            @foreach (var tag in Model.Tags.Split(','))
+                            {
+                                <span class="badge bg-secondary me-1 mb-1">@tag</span>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <!-- Blog Bilgi Kartı -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-info-circle me-1"></i>
+                    Blog Bilgileri
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>ID</strong>
+                            <span>@Model.Id</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Yazar</strong>
+                            <span>@Model.Author.FirstName @Model.Author.LastName</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Oluşturulma Tarihi</strong>
+                            <span>@Model.PublishDate.ToString("dd.MM.yyyy HH:mm")</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Son Güncelleme</strong>
+                            <span>@Model.UpdateDate.ToString("dd.MM.yyyy HH:mm")</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Durum</strong>
+                            @if (Model.IsPublished)
+                            {
+                                <span class="text-success"><i class="fas fa-check-circle me-1"></i> Yayında</span>
+                            }
+                            else
+                            {
+                                <span class="text-warning"><i class="fas fa-exclamation-circle me-1"></i> Taslak</span>
+                            }
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Görüntülenme</strong>
+                            <span>@Model.ViewCount</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- SEO Bilgileri Kartı -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-search me-1"></i>
+                    SEO Bilgileri
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Slug (SEO URL)</label>
+                        @if (!string.IsNullOrEmpty(Model.Slug))
+                        {
+                            <div class="input-group mb-2">
+                                <span class="input-group-text">kargotanitim.com/blog/</span>
+                                <input type="text" class="form-control" readonly value="@Model.Slug" />
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="text-muted">Slug oluşturulmamış</p>
+                        }
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Meta Açıklama</label>
+                        @if (!string.IsNullOrEmpty(Model.MetaDescription))
+                        {
+                            <p class="p-2 bg-light border rounded">@Model.MetaDescription</p>
+                        }
+                        else
+                        {
+                            <p class="text-muted">Meta açıklama belirtilmemiş</p>
+                        }
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Google Görünümü</label>
+                        <div class="seo-preview">
+                            <div class="seo-preview-title">@Model.Title</div>
+                            <div class="seo-preview-url">
+                                www.kargotanitim.com/blog/@(string.IsNullOrEmpty(Model.Slug) ? "id/" + Model.Id : Model.Slug)
+                            </div>
+                            <div class="seo-preview-description">
+                                @(string.IsNullOrEmpty(Model.MetaDescription)
+                                    ? (Model.Content.Length > 160 ? Html.Raw(Model.Content).ToString().Substring(0, 160) + "..." : Html.Raw(Model.Content).ToString())
+                                    : Model.MetaDescription)
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            @if (!string.IsNullOrEmpty(Model.ImageUrl))
-            {
-                <div class="text-center mb-4">
-                    <img src="/uploads/@Model.ImageUrl" class="img-fluid rounded" style="max-height: 400px;" alt="@Model.Title" />
-                </div>
-            }
-
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5 class="mb-0">İçerik</h5>
-                </div>
-                <div class="card-body">
-                    @Html.Raw(Model.Content)
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">Meta Bilgiler</h5>
-                </div>
-                <div class="card-body">
-                    <table class="table table-bordered">
-                        <tbody>
-                            <tr>
-                                <th style="width: 200px;">ID</th>
-                                <td>@Model.Id</td>
-                            </tr>
-                            <tr>
-                                <th>Yayın Durumu</th>
-                                <td>
-                                    @if (Model.IsPublished)
-                                    {
-                                        <span class="text-success"><i class="fas fa-check-circle me-1"></i> Yayında</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="text-warning"><i class="fas fa-exclamation-circle me-1"></i> Taslak</span>
-                                    }
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Yayın Tarihi</th>
-                                <td>@Model.PublishDate.ToString("dd.MM.yyyy HH:mm:ss")</td>
-                            </tr>
-                            <tr>
-                                <th>Son Güncelleme</th>
-                                <td>@Model.UpdateDate.ToString("dd.MM.yyyy HH:mm:ss")</td>
-                            </tr>
-                            <tr>
-                                <th>Yazar</th>
-                                <td>@Model.Author.FirstName @Model.Author.LastName (@Model.Author.Email)</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="mt-4">
-                <a asp-action="Index" class="btn btn-secondary">
+            <!-- Blog İşlem Butonları -->
+            <div class="d-grid gap-2 mb-4">
+                <a href="@Url.Action("Edit", "Blog", new { id = Model.Id })" class="btn btn-primary">
+                    <i class="fas fa-edit me-1"></i> Düzenle
+                </a>
+                <a href="@Url.Action("Delete", "Blog", new { id = Model.Id })" class="btn btn-danger">
+                    <i class="fas fa-trash me-1"></i> Sil
+                </a>
+                <a href="@Url.Action("Index", "Blog")" class="btn btn-secondary">
                     <i class="fas fa-arrow-left me-1"></i> Listeye Dön
                 </a>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // İçerik içindeki resimlere ve tablolara stil ekle
+            $('.blog-content img').addClass('img-fluid rounded my-3');
+            $('.blog-content table').addClass('table table-bordered');
+            $('.blog-content a').attr('target', '_blank');
+        });
+    </script>
+}

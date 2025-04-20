@@ -13,73 +13,196 @@
         <li class="breadcrumb-item active">Yeni Blog Yazısı</li>
     </ol>
 
-    <div class="card mb-4">
-        <div class="card-header">
-            <i class="fas fa-edit me-1"></i>
-            Blog Yazısı Ekle
-        </div>
-        <div class="card-body">
-            <form asp-action="Create" enctype="multipart/form-data">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <form asp-action="Create" enctype="multipart/form-data" id="blogForm">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-edit me-1"></i>
+                        İçerik Bilgileri
+                    </div>
+                    <div class="card-body">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
 
-                <div class="mb-3">
-                    <label asp-for="Title" class="form-label">Başlık</label>
-                    <input asp-for="Title" class="form-control" />
-                    <span asp-validation-for="Title" class="text-danger"></span>
+                        <div class="mb-3">
+                            <label asp-for="Title" class="form-label">Başlık</label>
+                            <input asp-for="Title" class="form-control form-control-lg" placeholder="Blog yazısı başlığı" autofocus />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                            <div class="form-text">SEO için önemli: Başlığınız 60 karakterden az olmalıdır.</div>
+                            <div class="progress mt-1" style="height: 3px;" id="titleProgress">
+                                <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Content" class="form-label">İçerik</label>
+                            <textarea asp-for="Content" id="editor" class="form-control" rows="10"></textarea>
+                            <span asp-validation-for="Content" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <!-- Görsel Yükleme Kartı -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-image me-1"></i>
+                        Kapak Görseli
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center mb-3">
+                            <div class="image-preview-container">
+                                <img id="imagePreview" src="/img/placeholder-image.png" class="img-fluid rounded mb-2 d-none" style="max-height: 200px; width: auto;" />
+                                <div id="dropZone" class="dropzone-area">
+                                    <i class="fas fa-cloud-upload-alt fa-3x mb-2"></i>
+                                    <p>Görsel yüklemek için tıklayın veya sürükleyin</p>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="file" name="ImageFile" id="ImageFile" class="form-control d-none" accept="image/*" />
+                        <div class="d-grid">
+                            <button type="button" id="selectImageBtn" class="btn btn-outline-primary">
+                                <i class="fas fa-image me-1"></i> Görsel Seç
+                            </button>
+                        </div>
+                        <div class="form-text mt-2 text-center">Önerilen boyut: 1200x630px (16:9)</div>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <label asp-for="Content" class="form-label">İçerik</label>
-                    <textarea asp-for="Content" id="editor" class="form-control"></textarea>
-                    <span asp-validation-for="Content" class="text-danger"></span>
+                <!-- Yayınlama Seçenekleri Kartı -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-cog me-1"></i>
+                        Yayınlama Seçenekleri
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label d-block">Yayın Durumu</label>
+                            <div class="form-check form-switch">
+                                <input asp-for="IsPublished" class="form-check-input" role="switch" />
+                                <label asp-for="IsPublished" class="form-check-label">Yayınla</label>
+                            </div>
+                            <small class="form-text text-muted">Blog yazısını şimdi yayınlamak için aktif edin.</small>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <label asp-for="ImageFile" class="form-label">Resim</label>
-                    <input type="file" name="ImageFile" id="ImageFile" class="form-control" accept="image/*" />
-                    <small class="form-text text-muted">Resim eklemek isteğe bağlıdır.</small>
-                </div>
-
-                <div class="mb-3 form-check">
-                    <input asp-for="IsPublished" class="form-check-input" />
-                    <label asp-for="IsPublished" class="form-check-label">Yayınla</label>
-                </div>
-
-                <div class="mt-4">
-                    <button type="submit" class="btn btn-success">
+                <!-- Butonlar -->
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg">
                         <i class="fas fa-save me-1"></i> Kaydet
                     </button>
-                    <a asp-action="Index" class="btn btn-secondary">
+                    <a asp-action="Index" class="btn btn-outline-secondary">
                         <i class="fas fa-arrow-left me-1"></i> Listeye Dön
                     </a>
                 </div>
-            </form>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.js"></script>
     <script>
-        // CKEditor'ü devre dışı bırak (geçici olarak)
-        /*
+        // CKEditor Entegrasyonu
+        let editor;
+
         ClassicEditor
-            .create(document.querySelector('#editor'))
+            .create(document.querySelector('#editor'), {
+                toolbar: {
+                    items: [
+                        'heading', '|',
+                        'bold', 'italic', 'strikethrough', 'underline', 'link', '|',
+                        'bulletedList', 'numberedList', '|',
+                        'outdent', 'indent', '|',
+                        'blockQuote', 'insertTable', 'horizontalLine', '|',
+                        'undo', 'redo'
+                    ]
+                },
+                language: 'tr'
+            })
+            .then(newEditor => {
+                editor = newEditor;
+            })
             .catch(error => {
                 console.error(error);
             });
-        */
 
-        // Form gönderilmeden önce validasyonu düzenle
-        $(document).ready(function () {
-            $("form").on("submit", function () {
-                // ImageFile alanını doğrulama sürecinden çıkar
-                $("[name='ImageFile']").rules("remove", "required");
-                return true;
-            });
+        // Görsel Önizleme
+        document.getElementById('selectImageBtn').addEventListener('click', function() {
+            document.getElementById('ImageFile').click();
+        });
+
+        document.getElementById('ImageFile').addEventListener('change', function(e) {
+            previewImage(this);
+        });
+
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const preview = document.getElementById('imagePreview');
+                    preview.src = e.target.result;
+                    preview.classList.remove('d-none');
+                    document.getElementById('dropZone').classList.add('d-none');
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Sürükle-Bırak
+        const dropZone = document.getElementById('dropZone');
+
+        dropZone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+
+            const fileInput = document.getElementById('ImageFile');
+            fileInput.files = e.dataTransfer.files;
+            previewImage(fileInput);
+        });
+
+        dropZone.addEventListener('click', function() {
+            document.getElementById('ImageFile').click();
+        });
+
+        // Başlık karakter sayacı
+        const titleInput = document.getElementById('Title');
+        const titleProgress = document.querySelector('#titleProgress .progress-bar');
+
+        titleInput.addEventListener('input', function() {
+            const maxLength = 60;
+            const currentLength = this.value.length;
+            const percentage = (currentLength / maxLength) * 100;
+
+            titleProgress.style.width = percentage + '%';
+
+            if (percentage > 85) {
+                titleProgress.classList.remove('bg-success', 'bg-warning');
+                titleProgress.classList.add('bg-danger');
+            } else if (percentage > 60) {
+                titleProgress.classList.remove('bg-success', 'bg-danger');
+                titleProgress.classList.add('bg-warning');
+            } else {
+                titleProgress.classList.remove('bg-warning', 'bg-danger');
+                titleProgress.classList.add('bg-success');
+            }
         });
     </script>
 }
