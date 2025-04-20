@@ -13,11 +13,16 @@ namespace KargoAdmin.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public AdminController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public AdminController(
+            ApplicationDbContext context,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public async Task<IActionResult> Index()
@@ -157,6 +162,48 @@ namespace KargoAdmin.Controllers
                 }
             }
 
+            return View(model);
+        }
+
+        // Şifre değiştirme action metodları
+        [Authorize(Roles = "Admin")]
+        public IActionResult ChangePassword()
+        {
+            return View(new ChangePasswordViewModel());
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            // Şifreyi değiştir
+            var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+
+            if (result.Succeeded)
+            {
+                // Şifre başarıyla değiştirildi, tekrar giriş yap
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                TempData["SuccessMessage"] = "Şifreniz başarıyla değiştirildi.";
+                return RedirectToAction(nameof(Profile));
+            }
+
+            // Eğer buraya kadar geldiyse, bir şeyler başarısız oldu
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
             return View(model);
         }
     }
