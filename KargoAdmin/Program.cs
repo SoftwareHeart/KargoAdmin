@@ -17,8 +17,13 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 
 // MVC ekleyin
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddAuthorization(options =>
+{
+    // Sadece Admin rolÃ¼ndeki kullanÄ±cÄ±lar Register sayfasÄ±na eriÅŸebilir
+    options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+});
 var app = builder.Build();
+
 
 // Seed data
 using (var scope = app.Services.CreateScope())
@@ -31,7 +36,7 @@ using (var scope = app.Services.CreateScope())
     catch (Exception ex)
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "Seed datasý oluþturulurken hata oluþtu.");
+        logger.LogError(ex, "Seed datasï¿½ oluï¿½turulurken hata oluï¿½tu.");
     }
 }
 
