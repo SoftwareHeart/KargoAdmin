@@ -57,10 +57,54 @@ namespace KargoAdmin.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Ayarları kaydetme işlemi
-                return RedirectToAction(nameof(Index));
+                // Site başlığı zorunlu, kaydedilmeli
+                await SaveSetting("SiteTitle", model.SiteTitle);
+
+                // Diğer alanlar isteğe bağlı, boş değilse kaydedilmeli
+                if (!string.IsNullOrEmpty(model.SiteDescription))
+                    await SaveSetting("SiteDescription", model.SiteDescription);
+
+                if (!string.IsNullOrEmpty(model.ContactEmail))
+                    await SaveSetting("ContactEmail", model.ContactEmail);
+
+                if (!string.IsNullOrEmpty(model.ContactPhone))
+                    await SaveSetting("ContactPhone", model.ContactPhone);
+
+                if (!string.IsNullOrEmpty(model.FacebookUrl))
+                    await SaveSetting("FacebookUrl", model.FacebookUrl);
+
+                if (!string.IsNullOrEmpty(model.TwitterUrl))
+                    await SaveSetting("TwitterUrl", model.TwitterUrl);
+
+                if (!string.IsNullOrEmpty(model.InstagramUrl))
+                    await SaveSetting("InstagramUrl", model.InstagramUrl);
+
+                TempData["SuccessMessage"] = "Site ayarları başarıyla güncellendi.";
+                return RedirectToAction(nameof(Settings));
             }
+
             return View(model);
+        }
+
+        // Ayarı kaydetmek için helper metod
+        private async Task SaveSetting(string key, string value)
+        {
+            var setting = await _context.Settings.FirstOrDefaultAsync(s => s.Key == key);
+
+            if (setting == null)
+            {
+                // Ayar daha önce kaydedilmemişse yeni ekle
+                setting = new Settings { Key = key, Value = value };
+                _context.Settings.Add(setting);
+            }
+            else
+            {
+                // Ayar zaten varsa değerini güncelle
+                setting.Value = value;
+                _context.Settings.Update(setting);
+            }
+
+            await _context.SaveChangesAsync();
         }
 
         [Authorize(Roles = "Admin")]

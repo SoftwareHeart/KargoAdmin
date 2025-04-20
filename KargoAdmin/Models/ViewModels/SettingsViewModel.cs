@@ -9,23 +9,24 @@ namespace KargoAdmin.Models.ViewModels
         [Display(Name = "Site Başlığı")]
         public string SiteTitle { get; set; }
 
+        // Bu alanlar isteğe bağlı olsun
         [Display(Name = "Site Açıklaması")]
-        public string SiteDescription { get; set; }
+        public string? SiteDescription { get; set; }
 
         [EmailAddress(ErrorMessage = "Geçerli bir e-posta adresi giriniz")]
         [Display(Name = "İletişim E-posta")]
-        public string ContactEmail { get; set; }
+        public string? ContactEmail { get; set; }
 
         [Display(Name = "İletişim Telefon")]
-        public string ContactPhone { get; set; }
+        public string? ContactPhone { get; set; }
 
         [Display(Name = "Facebook URL")]
-        public string FacebookUrl { get; set; }
+        public string? FacebookUrl { get; set; }
 
         [Display(Name = "Twitter URL")]
-        public string TwitterUrl { get; set; }
+        public string? TwitterUrl { get; set; }
 
         [Display(Name = "Instagram URL")]
-        public string InstagramUrl { get; set; }
+        public string? InstagramUrl { get; set; }
     }
 }
