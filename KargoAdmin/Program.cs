@@ -36,11 +36,9 @@ using (var scope = app.Services.CreateScope())
     catch (Exception ex)
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "Seed datas� olu�turulurken hata olu�tu.");
+        logger.LogError(ex, "Seed datası oluşturulurken hata oluştu.");
     }
 }
-
-
 
 // Configure the HTTP request pipeline...
 if (app.Environment.IsDevelopment())
@@ -61,9 +59,49 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Ana sayfa kullanıcı tarafına yönlendirir
+app.MapControllerRoute(
+    name: "public",
+    pattern: "",
+    defaults: new { controller = "Public", action = "Index" });
+
+// Diğer public sayfalar
+app.MapControllerRoute(
+    name: "publicPages",
+    pattern: "public/{action}/{id?}",
+    defaults: new { controller = "Public" });
+
+// Blog sayfaları için SEO dostu URL'ler
+app.MapControllerRoute(
+    name: "blogWithSlug",
+    pattern: "blog/{slug}",
+    defaults: new { controller = "PublicBlog", action = "Details" });
+
+app.MapControllerRoute(
+    name: "blogById",
+    pattern: "blog/id/{id}",
+    defaults: new { controller = "PublicBlog", action = "Details" });
+
+app.MapControllerRoute(
+    name: "blogTag",
+    pattern: "blog/tag/{tag}",
+    defaults: new { controller = "PublicBlog", action = "Tag" });
+
+app.MapControllerRoute(
+    name: "blogIndex",
+    pattern: "blog",
+    defaults: new { controller = "PublicBlog", action = "Index" });
+
+// Admin panel giriş URL'si
+app.MapControllerRoute(
+    name: "adminLogin",
+    pattern: "admin/login",
+    defaults: new { controller = "Home", action = "Index" });
+
+// Standart route
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Public}/{action=Index}/{id?}");
 app.MapRazorPages();
 
 app.Run();

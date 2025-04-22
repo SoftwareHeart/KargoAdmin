@@ -1,0 +1,226 @@
+﻿@model Blog
+@{
+    ViewData["Title"] = Model.Title;
+    Layout = "_PublicLayout";
+}
+
+<!-- Blog Header -->
+<div class="blog-detail-header" style="background-image: url('@(string.IsNullOrEmpty(Model.ImageUrl) ? "/img/blog-placeholder.jpg" : "/uploads/" + Model.ImageUrl)')">
+    <div class="container">
+        <div class="blog-detail-header-content">
+            <div class="blog-detail-date">
+                <i class="far fa-calendar-alt me-2"></i> @Model.PublishDate.ToString("dd MMMM yyyy")
+                <span class="ms-3"><i class="far fa-eye me-1"></i> @Model.ViewCount görüntülenme</span>
+            </div>
+            <h1 class="blog-detail-title">@Model.Title</h1>
+            <div class="blog-detail-author">
+                <img src="/img/author-placeholder.jpg" alt="@Model.Author.FirstName @Model.Author.LastName" class="rounded-circle me-2" width="40" height="40">
+                <span>@Model.Author.FirstName @Model.Author.LastName</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Blog Content -->
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Blog Content -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body p-md-5">
+                        <div class="blog-content">
+                            @Html.Raw(Model.Content)
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(Model.Tags))
+                        {
+                            <div class="tags mt-5">
+                                <h5 class="mb-3">Etiketler:</h5>
+                                @foreach (var tag in Model.Tags.Split(','))
+                                {
+                                    <a href="@Url.Action("Tag", "PublicBlog", new { tag = tag.Trim() })" class="tag">@tag.Trim()</a>
+                                }
+                            </div>
+                        }
+
+                        <!-- Share Buttons -->
+                        <div class="mt-5">
+                            <h5 class="mb-3">Bu yazıyı paylaş:</h5>
+                            <div class="social-share">
+                                <a href="#" class="btn btn-outline-primary me-2" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href), 'facebook-share', 'width=580,height=296'); return false;">
+                                    <i class="fab fa-facebook-f me-1"></i> Facebook
+                                </a>
+                                <a href="#" class="btn btn-outline-info me-2" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent('@Model.Title') + '&url=' + encodeURIComponent(window.location.href), 'twitter-share', 'width=580,height=296'); return false;">
+                                    <i class="fab fa-twitter me-1"></i> Twitter
+                                </a>
+                                <a href="#" class="btn btn-outline-secondary me-2" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(window.location.href) + '&title=' + encodeURIComponent('@Model.Title'), 'linkedin-share', 'width=580,height=296'); return false;">
+                                    <i class="fab fa-linkedin-in me-1"></i> LinkedIn
+                                </a>
+                                <a href="#" class="btn btn-outline-success" onclick="window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent('@Model.Title') + ' ' + encodeURIComponent(window.location.href), 'whatsapp-share', 'width=580,height=296'); return false;">
+                                    <i class="fab fa-whatsapp me-1"></i> WhatsApp
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Posts -->
+                @if (ViewBag.RelatedBlogs != null && ViewBag.RelatedBlogs.Count > 0)
+                {
+                    <div class="mt-5">
+                        <h4 class="mb-4">İlgili Yazılar</h4>
+                        <div class="row">
+                            @foreach (var relatedBlog in ViewBag.RelatedBlogs)
+                            {
+                                <div class="col-md-4 mb-4">
+                                    <div class="blog-card h-100">
+                                        @if (!string.IsNullOrEmpty(relatedBlog.ImageUrl))
+                                        {
+                                            <div class="blog-card-img" style="background-image: url('/uploads/@relatedBlog.ImageUrl')"></div>
+                                        }
+                                        else
+                                        {
+                                            <div class="blog-card-img" style="background-image: url('/img/blog-placeholder.jpg')"></div>
+                                        }
+                                        <div class="p-3">
+                                            <p class="blog-card-date small">
+                                                <i class="far fa-calendar-alt me-1"></i> @relatedBlog.PublishDate.ToString("dd.MM.yyyy")
+                                            </p>
+                                            <h5 class="blog-card-title fs-6">@relatedBlog.Title</h5>
+                                            <a href="@Url.Action("Details", "PublicBlog", new { id = relatedBlog.Id, slug = relatedBlog.Slug })" class="btn btn-sm btn-outline-primary mt-2">
+                                                Devamını Oku
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <!-- Back Button -->
+                <div class="mt-4">
+                    <a href="@Url.Action("Index", "PublicBlog")" class="btn btn-outline-primary">
+                        <i class="fas fa-arrow-left me-2"></i> Tüm Yazılara Dön
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <!-- Sidebar -->
+                <div class="position-sticky" style="top: 90px;">
+                    <!-- Search Box -->
+                    <div class="card mb-4 border-0 shadow-sm">
+                        <div class="card-body">
+                            <h4 class="mb-3">Arama</h4>
+                            <form action="#" method="get" class="search-form">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Ara..." aria-label="Ara...">
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Cargo Tracking -->
+                    <div class="card mb-4 border-0 shadow-sm">
+                        <div class="card-body bg-light">
+                            <h4 class="mb-3">Kargo Takibi</h4>
+                            <p>Kargo takip numaranız ile gönderinizin durumunu hemen kontrol edin.</p>
+                            <form action="#" method="get" class="cargo-tracking-form">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Takip Numarası" aria-label="Takip Numarası">
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Services -->
+                    <div class="card mb-4 border-0 shadow-sm">
+                        <div class="card-body">
+                            <h4 class="mb-3">Hizmetlerimiz</h4>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item ps-0 border-0">
+                                    <a href="/Home/Services#land" class="text-decoration-none">
+                                        <i class="fas fa-truck text-primary me-2"></i> Kara Taşımacılığı
+                                    </a>
+                                </li>
+                                <li class="list-group-item ps-0 border-0">
+                                    <a href="/Home/Services#sea" class="text-decoration-none">
+                                        <i class="fas fa-ship text-primary me-2"></i> Deniz Taşımacılığı
+                                    </a>
+                                </li>
+                                <li class="list-group-item ps-0 border-0">
+                                    <a href="/Home/Services#air" class="text-decoration-none">
+                                        <i class="fas fa-plane text-primary me-2"></i> Hava Taşımacılığı
+                                    </a>
+                                </li>
+                                <li class="list-group-item ps-0 border-0">
+                                    <a href="/Home/Services#warehouse" class="text-decoration-none">
+                                        <i class="fas fa-warehouse text-primary me-2"></i> Depolama
+                                    </a>
+                                </li>
+                                <li class="list-group-item ps-0 border-0">
+                                    <a href="/Home/Services#ecommerce" class="text-decoration-none">
+                                        <i class="fas fa-box text-primary me-2"></i> E-ticaret Lojistiği
+                                    </a>
+                                </li>
+                                <li class="list-group-item ps-0 border-0">
+                                    <a href="/Home/Services#customs" class="text-decoration-none">
+                                        <i class="fas fa-file-contract text-primary me-2"></i> Gümrük Danışmanlığı
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Contact -->
+                    <div class="card mb-4 border-0 shadow-sm">
+                        <div class="card-body bg-primary text-white">
+                            <h4 class="mb-3">İletişime Geçin</h4>
+                            <p>Lojistik ihtiyaçlarınız için bizimle iletişime geçin. Size özel çözümler sunalım.</p>
+                            <div class="mb-2">
+                                <i class="fas fa-phone me-2"></i> +90 212 123 45 67
+                            </div>
+                            <div class="mb-3">
+                                <i class="fas fa-envelope me-2"></i> info@alerisglobal.com
+                            </div>
+                            <a href="/Home/Contact" class="btn btn-light">
+                                İletişim Formu <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        // Blog içeriğindeki resimlere stil ekle
+        document.addEventListener('DOMContentLoaded', function() {
+            var images = document.querySelectorAll('.blog-content img');
+            images.forEach(function(img) {
+                img.classList.add('img-fluid', 'rounded', 'my-3');
+            });
+
+            // Blog içeriğindeki bağlantılara stil ekle
+            var links = document.querySelectorAll('.blog-content a');
+            links.forEach(function(link) {
+                link.classList.add('text-primary');
+                // Dış bağlantıları yeni sekmede aç
+                if (link.hostname !== window.location.hostname) {
+                    link.setAttribute('target', '_blank');
+                    link.setAttribute('rel', 'noopener noreferrer');
+                }
+            });
+        });
+    </script>
+}

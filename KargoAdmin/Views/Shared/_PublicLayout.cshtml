@@ -1,0 +1,99 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using KargoAdmin.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Aleris Global Lojistik</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/public.css" asp-append-version="true" />
+    <link href="https://use.fontawesome.com/releases/v6.3.0/css/all.css" rel="stylesheet" />
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="/">
+                    <img src="~/img/logo.png" alt="Aleris Global Lojistik" height="40" />
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Index" && ViewContext.RouteData.Values["Controller"].ToString() == "Public" ? "active" : "")" asp-controller="Public" asp-action="Index">ANASAYFA</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")" asp-controller="Public" asp-action="About">HAKKIMIZDA</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Services" ? "active" : "")" asp-controller="Public" asp-action="Services">HİZMETLERİMİZ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "PublicBlog" ? "active" : "")" asp-controller="PublicBlog" asp-action="Index">BLOG</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "")" asp-controller="Public" asp-action="Contact">İLETİŞİM</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main role="main">
+        @RenderBody()
+    </main>
+
+    <footer class="footer bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="text-uppercase mb-4">Aleris Global Lojistik</h5>
+                    <p>Taşımacılık ve lojistik sektörüne yeni bir vizyon getirmek için yola çıktık. Deneyimli ekibimizle birlikte, yenilikçi çözümler ve güvenilir hizmetler sunarak sektörün her alanında fark yaratmaya hazırız.</p>
+                    <div class="mt-4">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="text-uppercase mb-4">Hızlı Bağlantılar</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="/" class="text-white text-decoration-none">Anasayfa</a></li>
+                        <li class="mb-2"><a href="/Home/About" class="text-white text-decoration-none">Hakkımızda</a></li>
+                        <li class="mb-2"><a href="/Home/Services" class="text-white text-decoration-none">Hizmetlerimiz</a></li>
+                        <li class="mb-2"><a href="/PublicBlog" class="text-white text-decoration-none">Blog</a></li>
+                        <li><a href="/Home/Contact" class="text-white text-decoration-none">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="text-uppercase mb-4">İletişim</h5>
+                    <p><i class="fas fa-map-marker-alt me-2"></i> Merkez Mah. Atatürk Cad. No:123, İstanbul</p>
+                    <p><i class="fas fa-phone me-2"></i> +90 212 123 45 67</p>
+                    <p><i class="fas fa-envelope me-2"></i> info@alerisglobal.com</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div class="copyright py-3 bg-primary text-white">
+        <div class="container text-center">
+            <small>&copy; @DateTime.Now.Year - Aleris Global Lojistik. Tüm hakları saklıdır.</small>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

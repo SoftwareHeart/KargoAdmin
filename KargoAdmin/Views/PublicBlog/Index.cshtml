@@ -1,0 +1,221 @@
+﻿@model IEnumerable<Blog>
+@{
+    ViewData["Title"] = "Blog";
+    Layout = "_PublicLayout";
+}
+
+<!-- Page Header -->
+<div class="bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 class="fw-bold">Blog</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="/" class="text-white">Ana Sayfa</a></li>
+                        <li class="breadcrumb-item active text-white" aria-current="page">Blog</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <img src="~/img/blog-header.png" alt="Aleris Global Lojistik Blog" class="img-fluid" style="max-height: 200px;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Blog Section -->
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <!-- Blog Posts -->
+            <div class="col-lg-8">
+                @if (ViewBag.CurrentTag != null)
+                {
+                    <div class="alert alert-primary mb-4">
+                        <i class="fas fa-tag me-2"></i> <strong>Etiket:</strong> @ViewBag.CurrentTag
+                        <a href="@Url.Action("Index", "PublicBlog")" class="float-end text-decoration-none">
+                            <i class="fas fa-times"></i> Filtreyi Temizle
+                        </a>
+                    </div>
+                }
+
+                @if (!Model.Any())
+                {
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i> Bu kategoride henüz blog yazısı bulunmamaktadır.
+                    </div>
+                }
+                else
+                {
+                    <div class="row">
+                        @foreach (var blog in Model)
+                        {
+                            <div class="col-md-6 mb-4">
+                                <div class="blog-card h-100">
+                                    @if (!string.IsNullOrEmpty(blog.ImageUrl))
+                                    {
+                                        <div class="blog-card-img" style="background-image: url('/uploads/@blog.ImageUrl')"></div>
+                                    }
+                                    else
+                                    {
+                                        <div class="blog-card-img" style="background-image: url('/img/blog-placeholder.jpg')"></div>
+                                    }
+                                    <div class="p-4">
+                                        <p class="blog-card-date">
+                                            <i class="far fa-calendar-alt me-2"></i> @blog.PublishDate.ToString("dd.MM.yyyy")
+                                            <span class="ms-3">
+                                                <i class="far fa-eye me-1"></i> @blog.ViewCount
+                                            </span>
+                                        </p>
+                                        <h3 class="blog-card-title">@blog.Title</h3>
+                                        <p class="blog-card-excerpt">
+                                            @(Html.Raw(blog.Content).ToString().Length > 150
+                                                ? Html.Raw(blog.Content).ToString().Substring(0, 150) + "..."
+                                                : Html.Raw(blog.Content).ToString())
+                                        </p>
+                                        @if (!string.IsNullOrEmpty(blog.Tags))
+                                        {
+                                            <div class="mb-3">
+                                                @foreach (var tag in blog.Tags.Split(','))
+                                                {
+                                                    <a href="@Url.Action("Tag", "PublicBlog", new { tag = tag.Trim() })" class="tag">@tag.Trim()</a>
+                                                }
+                                            </div>
+                                        }
+                                        <a href="@Url.Action("Details", "PublicBlog", new { id = blog.Id, slug = blog.Slug })" class="btn btn-sm btn-outline-primary">
+                                            Devamını Oku <i class="fas fa-arrow-right ms-1"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Pagination -->
+                    @if (ViewBag.TotalPages > 1)
+                    {
+                        <nav aria-label="Blog pagination" class="mt-5">
+                            <ul class="pagination justify-content-center">
+                                @if (ViewBag.CurrentPage > 1)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="@Url.Action("Index", "PublicBlog", new { page = ViewBag.CurrentPage - 1 })" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                }
+
+                                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                                {
+                                    <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                                        <a class="page-link" href="@Url.Action("Index", "PublicBlog", new { page = i })">@i</a>
+                                    </li>
+                                }
+
+                                @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="@Url.Action("Index", "PublicBlog", new { page = ViewBag.CurrentPage + 1 })" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </nav>
+                    }
+                }
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- Search Box -->
+                <div class="card mb-4 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h4 class="mb-3">Arama</h4>
+                        <form action="#" method="get" class="search-form">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Ara..." aria-label="Ara...">
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Cargo Tracking -->
+                <div class="card mb-4 border-0 shadow-sm">
+                    <div class="card-body bg-light">
+                        <h4 class="mb-3">Kargo Takibi</h4>
+                        <p>Kargo takip numaranız ile gönderinizin durumunu hemen kontrol edin.</p>
+                        <form action="#" method="get" class="cargo-tracking-form">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Takip Numarası" aria-label="Takip Numarası">
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Services -->
+                <div class="card mb-4 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h4 class="mb-3">Hizmetlerimiz</h4>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item ps-0 border-0">
+                                <a href="/Home/Services#land" class="text-decoration-none">
+                                    <i class="fas fa-truck text-primary me-2"></i> Kara Taşımacılığı
+                                </a>
+                            </li>
+                            <li class="list-group-item ps-0 border-0">
+                                <a href="/Home/Services#sea" class="text-decoration-none">
+                                    <i class="fas fa-ship text-primary me-2"></i> Deniz Taşımacılığı
+                                </a>
+                            </li>
+                            <li class="list-group-item ps-0 border-0">
+                                <a href="/Home/Services#air" class="text-decoration-none">
+                                    <i class="fas fa-plane text-primary me-2"></i> Hava Taşımacılığı
+                                </a>
+                            </li>
+                            <li class="list-group-item ps-0 border-0">
+                                <a href="/Home/Services#warehouse" class="text-decoration-none">
+                                    <i class="fas fa-warehouse text-primary me-2"></i> Depolama
+                                </a>
+                            </li>
+                            <li class="list-group-item ps-0 border-0">
+                                <a href="/Home/Services#ecommerce" class="text-decoration-none">
+                                    <i class="fas fa-box text-primary me-2"></i> E-ticaret Lojistiği
+                                </a>
+                            </li>
+                            <li class="list-group-item ps-0 border-0">
+                                <a href="/Home/Services#customs" class="text-decoration-none">
+                                    <i class="fas fa-file-contract text-primary me-2"></i> Gümrük Danışmanlığı
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Contact -->
+                <div class="card mb-4 border-0 shadow-sm">
+                    <div class="card-body bg-primary text-white">
+                        <h4 class="mb-3">İletişime Geçin</h4>
+                        <p>Lojistik ihtiyaçlarınız için bizimle iletişime geçin. Size özel çözümler sunalım.</p>
+                        <div class="mb-2">
+                            <i class="fas fa-phone me-2"></i> +90 212 123 45 67
+                        </div>
+                        <div class="mb-3">
+                            <i class="fas fa-envelope me-2"></i> info@alerisglobal.com
+                        </div>
+                        <a href="/Home/Contact" class="btn btn-light">
+                            İletişim Formu <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
