@@ -45,7 +45,7 @@ body {
     display: flex;
     align-items: center;
     position: relative;
-    background-color: var(--primary-color);
+    background-color: var(--dark-color);
     overflow: hidden;
 }
 
@@ -296,6 +296,13 @@ body {
 .footer {
     background-color: var(--dark-color);
 }
+
+    .footer p {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+    }
+
 
 .copyright {
     background-color: var(--primary-color);

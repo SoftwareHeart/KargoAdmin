@@ -91,12 +91,30 @@ app.MapControllerRoute(
     name: "blogIndex",
     pattern: "blog",
     defaults: new { controller = "PublicBlog", action = "Index" });
+app.MapControllerRoute(
+    name: "about",
+    pattern: "about",
+    defaults: new { controller = "Public", action = "About" });
 
+app.MapControllerRoute(
+    name: "services",
+    pattern: "services",
+    defaults: new { controller = "Public", action = "Services" });
+
+app.MapControllerRoute(
+    name: "contact",
+    pattern: "contact",
+    defaults: new { controller = "Public", action = "Contact" });
 // Admin panel giriş URL'si
 app.MapControllerRoute(
     name: "adminLogin",
     pattern: "admin/login",
     defaults: new { controller = "Home", action = "Index" });
+
+app.MapControllerRoute(
+    name: "adminBlog",
+    pattern: "admin/blog/{action=Index}/{id?}",
+    defaults: new { controller = "Blog", action = "Index" });
 
 // Standart route
 app.MapControllerRoute(
