@@ -23,18 +23,20 @@ body {
     transform: translateX(-50%);
     width: calc(100% - 40px);
     max-width: 1200px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
     border-radius: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     z-index: 1050;
     transition: all 0.3s ease;
 }
 
     .modern-navbar.scrolled {
-        background: rgba(255, 255, 255, 0.98);
-        box-shadow: 0 6px 35px rgba(0, 0, 0, 0.15);
+        background: rgba(255, 255, 255, 0.25);
+        box-shadow: 0 6px 35px rgba(0, 0, 0, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.3);
         top: 10px;
     }
 
@@ -71,13 +73,14 @@ body {
 }
 
 .nav-item {
-    color: #333;
+    color: #2c3e50;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 15px;
     transition: all 0.3s ease;
     position: relative;
     padding: 8px 0;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
 }
 
     .nav-item:hover {
@@ -115,29 +118,31 @@ body {
 
 /* Search Button */
 .search-btn {
-    background: rgba(108, 117, 125, 0.1);
-    border: none;
+    background: rgba(108, 117, 125, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
     width: 42px;
     height: 42px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #6c757d;
+    color: #2c3e50;
     font-size: 16px;
     transition: all 0.3s ease;
     cursor: pointer;
+    backdrop-filter: blur(5px);
 }
 
     .search-btn:hover {
-        background: rgba(0, 92, 185, 0.1);
+        background: rgba(0, 92, 185, 0.2);
         color: #005cb9;
         transform: scale(1.05);
+        border-color: rgba(0, 92, 185, 0.3);
     }
 
 /* Contact Button */
 .contact-btn {
-    background: linear-gradient(135deg, #005cb9 0%, #0066cc 100%);
+    background: linear-gradient(135deg, rgba(0, 92, 185, 0.9) 0%, rgba(0, 102, 204, 0.9) 100%);
     color: white;
     padding: 12px 28px;
     border-radius: 25px;
@@ -145,17 +150,19 @@ body {
     font-weight: 600;
     font-size: 14px;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 92, 185, 0.2);
-    border: none;
+    box-shadow: 0 4px 15px rgba(0, 92, 185, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     cursor: pointer;
+    backdrop-filter: blur(5px);
 }
 
     .contact-btn:hover {
-        background: linear-gradient(135deg, #004c9e 0%, #0055bb 100%);
+        background: linear-gradient(135deg, rgba(0, 76, 158, 0.95) 0%, rgba(0, 85, 187, 0.95) 100%);
         color: white;
         text-decoration: none;
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0, 92, 185, 0.3);
+        box-shadow: 0 6px 20px rgba(0, 92, 185, 0.4);
+        border-color: rgba(255, 255, 255, 0.3);
     }
 
 /* Language Flags */

@@ -47,56 +47,41 @@
     color: rgba(255, 255, 255, 0.9) !important;
     font-size: 1.1rem !important;
     max-width: 700px !important;
-    margin-bottom: 2rem !important;
+    margin: 0 auto 2rem auto !important;
     line-height: 1.6 !important;
-    text-align:center;
+    text-align: center;
 }
 
-/* LinkedIn Icon - Resimde görülen konumda */
+/* LinkedIn Icon - Hero section içinde sağ alt köşede, sabit kalır */
 .linkedin-floating {
-    position: fixed !important;
+    position: absolute !important;
     bottom: 30px !important;
     right: 30px !important;
     z-index: 1000 !important;
-    background: none !important; /* Arka plan kaldırıldı */
+    background: none !important;
     border: none !important;
-    box-shadow: none !important; /* Gölge kaldırıldı */
+    padding: 0 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     transition: all 0.3s ease !important;
     cursor: pointer !important;
-    padding: 0 !important; /* Padding kaldırıldı */
+    width: auto !important;
+    height: auto !important;
 }
 
     .linkedin-floating:hover {
-        background: none !important; /* Hover'da da arka plan yok */
-        transform: scale(1.15) !important; /* Sadece büyüme efekti */
-        box-shadow: none !important;
+        transform: scale(1.1) !important;
     }
 
     .linkedin-floating img {
         max-width: 100% !important;
         max-height: 100% !important;
         object-fit: contain !important;
-        opacity: 0.8 !important;
-        transition: all 0.3s ease !important;
-    }
-
-    .linkedin-floating i {
-        font-size: 32px !important;
-        color: #0077b5 !important; /* LinkedIn mavi */
-        opacity: 0.8 !important;
         transition: all 0.3s ease !important;
     }
 
     .linkedin-floating:hover img {
-        opacity: 1 !important;
-        transform: scale(1.05) !important;
-    }
-
-    .linkedin-floating:hover i {
-        opacity: 1 !important;
         transform: scale(1.05) !important;
     }
 
@@ -109,44 +94,29 @@
     z-index: 10 !important;
     animation: bounceUpDown 2s infinite !important;
     cursor: pointer !important;
-    background: none !important; /* Arka plan kaldırıldı */
+    background: none !important;
     border: none !important;
-    box-shadow: none !important; /* Gölge kaldırıldı */
+    padding: 0 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     transition: all 0.3s ease !important;
-    padding: 0 !important; /* Padding kaldırıldı */
+    width: auto !important;
+    height: auto !important;
 }
 
     .hero-banner-scroll:hover {
-        background: none !important; /* Hover'da da arka plan yok */
-        transform: translateX(-50%) scale(1.1) !important; /* Sadece büyüme efekti */
-        box-shadow: none !important;
+        transform: translateX(-50%) scale(1.1) !important;
     }
 
     .hero-banner-scroll img {
         max-width: 100% !important;
         max-height: 100% !important;
         object-fit: contain !important;
-        opacity: 0.8 !important;
-        transition: all 0.3s ease !important;
-    }
-
-    .hero-banner-scroll i {
-        font-size: 24px !important;
-        color: rgba(255, 255, 255, 0.8) !important; /* Beyaz, hafif şeffaf */
         transition: all 0.3s ease !important;
     }
 
     .hero-banner-scroll:hover img {
-        opacity: 1 !important;
-        transform: scale(1.05) !important;
-    }
-
-    .hero-banner-scroll:hover i {
-        opacity: 1 !important;
-        color: white !important;
         transform: scale(1.05) !important;
     }
 
@@ -202,6 +172,66 @@
         box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2) !important;
     }
 
+/* Animation background için hazırlık */
+.hero-animation-container {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Hero Background Video */
+.hero-background-video {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    min-width: 100% !important;
+    min-height: 100% !important;
+    width: auto !important;
+    height: auto !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 0 !important;
+    object-fit: cover !important;
+}
+
+/* Video fallback image - sadece video yüklenemezse göster */
+.hero-fallback-image {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    z-index: -1 !important;
+}
+
+/* Video fallback image */
+.hero-fallback-image {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    z-index: 0 !important;
+}
+
+/* Gradient overlay - Video üzerine */
+.hero-section::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: linear-gradient(135deg, rgba(0, 92, 185, 0.6), rgba(26, 26, 26, 0.4)) !important;
+    z-index: 1 !important;
+    pointer-events: none !important;
+}
+
 /* Responsive */
 @media (max-width: 991.98px) {
     .hero-title {
@@ -225,17 +255,9 @@
         right: 25px !important;
     }
 
-        .linkedin-floating i {
-            font-size: 28px !important;
-        }
-
     .hero-banner-scroll {
         bottom: 25px !important;
     }
-
-        .hero-banner-scroll i {
-            font-size: 22px !important;
-        }
 }
 
 @media (max-width: 767.98px) {
@@ -270,38 +292,9 @@
         right: 20px !important;
     }
 
-        .linkedin-floating i {
-            font-size: 24px !important;
-        }
-
     .hero-banner-scroll {
         bottom: 20px !important;
     }
-
-        .hero-banner-scroll i {
-            font-size: 20px !important;
-        }
 }
 
-/* Animation background için hazırlık */
-.hero-animation-container {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    z-index: 1 !important;
-    overflow: hidden !important;
-}
 
-/* Gradient overlay */
-.hero-section::before {
-    content: '' !important;
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    background: linear-gradient(135deg, rgba(0, 92, 185, 0.8), rgba(0, 76, 158, 0.6)) !important;
-    z-index: 1 !important;
-}

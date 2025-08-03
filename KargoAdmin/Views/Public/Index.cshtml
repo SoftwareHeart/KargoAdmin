@@ -5,9 +5,14 @@
 
 <!-- Hero Section -->
 <section class="hero-section">
-    <!-- Animation Container - Arka plan animasyonu buraya gelecek -->
+    <!-- Video Background Container -->
     <div class="hero-animation-container">
-        <!-- Animasyon burada olacak -->
+        <!-- Ana video - loop yok, bir kez oynayacak -->
+        <video id="heroVideo1" autoplay muted playsinline class="hero-background-video hero-video-1">
+            <source src="~/videos/BannerVideo.mp4" type="video/mp4">
+        </video>
+        <!-- Fallback image - sadece video yüklenemezse göster -->
+        <img src="~/img/hero-fallback.jpg" alt="Aleris Global Lojistik" class="hero-fallback-image" style="display: none;">
     </div>
 
     <div class="container">
@@ -21,26 +26,20 @@
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy nibh
                     euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim
                 </p>
-@*                 <div class="d-flex gap-3 mt-4">
-                    <a href="/Public/Services" class="btn btn-secondary">Hizmetlerimiz</a>
-                    <a href="/Public/Contact" class="btn btn-outline-light">İletişime Geçin</a>
-                </div> *@
             </div>
         </div>
     </div>
 
     <!-- Hero Banner Scroll Icon - Alt ortada -->
     <div class="hero-banner-scroll" onclick="scrollToNext()">
-        <img src="~/img/BannerScrollIcon.png" alt="Scroll Down" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-        <i class="fas fa-chevron-down" style="display: none; font-size: 20px; color: #666;"></i>
+        <img src="~/img/BannerScrollIcon.png" alt="Scroll Down" />
+    </div>
+
+    <!-- LinkedIn Icon - Sağ alt köşede -->
+    <div class="linkedin-floating" onclick="openLinkedIn()">
+        <img src="~/img/LinkedinIcon.png" alt="LinkedIn" />
     </div>
 </section>
-
-<!-- LinkedIn Floating Icon - Sabit pozisyon -->
-<div class="linkedin-floating" onclick="openLinkedIn()">
-    <img src="~/img/LinkedinIcon.png" alt="LinkedIn" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-    <i class="fab fa-linkedin-in" style="display: none; font-size: 24px; color: white;"></i>
-</div>
 
 <!-- Services Section -->
 <section class="section bg-light" id="services-section">
@@ -260,6 +259,60 @@
 
 @section Scripts {
     <script>
+        // Video slow-down at end and stop
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('heroVideo1');
+            const fallbackImage = document.querySelector('.hero-fallback-image');
+            let slowdownStarted = false;
+
+            if (video) {
+                // Video yüklendiğinde
+                video.addEventListener('loadeddata', function() {
+                    console.log('Video loaded successfully');
+                    fallbackImage.style.display = 'none';
+                });
+
+                // Video oynatılamadığında
+                video.addEventListener('error', function(e) {
+                    console.error('Video error:', e);
+                    fallbackImage.style.display = 'block';
+                });
+
+                // Video timing kontrolü - son saniyede yavaşlat
+                video.addEventListener('timeupdate', function() {
+                    const duration = this.duration;
+                    const currentTime = this.currentTime;
+                    const remaining = duration - currentTime;
+
+                    // Son 1 saniyede yavaşlatmaya başla
+                    if (remaining <= 1.0 && remaining > 0 && !slowdownStarted) {
+                        slowdownStarted = true;
+                        console.log('Starting slowdown effect');
+
+                        // Yavaşça playback rate'i düşür
+                        this.playbackRate = 0.8; // %80 hız
+
+                        // setTimeout(() => {
+                        //     this.playbackRate = 0.6; // %60 hız
+                        // }, 200);
+
+                    }
+                });
+
+                // Video bittiğinde - durdurmak için hiçbir şey yapma
+                video.addEventListener('ended', function() {
+                    console.log('Video ended and stopped');
+                    // Video durdu, tekrar başlamayacak
+                });
+
+                // Manuel oynatma denemesi
+                video.play().catch(function(error) {
+                    console.error('Video play failed:', error);
+                    fallbackImage.style.display = 'block';
+                });
+            }
+        });
+
         // İstatistik sayılarını animasyonla göster
         document.addEventListener('DOMContentLoaded', function() {
             const statNumbers = document.querySelectorAll('.stat-number');
@@ -291,7 +344,7 @@
 
         // LinkedIn function
         function openLinkedIn() {
-            window.open('https://www.linkedin.com/company/aleris-global', '_blank');
+            window.open('https://www.linkedin.com/company/alerisglobal', '_blank');
         }
     </script>
 }
