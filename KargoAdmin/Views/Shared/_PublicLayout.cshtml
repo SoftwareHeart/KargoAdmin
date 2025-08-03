@@ -12,42 +12,89 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/public.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/navbar.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/hero.css" asp-append-version="true" /> <!-- BURAYA EKLEYIN -->
     <link href="https://use.fontawesome.com/releases/v6.3.0/css/all.css" rel="stylesheet" />
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm fixed-top">
-            <div class="container">
-                <a class="navbar-brand" href="/">
-                    <img src="~/img/logo.png" alt="Aleris Global Lojistik" height="40" />
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Index" && ViewContext.RouteData.Values["Controller"].ToString() == "Public" ? "active" : "")" asp-controller="Public" asp-action="Index">ANASAYFA</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")" asp-controller="Public" asp-action="About">HAKKIMIZDA</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Services" ? "active" : "")" asp-controller="Public" asp-action="Services">HİZMETLERİMİZ</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "PublicBlog" ? "active" : "")" asp-controller="PublicBlog" asp-action="Index">BLOG</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "")" asp-controller="Public" asp-action="Contact">İLETİŞİM</a>
-                        </li>
-                    </ul>
+        <nav class="modern-navbar" id="modernNavbar">
+            <div class="navbar-container">
+                <!-- Logo -->
+                <div class="navbar-logo">
+                    <a href="/">
+                        <img src="~/img/Logo.png" alt="Aleris Global Lojistik" />
+                    </a>
                 </div>
+
+                <!-- Menu Items -->
+                <div class="navbar-menu" id="navbarMenu">
+                    <a href="/" class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Index" && ViewContext.RouteData.Values["Controller"].ToString() == "Public" ? "active" : "")">Anasayfa</a>
+                    <a href="/Public/Services" class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Services" ? "active" : "")">Hizmetlerimiz</a>
+                    <a href="/PublicBlog" class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "PublicBlog" ? "active" : "")">Haberler</a>
+                    <a href="#" class="nav-item">Faydalı Bilgiler</a>
+                    <a href="/Public/Contact" class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "")">İletişim</a>
+                </div>
+
+                <!-- Right Side - Search & Contact & Language -->
+                <div class="navbar-actions">
+                    <!-- Search Icon -->
+                    <button class="search-btn" data-bs-toggle="modal" data-bs-target="#searchModal">
+                        <i class="fas fa-search"></i>
+                    </button>
+
+                    <!-- Contact Button -->
+                    <a href="/Public/Contact" class="contact-btn">İletişime Geç!</a>
+
+                    <!-- Language Flags -->
+                    <div class="language-flags">
+                        <img src="~/img/EngIcon.png" alt="English" class="flag-icon" onclick="changeLanguage('en')" />
+                        <img src="~/img/TrIcon.png" alt="Türkçe" class="flag-icon active" onclick="changeLanguage('tr')" />
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-toggle" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
         </nav>
     </header>
+
+    <!-- Search Modal -->
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="searchModalLabel">Arama</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="searchForm">
+                        <div class="mb-3">
+                            <label for="searchQuery" class="form-label">Ne aramak istiyorsunuz?</label>
+                            <input type="text" class="form-control" id="searchQuery" placeholder="Arama teriminizi giriniz...">
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted">
+                                <i class="fas fa-lightbulb me-1"></i>
+                                İpucu: Hizmetler, blog yazıları veya genel bilgiler arayabilirsiniz.
+                            </small>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                    <button type="button" class="btn btn-primary" onclick="performSearch()">
+                        <i class="fas fa-search me-1"></i> Ara
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <main role="main">
         @RenderBody()
@@ -70,10 +117,10 @@
                     <h5 class="text-uppercase mb-4">Hızlı Bağlantılar</h5>
                     <ul class="list-unstyled">
                         <li class="mb-2"><a href="/" class="text-white text-decoration-none">Anasayfa</a></li>
-                        <li class="mb-2"><a href="/Home/About" class="text-white text-decoration-none">Hakkımızda</a></li>
-                        <li class="mb-2"><a href="/Home/Services" class="text-white text-decoration-none">Hizmetlerimiz</a></li>
-                        <li class="mb-2"><a href="/PublicBlog" class="text-white text-decoration-none">Blog</a></li>
-                        <li><a href="/Home/Contact" class="text-white text-decoration-none">İletişim</a></li>
+                        <li class="mb-2"><a href="/Public/About" class="text-white text-decoration-none">Hakkımızda</a></li>
+                        <li class="mb-2"><a href="/Public/Services" class="text-white text-decoration-none">Hizmetlerimiz</a></li>
+                        <li class="mb-2"><a href="/PublicBlog" class="text-white text-decoration-none">Haberler</a></li>
+                        <li><a href="/Public/Contact" class="text-white text-decoration-none">İletişim</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4">
@@ -94,6 +141,71 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('modernNavbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('navbarMenu');
+            menu.classList.toggle('show');
+        }
+
+        // Language change function
+        function changeLanguage(lang) {
+            const flags = document.querySelectorAll('.flag-icon');
+            flags.forEach(flag => flag.classList.remove('active'));
+
+            if (lang === 'tr') {
+                document.querySelector('img[alt="Türkçe"]').classList.add('active');
+            } else {
+                document.querySelector('img[alt="English"]').classList.add('active');
+            }
+
+            // Burada dil değiştirme işlemi yapılabilir
+            console.log('Language changed to:', lang);
+        }
+
+        // Search function
+        function performSearch() {
+            const query = document.getElementById('searchQuery').value;
+            if (query.trim()) {
+                // Burada arama işlemi yapılabilir
+                console.log('Searching for:', query);
+                // Modal'ı kapat
+                bootstrap.Modal.getInstance(document.getElementById('searchModal')).hide();
+                // Arama sayfasına yönlendir veya sonuçları göster
+                // window.location.href = '/search?q=' + encodeURIComponent(query);
+            }
+        }
+
+        // Enter tuşu ile arama
+        document.getElementById('searchQuery').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                performSearch();
+            }
+        });
+
+        // Mobile menu dışına tıklayınca kapat
+        document.addEventListener('click', function(e) {
+            const menu = document.getElementById('navbarMenu');
+            const toggle = document.querySelector('.mobile-toggle');
+
+            if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+                menu.classList.remove('show');
+            }
+        });
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

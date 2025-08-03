@@ -1,0 +1,307 @@
+﻿/* Hero Section Styles - hero.css */
+
+/* Hero Section Reset - Eski stilleri override et */
+.hero-section {
+    /* Eski hero stillerini sıfırla */
+    min-height: 100vh !important;
+    display: flex !important;
+    align-items: center !important;
+    position: relative !important;
+    background: none !important; /* Arka plan animasyon için temizlendi */
+    overflow: hidden !important;
+    padding-top: 100px !important; /* Navbar için alan */
+    margin-top: 0 !important;
+}
+
+/* Eski hero stilleri override */
+.hero-content {
+    position: relative !important;
+    z-index: 2 !important;
+    max-width: none !important;
+}
+
+.hero-title {
+    font-size: 4rem !important;
+    font-weight: 900 !important;
+    line-height: 1.1 !important;
+    margin-bottom: 1.5rem !important;
+    color: white !important;
+    text-align: center;
+    text-transform: none !important;
+}
+
+    .hero-title span {
+        display: block !important;
+        font-size: 4rem !important;
+        color: #ff6a00 !important;
+        font-weight: 900 !important;
+    }
+
+.hero-subtitle {
+    font-size: 1.8rem !important;
+    color: white !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.hero-text {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-size: 1.1rem !important;
+    max-width: 700px !important;
+    margin-bottom: 2rem !important;
+    line-height: 1.6 !important;
+    text-align:center;
+}
+
+/* LinkedIn Icon - Resimde görülen konumda */
+.linkedin-floating {
+    position: fixed !important;
+    bottom: 30px !important;
+    right: 30px !important;
+    z-index: 1000 !important;
+    background: none !important; /* Arka plan kaldırıldı */
+    border: none !important;
+    box-shadow: none !important; /* Gölge kaldırıldı */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.3s ease !important;
+    cursor: pointer !important;
+    padding: 0 !important; /* Padding kaldırıldı */
+}
+
+    .linkedin-floating:hover {
+        background: none !important; /* Hover'da da arka plan yok */
+        transform: scale(1.15) !important; /* Sadece büyüme efekti */
+        box-shadow: none !important;
+    }
+
+    .linkedin-floating img {
+        max-width: 100% !important;
+        max-height: 100% !important;
+        object-fit: contain !important;
+        opacity: 0.8 !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .linkedin-floating i {
+        font-size: 32px !important;
+        color: #0077b5 !important; /* LinkedIn mavi */
+        opacity: 0.8 !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .linkedin-floating:hover img {
+        opacity: 1 !important;
+        transform: scale(1.05) !important;
+    }
+
+    .linkedin-floating:hover i {
+        opacity: 1 !important;
+        transform: scale(1.05) !important;
+    }
+
+/* Hero Banner Scroll Icon - Alt ortada */
+.hero-banner-scroll {
+    position: absolute !important;
+    bottom: 30px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 10 !important;
+    animation: bounceUpDown 2s infinite !important;
+    cursor: pointer !important;
+    background: none !important; /* Arka plan kaldırıldı */
+    border: none !important;
+    box-shadow: none !important; /* Gölge kaldırıldı */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.3s ease !important;
+    padding: 0 !important; /* Padding kaldırıldı */
+}
+
+    .hero-banner-scroll:hover {
+        background: none !important; /* Hover'da da arka plan yok */
+        transform: translateX(-50%) scale(1.1) !important; /* Sadece büyüme efekti */
+        box-shadow: none !important;
+    }
+
+    .hero-banner-scroll img {
+        max-width: 100% !important;
+        max-height: 100% !important;
+        object-fit: contain !important;
+        opacity: 0.8 !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .hero-banner-scroll i {
+        font-size: 24px !important;
+        color: rgba(255, 255, 255, 0.8) !important; /* Beyaz, hafif şeffaf */
+        transition: all 0.3s ease !important;
+    }
+
+    .hero-banner-scroll:hover img {
+        opacity: 1 !important;
+        transform: scale(1.05) !important;
+    }
+
+    .hero-banner-scroll:hover i {
+        opacity: 1 !important;
+        color: white !important;
+        transform: scale(1.05) !important;
+    }
+
+/* Animasyonlar */
+@keyframes bounceUpDown {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    40% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+
+    60% {
+        transform: translateX(-50%) translateY(-5px);
+    }
+}
+
+/* Hero butonları */
+.hero-section .btn {
+    padding: 15px 30px !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+    text-transform: none !important;
+    font-size: 1rem !important;
+    transition: all 0.3s ease !important;
+}
+
+.hero-section .btn-secondary {
+    background-color: #ff6a00 !important;
+    border-color: #ff6a00 !important;
+    color: white !important;
+}
+
+    .hero-section .btn-secondary:hover {
+        background-color: #e36000 !important;
+        border-color: #e36000 !important;
+        color: white !important;
+        transform: translateY(-3px) !important;
+        box-shadow: 0 8px 25px rgba(255, 106, 0, 0.3) !important;
+    }
+
+.hero-section .btn-outline-light {
+    border: 2px solid white !important;
+    color: white !important;
+    background: transparent !important;
+}
+
+    .hero-section .btn-outline-light:hover {
+        background: white !important;
+        color: #005cb9 !important;
+        transform: translateY(-3px) !important;
+        box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2) !important;
+    }
+
+/* Responsive */
+@media (max-width: 991.98px) {
+    .hero-title {
+        font-size: 3rem !important;
+    }
+
+        .hero-title span {
+            font-size: 3rem !important;
+        }
+
+    .hero-subtitle {
+        font-size: 1.5rem !important;
+    }
+
+    .hero-text {
+        font-size: 1rem !important;
+    }
+
+    .linkedin-floating {
+        bottom: 25px !important;
+        right: 25px !important;
+    }
+
+        .linkedin-floating i {
+            font-size: 28px !important;
+        }
+
+    .hero-banner-scroll {
+        bottom: 25px !important;
+    }
+
+        .hero-banner-scroll i {
+            font-size: 22px !important;
+        }
+}
+
+@media (max-width: 767.98px) {
+    .hero-section {
+        padding-top: 80px !important;
+    }
+
+    .hero-title {
+        font-size: 2.5rem !important;
+    }
+
+        .hero-title span {
+            font-size: 2.5rem !important;
+        }
+
+    .hero-subtitle {
+        font-size: 1.3rem !important;
+    }
+
+    .hero-text {
+        font-size: 0.95rem !important;
+        max-width: 100% !important;
+    }
+
+    .hero-section .btn {
+        padding: 12px 24px !important;
+        font-size: 0.9rem !important;
+    }
+
+    .linkedin-floating {
+        bottom: 20px !important;
+        right: 20px !important;
+    }
+
+        .linkedin-floating i {
+            font-size: 24px !important;
+        }
+
+    .hero-banner-scroll {
+        bottom: 20px !important;
+    }
+
+        .hero-banner-scroll i {
+            font-size: 20px !important;
+        }
+}
+
+/* Animation background için hazırlık */
+.hero-animation-container {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 1 !important;
+    overflow: hidden !important;
+}
+
+/* Gradient overlay */
+.hero-section::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: linear-gradient(135deg, rgba(0, 92, 185, 0.8), rgba(0, 76, 158, 0.6)) !important;
+    z-index: 1 !important;
+}

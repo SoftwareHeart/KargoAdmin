@@ -5,29 +5,45 @@
 
 <!-- Hero Section -->
 <section class="hero-section">
+    <!-- Animation Container - Arka plan animasyonu buraya gelecek -->
+    <div class="hero-animation-container">
+        <!-- Animasyon burada olacak -->
+    </div>
+
     <div class="container">
-        <div class="row">
-            <div class="col-lg-6 hero-content">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 hero-content">
                 <h1 class="hero-title">
-                    Lojistik
-                    <span>Hizmetler</span>
+                    Geleceğe umut taşımaktır,
+                    <span>en büyük hayalimiz!</span>
                 </h1>
-                <p class="hero-subtitle">Aleris Global: Sektöre Yeni Bir Soluk!</p>
                 <p class="hero-text">
-                    Aleris Global olarak, taşımacılık ve lojistik sektörüne yeni bir vizyon getirmek için yola çıktık! Deneyimli ekibimizle birlikte, yenilikçi çözümler ve güvenilir hizmetler sunarak sektörün her alanında fark yaratmaya hazırız.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy nibh
+                    euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim
                 </p>
-                <div class="d-flex">
-                    <a href="/Public/Services" class="btn btn-secondary me-3">Hizmetlerimiz</a>
+@*                 <div class="d-flex gap-3 mt-4">
+                    <a href="/Public/Services" class="btn btn-secondary">Hizmetlerimiz</a>
                     <a href="/Public/Contact" class="btn btn-outline-light">İletişime Geçin</a>
-                </div>
+                </div> *@
             </div>
         </div>
     </div>
-    <img src="~/img/hero-image.png" alt="Lojistik Hizmetleri" class="hero-image">
+
+    <!-- Hero Banner Scroll Icon - Alt ortada -->
+    <div class="hero-banner-scroll" onclick="scrollToNext()">
+        <img src="~/img/BannerScrollIcon.png" alt="Scroll Down" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <i class="fas fa-chevron-down" style="display: none; font-size: 20px; color: #666;"></i>
+    </div>
 </section>
 
+<!-- LinkedIn Floating Icon - Sabit pozisyon -->
+<div class="linkedin-floating" onclick="openLinkedIn()">
+    <img src="~/img/LinkedinIcon.png" alt="LinkedIn" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+    <i class="fab fa-linkedin-in" style="display: none; font-size: 24px; color: white;"></i>
+</div>
+
 <!-- Services Section -->
-<section class="section bg-light">
+<section class="section bg-light" id="services-section">
     <div class="container">
         <h2 class="section-title">Hizmetlerimiz</h2>
         <div class="row">
@@ -265,5 +281,17 @@
                 }, 16);
             });
         });
+
+        // Scroll to next section
+        function scrollToNext() {
+            document.getElementById('services-section').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // LinkedIn function
+        function openLinkedIn() {
+            window.open('https://www.linkedin.com/company/aleris-global', '_blank');
+        }
     </script>
 }
