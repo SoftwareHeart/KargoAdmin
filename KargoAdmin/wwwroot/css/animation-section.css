@@ -217,7 +217,7 @@
     }
 
     .cloud-container:nth-child(3) {
-        top: 60%;
+        top: 16%;
         right: 30%;
         animation: cloudFloat3 10s ease-in-out infinite 4s;
     }
