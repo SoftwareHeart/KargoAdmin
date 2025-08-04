@@ -10,12 +10,12 @@
     background: #ffffff;
 }
 
-/* Network Video Background - Sol yarı (Services için) */
+/* Network Video Background - Tüm ekranı kaplayan (Services için) */
 .services-network-container {
     position: absolute;
     top: 0;
     left: 0;
-    width: 50%;
+    width: 100%;
     height: 100%;
     z-index: 1;
     overflow: hidden;
@@ -25,7 +25,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.2;
+    opacity: 0.15;
 }
 
 /* Ana Container */
@@ -37,27 +37,28 @@
     z-index: 2;
 }
 
-/* Sol taraf - World ve Network */
+/* Sol taraf - World ve Network - Yeni tasarım için düzenleme */
 .services-left {
     flex: 1;
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    padding-left: 2%;
 }
 
-/* Dünya Container */
+/* Dünya Container - Yeni tasarıma uygun konum */
 .services-world-container {
     position: absolute;
-    top: 8%;
-    left: 8%;
+    top: 15%;
+    left: 0%;
     z-index: 3;
     animation: servicesWorldRotate 25s linear infinite;
 }
 
 .services-world-image {
-    width: 650px;
-    height: 650px;
+    width: 500px;
+    height: 500px;
     object-fit: contain;
     filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.15));
 }
@@ -73,27 +74,27 @@
     }
 }
 
-/* Bulutlar */
+/* Bulutlar - Yeni konumlar */
 .services-cloud-container {
     position: absolute;
     z-index: 4;
 }
 
-    .services-cloud-container:nth-child(1) {
-        top: 12%;
-        left: 28%;
+    .services-cloud-container:nth-child(2) {
+        top: 20%;
+        left: 35%;
         animation: servicesCloudFloat1 8s ease-in-out infinite;
     }
 
-    .services-cloud-container:nth-child(2) {
-        top: 38%;
-        left: 12%;
+    .services-cloud-container:nth-child(3) {
+        top: 45%;
+        left: 15%;
         animation: servicesCloudFloat2 6s ease-in-out infinite 2s;
     }
 
-    .services-cloud-container:nth-child(3) {
-        top: 20%;
-        left: 35%;
+    .services-cloud-container:nth-child(4) {
+        top: 25%;
+        left: 50%;
         animation: servicesCloudFloat3 10s ease-in-out infinite 4s;
     }
 
@@ -105,12 +106,12 @@
     filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.1));
 }
 
-.services-cloud-container:nth-child(2) .services-cloud-image {
+.services-cloud-container:nth-child(3) .services-cloud-image {
     width: 320px;
     opacity: 0.65;
 }
 
-.services-cloud-container:nth-child(3) .services-cloud-image {
+.services-cloud-container:nth-child(4) .services-cloud-image {
     width: 330px;
     opacity: 0.7;
 }
@@ -195,7 +196,7 @@
 
 /* Container Item */
 .hanging-container {
-    width: 185px;
+    width: 115px;
     height: 260px;
     position: relative;
     animation: containerSwing 5s ease-in-out infinite;
@@ -242,7 +243,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: end;
     color: white;
     text-align: center;
     padding: 35px 25px;
@@ -251,7 +252,7 @@
     filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.2));
 }
 
-    /* Orange Container */
+    /* Orange Container - İlk konteyner (Kara Taşımacılık) */
     .container-box.orange {
         background-image: url('/img/ArtboardTuruncu.png');
     }
@@ -309,15 +310,15 @@
     z-index: 10;
 }
 
-/* TIR - Kara Taşımacılığı (Section 1) */
+/* TIR - Kara Taşımacılığı (Section 1) - Yeni tasarıma uygun */
 .services-hero-section.truck .transport-vehicle {
-    bottom: 5%;
-    left: 8%;
+    bottom: 8%;
+    left: 5%;
     animation: truckDrive 8s ease-in-out infinite;
 }
 
     .services-hero-section.truck .transport-vehicle img {
-        width: 580px;
+        width: 450px;
         height: auto;
         filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.25));
     }
@@ -332,15 +333,15 @@
     }
 }
 
-/* UÇAK - Hava Taşımacılığı (Section 2) */
+/* UÇAK - Hava Taşımacılığı (Section 2) - Yeni tasarıma uygun */
 .services-hero-section.plane .transport-vehicle {
-    bottom: 12%;
-    left: 12%;
+    bottom: 15%;
+    left: 8%;
     animation: planeFly 12s linear infinite;
 }
 
     .services-hero-section.plane .transport-vehicle img {
-        width: 580px;
+        width: 450px;
         height: auto;
         filter: drop-shadow(0 12px 25px rgba(0, 0, 0, 0.2));
     }
@@ -377,15 +378,15 @@
     }
 }
 
-/* GEMİ - Deniz Taşımacılığı (Section 3) */
+/* GEMİ - Deniz Taşımacılığı (Section 3) - Yeni tasarıma uygun */
 .services-hero-section.ship .transport-vehicle {
-    bottom: 6%;
-    left: 10%;
+    bottom: 10%;
+    left: 8%;
     animation: shipSail 10s ease-in-out infinite;
 }
 
     .services-hero-section.ship .transport-vehicle img {
-        width: 550px;
+        width: 420px;
         height: auto;
         filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
     }
@@ -404,15 +405,15 @@
     }
 }
 
-/* MINIVAN - Depolama ve Dağıtım (Section 4) */
+/* MINIVAN - Depolama ve Dağıtım (Section 4) - Yeni tasarıma uygun */
 .services-hero-section.minivan .transport-vehicle {
-    bottom: 8%;
-    left: 15%;
+    bottom: 12%;
+    left: 10%;
     animation: minivanMove 6s ease-in-out infinite;
 }
 
     .services-hero-section.minivan .transport-vehicle img {
-        width: 420px;
+        width: 380px;
         height: auto;
         filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
     }
@@ -427,7 +428,7 @@
     }
 }
 
-/* Responsive Design */
+/* Responsive Design - Yeni tasarıma uygun güncellemeler */
 @media (max-width: 1199.98px) {
     .services-hero-container {
         flex-direction: column;
@@ -438,17 +439,13 @@
     .services-left {
         height: 50vh;
         order: 2;
+        padding-left: 0;
+        justify-content: center;
     }
 
     .services-right {
         padding: 60px 40px;
         order: 1;
-    }
-
-    .services-network-container {
-        width: 100%;
-        height: 50%;
-        top: 50%;
     }
 
     .services-world-container {
@@ -458,8 +455,8 @@
     }
 
     .services-world-image {
-        width: 500px;
-        height: 500px;
+        width: 400px;
+        height: 400px;
     }
 
     .services-title {
@@ -488,7 +485,7 @@
     }
 
     .transport-vehicle img {
-        width: 400px !important;
+        width: 350px !important;
     }
 }
 
