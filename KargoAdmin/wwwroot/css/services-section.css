@@ -7,7 +7,7 @@
     display: flex;
     align-items: center;
     overflow: hidden;
-    background: linear-gradient(135deg, #e8f0ff 0%, #f5f8ff 50%, #ffffff 100%);
+    background: #ffffff;
 }
 
 /* Network Video Background - Sol yarı (Services için) */
@@ -25,7 +25,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.3;
+    opacity: 0.2;
 }
 
 /* Ana Container */
@@ -155,18 +155,18 @@
     padding: 80px 60px;
     position: relative;
     z-index: 5;
-    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 30%, rgba(255, 255, 255, 0.8) 100%);
+    background: transparent;
 }
 
 .services-title {
     font-size: 4.2rem;
     font-weight: 800;
-    color: #1a1a1a;
+    color: #2c3e50;
     margin-bottom: 4rem;
     line-height: 1.1;
     text-align: left;
     letter-spacing: -0.02em;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-shadow: none;
 }
 
 /* Container Icons - Asılı konteynerler */
@@ -187,10 +187,10 @@
     transform: translateX(-50%);
     width: 400px;
     height: 4px;
-    background: linear-gradient(90deg, #a0a8b8 0%, #c8d2e8 30%, #e2ebf7 50%, #c8d2e8 70%, #a0a8b8 100%);
+    background: linear-gradient(90deg, #005cb9 0%, #0066cc 30%, #007bff 50%, #0066cc 70%, #005cb9 100%);
     z-index: 6;
     border-radius: 2px;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 8px rgba(0, 92, 185, 0.3);
 }
 
 /* Container Item */
@@ -225,10 +225,10 @@
     transform: translateX(-50%);
     width: 2px;
     height: 60px;
-    background: linear-gradient(180deg, #a0a8b8 0%, #6c757d 100%);
+    background: linear-gradient(180deg, #005cb9 0%, #0066cc 100%);
     z-index: 5;
     border-radius: 1px;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 3px rgba(0, 92, 185, 0.4);
 }
 
 /* Container Box - Gerçek konteyner resmi */
@@ -535,6 +535,7 @@
     .services-hero-section {
         min-height: auto;
         padding: 60px 0;
+        background: #ffffff;
     }
 
     .services-hero-container {
