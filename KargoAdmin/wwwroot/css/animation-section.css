@@ -5,7 +5,7 @@
     padding: 0;
     margin: 0;
     min-height: 100vh;
-    background: #ffffff;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -151,22 +151,22 @@
 }
 
 /* Video Background - Çok hafif */
-.network-video-container {
+.animation-section .network-video-container {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 50%;
     height: 100%;
-    opacity: 0.2;
+    opacity: 0.6;
     z-index: 1;
+    overflow: hidden;
 }
 
-.network-video {
+.animation-section .network-video {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-
 /* Animasyon elementleri - Temiz */
 .world-container {
     position: absolute;
