@@ -1,4 +1,4 @@
-﻿/* Animation Section Styles - Berrak ve Temiz Görünüm */
+﻿/* Animation Section Styles - Görsele Göre Güncellenmiş */
 
 .animation-section {
     position: relative;
@@ -167,19 +167,20 @@
     object-fit: cover;
 }
 
-/* Animasyon elementleri - Temiz */
+/* Animasyon elementleri - Görsele göre düzenlenmiş */
 .world-container {
     position: absolute;
-    top: 5%;
-    right: 3%;
+    top: 8%;
+    right: -5%;
     z-index: 3;
     animation: worldRotate 25s linear infinite;
 }
 
 .world-image {
-    width: 650px;
-    height: 650px;
+    width: 700px;
+    height: 700px;
     object-fit: contain;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.2));
 }
 
 /* Dünya dönme animasyonu */
@@ -193,45 +194,46 @@
     }
 }
 
-/* Bulutlar */
+/* Bulutlar - Görseldeki gibi düzenlenmiş */
 .cloud-container {
     position: absolute;
     z-index: 4;
 }
 
     .cloud-container:nth-child(1) {
-        top: 8%;
-        right: 25%;
+        top: 3%;
+        right: 20%;
         animation: cloudFloat1 8s ease-in-out infinite;
     }
 
     .cloud-container:nth-child(2) {
-        top: 35%;
-        right: 8%;
+        top: 30%;
+        right: 0%;
         animation: cloudFloat2 6s ease-in-out infinite 2s;
     }
 
     .cloud-container:nth-child(3) {
-        top: 16%;
-        right: 30%;
+        bottom: 12%;
+        right: 25%;
         animation: cloudFloat3 10s ease-in-out infinite 4s;
     }
 
 .cloud-image {
-    width: 420px;
+    width: 380px;
     height: auto;
     object-fit: contain;
-    opacity: 0.8;
+    opacity: 0.85;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.15));
 }
 
 .cloud-container:nth-child(2) .cloud-image {
-    width: 380px;
-    opacity: 0.7;
+    width: 350px;
+    opacity: 0.75;
 }
 
 .cloud-container:nth-child(3) .cloud-image {
     width: 400px;
-    opacity: 0.75;
+    opacity: 0.8;
 }
 
 /* Bulut animasyonları */
@@ -265,25 +267,26 @@
     }
 }
 
-/* Uçak animasyonu */
+/* Uçak animasyonu - Görseldeki gibi büyük ve merkezi */
 .plane-container {
     position: absolute;
-    top: 40%;
-    right: 15%;
+    top: 35%;
+    right: 10%;
     z-index: 5;
     animation: planeFlight 12s linear infinite;
 }
 
 .plane-image {
-    width: 620px;
+    width: 680px;
     height: auto;
     object-fit: contain;
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.25));
 }
 
-/* Uçak hareketi - Orijinal formatta */
+/* Uçak hareketi - Görsele uygun büyük animasyon */
 @keyframes planeFlight {
     0% {
-        transform: translateX(-650px) translateY(160px) rotate(-15deg);
+        transform: translateX(-700px) translateY(180px) rotate(-15deg);
         opacity: 0;
     }
 
@@ -292,15 +295,15 @@
     }
 
     25% {
-        transform: translateX(-200px) translateY(60px) rotate(-8deg);
+        transform: translateX(-250px) translateY(80px) rotate(-8deg);
     }
 
     50% {
-        transform: translateX(100px) translateY(-20px) rotate(5deg);
+        transform: translateX(120px) translateY(-30px) rotate(5deg);
     }
 
     75% {
-        transform: translateX(400px) translateY(-100px) rotate(18deg);
+        transform: translateX(450px) translateY(-140px) rotate(18deg);
     }
 
     92% {
@@ -308,7 +311,7 @@
     }
 
     100% {
-        transform: translateX(650px) translateY(-180px) rotate(25deg);
+        transform: translateX(700px) translateY(-220px) rotate(25deg);
         opacity: 0;
     }
 }
@@ -329,24 +332,24 @@
     }
 
     .world-image {
-        width: 650px;
-        height: 650px;
+        width: 600px;
+        height: 600px;
     }
 
     .plane-image {
-        width: 500px;
+        width: 550px;
     }
 
     .cloud-image {
-        width: 350px;
+        width: 320px;
     }
 
     .cloud-container:nth-child(2) .cloud-image {
-        width: 300px;
+        width: 280px;
     }
 
     .cloud-container:nth-child(3) .cloud-image {
-        width: 330px;
+        width: 300px;
     }
 
     .service-mini-card {
@@ -410,7 +413,7 @@
     }
 
     .plane-image {
-        width: 350px;
+        width: 420px;
     }
 
     .cloud-image {
@@ -517,7 +520,7 @@
     }
 
     .plane-image {
-        width: 240px;
+        width: 280px;
     }
 
     .cloud-container:nth-child(1) {
@@ -628,7 +631,7 @@
     }
 
     .plane-image {
-        width: 180px;
+        width: 220px;
     }
 
     .cloud-image {
