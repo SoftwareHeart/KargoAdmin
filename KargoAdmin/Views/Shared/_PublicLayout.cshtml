@@ -13,9 +13,10 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/public.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/navbar.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/hero.css" asp-append-version="true" /> <!-- BURAYA EKLEYIN -->
+    <link rel="stylesheet" href="~/css/hero.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/animation-section.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/services-section.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/footer.css" asp-append-version="true" />
     <link href="https://use.fontawesome.com/releases/v6.3.0/css/all.css" rel="stylesheet" />
     @await RenderSectionAsync("Styles", required: false)
 </head>
@@ -102,43 +103,110 @@
         @RenderBody()
     </main>
 
-    <footer class="footer bg-dark text-white py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 mb-4 mb-md-0">
-                    <h5 class="text-uppercase mb-4">Aleris Global Lojistik</h5>
-                    <p>Taşımacılık ve lojistik sektörüne yeni bir vizyon getirmek için yola çıktık. Deneyimli ekibimizle birlikte, yenilikçi çözümler ve güvenilir hizmetler sunarak sektörün her alanında fark yaratmaya hazırız.</p>
-                    <div class="mt-4">
-                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-white me-3"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
+    <footer class="modern-footer">
+        <!-- Ana Footer -->
+        <div class="footer-main">
+            <div class="footer-container">
+                <!-- Logo Section - Üst kısım -->
+                <div class="footer-logo-section">
+                    <div class="footer-logo">
+                        <img src="~/img/Logo.png" alt="Aleris Global Lojistik" />
                     </div>
                 </div>
-                <div class="col-md-4 mb-4 mb-md-0">
-                    <h5 class="text-uppercase mb-4">Hızlı Bağlantılar</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="/" class="text-white text-decoration-none">Anasayfa</a></li>
-                        <li class="mb-2"><a href="/Public/About" class="text-white text-decoration-none">Hakkımızda</a></li>
-                        <li class="mb-2"><a href="/Public/Services" class="text-white text-decoration-none">Hizmetlerimiz</a></li>
-                        <li class="mb-2"><a href="/PublicBlog" class="text-white text-decoration-none">Haberler</a></li>
-                        <li><a href="/Public/Contact" class="text-white text-decoration-none">İletişim</a></li>
-                    </ul>
+
+                <!-- Footer Grid - 4 Kolon -->
+                <div class="footer-grid">
+                    <!-- Hakkımızda Kolonu -->
+                    <div class="footer-column">
+                        <h5>Hakkımızda</h5>
+                        <ul>
+                            <li><a href="/Public/Services">Hizmetlerimiz</a></li>
+                            <li><a href="/Public/Services#sea">Deniz Taşımacılığı</a></li>
+                            <li><a href="/Public/Services#land">Karayolu Taşımacılığı</a></li>
+                            <li><a href="/Public/Services#air">Hava Kargo</a></li>
+                            <li><a href="/PublicBlog">Blog</a></li>
+                            <li><a href="#">Store</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Sık Sorulan Sorular Kolonu -->
+                    <div class="footer-column">
+                        <h5>Sıkça Sorulan Sorular</h5>
+                        <ul>
+                            <li><a href="#">Gizlilik Politikası</a></li>
+                            <li><a href="#">Kullanım Koşulları</a></li>
+                            <li><a href="#">LinkedIn</a></li>
+                            <li><a href="#">Instagram</a></li>
+                            <li><a href="#">Facebook</a></li>
+                            <li><a href="#">YouTube</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Sosyal Medya Kolonu -->
+                    <div class="footer-column">
+                        <h5>Sosyal Medya</h5>
+                        <ul>
+                            <li><a href="#">LinkedIn</a></li>
+                            <li><a href="#">Instagram</a></li>
+                            <li><a href="#">Facebook</a></li>
+                            <li><a href="#">YouTube</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Newsletter Kolonu -->
+                    <div class="footer-column newsletter-column">
+                        <h5 class="newsletter-title">Bültene Abone Olun</h5>
+
+                        <form class="newsletter-form" action="#" method="post">
+                            <input type="email" class="newsletter-input" placeholder="E-posta adresinizi giriniz" required>
+                            <button type="submit" class="newsletter-button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <h5 class="text-uppercase mb-4">İletişim</h5>
-                    <p><i class="fas fa-map-marker-alt me-2"></i> Merkez Mah. Atatürk Cad. No:123, İstanbul</p>
-                    <p><i class="fas fa-phone me-2"></i> +90 212 123 45 67</p>
-                    <p><i class="fas fa-envelope me-2"></i> info@alerisglobal.com</p>
+
+                <!-- Alt Kısım - Açıklama ve Sosyal İkonlar -->
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="footer-description-section">
+                            <p class="footer-description">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a sem massa. Vestibulum dapibus risus at elementd convallis. Pellentesque viverra lacinia elit aliquet bibendum.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a sem massa. Vestibulum dapibus risus at elementd convallis. Pellentesque viverra lacinia elit aliquet bibendum.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="footer-social-section">
+                            <div class="footer-social">
+                                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                                <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <div class="footer-bottom-container">
+                <div class="footer-bottom-left">
+                    <div class="footer-bottom-links">
+                        <a href="#">Şartlar ve Koşullar</a>
+                        <a href="#">Gizlilik</a>
+                        <a href="#">Çerezler</a>
+                    </div>
+                </div>
+                <div class="footer-copyright">
+                    © Aleris Global Lojistik Tüm Hakları Saklıdır. @DateTime.Now.Year
                 </div>
             </div>
         </div>
     </footer>
-    <div class="copyright py-3 bg-primary text-white">
-        <div class="container text-center">
-            <small>&copy; @DateTime.Now.Year - Aleris Global Lojistik. Tüm hakları saklıdır.</small>
-        </div>
-    </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

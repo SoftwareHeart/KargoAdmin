@@ -196,7 +196,7 @@
 
 /* Container Item */
 .hanging-container {
-    width: 115px;
+    width: 185px;
     height: 260px;
     position: relative;
     animation: containerSwing 5s ease-in-out infinite;
@@ -252,7 +252,7 @@
     filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.2));
 }
 
-    /* Orange Container - İlk konteyner (Kara Taşımacılık) */
+    /* Orange Container */
     .container-box.orange {
         background-image: url('/img/ArtboardTuruncu.png');
     }

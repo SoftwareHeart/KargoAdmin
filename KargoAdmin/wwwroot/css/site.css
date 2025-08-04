@@ -1,4 +1,7 @@
-﻿html {
+﻿/* Site.css'e eklenecek veya güncellenecek kodlar */
+
+/* Mevcut site.css'teki bu kısmı güncelleyin: */
+html {
     font-size: 14px;
 }
 
@@ -11,15 +14,26 @@
 html {
     position: relative;
     min-height: 100%;
+    margin: 0; /* Eklendi */
+    padding: 0; /* Eklendi */
 }
 
 body {
-    margin-bottom: 60px;
+    margin: 0; /* margin-bottom: 60px; yerine */
+    padding: 0; /* Eklendi */
 }
 
+/* Bu kısmı kaldırın veya sıfırlayın: */
 .footer {
     position: relative;
     width: 100%;
     white-space: nowrap;
     line-height: 60px;
+    margin: 0; /* Eklendi */
+}
+
+/* Eğer başka yerlerde footer sınıfı kullanılıyorsa */
+footer {
+    margin: 0 !important;
+    padding: 0; /* Kendi padding'ini kullanacak */
 }

@@ -186,23 +186,6 @@ body {
         transform: translateY(-3px);
         box-shadow: 0 5px 15px rgba(0, 92, 185, 0.3);
     }
-
-/* Footer */
-.footer {
-    background-color: var(--dark-color);
-}
-
-    .footer p {
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        white-space: normal;
-    }
-
-
-.copyright {
-    background-color: var(--primary-color);
-}
-
 /* Cargo Tracking */
 .tracking-section {
     background-color: var(--light-color);
