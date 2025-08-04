@@ -41,6 +41,64 @@
     </div>
 </section>
 
+<!-- Animation Section - Yeni eklenen bölüm -->
+<section class="animation-section" id="animation-section">
+    <!-- Network Video Background -->
+    <div class="network-video-container">
+        <video class="network-video" autoplay muted loop playsinline>
+            <source src="~/videos/PoligonelBg.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <div class="animation-container">
+        <!-- Sol taraf - Text ve Service Cards -->
+        <div class="animation-left">
+            <!-- Üst oval çizgi -->
+            <div class="top-oval-line"></div>
+
+            <h2 class="animation-title">
+                Arelis Global:<br>
+                Sektöre Yeni Bir Soluk.
+            </h2>
+
+            <!-- Service Mini Cards -->
+            <div class="service-cards-container">
+                <div class="service-mini-card">
+                    <div class="service-mini-icon">
+                        <i class="fas fa-globe-americas"></i>
+                    </div>
+                    <h4 class="service-mini-title">Uluslararası<br>Taşımacılık</h4>
+                </div>
+                <div class="service-mini-card">
+                    <div class="service-mini-icon">
+                        <i class="fas fa-plane"></i>
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h4 class="service-mini-title">Lojistik ve<br>Depolama</h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sağ taraf - Animasyon Alanı -->
+        <div class="animation-right">
+            <!-- Dünya -->
+            <div class="world-container">
+                <img src="~/img/Dunya.png" alt="Dünya" class="world-image" />
+            </div>
+
+            <!-- Bulut -->
+            <div class="cloud-container">
+                <img src="~/img/Bulut.png" alt="Bulut" class="cloud-image" />
+            </div>
+
+            <!-- Uçak -->
+            <div class="plane-container">
+                <img src="~/img/UcakSag.png" alt="Uçak" class="plane-image" />
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Services Section -->
 <section class="section bg-light" id="services-section">
     <div class="container">
@@ -291,11 +349,6 @@
 
                         // Yavaşça playback rate'i düşür
                         this.playbackRate = 0.8; // %80 hız
-
-                        // setTimeout(() => {
-                        //     this.playbackRate = 0.6; // %60 hız
-                        // }, 200);
-
                     }
                 });
 
@@ -337,7 +390,7 @@
 
         // Scroll to next section
         function scrollToNext() {
-            document.getElementById('services-section').scrollIntoView({
+            document.getElementById('animation-section').scrollIntoView({
                 behavior: 'smooth'
             });
         }
