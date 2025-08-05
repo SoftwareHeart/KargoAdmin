@@ -1,1 +1,597 @@
-﻿
+﻿/* Services Section Styles - 4 Ayrı Sayfa Tasarımı */
+
+.services-section {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    min-height: 100vh;
+    background: #ffffff;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+/* Background Video */
+.services-background-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.services-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    opacity: 0.9;
+}
+
+.services-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(240, 248, 255, 0.6));
+    z-index: 1;
+}
+
+/* Services Container */
+.services-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    position: relative;
+    z-index: 2;
+}
+
+/* Left Side - World and Vehicle */
+.services-left {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+/* World Container */
+.world-services-container {
+    position: absolute;
+    top: 8%;
+    left: -5%;
+    z-index: 3;
+    animation: worldServicesRotate 30s linear infinite;
+}
+
+.world-services-image {
+    width: 550px;
+    height: 550px;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.15));
+}
+
+/* World Rotation */
+@keyframes worldServicesRotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Vehicle Containers */
+.vehicle-container {
+    position: absolute;
+    z-index: 4;
+    transition: all 1s ease-in-out;
+}
+
+.vehicle-image {
+    object-fit: contain;
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
+}
+
+/* Air Vehicle - Uçak */
+.air-vehicle {
+    top: 25%;
+    left: 15%;
+    animation: airVehicleFloat 8s ease-in-out infinite;
+}
+
+    .air-vehicle .vehicle-image {
+        width: 550px;
+        height: auto;
+    }
+
+@keyframes airVehicleFloat {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+/* Sea Vehicle - Gemi */
+.sea-vehicle {
+    top: 45%;
+    left: 10%;
+    animation: seaVehicleFloat 10s ease-in-out infinite;
+}
+
+    .sea-vehicle .vehicle-image {
+        width: 500px;
+        height: auto;
+    }
+
+@keyframes seaVehicleFloat {
+    0%, 100% {
+        transform: translateY(0px) translateX(0px);
+    }
+
+    50% {
+        transform: translateY(-15px) translateX(10px);
+    }
+}
+
+/* Land Van Vehicle - Minivan */
+.land-van-vehicle {
+    top: 50%;
+    left: 20%;
+    animation: landVehicleMove 12s ease-in-out infinite;
+}
+
+    .land-van-vehicle .vehicle-image {
+        width: 400px;
+        height: auto;
+    }
+
+/* Land Truck Vehicle - Tır */
+.land-truck-vehicle {
+    top: 50%;
+    left: 5%;
+    animation: truckVehicleMove 15s ease-in-out infinite;
+}
+
+    .land-truck-vehicle .vehicle-image {
+        width: 480px;
+        height: auto;
+    }
+
+@keyframes landVehicleMove {
+    0%, 100% {
+        transform: translateX(0px);
+    }
+
+    50% {
+        transform: translateX(30px);
+    }
+}
+
+@keyframes truckVehicleMove {
+    0%, 100% {
+        transform: translateX(0px) translateY(0px);
+    }
+
+    50% {
+        transform: translateX(25px) translateY(-10px);
+    }
+}
+
+/* Right Side - Containers */
+.services-right {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding-right: 50px;
+}
+
+/* Containers Wrapper */
+.containers-wrapper {
+    position: relative;
+    width: 100%;
+    height: 80%;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+}
+
+/* Service Container */
+.service-container {
+    position: absolute;
+    transition: all 0.8s ease-in-out;
+    cursor: pointer;
+}
+
+.container-image {
+    width: 180px;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+    transition: all 0.3s ease;
+}
+
+.service-container:hover .container-image {
+    transform: scale(1.05);
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
+}
+
+/* Container Content - Positioning over image */
+.container-content {
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    z-index: 5;
+    pointer-events: none;
+}
+
+    .container-content h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+        line-height: 1.2;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+.container-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin: 5px 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.container-content p {
+    font-size: 1.5rem;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Container Positioning - Crane Style */
+.service-container:nth-child(1) {
+    top: -30%;
+    left: 0%;
+    transform: rotate(-1deg);
+}
+
+.service-container:nth-child(2) {
+    top: -30%;
+    left: 20%;
+    transform: rotate(-8deg);
+}
+
+.service-container:nth-child(3) {
+    top: -30%;
+    right: 25%;
+    transform: rotate(8deg);
+}
+
+.service-container:nth-child(4) {
+    top: -30%;
+    right: 0%;
+    transform: rotate(15deg);
+}
+
+/* Active Container - Highlighted */
+.service-container.active-container {
+    z-index: 10;
+}
+
+    .service-container.active-container .container-image {
+        transform: scale(1.1);
+        filter: drop-shadow(0 20px 40px rgba(255, 106, 0, 0.3));
+    }
+
+/* Container Types */
+.blue-container .container-image {
+    filter: drop-shadow(0 10px 20px rgba(0, 92, 185, 0.2));
+}
+
+.orange-container .container-image {
+    filter: drop-shadow(0 10px 20px rgba(255, 106, 0, 0.2));
+}
+
+/* Hover Effects */
+.service-container:hover {
+    z-index: 15;
+}
+
+    .service-container:hover .container-image {
+        transform: scale(1.15) rotate(2deg);
+    }
+
+/* Responsive Design */
+@media (max-width: 1199.98px) {
+    .world-services-image {
+        width: 550px;
+        height: 550px;
+    }
+
+    .air-vehicle .vehicle-image {
+        width: 450px;
+    }
+
+    .sea-vehicle .vehicle-image {
+        width: 400px;
+    }
+
+    .land-van-vehicle .vehicle-image {
+        width: 320px;
+    }
+
+    .land-truck-vehicle .vehicle-image {
+        width: 380px;
+    }
+
+    .container-image {
+        width: 240px;
+    }
+
+    .container-number {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .services-section {
+        min-height: auto;
+        padding: 80px 0;
+    }
+
+    .services-container {
+        flex-direction: column;
+        height: auto;
+        gap: 50px;
+    }
+
+    .services-left {
+        height: 60vh;
+        order: 1;
+    }
+
+    .services-right {
+        height: 40vh;
+        order: 2;
+        padding-right: 20px;
+        padding-left: 20px;
+    }
+
+    .world-services-container {
+        top: 15%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .world-services-image {
+        width: 400px;
+        height: 400px;
+    }
+
+    .air-vehicle {
+        top: 40%;
+        left: 20%;
+    }
+
+        .air-vehicle .vehicle-image {
+            width: 350px;
+        }
+
+    .sea-vehicle {
+        top: 45%;
+        left: 15%;
+    }
+
+        .sea-vehicle .vehicle-image {
+            width: 300px;
+        }
+
+    .land-van-vehicle {
+        top: 50%;
+        left: 25%;
+    }
+
+        .land-van-vehicle .vehicle-image {
+            width: 250px;
+        }
+
+    .land-truck-vehicle {
+        top: 45%;
+        left: 10%;
+    }
+
+        .land-truck-vehicle .vehicle-image {
+            width: 280px;
+        }
+
+    .containers-wrapper {
+        height: 100%;
+        transform: scale(0.8);
+    }
+}
+
+@media (max-width: 767.98px) {
+    .services-section {
+        padding: 60px 0;
+    }
+
+    .services-container {
+        gap: 30px;
+    }
+
+    .services-left {
+        height: 50vh;
+        min-height: 300px;
+    }
+
+    .services-right {
+        height: 35vh;
+        min-height: 280px;
+    }
+
+    .world-services-container {
+        top: 20%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .world-services-image {
+        width: 280px;
+        height: 280px;
+    }
+
+    .air-vehicle {
+        top: 45%;
+        left: 25%;
+    }
+
+        .air-vehicle .vehicle-image {
+            width: 250px;
+        }
+
+    .sea-vehicle {
+        top: 50%;
+        left: 20%;
+    }
+
+        .sea-vehicle .vehicle-image {
+            width: 220px;
+        }
+
+    .land-van-vehicle {
+        top: 55%;
+        left: 30%;
+    }
+
+        .land-van-vehicle .vehicle-image {
+            width: 180px;
+        }
+
+    .land-truck-vehicle {
+        top: 50%;
+        left: 15%;
+    }
+
+        .land-truck-vehicle .vehicle-image {
+            width: 200px;
+        }
+
+    .containers-wrapper {
+        transform: scale(0.6);
+    }
+
+    .container-content h3 {
+        font-size: 0.9rem;
+    }
+
+    .container-number {
+        font-size: 1.8rem;
+    }
+
+    .container-content p {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .services-section {
+        padding: 50px 0;
+    }
+
+    .services-left {
+        height: 40vh;
+        min-height: 250px;
+    }
+
+    .services-right {
+        height: 30vh;
+        min-height: 200px;
+    }
+
+    .world-services-image {
+        width: 200px;
+        height: 200px;
+    }
+
+    .air-vehicle .vehicle-image {
+        width: 180px;
+    }
+
+    .sea-vehicle .vehicle-image {
+        width: 160px;
+    }
+
+    .land-van-vehicle .vehicle-image {
+        width: 130px;
+    }
+
+    .land-truck-vehicle .vehicle-image {
+        width: 150px;
+    }
+
+    .containers-wrapper {
+        transform: scale(0.5);
+    }
+
+    .container-content h3 {
+        font-size: 0.8rem;
+    }
+
+    .container-number {
+        font-size: 1.5rem;
+    }
+
+    .container-content p {
+        font-size: 0.7rem;
+    }
+}
+
+/* Animation Controls */
+.services-section.paused * {
+    animation-play-state: paused;
+}
+
+/* Performance Optimizations */
+.services-section {
+    will-change: transform;
+}
+
+.world-services-container,
+.vehicle-container {
+    will-change: transform;
+}
+
+.container-image {
+    will-change: transform, filter;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .world-services-container,
+    .vehicle-container,
+    .service-container {
+        animation: none;
+    }
+
+    .container-image,
+    .vehicle-image {
+        transition: none;
+    }
+}
