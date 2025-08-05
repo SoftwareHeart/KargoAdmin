@@ -177,8 +177,8 @@
 }
 
 .world-image {
-    width: 700px;
-    height: 700px;
+    width: 600px;
+    height: 600px;
     object-fit: contain;
     filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.2));
 }
