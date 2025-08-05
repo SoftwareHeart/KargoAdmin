@@ -207,13 +207,13 @@
     }
 
     .cloud-container:nth-child(2) {
-        top: 30%;
+        top: 45%;
         right: 0%;
         animation: cloudFloat2 6s ease-in-out infinite 2s;
     }
 
     .cloud-container:nth-child(3) {
-        bottom: 12%;
+        bottom: 52%;
         right: 25%;
         animation: cloudFloat3 10s ease-in-out infinite 4s;
     }

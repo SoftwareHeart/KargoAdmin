@@ -11,7 +11,7 @@
     align-items: center;
 }
 
-/* Background Video */
+/* Background Video - Sadeleştirilmiş */
 .services-background-video {
     position: absolute;
     top: 0;
@@ -32,151 +32,12 @@
     height: auto;
     transform: translate(-50%, -50%);
     object-fit: cover;
-    opacity: 0.9;
+    opacity: 0.6;
 }
 
+/* Overlay kaldırıldı */
 .services-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(240, 248, 255, 0.6));
-    z-index: 1;
-}
-
-/* Araç Teker Bulut Efekti - Daha büyük ve belirgin */
-.vehicle-dust-cloud {
-    position: absolute;
-    bottom: -25px;
-    left: 20%;
-    opacity: 0.7;
-    z-index: 2;
-    animation: dustCloudMove 3s ease-in-out infinite;
-}
-
-    .vehicle-dust-cloud img {
-        width: 200px;
-        height: auto;
-        filter: blur(1px) opacity(0.8);
-    }
-
-/* Teker dumanı animasyonu */
-@keyframes dustCloudMove {
-    0%, 100% {
-        transform: translateX(0px) scale(1.0);
-        opacity: 0.6;
-    }
-
-    50% {
-        transform: translateX(-20px) scale(1.3);
-        opacity: 0.9;
-    }
-}
-
-/* Her araç türü için özel bulut pozisyonu */
-.land-truck-vehicle .vehicle-dust-cloud {
-    bottom: -20px;
-    left: 25%;
-    animation: truckDustMove 4s ease-in-out infinite;
-}
-
-    .land-truck-vehicle .vehicle-dust-cloud img {
-        width: 250px;
-        filter: blur(0.5px) opacity(0.85);
-    }
-
-.air-vehicle .vehicle-dust-cloud {
-    bottom: -15px;
-    left: 30%;
-    animation: planeDustMove 2s ease-in-out infinite;
-    transform: rotate(-10deg);
-}
-
-    .air-vehicle .vehicle-dust-cloud img {
-        width: 220px;
-        filter: blur(1.5px) opacity(0.75);
-    }
-
-.sea-vehicle .vehicle-dust-cloud {
-    bottom: -30px;
-    left: 15%;
-    animation: seaDustMove 5s ease-in-out infinite;
-}
-
-    .sea-vehicle .vehicle-dust-cloud img {
-        width: 280px;
-        filter: blur(2px) opacity(0.8);
-    }
-
-.land-van-vehicle .vehicle-dust-cloud {
-    bottom: -22px;
-    left: 35%;
-    animation: vanDustMove 3.5s ease-in-out infinite;
-}
-
-    .land-van-vehicle .vehicle-dust-cloud img {
-        width: 230px;
-        filter: blur(1px) opacity(0.82);
-    }
-
-/* Farklı araçlar için özel duman animasyonları */
-@keyframes truckDustMove {
-    0%, 100% {
-        transform: translateX(0px) scale(1.1);
-        opacity: 0.7;
-    }
-
-    30% {
-        transform: translateX(-25px) scale(1.5);
-        opacity: 0.95;
-    }
-
-    70% {
-        transform: translateX(-15px) scale(1.3);
-        opacity: 0.8;
-    }
-}
-
-@keyframes planeDustMove {
-    0%, 100% {
-        transform: rotate(-10deg) translateX(0px) scale(0.9);
-        opacity: 0.5;
-    }
-
-    50% {
-        transform: rotate(-10deg) translateX(-30px) scale(1.6);
-        opacity: 0.9;
-    }
-}
-
-@keyframes seaDustMove {
-    0%, 100% {
-        transform: translateX(0px) scale(1.2);
-        opacity: 0.6;
-    }
-
-    40% {
-        transform: translateX(-18px) scale(1.7);
-        opacity: 0.9;
-    }
-
-    80% {
-        transform: translateX(-12px) scale(1.4);
-        opacity: 0.7;
-    }
-}
-
-@keyframes vanDustMove {
-    0%, 100% {
-        transform: translateX(0px) scale(1.0);
-        opacity: 0.65;
-    }
-
-    45% {
-        transform: translateX(-22px) scale(1.4);
-        opacity: 0.9;
-    }
+    display: none;
 }
 
 /* Services Container */
@@ -198,13 +59,13 @@
     height: 100vh;
 }
 
-/* World Container - Dünya dönme animasyonu */
+/* World Container - Güçlendirilmiş Dönme Animasyonu */
 .world-services-container {
     position: absolute;
     top: 8%;
     left: -5%;
     z-index: 3;
-    animation: worldServicesRotate 20s linear infinite;
+    animation: worldServicesRotateStrong 25s linear infinite;
 }
 
 .world-services-image {
@@ -212,16 +73,48 @@
     height: 550px;
     object-fit: contain;
     filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.15));
+    transition: all 0.3s ease;
+    animation: worldPulse 4s ease-in-out infinite;
 }
 
-/* Dünya Dönme Animasyonu - Sürekli */
-@keyframes worldServicesRotate {
+/* Güçlendirilmiş Dünya Dönme Animasyonu */
+@keyframes worldServicesRotateStrong {
     0% {
-        transform: rotate(0deg);
+        transform: rotate(0deg) scale(1);
+        filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.15)) brightness(1) hue-rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(90deg) scale(1.03);
+        filter: drop-shadow(0 25px 50px rgba(0, 92, 185, 0.25)) brightness(1.05) hue-rotate(90deg);
+    }
+
+    50% {
+        transform: rotate(180deg) scale(1.05);
+        filter: drop-shadow(0 30px 60px rgba(255, 106, 0, 0.2)) brightness(1.1) hue-rotate(180deg);
+    }
+
+    75% {
+        transform: rotate(270deg) scale(1.03);
+        filter: drop-shadow(0 25px 50px rgba(0, 92, 185, 0.25)) brightness(1.05) hue-rotate(270deg);
     }
 
     100% {
-        transform: rotate(360deg);
+        transform: rotate(360deg) scale(1);
+        filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.15)) brightness(1) hue-rotate(360deg);
+    }
+}
+
+/* Dünya Pulse Animasyonu */
+@keyframes worldPulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.02);
+        opacity: 0.95;
     }
 }
 
@@ -237,195 +130,233 @@
     filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
 }
 
-/* Air Vehicle - Uçak - Dünyanın üzerinde */
+/* Vehicle Containers - Modern Animasyonlar */
+.vehicle-container {
+    position: absolute;
+    z-index: 4;
+    transition: all 1s ease-in-out;
+}
+
+.vehicle-image {
+    object-fit: contain;
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
+    transition: all 0.4s ease;
+}
+
+/* Air Vehicle - ÇOK BELİRGİN Uçak Animasyonu */
 .air-vehicle {
     top: 25%;
     left: 15%;
-    z-index: 5;
-    animation: airVehicleFloat 8s ease-in-out infinite;
+    animation: airVehicleMegaFlight 8s ease-in-out infinite;
 }
 
     .air-vehicle .vehicle-image {
         width: 550px;
         height: auto;
+        animation: airVehicleTilt 4s ease-in-out infinite;
     }
 
-@keyframes airVehicleFloat {
-    0%, 100% {
-        transform: translateY(0px);
+@keyframes airVehicleMegaFlight {
+    0% {
+        transform: translateY(0px) translateX(0px) rotate(0deg) scale(1);
+        filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
+    }
+
+    25% {
+        transform: translateY(-80px) translateX(60px) rotate(8deg) scale(1.1);
+        filter: drop-shadow(0 30px 60px rgba(0, 92, 185, 0.5));
     }
 
     50% {
-        transform: translateY(-15px);
+        transform: translateY(-120px) translateX(100px) rotate(0deg) scale(1.15);
+        filter: drop-shadow(0 40px 80px rgba(0, 92, 185, 0.6));
+    }
+
+    75% {
+        transform: translateY(-60px) translateX(80px) rotate(-8deg) scale(1.08);
+        filter: drop-shadow(0 35px 70px rgba(255, 106, 0, 0.5));
+    }
+
+    100% {
+        transform: translateY(0px) translateX(0px) rotate(0deg) scale(1);
+        filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
     }
 }
 
-/* Sea Vehicle - Gemi */
+@keyframes airVehicleTilt {
+    0%, 100% {
+        transform: rotateZ(0deg) rotateY(0deg);
+    }
+
+    25% {
+        transform: rotateZ(5deg) rotateY(5deg);
+    }
+
+    75% {
+        transform: rotateZ(-5deg) rotateY(-5deg);
+    }
+}
+
+/* Sea Vehicle - ÇOK BELİRGİN Gemi Animasyonu */
 .sea-vehicle {
     top: 45%;
     left: 10%;
-    animation: seaVehicleFloat 10s ease-in-out infinite;
+    animation: seaVehicleMegaWaves 10s ease-in-out infinite;
 }
 
     .sea-vehicle .vehicle-image {
         width: 500px;
         height: auto;
+        animation: seaVehicleRoll 3s ease-in-out infinite;
     }
 
-@keyframes seaVehicleFloat {
-    0%, 100% {
-        transform: translateY(0px) translateX(0px);
+@keyframes seaVehicleMegaWaves {
+    0% {
+        transform: translateY(0px) translateX(0px) rotate(0deg) scale(1);
+        filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
+    }
+
+    25% {
+        transform: translateY(-40px) translateX(70px) rotate(5deg) scale(1.08);
+        filter: drop-shadow(0 25px 50px rgba(0, 92, 185, 0.4));
     }
 
     50% {
-        transform: translateY(-15px) translateX(10px);
+        transform: translateY(-60px) translateX(120px) rotate(0deg) scale(1.12);
+        filter: drop-shadow(0 35px 70px rgba(0, 92, 185, 0.5));
+    }
+
+    75% {
+        transform: translateY(-30px) translateX(90px) rotate(-5deg) scale(1.05);
+        filter: drop-shadow(0 30px 60px rgba(255, 106, 0, 0.4));
+    }
+
+    100% {
+        transform: translateY(0px) translateX(0px) rotate(0deg) scale(1);
+        filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
     }
 }
 
-/* Land Van Vehicle - Minivan */
+@keyframes seaVehicleRoll {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(3deg);
+    }
+
+    75% {
+        transform: rotate(-3deg);
+    }
+}
+
+/* Land Van Vehicle - ÇOK BELİRGİN Minivan Animasyonu */
 .land-van-vehicle {
     top: 50%;
     left: 20%;
-    animation: landVehicleMove 12s ease-in-out infinite;
+    animation: landVanMegaDrive 6s ease-in-out infinite;
 }
 
     .land-van-vehicle .vehicle-image {
         width: 400px;
         height: auto;
+        animation: landVanShake 1s ease-in-out infinite;
     }
 
-/* Land Truck Vehicle - Tır */
+@keyframes landVanMegaDrive {
+    0% {
+        transform: translateX(0px) translateY(0px) rotate(0deg) scale(1);
+        filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
+    }
+
+    25% {
+        transform: translateX(80px) translateY(-25px) rotate(3deg) scale(1.1);
+        filter: drop-shadow(0 25px 50px rgba(255, 106, 0, 0.5));
+    }
+
+    50% {
+        transform: translateX(140px) translateY(-40px) rotate(0deg) scale(1.15);
+        filter: drop-shadow(0 35px 70px rgba(255, 106, 0, 0.6));
+    }
+
+    75% {
+        transform: translateX(70px) translateY(-15px) rotate(-2deg) scale(1.08);
+        filter: drop-shadow(0 30px 60px rgba(255, 106, 0, 0.5));
+    }
+
+    100% {
+        transform: translateX(0px) translateY(0px) rotate(0deg) scale(1);
+        filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
+    }
+}
+
+@keyframes landVanShake {
+    0%, 100% {
+        transform: translateY(0px) translateX(0px);
+    }
+
+    50% {
+        transform: translateY(-3px) translateX(2px);
+    }
+}
+
+/* Land Truck Vehicle - ÇOK BELİRGİN Tır Animasyonu */
 .land-truck-vehicle {
     top: 50%;
     left: 5%;
-    animation: truckVehicleMove 15s ease-in-out infinite;
+    animation: truckVehicleMegaHaul 12s ease-in-out infinite;
 }
 
     .land-truck-vehicle .vehicle-image {
         width: 480px;
         height: auto;
+        animation: truckVehicleVibrate 0.8s ease-in-out infinite;
     }
 
-@keyframes landVehicleMove {
-    0%, 100% {
-        transform: translateX(0px);
-    }
-
-    50% {
-        transform: translateX(30px);
-    }
-}
-
-/* Hizmet türüne özel animasyonlar */
-
-/* Kara Taşımacılığı - Tır için özel animasyon */
-#services-section-land-truck .land-truck-vehicle {
-    animation: truckServiceMove 20s ease-in-out infinite;
-}
-
-@keyframes truckServiceMove {
-    0%, 100% {
-        transform: translateX(0px) translateY(0px) rotate(0deg);
-    }
-
-    25% {
-        transform: translateX(40px) translateY(-15px) rotate(2deg);
-    }
-
-    50% {
-        transform: translateX(80px) translateY(-25px) rotate(-1deg);
-    }
-
-    75% {
-        transform: translateX(40px) translateY(-10px) rotate(1deg);
-    }
-}
-
-/* Hava Taşımacılığı için özel animasyon - Scale kaldırıldı */
-#services-section-air .air-vehicle {
-    animation: airServiceFlightNoScale 25s linear infinite;
-    z-index: 5;
-}
-
-@keyframes airServiceFlightNoScale {
+@keyframes truckVehicleMegaHaul {
     0% {
-        transform: translateX(-300px) translateY(50px) rotate(-10deg);
-        opacity: 0;
-    }
-
-    10% {
-        opacity: 1;
-    }
-
-    25% {
-        transform: translateX(0px) translateY(30px) rotate(-5deg);
-    }
-
-    50% {
-        transform: translateX(200px) translateY(-10px) rotate(0deg);
-    }
-
-    75% {
-        transform: translateX(350px) translateY(-30px) rotate(8deg);
-    }
-
-    90% {
-        opacity: 1;
-    }
-
-    100% {
-        transform: translateX(500px) translateY(-60px) rotate(15deg);
-        opacity: 0;
-    }
-}
-
-/* Deniz Taşımacılığı için özel animasyon */
-#services-section-sea .sea-vehicle {
-    animation: seaServiceWave 18s ease-in-out infinite;
-}
-
-@keyframes seaServiceWave {
-    0%, 100% {
-        transform: translateY(0px) translateX(0px) rotate(0deg);
-    }
-
-    25% {
-        transform: translateY(-18px) translateX(15px) rotate(1deg);
-    }
-
-    50% {
-        transform: translateY(-30px) translateX(30px) rotate(-0.5deg);
-    }
-
-    75% {
-        transform: translateY(-12px) translateX(20px) rotate(0.8deg);
-    }
-}
-
-/* Depolama - Minivan için özel animasyon */
-#services-section-land-van .land-van-vehicle {
-    animation: vanServiceDelivery 22s ease-in-out infinite;
-}
-
-@keyframes vanServiceDelivery {
-    0%, 100% {
-        transform: translateX(0px) translateY(0px) scale(1);
+        transform: translateX(0px) translateY(0px) rotate(0deg) scale(1);
+        filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
     }
 
     20% {
-        transform: translateX(30px) translateY(-8px) scale(1.02);
+        transform: translateX(60px) translateY(-20px) rotate(2deg) scale(1.05);
+        filter: drop-shadow(0 20px 40px rgba(0, 92, 185, 0.4));
     }
 
     40% {
-        transform: translateX(60px) translateY(-15px) scale(0.98);
+        transform: translateX(120px) translateY(-35px) rotate(0deg) scale(1.1);
+        filter: drop-shadow(0 30px 60px rgba(0, 92, 185, 0.5));
     }
 
     60% {
-        transform: translateX(35px) translateY(-20px) scale(1.05);
+        transform: translateX(160px) translateY(-50px) rotate(-2deg) scale(1.12);
+        filter: drop-shadow(0 35px 70px rgba(255, 106, 0, 0.5));
     }
 
     80% {
-        transform: translateX(15px) translateY(-5px) scale(0.95);
+        transform: translateX(100px) translateY(-25px) rotate(1deg) scale(1.07);
+        filter: drop-shadow(0 25px 50px rgba(0, 92, 185, 0.4));
+    }
+
+    100% {
+        transform: translateX(0px) translateY(0px) rotate(0deg) scale(1);
+        filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
+    }
+}
+
+@keyframes truckVehicleVibrate {
+    0%, 100% {
+        transform: translateX(0px) translateY(0px);
+    }
+
+    25% {
+        transform: translateX(2px) translateY(-1px);
+    }
+
+    75% {
+        transform: translateX(-2px) translateY(1px);
     }
 }
 
@@ -450,63 +381,105 @@
     justify-content: center;
 }
 
-/* Konteyner animasyonları - Kargo taşıma efekti */
+/* Service Container - Süzülme Animasyonları */
 .service-container {
     position: absolute;
-    transition: all 0.8s ease-in-out;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
     cursor: pointer;
-    animation: containerSway 8s ease-in-out infinite;
+    animation: containerFloat 8s ease-in-out infinite;
 }
 
-@keyframes containerSway {
+    /* Her konteyner için farklı süzülme animasyonları */
+    .service-container:nth-child(1) {
+        animation: containerFloat1 6s ease-in-out infinite;
+        animation-delay: 0s;
+    }
+
+    .service-container:nth-child(2) {
+        animation: containerFloat2 7s ease-in-out infinite;
+        animation-delay: 1s;
+    }
+
+    .service-container:nth-child(3) {
+        animation: containerFloat3 8s ease-in-out infinite;
+        animation-delay: 2s;
+    }
+
+    .service-container:nth-child(4) {
+        animation: containerFloat4 9s ease-in-out infinite;
+        animation-delay: 3s;
+    }
+
+/* Konteyner Süzülme Animasyonları */
+@keyframes containerFloat1 {
     0%, 100% {
-        transform: rotate(-1deg) translateY(0px);
+        transform: translateX(0px) translateY(0px) rotate(-1deg);
     }
 
     25% {
-        transform: rotate(-8deg) translateY(-3px);
+        transform: translateX(8px) translateY(-5px) rotate(0deg);
     }
 
     50% {
-        transform: rotate(8deg) translateY(-6px);
+        transform: translateX(15px) translateY(-8px) rotate(1deg);
     }
 
     75% {
-        transform: rotate(15deg) translateY(-2px);
+        transform: translateX(5px) translateY(-3px) rotate(-0.5deg);
     }
 }
 
-/* Her konteyner için farklı gecikme */
-.service-container:nth-child(1) {
-    animation-delay: 0s;
-}
-
-.service-container:nth-child(2) {
-    animation-delay: 2s;
-}
-
-.service-container:nth-child(3) {
-    animation-delay: 4s;
-}
-
-.service-container:nth-child(4) {
-    animation-delay: 6s;
-}
-
-/* Aktif konteyner için özel animasyon */
-.service-container.active-container {
-    animation: activeContainerPulse 6s ease-in-out infinite;
-}
-
-@keyframes activeContainerPulse {
+@keyframes containerFloat2 {
     0%, 100% {
-        transform: rotate(-1deg) translateY(0px) scale(1.1);
-        filter: drop-shadow(0 20px 40px rgba(255, 106, 0, 0.3));
+        transform: translateX(0px) translateY(0px) rotate(-8deg);
+    }
+
+    25% {
+        transform: translateX(-10px) translateY(-7px) rotate(-6deg);
     }
 
     50% {
-        transform: rotate(-5deg) translateY(-8px) scale(1.15);
-        filter: drop-shadow(0 25px 50px rgba(255, 106, 0, 0.4));
+        transform: translateX(-18px) translateY(-12px) rotate(-4deg);
+    }
+
+    75% {
+        transform: translateX(-8px) translateY(-5px) rotate(-7deg);
+    }
+}
+
+@keyframes containerFloat3 {
+    0%, 100% {
+        transform: translateX(0px) translateY(0px) rotate(8deg);
+    }
+
+    25% {
+        transform: translateX(12px) translateY(-6px) rotate(10deg);
+    }
+
+    50% {
+        transform: translateX(20px) translateY(-10px) rotate(12deg);
+    }
+
+    75% {
+        transform: translateX(8px) translateY(-4px) rotate(9deg);
+    }
+}
+
+@keyframes containerFloat4 {
+    0%, 100% {
+        transform: translateX(0px) translateY(0px) rotate(15deg);
+    }
+
+    25% {
+        transform: translateX(-15px) translateY(-8px) rotate(12deg);
+    }
+
+    50% {
+        transform: translateX(-25px) translateY(-15px) rotate(10deg);
+    }
+
+    75% {
+        transform: translateX(-10px) translateY(-6px) rotate(13deg);
     }
 }
 
@@ -515,15 +488,15 @@
     height: 100%;
     object-fit: contain;
     filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
 }
 
 .service-container:hover .container-image {
-    transform: scale(1.05);
-    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
+    transform: scale(1.08) translateY(-5px) rotate(1deg);
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.25));
 }
 
-/* Container Content - Positioning over image */
+/* Container Content - Gelişmiş Animasyonlar */
 .container-content {
     position: absolute;
     top: 75%;
@@ -533,6 +506,7 @@
     color: white;
     z-index: 5;
     pointer-events: none;
+    transition: all 0.3s ease;
 }
 
     .container-content h3 {
@@ -541,6 +515,7 @@
         margin-bottom: 10px;
         line-height: 1.2;
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
     }
 
 .container-number {
@@ -548,433 +523,370 @@
     font-weight: 800;
     margin: 5px 0;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    animation: containerNumberPulse 3s ease-in-out infinite;
 }
 
 .container-content p {
     font-size: 1.5rem;
     margin: 0;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+/* Container Number Pulse Animasyonu */
+@keyframes containerNumberPulse {
+    0%, 100% {
+        transform: scale(1);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    50% {
+        transform: scale(1.05);
+        text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+    }
 }
 
 /* Container Positioning - Crane Style */
 .service-container:nth-child(1) {
     top: -30%;
     left: 0%;
+    transform: rotate(-1deg);
 }
 
 .service-container:nth-child(2) {
     top: -30%;
     left: 20%;
+    transform: rotate(-8deg);
 }
 
 .service-container:nth-child(3) {
     top: -30%;
     right: 25%;
+    transform: rotate(8deg);
 }
 
 .service-container:nth-child(4) {
     top: -30%;
     right: 0%;
+    transform: rotate(15deg);
 }
 
-/* Active Container - Highlighted */
+/* Active Container - Gelişmiş Highlight Efekti */
 .service-container.active-container {
     z-index: 10;
+    animation: activeContainerGlow 4s ease-in-out infinite;
 }
 
     .service-container.active-container .container-image {
-        transform: scale(1.1);
-        filter: drop-shadow(0 20px 40px rgba(255, 106, 0, 0.3));
+        transform: scale(1.12);
+        filter: drop-shadow(0 25px 50px rgba(255, 106, 0, 0.4));
+        animation: activeContainerFloat 6s ease-in-out infinite;
     }
 
-/* Container Types */
+    .service-container.active-container .container-number {
+        animation: activeNumberPulse 2s ease-in-out infinite;
+    }
+
+/* Active Container Glow Animasyonu */
+@keyframes activeContainerGlow {
+    0%, 100% {
+        filter: brightness(1);
+    }
+
+    50% {
+        filter: brightness(1.1);
+    }
+}
+
+/* Active Container Float Animasyonu */
+@keyframes activeContainerFloat {
+    0%, 100% {
+        transform: scale(1.12) translateY(0px);
+    }
+
+    50% {
+        transform: scale(1.15) translateY(-3px);
+    }
+}
+
+/* Active Number Pulse Animasyonu */
+@keyframes activeNumberPulse {
+    0%, 100% {
+        transform: scale(1);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    50% {
+        transform: scale(1.1);
+        text-shadow: 0 4px 8px rgba(255, 106, 0, 0.5);
+    }
+}
+
+/* Container Types - Gelişmiş Filter Efektleri */
 .blue-container .container-image {
     filter: drop-shadow(0 10px 20px rgba(0, 92, 185, 0.2));
+}
+
+.blue-container:hover .container-image {
+    filter: drop-shadow(0 20px 40px rgba(0, 92, 185, 0.4));
 }
 
 .orange-container .container-image {
     filter: drop-shadow(0 10px 20px rgba(255, 106, 0, 0.2));
 }
 
-/* Hover Effects */
+.orange-container:hover .container-image {
+    filter: drop-shadow(0 20px 40px rgba(255, 106, 0, 0.4));
+}
+
+/* Hover Effects - Gelişmiş */
 .service-container:hover {
     z-index: 15;
+    transform: translateY(-2px);
 }
 
     .service-container:hover .container-image {
-        transform: scale(1.15) rotate(2deg);
+        transform: scale(1.18) rotate(2deg) translateY(-8px);
+        filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.3));
+    }
+
+    .service-container:hover .container-content h3 {
+        transform: scale(1.05);
+        text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+    }
+
+    .service-container:hover .container-number {
+        transform: scale(1.1);
+        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .service-container:hover .container-content p {
+        transform: scale(1.05);
+        text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
     }
 
 /* Responsive Design */
 @media (max-width: 1199.98px) {
     .world-services-image {
-        width: 550px;
-        height: 550px;
+        width: 450px;
+        height: 450px;
     }
 
     .air-vehicle .vehicle-image {
-        width: 450px;
-    }
-
-    .sea-vehicle .vehicle-image {
-        width: 400px;
-    }
-
-    .land-van-vehicle .vehicle-image {
-        width: 320px;
-    }
-
-    .land-truck-vehicle .vehicle-image {
         width: 380px;
     }
 
+    .sea-vehicle .vehicle-image {
+        width: 350px;
+    }
+
+    .land-van-vehicle .vehicle-image {
+        width: 280px;
+    }
+
+    .land-truck-vehicle .vehicle-image {
+        width: 320px;
+    }
+
     .container-image {
-        width: 240px;
+        width: 160px;
     }
 
     .container-number {
         font-size: 2rem;
     }
 
-    /* Tablet için duman boyutları */
-    .land-truck-vehicle .vehicle-dust-cloud img {
-        width: 220px;
+    .container-content h3 {
+        font-size: 1.3rem;
     }
 
-    .air-vehicle .vehicle-dust-cloud img {
-        width: 190px;
-    }
-
-    .sea-vehicle .vehicle-dust-cloud img {
-        width: 250px;
-    }
-
-    .land-van-vehicle .vehicle-dust-cloud img {
-        width: 200px;
+    .container-content p {
+        font-size: 1.3rem;
     }
 }
 
 @media (max-width: 991.98px) {
     .services-section {
         min-height: auto;
-        padding: 80px 0;
+        padding: 50px 0;
     }
 
     .services-container {
         flex-direction: column;
         height: auto;
-        gap: 50px;
+        gap: 30px;
+        padding: 0 20px;
     }
 
     .services-left {
-        height: 60vh;
-        order: 1;
-    }
-
-    .services-right {
         height: 40vh;
-        order: 2;
-        padding-right: 20px;
-        padding-left: 20px;
-    }
-
-    .world-services-container {
-        top: 15%;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    .world-services-image {
-        width: 400px;
-        height: 400px;
-    }
-
-    .air-vehicle {
-        top: 40%;
-        left: 20%;
-    }
-
-        .air-vehicle .vehicle-image {
-            width: 350px;
-        }
-
-    .sea-vehicle {
-        top: 45%;
-        left: 15%;
-    }
-
-        .sea-vehicle .vehicle-image {
-            width: 300px;
-        }
-
-    .land-van-vehicle {
-        top: 50%;
-        left: 25%;
-    }
-
-        .land-van-vehicle .vehicle-image {
-            width: 250px;
-        }
-
-    .land-truck-vehicle {
-        top: 45%;
-        left: 10%;
-    }
-
-        .land-truck-vehicle .vehicle-image {
-            width: 280px;
-        }
-
-    .containers-wrapper {
-        height: 100%;
-        transform: scale(0.8);
-    }
-}
-
-@media (max-width: 767.98px) {
-    .services-section {
-        padding: 40px 0;
-        min-height: 100vh;
-    }
-
-    .services-container {
-        flex-direction: column;
-        gap: 0;
-        height: 100vh;
-    }
-
-    /* Mobilde sol kısım - Dünya ve araç */
-    .services-left {
-        height: 45vh;
-        min-height: 350px;
+        min-height: 320px;
         order: 1;
-        padding: 20px;
     }
 
-    /* Mobilde sağ kısım - Konteynerlar */
     .services-right {
-        height: 55vh;
-        min-height: 400px;
+        height: 35vh;
+        min-height: 280px;
         order: 2;
-        padding: 20px 15px;
+        padding-right: 0;
+        padding-left: 0;
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
-    /* Dünya - Mobile için merkez */
     .world-services-container {
-        top: 10%;
+        top: 50%;
         left: 50%;
-        transform: translateX(-50%);
-        animation: worldServicesRotate 20s linear infinite;
+        transform: translate(-50%, -50%);
     }
 
     .world-services-image {
-        width: 200px;
-        height: 200px;
+        width: 280px;
+        height: 280px;
     }
 
-    /* Araçlar - Mobile pozisyon */
     .air-vehicle {
-        top: 35%;
+        top: 30%;
         left: 50%;
         transform: translateX(-50%);
-        z-index: 5;
     }
 
         .air-vehicle .vehicle-image {
-            width: 180px;
+            width: 220px;
         }
 
     .sea-vehicle {
-        top: 40%;
+        top: 35%;
         left: 50%;
         transform: translateX(-50%);
     }
 
         .sea-vehicle .vehicle-image {
-            width: 160px;
+            width: 200px;
         }
 
     .land-van-vehicle {
-        top: 45%;
+        top: 40%;
         left: 50%;
         transform: translateX(-50%);
     }
 
         .land-van-vehicle .vehicle-image {
-            width: 140px;
+            width: 160px;
         }
 
     .land-truck-vehicle {
-        top: 42%;
+        top: 35%;
         left: 50%;
         transform: translateX(-50%);
     }
 
         .land-truck-vehicle .vehicle-image {
-            width: 150px;
+            width: 180px;
         }
 
-    /* Konteynerlar - Mobile için 2x2 grid */
     .containers-wrapper {
-        width: 100%;
         height: 100%;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr 1fr;
+        transform: scale(1);
+        justify-content: center;
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
         gap: 20px;
         padding: 20px;
-        align-items: center;
-        justify-items: center;
-        transform: none;
     }
 
-    /* Konteyner animasyonları mobilde daha hafif */
+    /* Container positioning - Tablet için flexbox sistemi */
     .service-container {
-        position: relative;
-        top: auto;
-        left: auto;
-        right: auto;
-        transform: none;
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        transform: none !important;
+        margin: 10px;
         width: 140px;
         height: 180px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        animation: mobileContainerSway 12s ease-in-out infinite;
     }
 
-        .service-container.active-container {
-            animation: mobileActiveContainer 10s ease-in-out infinite;
+        .service-container:nth-child(1),
+        .service-container:nth-child(2),
+        .service-container:nth-child(3),
+        .service-container:nth-child(4) {
+            position: relative !important;
+            top: auto !important;
+            left: auto !important;
+            right: auto !important;
+            transform: none !important;
         }
-
-    /* Mobile için özel animasyonlar */
-    @keyframes mobileContainerSway {
-        0%, 100% {
-            transform: rotate(-2deg) translateY(0px);
-        }
-
-        50% {
-            transform: rotate(2deg) translateY(-3px);
-        }
-    }
-
-    @keyframes mobileActiveContainer {
-        0%, 100% {
-            transform: rotate(-2deg) translateY(0px) scale(1.05);
-        }
-
-        50% {
-            transform: rotate(2deg) translateY(-5px) scale(1.08);
-        }
-    }
-
-    .service-container:nth-child(1) {
-        grid-column: 1;
-        grid-row: 1;
-    }
-
-    .service-container:nth-child(2) {
-        grid-column: 2;
-        grid-row: 1;
-    }
-
-    .service-container:nth-child(3) {
-        grid-column: 1;
-        grid-row: 2;
-    }
-
-    .service-container:nth-child(4) {
-        grid-column: 2;
-        grid-row: 2;
-    }
 
     .container-image {
-        width: 120px;
-        height: auto;
+        width: 140px !important;
+        height: auto !important;
     }
 
     .container-content {
-        position: relative;
-        top: auto;
-        left: auto;
-        transform: none;
-        margin-top: 10px;
+        position: absolute;
+        top: 70%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: white;
+        z-index: 5;
+        pointer-events: none;
     }
 
         .container-content h3 {
-            font-size: 0.8rem;
-            margin-bottom: 5px;
+            font-size: 1rem;
+            line-height: 1.2;
+            margin-bottom: 8px;
         }
 
     .container-number {
-        font-size: 1.5rem;
-        margin: 2px 0;
+        font-size: 1.6rem;
+        margin: 5px 0;
     }
 
     .container-content p {
-        font-size: 0.7rem;
+        font-size: 1rem;
         margin: 0;
     }
-
-    /* Mobile için teker dumanı */
-    .vehicle-dust-cloud img {
-        width: 100px;
-    }
-
-    .land-truck-vehicle .vehicle-dust-cloud {
-        bottom: -12px;
-        left: 20%;
-    }
-
-        .land-truck-vehicle .vehicle-dust-cloud img {
-            width: 120px;
-        }
-
-    .air-vehicle .vehicle-dust-cloud {
-        bottom: -10px;
-        left: 25%;
-    }
-
-        .air-vehicle .vehicle-dust-cloud img {
-            width: 110px;
-        }
-
-    .sea-vehicle .vehicle-dust-cloud {
-        bottom: -15px;
-        left: 15%;
-    }
-
-        .sea-vehicle .vehicle-dust-cloud img {
-            width: 130px;
-        }
-
-    .land-van-vehicle .vehicle-dust-cloud {
-        bottom: -12px;
-        left: 30%;
-    }
-
-        .land-van-vehicle .vehicle-dust-cloud img {
-            width: 115px;
-        }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 767.98px) {
     .services-section {
-        padding: 50px 0;
+        padding: 40px 0;
+        min-height: auto;
+    }
+
+    .services-container {
+        gap: 20px;
+        padding: 0 15px;
     }
 
     .services-left {
-        height: 40vh;
-        min-height: 250px;
+        height: 35vh;
+        min-height: 280px;
     }
 
     .services-right {
-        height: 30vh;
-        min-height: 200px;
+        height: 50vh;
+        min-height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .world-services-container {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 
     .world-services-image {
@@ -982,36 +894,388 @@
         height: 200px;
     }
 
-    .air-vehicle .vehicle-image {
-        width: 180px;
+    .air-vehicle {
+        top: 25%;
+        left: 50%;
+        transform: translateX(-50%);
     }
 
-    .sea-vehicle .vehicle-image {
-        width: 160px;
+        .air-vehicle .vehicle-image {
+            width: 160px;
+        }
+
+    .sea-vehicle {
+        top: 30%;
+        left: 50%;
+        transform: translateX(-50%);
     }
 
-    .land-van-vehicle .vehicle-image {
-        width: 130px;
+        .sea-vehicle .vehicle-image {
+            width: 140px;
+        }
+
+    .land-van-vehicle {
+        top: 35%;
+        left: 50%;
+        transform: translateX(-50%);
     }
 
-    .land-truck-vehicle .vehicle-image {
-        width: 150px;
+        .land-van-vehicle .vehicle-image {
+            width: 120px;
+        }
+
+    .land-truck-vehicle {
+        top: 30%;
+        left: 50%;
+        transform: translateX(-50%);
     }
+
+        .land-truck-vehicle .vehicle-image {
+            width: 130px;
+        }
 
     .containers-wrapper {
-        transform: scale(0.5);
+        transform: scale(1);
+        height: 100%;
+        width: 100%;
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
     }
 
-    .container-content h3 {
-        font-size: 0.8rem;
+    /* Container positioning - Mobile için grid sistemi */
+    .service-container {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        transform: none !important;
+        margin: 10px;
+        width: 120px;
+        height: 160px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
+
+        .service-container:nth-child(1),
+        .service-container:nth-child(2),
+        .service-container:nth-child(3),
+        .service-container:nth-child(4) {
+            position: relative !important;
+            top: auto !important;
+            left: auto !important;
+            right: auto !important;
+            transform: none !important;
+        }
+
+    .container-image {
+        width: 120px !important;
+        height: auto !important;
+    }
+
+    .container-content {
+        position: absolute;
+        top: 65%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: white;
+        z-index: 5;
+        pointer-events: none;
+    }
+
+        .container-content h3 {
+            font-size: 0.8rem;
+            line-height: 1.1;
+            margin-bottom: 5px;
+        }
 
     .container-number {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
+        margin: 3px 0;
     }
 
     .container-content p {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
+        margin: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .services-section {
+        padding: 30px 0;
+    }
+
+    .services-container {
+        gap: 15px;
+        padding: 0 10px;
+    }
+
+    .services-left {
+        height: 30vh;
+        min-height: 200px;
+    }
+
+    .services-right {
+        height: 45vh;
+        min-height: 350px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .world-services-container {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .world-services-image {
+        width: 150px;
+        height: 150px;
+    }
+
+    .air-vehicle .vehicle-image {
+        width: 120px;
+    }
+
+    .sea-vehicle .vehicle-image {
+        width: 100px;
+    }
+
+    .land-van-vehicle .vehicle-image {
+        width: 90px;
+    }
+
+    .land-truck-vehicle .vehicle-image {
+        width: 95px;
+    }
+
+    .containers-wrapper {
+        transform: scale(1);
+        height: 100%;
+        width: 100%;
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    /* Container positioning - Çok küçük ekranlar için grid */
+    .service-container {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        transform: none !important;
+        margin: 5px;
+        width: 100px;
+        height: 130px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .service-container:nth-child(1),
+        .service-container:nth-child(2),
+        .service-container:nth-child(3),
+        .service-container:nth-child(4) {
+            position: relative !important;
+            top: auto !important;
+            left: auto !important;
+            right: auto !important;
+            transform: none !important;
+        }
+
+    .container-image {
+        width: 100px !important;
+        height: auto !important;
+    }
+
+    .container-content {
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: white;
+        z-index: 5;
+        pointer-events: none;
+    }
+
+        .container-content h3 {
+            font-size: 0.65rem;
+            line-height: 1;
+            margin-bottom: 3px;
+        }
+
+    .container-number {
+        font-size: 1.1rem;
+        margin: 2px 0;
+    }
+
+    .container-content p {
+        font-size: 0.65rem;
+        margin: 0;
+    }
+}
+
+/* Landscape mode için ek düzenlemeler */
+@media (max-width: 767.98px) and (orientation: landscape) {
+    .services-section {
+        padding: 20px 0;
+    }
+
+    .services-container {
+        flex-direction: row;
+        height: 100vh;
+        gap: 20px;
+    }
+
+    .services-left {
+        height: 100vh;
+        flex: 0.6;
+    }
+
+    .services-right {
+        height: 100vh;
+        flex: 0.4;
+    }
+
+    .world-services-image {
+        width: 200px;
+        height: 200px;
+    }
+
+    .containers-wrapper {
+        transform: scale(0.6);
+    }
+}
+
+/* Ultra küçük ekranlar için */
+@media (max-width: 360px) {
+    .services-section {
+        padding: 20px 0;
+    }
+
+    .services-container {
+        gap: 10px;
+        padding: 0 5px;
+    }
+
+    .services-left {
+        height: 25vh;
+        min-height: 180px;
+    }
+
+    .services-right {
+        height: 40vh;
+        min-height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .world-services-image {
+        width: 120px;
+        height: 120px;
+    }
+
+    .air-vehicle .vehicle-image {
+        width: 100px;
+    }
+
+    .sea-vehicle .vehicle-image {
+        width: 80px;
+    }
+
+    .land-van-vehicle .vehicle-image {
+        width: 70px;
+    }
+
+    .land-truck-vehicle .vehicle-image {
+        width: 75px;
+    }
+
+    .containers-wrapper {
+        transform: scale(1);
+        height: 100%;
+        width: 100%;
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        align-items: center;
+        justify-content: center;
+        padding: 15px;
+    }
+
+    /* Container positioning - Ultra küçük ekranlar için */
+    .service-container {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        transform: none !important;
+        margin: 3px;
+        width: 80px;
+        height: 110px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .service-container:nth-child(1),
+        .service-container:nth-child(2),
+        .service-container:nth-child(3),
+        .service-container:nth-child(4) {
+            position: relative !important;
+            top: auto !important;
+            left: auto !important;
+            right: auto !important;
+            transform: none !important;
+        }
+
+    .container-image {
+        width: 80px !important;
+        height: auto !important;
+    }
+
+    .container-content {
+        position: absolute;
+        top: 55%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: white;
+        z-index: 5;
+        pointer-events: none;
+    }
+
+        .container-content h3 {
+            font-size: 0.5rem;
+            line-height: 0.9;
+            margin-bottom: 2px;
+        }
+
+    .container-number {
+        font-size: 0.9rem;
+        margin: 1px 0;
+    }
+
+    .container-content p {
+        font-size: 0.5rem;
+        margin: 0;
     }
 }
 
@@ -1034,7 +1298,7 @@
     will-change: transform, filter;
 }
 
-/* Accessibility - Reduced Motion */
+/* Accessibility */
 @media (prefers-reduced-motion: reduce) {
     .world-services-container,
     .vehicle-container,
@@ -1045,9 +1309,5 @@
     .container-image,
     .vehicle-image {
         transition: none;
-    }
-
-    .services-clouds-container {
-        display: none;
     }
 }
