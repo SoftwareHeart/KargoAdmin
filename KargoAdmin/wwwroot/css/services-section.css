@@ -340,7 +340,7 @@
     }
 
     .services-container {
-        flex-direction: column;
+        flex-direction: column-reverse;
         height: auto;
         gap: 30px;
         padding: 0 20px;
@@ -661,24 +661,24 @@
     }
 
     .world-services-image {
-        width: 150px;
-        height: 150px;
+        width: 250px;
+        height: 250px;
     }
 
     .air-vehicle .vehicle-image {
-        width: 120px;
+        width: 320px;
     }
 
     .sea-vehicle .vehicle-image {
-        width: 100px;
+        width: 300px;
     }
 
     .land-van-vehicle .vehicle-image {
-        width: 90px;
+        width: 200px;
     }
 
     .land-truck-vehicle .vehicle-image {
-        width: 95px;
+        width: 200px;
     }
 
     .containers-wrapper {
@@ -687,8 +687,8 @@
         width: 100%;
         position: relative;
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 0px;
         align-items: center;
         justify-content: center;
         padding: 20px;
@@ -721,13 +721,13 @@
         }
 
     .container-image {
-        width: 100px !important;
+        width: 90px !important;
         height: auto !important;
     }
 
     .container-content {
         position: absolute;
-        top: 60%;
+        top: 100%;
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
