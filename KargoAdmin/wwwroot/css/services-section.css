@@ -91,6 +91,18 @@
     object-fit: contain;
     filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
     transition: all 0.4s ease;
+    animation: vehicleFloat 4s ease-in-out infinite;
+}
+
+/* Vehicle Float Animation - Hafif Uçma Animasyonu */
+@keyframes vehicleFloat {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
 }
 
 /* Air Vehicle - Statik Pozisyon */
@@ -102,6 +114,7 @@
     .air-vehicle .vehicle-image {
         width: 550px;
         height: auto;
+        animation: vehicleFloat 4s ease-in-out infinite;
     }
 
 /* Sea Vehicle - Statik Pozisyon */
@@ -113,6 +126,7 @@
     .sea-vehicle .vehicle-image {
         width: 500px;
         height: auto;
+        animation: vehicleFloat 4.5s ease-in-out infinite 1s;
     }
 
 /* Land Van Vehicle - Statik Pozisyon */
@@ -124,6 +138,7 @@
     .land-van-vehicle .vehicle-image {
         width: 400px;
         height: auto;
+        animation: vehicleFloat 5s ease-in-out infinite 2s;
     }
 
 /* Land Truck Vehicle - Statik Pozisyon */
@@ -135,6 +150,7 @@
     .land-truck-vehicle .vehicle-image {
         width: 480px;
         height: auto;
+        animation: vehicleFloat 4.2s ease-in-out infinite 0.5s;
     }
 
 /* Right Side - Containers */
@@ -305,15 +321,15 @@
     }
 
     .sea-vehicle .vehicle-image {
-        width: 350px;
+        width: 580px;
     }
 
     .land-van-vehicle .vehicle-image {
-        width: 280px;
+        width: 580px;
     }
 
     .land-truck-vehicle .vehicle-image {
-        width: 320px;
+        width: 580px;
     }
 
     .container-image {
@@ -353,14 +369,15 @@
     }
 
     .services-right {
-        height: 35vh;
-        min-height: 280px;
+        height: 45vh;
+        min-height: 320px;
         order: 2;
         padding-right: 0;
         padding-left: 0;
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         justify-content: center;
+        padding-top: 20px;
     }
 
     .world-services-container {
@@ -370,8 +387,8 @@
     }
 
     .world-services-image {
-        width: 580px;
-        height: 580px;
+        width: 300px;
+        height: 300px;
     }
 
     .air-vehicle {
@@ -391,7 +408,7 @@
     }
 
         .sea-vehicle .vehicle-image {
-            width: 200px;
+            width: 420px;
         }
 
     .land-van-vehicle {
@@ -401,7 +418,7 @@
     }
 
         .land-van-vehicle .vehicle-image {
-            width: 160px;
+            width: 420px;
         }
 
     .land-truck-vehicle {
@@ -411,7 +428,7 @@
     }
 
         .land-truck-vehicle .vehicle-image {
-            width: 180px;
+            width: 420px;
         }
 
     .containers-wrapper {
@@ -421,9 +438,9 @@
         position: relative;
         display: flex;
         flex-wrap: wrap;
-        align-items: center;
+        align-items: flex-start;
         gap: 20px;
-        padding: 20px;
+        padding: 10px 20px 20px 20px;
     }
 
     .service-container {
@@ -459,7 +476,7 @@
 
     .container-content {
         position: absolute;
-        top: 70%;
+        top: 100%;
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
@@ -502,11 +519,12 @@
     }
 
     .services-right {
-        height: 50vh;
-        min-height: 400px;
+        height: 55vh;
+        min-height: 420px;
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         justify-content: center;
+        padding-top: 30px;
     }
 
     .world-services-container {
@@ -516,8 +534,8 @@
     }
 
     .world-services-image {
-        width: 400px;
-        height: 400px;
+        width: 250px;
+        height: 250px;
     }
 
     .air-vehicle {
@@ -537,7 +555,7 @@
     }
 
         .sea-vehicle .vehicle-image {
-            width: 140px;
+            width: 360px;
         }
 
     .land-van-vehicle {
@@ -547,7 +565,7 @@
     }
 
         .land-van-vehicle .vehicle-image {
-            width: 120px;
+            width: 360px;
         }
 
     .land-truck-vehicle {
@@ -557,7 +575,7 @@
     }
 
         .land-truck-vehicle .vehicle-image {
-            width: 130px;
+            width: 360px;
         }
 
     .containers-wrapper {
@@ -567,9 +585,10 @@
         position: relative;
         display: flex;
         flex-wrap: wrap;
-        align-items: center;
+        align-items: flex-start;
         justify-content: center;
         gap: 15px;
+        padding: 10px 15px 15px 15px;
     }
 
     .service-container {
@@ -605,7 +624,7 @@
 
     .container-content {
         position: absolute;
-        top: 65%;
+        top: 100%;
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
@@ -647,11 +666,12 @@
     }
 
     .services-right {
-        height: 45vh;
-        min-height: 350px;
+        height: 50vh;
+        min-height: 380px;
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         justify-content: center;
+        padding-top: 20px;
     }
 
     .world-services-container {
@@ -661,8 +681,8 @@
     }
 
     .world-services-image {
-        width: 350px;
-        height: 350px;
+        width: 200px;
+        height: 200px;
     }
 
     .air-vehicle .vehicle-image {
@@ -670,15 +690,15 @@
     }
 
     .sea-vehicle .vehicle-image {
-        width: 300px;
+        width: 320px;
     }
 
     .land-van-vehicle .vehicle-image {
-        width: 200px;
+        width: 320px;
     }
 
     .land-truck-vehicle .vehicle-image {
-        width: 200px;
+        width: 320px;
     }
 
     .containers-wrapper {
@@ -810,8 +830,8 @@
     }
 
     .world-services-image {
-        width: 120px;
-        height: 120px;
+        width: 150px;
+        height: 150px;
     }
 
     .air-vehicle .vehicle-image {
@@ -819,15 +839,15 @@
     }
 
     .sea-vehicle .vehicle-image {
-        width: 80px;
+        width: 100px;
     }
 
     .land-van-vehicle .vehicle-image {
-        width: 70px;
+        width: 100px;
     }
 
     .land-truck-vehicle .vehicle-image {
-        width: 75px;
+        width: 100px;
     }
 
     .containers-wrapper {
@@ -836,7 +856,7 @@
         width: 100%;
         position: relative;
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
         gap: 8px;
         align-items: center;
         justify-content: center;
@@ -876,7 +896,7 @@
 
     .container-content {
         position: absolute;
-        top: 55%;
+        top: 100%;
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
@@ -927,5 +947,6 @@
     .container-image,
     .vehicle-image {
         transition: none;
+        animation: none;
     }
 }
