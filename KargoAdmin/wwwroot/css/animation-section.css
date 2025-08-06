@@ -966,32 +966,4 @@
     }
 }
 
-/* Performance Optimizations */
-.animation-section {
-    will-change: transform;
-}
 
-.world-container,
-.plane-container,
-.cloud-container {
-    will-change: transform;
-}
-
-.world-image,
-.plane-image,
-.cloud-image {
-    will-change: transform;
-}
-
-/* Accessibility */
-@media (prefers-reduced-motion: reduce) {
-    .world-container,
-    .plane-container,
-    .cloud-container {
-        animation: none;
-    }
-
-    .service-mini-card {
-        transition: none;
-    }
-}
