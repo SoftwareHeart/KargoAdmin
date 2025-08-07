@@ -1,5 +1,11 @@
 ﻿/* Animation Section Styles - Tasarıma Uygun Responsive Güncellemesi */
-
+.service-icon-img {
+    width: 48px; /* veya istediğiniz boyut */
+    height: 48px;
+    object-fit: contain; /* Oranları korur */
+    max-width: 100%;
+    max-height: 100%;
+}
 .animation-section {
     position: relative;
     padding: 0;
