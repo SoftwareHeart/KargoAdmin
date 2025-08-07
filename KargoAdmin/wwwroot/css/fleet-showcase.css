@@ -1,0 +1,426 @@
+﻿/* Fleet Showcase Section - fleet-showcase.css */
+
+.fleet-showcase-section {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+/* Split Layout */
+.fleet-content-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* Top Half - Light Background */
+.fleet-top-half {
+    position: relative;
+    height: 50vh;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    display: flex;
+    align-items: center;
+    z-index: 3;
+}
+
+/* Bottom Half - Video Background */
+.fleet-bottom-half {
+    position: relative;
+    height: 50vh;
+    background: linear-gradient(135deg, #005cb9 0%, #1a3a7d 100%);
+    overflow: hidden;
+}
+
+/* Video Background - Only in bottom half */
+.fleet-video-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.fleet-background-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    opacity: 0.5
+}
+
+/* Left Side - Text Content (Top Half) */
+.fleet-text-content {
+    padding: 0 50px;
+
+}
+
+.fleet-title {
+    font-size: 4rem;
+    font-weight: 900;
+    color: #333333;
+    line-height: 1.2;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+    .fleet-title .normal-text {
+        color: #333333;
+        display: flex;
+    }
+
+    .fleet-title .highlight {
+        color: #005cb9;
+        text-decoration: underline;
+        text-decoration-color: #ff6a00;
+        text-decoration-thickness: 6px;
+        text-underline-offset: 10px;
+        display: block;
+        font-size: 4.2rem;
+        margin-left: 1rem
+    }
+
+.fleet-description {
+    font-size: 1.1rem;
+    color: #666666;
+    line-height: 1.8;
+    margin-bottom: 0;
+    max-width: 520px;
+    font-weight: 400;
+}
+
+/* Vehicles Container - Absolute positioning for modern design */
+.fleet-vehicles-container {
+    position: absolute;
+    top: 0;
+    right: 00px;
+    width: 100%;
+    height: 100vh;
+    z-index: 10;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* Minivan - Background layer, smaller, behind truck */
+.fleet-minivan {
+    position: absolute;
+    right: 450px;
+    top: 25%;
+    width: 500px;
+    height: auto;
+    z-index: 2;
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.2));
+    animation: float 4s ease-in-out infinite 1s;
+    transform: scale(0.9);
+}
+
+/* Truck - Foreground, massive size, only front visible */
+.fleet-truck {
+    position: absolute;
+    right: -350px;
+    top: 10%;
+    width: 1000px;
+    height: auto;
+    z-index: 3;
+    filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.4));
+    animation: float 3.5s ease-in-out infinite;
+    transform: translateY(-50%);
+}
+
+/* World Map Background - Only in bottom half */
+.fleet-world-map {
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    width: 400px;
+    height: auto;
+    opacity: 0.1;
+    z-index: 1;
+}
+
+/* Stats Section - Normal flow within bottom section */
+.fleet-stats {
+    position: relative;
+    z-index: 4;
+    color: white;
+    padding: 40px 30px;
+}
+
+.fleet-stat-main {
+    margin-bottom: 15px;
+}
+
+.fleet-stat-subtitle {
+    font-size: 2rem;
+    font-weight: 400;
+    color: white;
+    margin-bottom: 30px;
+}
+
+.fleet-stat-number {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: white;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    display: block;
+    line-height: 1;
+}
+
+.fleet-stat-label {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    display: block;
+}
+
+
+/* Location pins removed - they exist in the video */
+
+/* Network Lines - Only in bottom half */
+.fleet-network-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0.4;
+}
+
+.fleet-line {
+    position: absolute;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #ff6a00, transparent);
+    animation: line-flow 3s ease-in-out infinite;
+}
+
+    .fleet-line.line-1 {
+        top: 32%;
+        left: 27%;
+        width: 15%;
+        transform: rotate(25deg);
+        animation-delay: 0s;
+    }
+
+    .fleet-line.line-2 {
+        top: 50%;
+        left: 20%;
+        width: 20%;
+        transform: rotate(-15deg);
+        animation-delay: 1s;
+    }
+
+    .fleet-line.line-3 {
+        top: 45%;
+        left: 50%;
+        width: 18%;
+        transform: rotate(35deg);
+        animation-delay: 2s;
+    }
+
+/* Dotted Pattern Background - Only in bottom half */
+.fleet-dots-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 30px 30px;
+    z-index: 1;
+    opacity: 0.3;
+}
+
+/* Animations */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+@keyframes line-flow {
+    0%, 100% {
+        opacity: 0.2;
+        transform: scaleX(0.5);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: scaleX(1);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .fleet-title {
+        font-size: 3.5rem;
+    }
+
+        .fleet-title .highlight {
+            font-size: 3.7rem;
+        }
+
+    .fleet-vehicles-container {
+        width: 55%;
+    }
+
+    .fleet-truck {
+        width: 500px;
+        right: -10%;
+    }
+
+    .fleet-minivan {
+        width: 260px;
+        right: 50%;
+    }
+
+    .fleet-text-content {
+        padding: 0 30px;
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 992px) {
+    .fleet-showcase-section {
+        min-height: auto;
+    }
+
+    .fleet-top-half,
+    .fleet-bottom-half {
+        height: auto;
+        min-height: 400px;
+    }
+
+    .fleet-content-wrapper {
+        min-height: auto;
+    }
+
+    .fleet-vehicles-container {
+        position: relative;
+        width: 100%;
+        height: 300px;
+        margin-top: 30px;
+    }
+
+    .fleet-title {
+        font-size: 3rem;
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+        .fleet-title .highlight {
+            font-size: 3.2rem;
+        }
+
+    .fleet-description {
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .fleet-text-content {
+        padding: 40px 20px;
+        max-width: 100%;
+        text-align: center;
+    }
+
+    .fleet-truck {
+        width: 300px;
+        right: -40px;
+        top: 40%;
+    }
+
+    .fleet-minivan {
+        width: 200px;
+        left: -20px;
+        top: 10%;
+    }
+
+    .fleet-stats {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        text-align: center;
+        margin: 30px auto;
+        color: white;
+    }
+}
+
+@media (max-width: 768px) {
+    .fleet-title {
+        font-size: 2.5rem;
+    }
+
+        .fleet-title .highlight {
+            font-size: 2.7rem;
+        }
+
+    .fleet-description {
+        font-size: 1rem;
+    }
+
+    .fleet-vehicles-container {
+        height: 250px;
+    }
+
+    .fleet-truck {
+        width: 190px;
+        right: 8%;
+    }
+
+    .fleet-minivan {
+        width: 150px;
+        right: 12%;
+    }
+
+    .fleet-stat-number {
+        font-size: 2.5rem;
+    }
+
+    .fleet-stat-label {
+        font-size: 1.5rem;
+    }
+
+    .fleet-text-content {
+        padding: 30px 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .fleet-title {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+        .fleet-title .highlight {
+            font-size: 2.2rem;
+        }
+
+    .fleet-description {
+        font-size: 0.9rem;
+    }
+
+    .fleet-vehicles-container {
+        height: 200px;
+    }
+
+    .fleet-truck {
+        width: 160px;
+        right: 5%;
+    }
+
+    .fleet-minivan {
+        width: 130px;
+        right: 10%;
+    }
+}
