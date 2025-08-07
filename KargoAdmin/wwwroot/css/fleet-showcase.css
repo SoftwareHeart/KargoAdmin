@@ -261,7 +261,18 @@
     }
 }
 
-/* Responsive Design */
+/* ------------------------------------------------ */
+/* Common Breakpoints for Responsive Design         */
+/* ------------------------------------------------ */
+
+/* Larger Desktops (e.g., 1200px and up) - No media query needed, use base styles */
+/* Base styles go here. For example:
+.fleet-title { font-size: 4rem; }
+.fleet-truck { width: 600px; right: -300px; }
+.fleet-minivan { width: 350px; right: 150px; }
+*/
+
+/* Laptops & Tablets (Landscape) */
 @media (max-width: 1200px) {
     .fleet-title {
         font-size: 3.5rem;
@@ -271,52 +282,40 @@
             font-size: 3.7rem;
         }
 
-    .fleet-vehicles-container {
-        width: 55%;
-    }
-
     .fleet-truck {
-        width: 500px;
-        right: -10%;
+        width: 550px;
+        right: -275px;
     }
 
     .fleet-minivan {
-        width: 260px;
-        right: 50%;
-    }
-
-    .fleet-text-content {
-        padding: 0 30px;
-        max-width: 600px;
+        width: 320px;
+        right: 240px;
     }
 }
 
-@media (max-width: 992px) {
-    .fleet-showcase-section {
-        min-height: auto;
-    }
 
+/* Tablets & Small Laptops (Portrait) */
+@media (max-width: 1024px) {
+    .fleet-showcase-section,
     .fleet-top-half,
-    .fleet-bottom-half {
-        height: auto;
-        min-height: 400px;
-    }
-
+    .fleet-bottom-half,
     .fleet-content-wrapper {
         min-height: auto;
+        height: auto;
     }
 
     .fleet-vehicles-container {
-        position: relative;
         width: 100%;
-        height: 300px;
-        margin-top: 30px;
+        height: 100%;
     }
 
     .fleet-title {
         font-size: 3rem;
-        text-align: center;
+        text-align: center !important;
         margin-bottom: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
         .fleet-title .highlight {
@@ -328,6 +327,11 @@
         margin: 0 auto;
     }
 
+    .fleet-stat-subtitle {
+        font-size: 1.5rem;
+        width: 20%;
+    }
+
     .fleet-text-content {
         padding: 40px 20px;
         max-width: 100%;
@@ -335,30 +339,32 @@
     }
 
     .fleet-truck {
-        width: 300px;
-        right: -40px;
-        top: 40%;
+        width: 500px;
+        right: -250px;
+        top: 55%;
     }
 
     .fleet-minivan {
-        width: 200px;
-        left: -20px;
-        top: 10%;
+        width: 300px;
+        right: 130px;
+        top: 56%;
     }
 
     .fleet-stats {
-        position: relative;
-        bottom: auto;
-        left: auto;
-        text-align: center;
-        margin: 30px auto;
-        color: white;
+        padding-left: 10px;
+    }
+
+    .fleet-stat-label,
+    .fleet-stat-number {
+        font-size: 48px;
     }
 }
 
+/* Smaller Tablets & Large Phones (Landscape) */
 @media (max-width: 768px) {
     .fleet-title {
         font-size: 2.5rem;
+        margin-bottom: 1rem;
     }
 
         .fleet-title .highlight {
@@ -367,35 +373,41 @@
 
     .fleet-description {
         font-size: 1rem;
-    }
-
-    .fleet-vehicles-container {
-        height: 250px;
-    }
-
-    .fleet-truck {
-        width: 190px;
-        right: 8%;
-    }
-
-    .fleet-minivan {
-        width: 150px;
-        right: 12%;
-    }
-
-    .fleet-stat-number {
-        font-size: 2.5rem;
-    }
-
-    .fleet-stat-label {
-        font-size: 1.5rem;
+        margin: 0 auto 1rem auto;
     }
 
     .fleet-text-content {
         padding: 30px 15px;
     }
+
+    .fleet-vehicles-container {
+        margin-top: 20px;
+    }
+
+    .fleet-truck {
+        width: 300px;
+        right: -150px;
+        top: 45%;
+    }
+
+    .fleet-minivan {
+        width: 180px;
+        right: 80px;
+        top: 48%;
+    }
+
+    .fleet-stat-subtitle {
+        font-size: 1.2rem;
+        width: 30%;
+    }
+
+    .fleet-stat-number,
+    .fleet-stat-label {
+        font-size: 36px;
+    }
 }
 
+/* Smartphones (Landscape) & Small Tablets */
 @media (max-width: 576px) {
     .fleet-title {
         font-size: 2rem;
@@ -410,17 +422,104 @@
         font-size: 0.9rem;
     }
 
-    .fleet-vehicles-container {
-        height: 200px;
+    .fleet-stat-subtitle {
+        font-size: 1rem;
+        width: 50%;
+    }
+
+    .fleet-text-content {
+        padding: 20px 10px;
     }
 
     .fleet-truck {
-        width: 160px;
-        right: 5%;
+        width: 250px;
+        right: -80px;
+        top: 50%;
     }
 
     .fleet-minivan {
-        width: 130px;
-        right: 10%;
+        width: 150px;
+        right: 110px;
+        top: 53%;
+    }
+
+    .fleet-stat-label,
+    .fleet-stat-number {
+        font-size: 22px;
     }
 }
+
+/* Small Smartphones (Portrait) */
+@media (max-width: 480px) {
+    .fleet-title {
+        font-size: 1.8rem;
+    }
+
+        .fleet-title .highlight {
+            font-size: 2rem;
+        }
+
+    .fleet-description {
+        font-size: 0.85rem;
+    }
+
+    .fleet-stat-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .fleet-truck {
+        width: 200px;
+        right: -100px;
+        top: 55%;
+    }
+
+    .fleet-minivan {
+        width: 120px;
+        right: 50px;
+        top: 57%;
+    }
+
+    .fleet-stat-label,
+    .fleet-stat-number {
+        font-size: 20px;
+    }
+}
+
+/* Very Small Smartphones */
+@media (max-width: 376px) {
+    .fleet-title {
+        font-size: 1.5rem;
+    }
+
+        .fleet-title .highlight {
+            font-size: 1.7rem;
+        }
+
+    .fleet-description {
+        font-size: 0.8rem;
+    }
+
+    .fleet-stat-subtitle {
+        font-size: 0.8rem;
+    }
+
+
+    .fleet-truck {
+        width: 180px;
+        right: -90px;
+        top: 60%;
+    }
+
+    .fleet-minivan {
+        width: 100px;
+        right: 45px;
+        top: 61%;
+    }
+
+    .fleet-stat-label,
+    .fleet-stat-number {
+        font-size: 18px;
+    }
+}
+
+

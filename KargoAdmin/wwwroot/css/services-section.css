@@ -706,40 +706,40 @@
 /* Responsive Design */
 @media (max-width: 1199.98px) {
     .world-services-image {
-        width: 650px;
-        height: 650px;
+        width: 450px;
+        height: 450px;
     }
 
     .air-vehicle .vehicle-image {
-        width: 580px;
+        width: 430px;
     }
 
     .sea-vehicle .vehicle-image {
-        width: 580px;
+        width: 430px;
     }
 
     .land-van-vehicle .vehicle-image {
-        width: 580px;
+        width: 430px;
     }
 
     .land-truck-vehicle .vehicle-image {
-        width: 580px;
+        width: 430px;
     }
 
     .container-image {
-        width: 160px;
+        width: 130px;
     }
 
     .container-number {
-        font-size: 2rem;
+        font-size: 1.5rem;
     }
 
     .container-content h3 {
-        font-size: 1.3rem;
+        font-size: 1rem;
     }
 
     .container-content p {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
     }
 }
 
@@ -906,7 +906,7 @@
 
     .container-content {
         position: absolute;
-        top: 50%;
+        top: 100%;
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
