@@ -1,16 +1,5 @@
 ﻿/* Modern Navbar Styles - navbar.css */
 
-/* Body padding override - mevcut CSS'leri ezer */
-body {
-    padding-top: 0 !important;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* Mevcut navbar stillerini reset et */
-.navbar {
-    display: none !important; /* Eski navbar'ı gizle */
-}
-
 .fixed-top {
     position: relative !important; /* Eski fixed-top'u devre dışı bırak */
 }

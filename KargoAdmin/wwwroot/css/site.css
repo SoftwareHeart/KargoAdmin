@@ -1,8 +1,8 @@
-﻿/* Site.css'e eklenecek veya güncellenecek kodlar */
+﻿/* Site.css - Poppins Font ile Güncellenmiş */
 
-/* Mevcut site.css'teki bu kısmı güncelleyin: */
 html {
     font-size: 14px;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 @media (min-width: 768px) {
@@ -14,26 +14,52 @@ html {
 html {
     position: relative;
     min-height: 100%;
-    margin: 0; /* Eklendi */
-    padding: 0; /* Eklendi */
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    margin: 0; /* margin-bottom: 60px; yerine */
-    padding: 0; /* Eklendi */
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
 }
 
-/* Bu kısmı kaldırın veya sıfırlayın: */
+/* Typography - Poppins ile optimize edilmiş */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+p {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-weight: 400;
+}
+
+/* Button styles */
+.btn {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-weight: 500;
+}
+
+/* Form elements */
+input, textarea, select {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-weight: 400;
+}
+
+/* Footer reset */
 .footer {
     position: relative;
     width: 100%;
     white-space: nowrap;
     line-height: 60px;
-    margin: 0; /* Eklendi */
+    margin: 0;
 }
 
-/* Eğer başka yerlerde footer sınıfı kullanılıyorsa */
 footer {
     margin: 0 !important;
-    padding: 0; /* Kendi padding'ini kullanacak */
+    padding: 0;
 }

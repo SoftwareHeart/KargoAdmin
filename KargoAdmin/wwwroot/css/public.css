@@ -1,15 +1,28 @@
 ﻿/* Aleris Global Lojistik - Ana Site CSS */
-
 :root {
-    --primary-color: #005cb9; /* Mavi Renk */
-    --secondary-color: #ff6a00; /* Turuncu Renk */
+    --primary-color: #005cb9;
+    --secondary-color: #ff6a00;
     --dark-color: #1a1a1a;
     --light-color: #f8f9fa;
     --gray-color: #6c757d;
+    --font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: var(--font-family);
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-family);
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+p {
+    font-family: var(--font-family);
+    font-weight: 400;
 }
 
 /* Section Styles */
@@ -23,6 +36,7 @@ body {
     font-weight: 700;
     margin-bottom: 3rem;
     text-align: center;
+    font-family: var(--font-family);
 }
 
     .section-title:after {
@@ -36,6 +50,80 @@ body {
         background-color: var(--secondary-color);
     }
 
+/* Blog Cards */
+.blog-card {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+    .blog-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+.blog-card-img {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+}
+
+.blog-card-date {
+    font-size: 0.8rem;
+    color: var(--gray-color);
+    font-family: var(--font-family);
+    font-weight: 400;
+}
+
+.blog-card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0.5rem 0;
+    font-family: var(--font-family);
+}
+
+.blog-card-excerpt {
+    font-size: 0.9rem;
+    color: var(--gray-color);
+    font-family: var(--font-family);
+    font-weight: 400;
+}
+
+/* About Page Styles */
+.about-section {
+    position: relative;
+}
+
+.about-image {
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Button styles */
+.btn {
+    font-family: var(--font-family);
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+/* Form elements */
+input, textarea, select {
+    font-family: var(--font-family);
+    font-weight: 400;
+}
+
+/* Navigation elements */
+.navbar-brand {
+    font-family: var(--font-family);
+    font-weight: 600;
+}
+
+.nav-link {
+    font-family: var(--font-family);
+    font-weight: 500;
+}
 /* Blog Cards */
 .blog-card {
     border-radius: 10px;
