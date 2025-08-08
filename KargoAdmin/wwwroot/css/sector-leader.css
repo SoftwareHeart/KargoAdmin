@@ -166,7 +166,7 @@
 /* Right Side - Forklift Container */
 .forklift-container {
     position: absolute;
-    right: 0;
+    right: -18%;
     top: 15%;
     width: 100%;
     height: 100%;
@@ -288,53 +288,579 @@
     transform: translateX(0) translateY(10px) !important;
 }
 
-/* Responsive Design */
-@media (max-width: 1200px) {
+/* ========================================
+   SECTOR LEADER RESPONSIVE DESIGN
+   ======================================== */
+
+/* ===== LARGE DESKTOPS (1400px+) ===== */
+@media (min-width: 1400px) {
+    .sector-leader-title {
+        font-size: 4rem;
+    }
+
+    .sector-leader-description {
+        font-size: 1.2rem;
+        max-width: 1000px;
+    }
+
+    .stats-box {
+        width: 380px;
+        height: 320px;
+        margin-right: 2rem;
+    }
+
+    .stats-number {
+        font-size: 4.5rem;
+    }
+
+    .stats-label {
+        font-size: 1.6rem;
+    }
+
     .forklift-cabin {
-        width: 350px;
-        right: 30px;
+        width: 450px;
+        right: 80px;
     }
 
     .forklift-tip {
-        width: 250px;
-        right: 280px;
+        width: 350px;
+        right: 380px;
     }
 }
 
-@media (max-width: 992px) {
+/* ===== DESKTOP (1200px - 1399px) ===== */
+@media (max-width: 1399px) and (min-width: 1200px) {
     .sector-leader-title {
-        font-size: 3rem;
+        font-size: 3.8rem;
+    }
+
+    .sector-leader-description {
+        font-size: 1.15rem;
+        max-width: 950px;
+    }
+
+    .stats-box {
+        width: 360px;
+        height: 310px;
+        margin-right: 1.5rem;
+    }
+
+    .stats-number {
+        font-size: 4.2rem;
+    }
+
+    .forklift-cabin {
+        width: 420px;
+        right: 60px;
+    }
+
+    .forklift-tip {
+        width: 320px;
+        right: 360px;
+    }
+}
+
+/* ===== LAPTOP/SMALL DESKTOP (992px - 1199px) ===== */
+@media (max-width: 1199px) and (min-width: 992px) {
+    .sector-leader-section {
+        min-height: 90vh;
+    }
+
+    .sector-leader-content {
+        padding: 60px 0;
+    }
+
+    .sector-leader-text {
+        padding: 0 40px;
+    }
+
+    .sector-leader-title {
+        font-size: 3.2rem;
+        margin-bottom: 2rem;
+    }
+
+    .sector-leader-description {
+        font-size: 1.1rem;
+        margin-bottom: 2.5rem;
+        max-width: 850px;
     }
 
     .stats-boxes-container {
-        justify-content: center;
+        justify-content: flex-start;
+        gap: 1rem;
+    }
+
+    .stats-box {
+        width: 320px;
+        height: 280px;
+        margin-right: 1rem;
+    }
+
+    .stats-number {
+        font-size: 3.8rem;
+    }
+
+    .stats-label {
+        font-size: 1.4rem;
+    }
+
+    /* Forklift Adjustments */
+    .forklift-cabin {
+        width: 380px;
+        right: 40px;
+        top: 35%;
+    }
+
+    .forklift-tip {
+        width: 290px;
+        right: 320px;
+        top: 65%;
+    }
+
+    /* Animasyonları hafiflet */
+    @keyframes slideInFromRight {
+        from {
+            opacity: 0;
+            transform: translateX(80px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+}
+
+/* ===== TABLET (768px - 991px) ===== */
+@media (max-width: 991px) and (min-width: 768px) {
+    .sector-leader-section {
+        min-height: 85vh;
+        padding: 40px 0;
+    }
+
+    .sector-leader-content {
+        padding: 40px 0;
     }
 
     .sector-leader-text {
         padding: 0 30px;
+        text-align: center;
     }
-}
 
-@media (max-width: 768px) {
     .sector-leader-title {
-        font-size: 2.5rem;
+        font-size: 2.8rem;
+        margin-bottom: 1.5rem;
+        line-height: 1.3;
     }
 
     .sector-leader-description {
         font-size: 1rem;
+        margin-bottom: 2rem;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .stats-boxes-container {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
     }
 
     .stats-box {
-        width: 300px; /* Mobilde biraz küçült */
-        height: 220px;
+        width: 280px;
+        height: 240px;
+        margin-right: 0;
     }
 
     .stats-number {
-        font-size: 3rem;
+        font-size: 3.2rem;
+    }
+
+    .stats-label {
+        font-size: 1.3rem;
+    }
+
+    /* Forklift sadece tablet landscape'de göster */
+    .forklift-container {
+        display: block;
+    }
+
+    .forklift-cabin {
+        width: 300px;
+        right: 20px;
+        top: 40%;
+    }
+
+    .forklift-tip {
+        width: 220px;
+        right: 250px;
+        top: 70%;
+    }
+
+    /* Tablet için özel animasyonlar */
+    .stats-box {
+        animation: slideInFromBottom 1s ease-out forwards;
+    }
+
+    @keyframes slideInFromBottom {
+        from {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}
+
+/* ===== MOBILE LANDSCAPE (576px - 767px) ===== */
+@media (max-width: 767px) and (min-width: 576px) {
+    .sector-leader-section {
+        min-height: 80vh;
+        padding: 30px 0;
+    }
+
+    .sector-leader-content {
+        padding: 30px 0;
+    }
+
+    .sector-leader-text {
+        padding: 0 20px;
+        text-align: center;
+    }
+
+    .sector-leader-title {
+        font-size: 2.4rem;
+        margin-bottom: 1.2rem;
+        line-height: 1.4;
+    }
+
+        .sector-leader-title br {
+            display: none; /* Mobilde br kaldır */
+        }
+
+    .sector-leader-description {
+        font-size: 0.95rem;
+        margin-bottom: 1.8rem;
+        max-width: 100%;
+        line-height: 1.7;
+    }
+
+    .stats-boxes-container {
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .stats-box {
+        width: 260px;
+        height: 200px;
+        margin-right: 0;
+    }
+
+    .stats-number {
+        font-size: 2.8rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .stats-label {
+        font-size: 1.1rem;
+    }
+
+    /* Forklift'i mobilde gizle */
+    .forklift-container,
+    .forklift-cabin,
+    .forklift-tip {
+        display: none !important;
+    }
+
+    /* Mobil için video optimizasyonu */
+    .sector-leader-background-video {
+        opacity: 0.2;
+    }
+}
+
+/* ===== MOBILE PORTRAIT (<=575px) ===== */
+@media (max-width: 575px) {
+    .sector-leader-section {
+        min-height: 75vh;
+        padding: 20px 0;
+    }
+
+    .sector-leader-content {
+        padding: 20px 0;
+    }
+
+    .sector-leader-text {
+        padding: 0 15px;
+        text-align: center;
+    }
+
+    .sector-leader-title {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        line-height: 1.4;
+    }
+
+        .sector-leader-title br {
+            display: none;
+        }
+
+    .sector-leader-description {
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+        padding: 0 10px;
+    }
+
+    .stats-boxes-container {
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .stats-box {
+        width: 240px;
+        height: 180px;
+        margin-right: 0;
+    }
+
+    .stats-number {
+        font-size: 2.4rem;
+        margin-bottom: 0.2rem;
+    }
+
+    .stats-label {
+        font-size: 1rem;
+    }
+
+    /* Forklift mobilde tamamen gizli */
+    .forklift-container,
+    .forklift-cabin,
+    .forklift-tip {
+        display: none !important;
+    }
+
+    /* Koliler (stats-box-image) responsive */
+    .stats-box-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+/* ===== ANİMASYON OPTİMİZASYONLARI ===== */
+
+/* Tablet ve mobilde performans için animasyonları sadeleştir */
+@media (max-width: 991px) {
+    .stats-box.loaded {
+        animation: simpleMobileFloat 4s ease-in-out infinite !important;
+    }
+
+    @keyframes simpleMobileFloat {
+        0%, 100% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-5px);
+        }
+    }
+
+    .stats-box.drop {
+        animation: simpleMobileDrop 0.6s ease-out forwards !important;
+    }
+
+    @keyframes simpleMobileDrop {
+        0% {
+            opacity: 1;
+            transform: translateY(-10px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0px);
+        }
+    }
+
+    /* Video performansı için */
+    .sector-leader-background-video {
+        opacity: 0.15;
+    }
+}
+
+/* ===== HOVER EFEKTLERİ RESPONSIVE ===== */
+
+/* Sadece desktop'ta hover efekti */
+@media (min-width: 992px) {
+    .stats-box:hover {
+        transform: translateY(-10px) scale(1.05) !important;
+        filter: brightness(1.1);
+        transition: all 0.3s ease;
+    }
+}
+
+/* Mobil ve tablette hover efektini kaldır */
+@media (max-width: 991px) {
+    .stats-box:hover {
+        transform: none !important;
+        filter: none !important;
+    }
+}
+
+/* ===== PERFORMANS OPTİMİZASYONLARI ===== */
+
+/* Mobilde GPU hızlandırma */
+@media (max-width: 767px) {
+    .sector-leader-section,
+    .stats-box,
+    .sector-leader-background-video {
+        transform: translateZ(0);
+        backface-visibility: hidden;
+        perspective: 1000px;
+    }
+
+    /* Animasyon sürelerini kısalt */
+    .sector-leader-section {
+        transition: all 0.8s ease;
+    }
+
+    .stats-box {
+        animation-duration: 0.8s !important;
+    }
+}
+
+/* ===== KÜÇÜK EKRANİÇİN VİDEO OPTİMİZASYONU ===== */
+@media (max-width: 768px) {
+    .sector-leader-video-container {
+        display: none; /* Mobilde video'yu kapat, performans için */
+    }
+
+    .sector-leader-section {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+}
+
+/* ===== ULTRA WIDE SCREENS (1600px+) ===== */
+@media (min-width: 1600px) {
+    .sector-leader-title {
+        font-size: 4.5rem;
+    }
+
+    .sector-leader-description {
+        font-size: 1.3rem;
+        max-width: 1200px;
+    }
+
+    .stats-box {
+        width: 400px;
+        height: 340px;
+        margin-right: 2.5rem;
+    }
+
+    .stats-number {
+        font-size: 5rem;
+    }
+
+    .forklift-cabin {
+        width: 500px;
+        right: 100px;
+    }
+
+    .forklift-tip {
+        width: 380px;
+        right: 420px;
+    }
+}
+
+/* ===== İPAD PRO LANDSCAPE (1024px x 768px) ===== */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    .sector-leader-section {
+        min-height: 95vh;
+    }
+
+    .stats-boxes-container {
+        flex-direction: row;
+        justify-content: space-around;
+        flex-wrap: nowrap;
+    }
+
+    .stats-box {
+        width: 250px;
+        height: 220px;
+    }
+
+    .forklift-cabin {
+        width: 280px;
+        right: 30px;
+    }
+
+    .forklift-tip {
+        width: 200px;
+        right: 230px;
+    }
+}
+
+/* ===== İPAD PRO PORTRAIT (768px x 1024px) ===== */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+    .stats-boxes-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .stats-box {
+        width: 300px;
+        height: 250px;
+        margin-bottom: 1rem;
+    }
+
+    .forklift-container {
+        display: none;
+    }
+}
+
+/* ===== HIGH DPI SCREENS (RETINA) ===== */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .stats-box-image {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
     }
 
     .forklift-cabin,
     .forklift-tip {
-        display: none;
+        filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.2));
+    }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+    .sector-leader-section {
+        background: white !important;
+        min-height: auto;
+        page-break-inside: avoid;
+    }
+
+    .sector-leader-video-container,
+    .forklift-container {
+        display: none !important;
+    }
+
+    .stats-box {
+        border: 1px solid #ccc;
+        background: white !important;
+    }
+
+    .stats-number,
+    .stats-label {
+        color: black !important;
+        text-shadow: none !important;
     }
 }

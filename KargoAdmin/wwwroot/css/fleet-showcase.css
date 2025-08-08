@@ -295,7 +295,7 @@
 
 
 /* Tablets & Small Laptops (Portrait) */
-@media (max-width: 1024px) {
+@media (max-width: 1400px) {
     .fleet-showcase-section,
     .fleet-top-half,
     .fleet-bottom-half,
@@ -303,7 +303,9 @@
         min-height: auto;
         height: auto;
     }
-
+    .col-lg-7{
+        width: 100%;
+    }
     .fleet-vehicles-container {
         width: 100%;
         height: 100%;
