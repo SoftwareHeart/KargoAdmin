@@ -534,7 +534,7 @@
     </div>
 </section>
 
-<!-- About Section -->
+@* <!-- About Section -->
 <section class="section">
     <div class="container">
         <div class="row align-items-center">
@@ -656,9 +656,9 @@
             </div>
         </div>
     </div>
-</section>
+</section> *@
 
-<!-- CTA Section -->
+@* <!-- CTA Section -->
 <section class="section bg-primary text-white">
     <div class="container text-center">
         <h2 class="mb-4">Lojistik çözümler için bize ulaşın</h2>
@@ -667,7 +667,7 @@
         </p>
         <a href="/Public/Contact" class="btn btn-lg btn-secondary">Hemen İletişime Geçin</a>
     </div>
-</section>
+</section> *@
 
 @section Scripts {
     <script src="~/js/services-animation.js"></script>
@@ -720,28 +720,6 @@
                     fallbackImage.style.display = 'block';
                 });
             }
-        });
-
-        // İstatistik sayılarını animasyonla göster
-        document.addEventListener('DOMContentLoaded', function() {
-            const statNumbers = document.querySelectorAll('.stat-number');
-
-            statNumbers.forEach(number => {
-                const finalValue = parseInt(number.getAttribute('data-count'));
-                let startValue = 0;
-                const duration = 2000;
-                const increment = finalValue / (duration / 16);
-
-                const counter = setInterval(() => {
-                    startValue += increment;
-                    if(startValue >= finalValue) {
-                        number.textContent = finalValue.toLocaleString();
-                        clearInterval(counter);
-                    } else {
-                        number.textContent = Math.floor(startValue).toLocaleString();
-                    }
-                }, 16);
-            });
         });
 
         // Scroll to next section
