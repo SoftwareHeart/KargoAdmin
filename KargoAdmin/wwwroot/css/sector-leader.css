@@ -6,10 +6,22 @@
     display: flex;
     align-items: center;
     overflow: hidden;
-    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%) !important;
+    background: #ffffff;
+    /* Scroll animasyonu için başlangıç durumu */
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    animation-fill-mode: forwards;
 }
 
-/* Background Video Container */
+    /* Scroll animasyonu tetiklendiğinde */
+    .sector-leader-section.animate-in {
+        opacity: 1;
+        transform: translateY(0);
+        animation-fill-mode: forwards;
+    }
+
+/* Background Video Container - Services ve Animation section ile aynı yapı */
 .sector-leader-video-container {
     position: absolute;
     top: 0;
@@ -18,16 +30,36 @@
     height: 100%;
     z-index: 1;
     overflow: hidden;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.sector-leader-section.animate-in .sector-leader-video-container {
+    opacity: 1;
 }
 
 .sector-leader-background-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    opacity: 0.3;
+}
+
+/* Overlay - Diğer bölümlerle tutarlılık için */
+.sector-leader-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    opacity: 0.3;
+    background: transparent;
+    z-index: 1;
 }
 
 /* Content Wrapper */
@@ -57,27 +89,24 @@
     color: #666666;
     line-height: 1.8;
     margin-bottom: 3rem;
-    max-width: 600px;
+    max-width: 900px;
     font-weight: 400;
 }
 
 /* Stats Boxes Container */
 .stats-boxes-container {
     display: flex;
-    gap: 2rem;
     margin-bottom: 3rem;
     flex-wrap: wrap;
-    background: none !important;
-    background-color: transparent !important;
 }
 
 .stats-box {
     position: relative;
-    width: 300px;
-    height: 200px;
-    border-radius: 15px;
+    width: 350px; /* 300px'den 350px'e çıkarıldı */
+    height: 300px; /* 200px'den 250px'e çıkarıldı */
     display: flex;
     flex-direction: column;
+    padding-right: 1rem;
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
@@ -93,10 +122,9 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
     height: 100%;
-    object-fit: contain; /* Tüm resmi göster, orantılı koru */
-    object-position: center; /* Ortala */
+    object-fit: contain;
+    object-position: center;
     border-radius: 15px;
     z-index: 1;
 }
@@ -113,7 +141,6 @@
     animation-delay: 0.6s;
 }
 
-
 .stats-number {
     position: relative;
     z-index: 3;
@@ -128,7 +155,7 @@
 .stats-label {
     position: relative;
     z-index: 3;
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     font-weight: 600;
     color: white;
     text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
@@ -140,7 +167,7 @@
 .forklift-container {
     position: absolute;
     right: 0;
-    top: 0;
+    top: 15%;
     width: 100%;
     height: 100%;
     z-index: 2;
@@ -202,12 +229,12 @@
 @keyframes float {
     0%, 100% {
         opacity: 1;
-        transform: translateX(0) translateY(10px); /* 10px aşağıdan başlar */
+        transform: translateX(0) translateY(10px);
     }
 
     50% {
         opacity: 1;
-        transform: translateX(0) translateY(0px); /* 0'a kadar çıkar, sonra geri iner */
+        transform: translateX(0) translateY(0px);
     }
 }
 
@@ -216,7 +243,7 @@
     animation: float 3s ease-in-out infinite !important;
     animation-delay: 0s !important;
     opacity: 1 !important;
-    transform: translateX(0) translateY(10px) !important; /* Base position - 10px aşağıda */
+    transform: translateX(0) translateY(10px) !important;
 }
 
     .stats-box.loaded:nth-child(1) {
@@ -258,10 +285,10 @@
     animation: dropDown 0.8s ease-out forwards !important;
     animation-delay: 0s !important;
     opacity: 1 !important;
-    transform: translateX(0) translateY(10px) !important; /* Final position - 10px aşağıda kalacak */
+    transform: translateX(0) translateY(10px) !important;
 }
 
-/* Responsive Design (sadece temel) */
+/* Responsive Design */
 @media (max-width: 1200px) {
     .forklift-cabin {
         width: 350px;
@@ -281,5 +308,33 @@
 
     .stats-boxes-container {
         justify-content: center;
+    }
+
+    .sector-leader-text {
+        padding: 0 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sector-leader-title {
+        font-size: 2.5rem;
+    }
+
+    .sector-leader-description {
+        font-size: 1rem;
+    }
+
+    .stats-box {
+        width: 300px; /* Mobilde biraz küçült */
+        height: 220px;
+    }
+
+    .stats-number {
+        font-size: 3rem;
+    }
+
+    .forklift-cabin,
+    .forklift-tip {
+        display: none;
     }
 }

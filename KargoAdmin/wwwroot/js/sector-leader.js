@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('Stats box temizlendi:', box);
     });
 
-    // Intersection Observer for animations
+    // Intersection Observer for animations - Services section ile aynı yapı
     const observerOptions = {
         threshold: 0.3,
         rootMargin: '0px 0px -100px 0px'
@@ -20,7 +20,10 @@ document.addEventListener('DOMContentLoaded', function () {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const section = entry.target;
-                console.log('Section görüldü, animasyonlar başlıyor');
+
+                // Section'a animate-in class'ı ekle (video için)
+                section.classList.add('animate-in');
+                console.log('Sector Leader section görüldü, animasyonlar başlıyor');
 
                 // Counter animation
                 animateCounters(section);
@@ -61,51 +64,49 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Counter animation function
     function animateCounters(section) {
-        const counters = section.querySelectorAll('.stats-box');
-        console.log('Counter animasyonu başlıyor, box sayısı:', counters.length);
+        const statsBoxes = section.querySelectorAll('.stats-box');
 
-        counters.forEach((counter, index) => {
-            const target = parseInt(counter.getAttribute('data-target'));
-            const numberElement = counter.querySelector('.stats-number');
-            const duration = 2000; // 2 seconds
-            const increment = target / (duration / 16); // 60fps
-            let current = 0;
+        statsBoxes.forEach(box => {
+            const target = parseInt(box.getAttribute('data-target'));
+            const counterElement = box.querySelector('.stats-number');
 
-            console.log(`Counter ${index} hedef: ${target}`);
+            if (target && counterElement) {
+                const increment = target / 120; // 120 frame'de tamamla (yaklaşık 2 saniye)
+                let current = 0;
 
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= target) {
-                    current = target;
-                    clearInterval(timer);
-                }
-                numberElement.textContent = Math.floor(current) + '+';
-            }, 16);
+                const updateCounter = () => {
+                    if (current < target) {
+                        current += increment;
+                        if (current > target) current = target;
+                        counterElement.textContent = Math.floor(current) + '+';
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counterElement.textContent = target + '+';
+                    }
+                };
+
+                // Animasyonu başlat
+                setTimeout(() => {
+                    updateCounter();
+                }, 500);
+            }
         });
     }
+});
 
-    // Optional: Add hover effects for stats boxes - TEMİZLENMİŞ
+// Hover effects for stats boxes
+document.addEventListener('DOMContentLoaded', function () {
     const statsBoxes = document.querySelectorAll('.stats-box');
-    statsBoxes.forEach(box => {
-        // Önce tüm inline style'ları temizle
-        box.style.removeProperty('background');
-        box.style.removeProperty('background-color');
-        box.style.removeProperty('transform');
 
+    statsBoxes.forEach(box => {
         box.addEventListener('mouseenter', function () {
-            // Sadece transform değiştir, background dokunma
-            this.style.transform = 'translateX(0) translateY(5px) scale(1.05)';
+            this.style.transform = 'translateY(-10px) scale(1.05)';
+            this.style.filter = 'brightness(1.1)';
         });
 
         box.addEventListener('mouseleave', function () {
-            // Mevcut durumu koru, background'a dokunma
-            if (this.classList.contains('loaded')) {
-                this.style.transform = 'translateX(0) translateY(10px) scale(1)';
-            } else if (this.classList.contains('drop')) {
-                this.style.transform = 'translateX(0) translateY(10px) scale(1)';
-            } else {
-                this.style.transform = 'translateX(0) translateY(0) scale(1)';
-            }
+            this.style.transform = 'translateY(0) scale(1)';
+            this.style.filter = 'brightness(1)';
         });
     });
 });
