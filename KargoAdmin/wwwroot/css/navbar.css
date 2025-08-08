@@ -1,10 +1,4 @@
-﻿/* Modern Navbar Styles - navbar.css */
-
-.fixed-top {
-    position: relative !important; /* Eski fixed-top'u devre dışı bırak */
-}
-
-/* Modern Navbar */
+﻿/* Modern Navbar */
 .modern-navbar {
     position: fixed;
     top: 20px;
@@ -33,32 +27,27 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 35px;
+    padding: 12px 20px;
     position: relative;
 }
 
 /* Logo */
-.navbar-logo {
-    flex-shrink: 0;
+.navbar-logo img {
+    height: 40px;
+    transition: height 0.3s ease;
 }
-
-    .navbar-logo img {
-        height: 40px;
-        transition: height 0.3s ease;
-    }
 
 .modern-navbar.scrolled .navbar-logo img {
     height: 35px;
 }
 
-/* Menu Items */
+/* Menü */
 .navbar-menu {
     display: flex;
     align-items: center;
-    gap: 40px;
-    position: static; /* absolute yerine */
-    transform: none; /* translateX kaldır */
-    margin-left: 40px; /* logodan boşluk bırak */
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
 }
 
 .nav-item {
@@ -74,91 +63,144 @@
 
     .nav-item:hover {
         color: #005cb9;
-        text-decoration: none;
     }
 
     .nav-item.active {
         color: #005cb9;
     }
 
-    .nav-item::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background: #005cb9;
-        transition: width 0.3s ease;
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 3px;
+            background: linear-gradient(90deg, #005cb9, #0080ff);
+            border-radius: 2px;
+        }
+
+/* Dropdown */
+.nav-dropdown {
+    position: relative;
+}
+
+.dropdown-toggle {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+    .dropdown-toggle i {
+        font-size: 12px;
+        transition: transform 0.3s ease;
     }
 
-    .nav-item:hover::after,
-    .nav-item.active::after {
-        width: 100%;
+.nav-dropdown:hover .dropdown-toggle i {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu-custom {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    min-width: 280px;
+    padding: 15px 0;
+    margin-top: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.nav-dropdown:hover .dropdown-menu-custom {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.dropdown-item-custom {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    color: #2c3e50;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+    .dropdown-item-custom:hover {
+        background: rgba(0, 92, 185, 0.1);
+        color: #005cb9;
     }
 
-/* Right Actions */
+    .dropdown-item-custom i {
+        width: 20px;
+        text-align: center;
+        color: #005cb9;
+        font-size: 16px;
+    }
+
+/* Sağ aksiyonlar */
 .navbar-actions {
     display: flex;
     align-items: center;
-    gap: 20px;
-    flex-shrink: 0;
+    gap: 15px;
 }
 
-/* Search Button */
+/* Search buton */
 .search-btn {
-    background: rgba(108, 117, 125, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    width: 42px;
-    height: 42px;
+    border: none;
+    background: rgba(255, 255, 255, 0.8);
+    color: #333;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #2c3e50;
-    font-size: 16px;
     transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     cursor: pointer;
-    backdrop-filter: blur(5px);
 }
 
     .search-btn:hover {
-        background: rgba(0, 92, 185, 0.2);
-        color: #005cb9;
-        transform: scale(1.05);
-        border-color: rgba(0, 92, 185, 0.3);
+        background: #005cb9;
+        color: white;
+        box-shadow: 0 4px 15px rgba(0, 92, 185, 0.3);
     }
 
-/* Contact Button */
+/* Contact buton */
 .contact-btn {
-    background: linear-gradient(135deg, rgba(0, 92, 185, 0.9) 0%, rgba(0, 102, 204, 0.9) 100%);
+    background: linear-gradient(135deg, #005cb9, #0080ff);
     color: white;
-    padding: 12px 28px;
+    padding: 10px 25px;
     border-radius: 25px;
-    text-decoration: none;
     font-weight: 600;
     font-size: 14px;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 92, 185, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    cursor: pointer;
-    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 15px rgba(0, 92, 185, 0.2);
 }
 
     .contact-btn:hover {
-        background: linear-gradient(135deg, rgba(0, 76, 158, 0.95) 0%, rgba(0, 85, 187, 0.95) 100%);
-        color: white;
-        text-decoration: none;
         transform: translateY(-2px);
         box-shadow: 0 6px 20px rgba(0, 92, 185, 0.4);
-        border-color: rgba(255, 255, 255, 0.3);
     }
 
-/* Language Flags */
+/* Dil bayrakları */
 .language-flags {
     display: flex;
     gap: 10px;
-    align-items: center;
 }
 
 .flag-icon {
@@ -168,30 +210,26 @@
     cursor: pointer;
     transition: all 0.3s ease;
     opacity: 0.7;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
     .flag-icon:hover {
         opacity: 1;
         transform: scale(1.1);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     .flag-icon.active {
         opacity: 1;
         transform: scale(1.05);
-        box-shadow: 0 4px 12px rgba(0, 92, 185, 0.3);
     }
 
-/* Mobile Toggle */
+/* Mobil */
 .mobile-toggle {
     display: none;
     flex-direction: column;
+    gap: 5px;
     background: none;
     border: none;
-    gap: 4px;
     cursor: pointer;
-    padding: 8px;
 }
 
     .mobile-toggle span {
@@ -199,22 +237,12 @@
         height: 3px;
         background: #333;
         border-radius: 2px;
-        transition: 0.3s;
     }
 
-    .mobile-toggle:hover span {
-        background: #005cb9;
-    }
-
-/* Mobile Styles */
+/* Medium ekran */
 @media (max-width: 1199.98px) {
-    .modern-navbar {
-        width: calc(100% - 30px);
-        max-width: 1000px;
-    }
-
     .navbar-menu {
-        gap: 25px;
+        gap: 20px;
     }
 
     .nav-item {
@@ -222,26 +250,19 @@
     }
 }
 
+/* Tablet ve altı */
 @media (max-width: 991.98px) {
-    .modern-navbar {
-        width: calc(100% - 20px);
-        top: 15px;
-    }
-
     .navbar-menu {
         display: none;
-        position: fixed;
-        top: 75px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: calc(100% - 40px);
-        max-width: 400px;
-        background: white;
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-        padding: 20px;
         flex-direction: column;
-        gap: 20px;
+        gap: 15px;
+        background: white;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        padding: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     }
 
         .navbar-menu.show {
@@ -251,42 +272,12 @@
     .mobile-toggle {
         display: flex;
     }
-
-    .navbar-container {
-        padding: 10px 25px;
-    }
-
-    .navbar-actions {
-        gap: 15px;
-    }
-
-    .contact-btn {
-        padding: 8px 18px;
-        font-size: 13px;
-    }
-
-    .flag-icon {
-        width: 25px;
-        height: 18px;
-    }
 }
 
+/* Küçük ekran */
 @media (max-width: 767.98px) {
-    .modern-navbar {
-        width: calc(100% - 15px);
-        top: 10px;
-    }
-
-    .navbar-container {
-        padding: 8px 20px;
-    }
-
     .navbar-logo img {
         height: 30px;
-    }
-
-    .navbar-actions {
-        gap: 10px;
     }
 
     .contact-btn {
@@ -297,54 +288,10 @@
     .search-btn {
         width: 32px;
         height: 32px;
-        font-size: 13px;
     }
 
     .flag-icon {
         width: 22px;
         height: 16px;
     }
-}
-
-/* Modal Styles Override */
-.modal-content {
-    border-radius: 15px;
-    border: none;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-}
-
-.modal-header {
-    border-bottom: 1px solid #f0f0f0;
-    padding: 20px 25px 15px;
-}
-
-.modal-body {
-    padding: 20px 25px;
-}
-
-.modal-footer {
-    border-top: 1px solid #f0f0f0;
-    padding: 15px 25px 20px;
-}
-
-/* Scroll Effect */
-.navbar-scroll-effect {
-    transition: all 0.3s ease;
-}
-
-/* Animation for mobile menu */
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.navbar-menu.show {
-    animation: slideDown 0.3s ease;
 }
