@@ -47,19 +47,19 @@
                             <i class="fas fa-chevron-down"></i>
                         </a>
                         <div class="dropdown-menu-custom">
-                            <a href="/Public/Services/KaraYolu" class="dropdown-item-custom">
+                            <a href="/Public/LandTransport" class="dropdown-item-custom">
                                 <i class="fas fa-truck"></i>
                                 Kara Yolu Taşımacılığı
                             </a>
-                            <a href="/Public/Services/HavaYolu" class="dropdown-item-custom">
+                            <a href="/Public/AirTransport" class="dropdown-item-custom">
                                 <i class="fas fa-plane"></i>
                                 Hava Yolu Taşımacılığı
                             </a>
-                            <a href="/Public/Services/DenizYolu" class="dropdown-item-custom">
+                            <a href="/Public/SeaTransport" class="dropdown-item-custom">
                                 <i class="fas fa-ship"></i>
                                 Deniz Yolu Taşımacılığı
                             </a>
-                            <a href="/Public/Services/DepolamaDagitim" class="dropdown-item-custom">
+                            <a href="/Public/WarehouseDistribution" class="dropdown-item-custom">
                                 <i class="fas fa-warehouse"></i>
                                 Depolama Dağıtım
                             </a>
@@ -347,16 +347,49 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     <script>
-        // Navbar scroll effect
-        window.addEventListener('scroll', function() {
-            const navbar = document.getElementById('modernNavbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
+            (function() {
+            let lastScrollTop = 0;
+            let scrollDirection = 'up';
+            let isScrolling = false;
 
+            // Navbar scroll effect with hide/show functionality
+            window.addEventListener('scroll', function() {
+                if (isScrolling) return;
+
+                isScrolling = true;
+
+                requestAnimationFrame(function() {
+                    const navbar = document.getElementById('modernNavbar');
+                    const currentScroll = window.scrollY || document.documentElement.scrollTop;
+
+                    // Scroll direction detection
+                    if (currentScroll > lastScrollTop && currentScroll > 100) {
+                        // Scrolling down & not near top
+                        scrollDirection = 'down';
+                        navbar.classList.add('navbar-hidden');
+                        navbar.classList.remove('navbar-visible');
+                    } else {
+                        // Scrolling up OR near top
+                        scrollDirection = 'up';
+                        navbar.classList.remove('navbar-hidden');
+                        navbar.classList.add('navbar-visible');
+                    }
+
+                    // Background transparency effect
+                    if (currentScroll > 50) {
+                        navbar.classList.add('scrolled');
+                    } else {
+                        navbar.classList.remove('scrolled');
+                    }
+
+                    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+                    isScrolling = false;
+                });
+            }, { passive: true });
+
+            // Initial state
+            document.getElementById('modernNavbar').classList.add('navbar-visible');
+        })();
         // Mobile menu toggle
         function toggleMobileMenu() {
             const menu = document.getElementById('navbarMenu');

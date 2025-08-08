@@ -38,12 +38,6 @@ namespace KargoAdmin.Controllers
             return View();
         }
 
-        // Hizmetlerimiz sayfası
-        public IActionResult Services()
-        {
-            return View();
-        }
-
         // İletişim sayfası
         public IActionResult Contact()
         {
@@ -68,6 +62,26 @@ namespace KargoAdmin.Controllers
 
         // Kargo takip sayfası (gelecekte eklenecek)
         public IActionResult CargoTracking()
+        {
+            return View();
+        }
+
+        public IActionResult LandTransport()
+        {
+            return View();
+        }
+
+        public IActionResult SeaTransport()
+        {
+            return View();
+        }
+
+        public IActionResult AirTransport()
+        {
+            return View();
+        }
+
+        public IActionResult WarehouseDistribution()
         {
             return View();
         }

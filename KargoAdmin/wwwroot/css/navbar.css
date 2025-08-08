@@ -1,5 +1,4 @@
-﻿/* Modern Navbar */
-.modern-navbar {
+﻿.modern-navbar {
     position: fixed;
     top: 20px;
     left: 50%;
@@ -13,14 +12,39 @@
     border-radius: 25px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     z-index: 1050;
-    transition: all 0.3s ease;
+    /* Enhanced transition for smooth hide/show */
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
+    /* Navbar Hide Animation */
+    .modern-navbar.navbar-hidden {
+        transform: translateX(-50%) translateY(-120%);
+        opacity: 0;
+        pointer-events: none;
+    }
 
     .modern-navbar.scrolled {
         background: rgba(255, 255, 255, 0.25);
         box-shadow: 0 6px 35px rgba(0, 0, 0, 0.12);
         border: 1px solid rgba(255, 255, 255, 0.3);
         top: 10px;
+    }
+
+    /* Combined states for smooth transition */
+    .modern-navbar.navbar-hidden.scrolled {
+        transform: translateX(-50%) translateY(-120%);
+        top: 10px;
+    }
+
+    .modern-navbar.navbar-visible.scrolled {
+        transform: translateX(-50%) translateY(0);
+        top: 10px;
+    }
+
+    /* Hover effect when navbar is partially hidden (optional) */
+    .modern-navbar.navbar-hidden:hover {
+        transform: translateX(-50%) translateY(-50%);
+        opacity: 0.7;
+        pointer-events: auto;
     }
 
 .navbar-container {
@@ -296,4 +320,22 @@
         width: 22px;
         height: 16px;
     }
+}
+@media (max-width: 768px) {
+    .modern-navbar {
+        width: calc(100% - 20px);
+        top: 10px;
+    }
+
+        .modern-navbar.scrolled {
+            top: 5px;
+        }
+
+        .modern-navbar.navbar-hidden.scrolled {
+            top: 5px;
+        }
+
+        .modern-navbar.navbar-visible.scrolled {
+            top: 5px;
+        }
 }
