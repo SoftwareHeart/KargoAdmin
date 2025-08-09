@@ -18,7 +18,8 @@
 /* Navbar yüksekliğine göre dinamik padding */
 @supports (padding-top: calc(6rem + var(--navbar-height, 80px))) {
     .blog-header-section {
-        padding-top: calc(7rem + var(--navbar-height, 0px));
+        padding-top: calc(8rem + var(--navbar-height, 0px));
+        padding-bottom: 1rem;
     }
 }
 

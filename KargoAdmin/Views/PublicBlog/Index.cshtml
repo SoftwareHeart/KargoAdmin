@@ -82,69 +82,141 @@
                     </div>
                 }
 
-                <!-- Blog Cards Grid -->
+                <!-- Modern Blog Cards Grid - Index.cshtml için güncel bölüm -->
                 @if (!Model.Any())
                 {
                     <div class="blog-empty-state">
-                        <i class="fas fa-inbox"></i>
+                        <div class="empty-icon">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
                         <h3>Henüz İçerik Bulunmuyor</h3>
                         <p>Bu kategoride henüz blog yazısı bulunmamaktadır.</p>
+                        <a href="@Url.Action("Index", "PublicBlog")" class="btn-primary-outline">
+                            Tüm Yazılara Dön
+                        </a>
                     </div>
                 }
                 else
                 {
-                    <div class="blog-grid">
+                    <div class="modern-blog-grid">
                         @foreach (var blog in Model)
                         {
-                            <article class="blog-card">
-                                <!-- Blog Image -->
-                                <div class="blog-card-image">
-                                    <div class="blog-card-img" style="background-image: url('@(!string.IsNullOrEmpty(blog.ImageUrl) ? "/uploads/" + blog.ImageUrl : "/img/blog-placeholder.png")')"></div>
+                            <article class="modern-blog-card">
+                                <!-- Card Header with Image -->
+                                <div class="card-header-section">
+                                    <!-- Featured Image -->
+                                    <div class="blog-image-container">
+                                        <img src="@(!string.IsNullOrEmpty(blog.ImageUrl) ? "/uploads/" + blog.ImageUrl : "/img/blog-placeholder.png")"
+                                             alt="@blog.Title"
+                                             class="blog-featured-image">
+
+                                        <!-- Image Overlay -->
+                                        <div class="image-hover-overlay">
+                                            <a href="@Url.Action("Details", "PublicBlog", new { id = blog.Id, slug = blog.Slug })"
+                                               class="image-read-btn">
+                                                <i class="fas fa-arrow-right"></i>
+                                            </a>
+                                        </div>
+
+                                        <!-- Category Badge -->
+                                        @if (!string.IsNullOrEmpty(blog.Tags))
+                                        {
+                                            <span class="category-badge-modern">
+                                                @blog.Tags.Split(',').FirstOrDefault()?.Trim()
+                                            </span>
+                                        }
+
+                                        <!-- Date Badge -->
+                                        <div class="date-badge">
+                                            <span class="date-day">@blog.PublishDate.ToString("dd")</span>
+                                            <span class="date-month">@blog.PublishDate.ToString("MMM").ToUpper()</span>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <!-- Blog Content -->
-                                <div class="blog-card-content">
+                                <!-- Card Content -->
+                                <div class="card-content-section">
                                     <!-- Meta Information -->
-                                    <div class="blog-card-meta">
-                                        <div class="blog-meta-item">
-                                            <i class="far fa-calendar-alt"></i>
-                                            <span>@blog.PublishDate.ToString("dd MMM yyyy")</span>
-                                        </div>
-                                        <div class="blog-meta-item">
-                                            <i class="far fa-eye"></i>
-                                            <span>@blog.ViewCount görüntülenme</span>
+                                    <div class="blog-meta-modern">
+                                        <div class="meta-group">
+                                            <span class="meta-item">
+                                                <i class="far fa-eye"></i>
+                                                @blog.ViewCount görüntülenme
+                                            </span>
+                                            <span class="meta-divider">•</span>
+                                            <span class="meta-item">
+                                                @{
+                                                    var readingTime = (blog.Content.Length / 200) + 1;
+                                                }
+                                                <i class="far fa-clock"></i>
+                                                @readingTime dk okuma
+                                            </span>
                                         </div>
                                     </div>
 
                                     <!-- Blog Title -->
-                                    <h2 class="blog-card-title">@blog.Title</h2>
+                                    <h2 class="blog-title-modern">
+                                        <a href="@Url.Action("Details", "PublicBlog", new { id = blog.Id, slug = blog.Slug })">
+                                            @blog.Title
+                                        </a>
+                                    </h2>
 
                                     <!-- Blog Excerpt -->
                                     @{
                                         var plainText = Regex.Replace(blog.Content, "<.*?>", "");
-                                        var excerpt = plainText.Length > 160 ? plainText.Substring(0, 160) + "..." : plainText;
+                                        var excerpt = plainText.Length > 140 ? plainText.Substring(0, 140) + "..." : plainText;
                                     }
-                                    <p class="blog-card-excerpt">@excerpt</p>
+                                    <p class="blog-excerpt-modern">@excerpt</p>
 
-                                    <!-- Blog Tags -->
-                                    @if (!string.IsNullOrEmpty(blog.Tags))
-                                    {
-                                        <div class="blog-card-tags">
-                                            @foreach (var tag in blog.Tags.Split(',').Take(3))
-                                            {
-                                                <a href="@Url.Action("Tag", "PublicBlog", new { tag = tag.Trim() })"
-                                                   class="blog-tag">@tag.Trim()</a>
-                                            }
+                                    <!-- Author & Tags Row -->
+                                    <div class="author-tags-section">
+                                        <!-- Author Info -->
+                                        <div class="author-info-mini">
+                                            <div class="author-avatar">
+                                                <img src="/img/author-placeholder.jpg" alt="@blog.Author.FirstName @blog.Author.LastName">
+                                            </div>
+                                            <span class="author-name">@blog.Author.FirstName @blog.Author.LastName</span>
                                         </div>
-                                    }
 
-                                    <!-- Read More Button -->
-                                    <a href="@Url.Action("Details", "PublicBlog", new { id = blog.Id, slug = blog.Slug })"
-                                       class="blog-read-more">
-                                        <span>Devamını Oku</span>
-                                        <i class="fas fa-arrow-right"></i>
-                                    </a>
+                                        <!-- Tags Preview -->
+                                        @if (!string.IsNullOrEmpty(blog.Tags))
+                                        {
+                                            <div class="tags-preview">
+                                                @foreach (var tag in blog.Tags.Split(',').Take(2))
+                                                {
+                                                    <a href="@Url.Action("Tag", "PublicBlog", new { tag = tag.Trim() })"
+                                                       class="tag-mini">
+                                                        #@tag.Trim()
+                                                    </a>
+                                                }
+                                                @if (blog.Tags.Split(',').Length > 2)
+                                                {
+                                                    <span class="tag-more">+@(blog.Tags.Split(',').Length - 2)</span>
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+
+                                    <!-- Action Footer -->
+                                    <div class="card-action-footer">
+                                        <a href="@Url.Action("Details", "PublicBlog", new { id = blog.Id, slug = blog.Slug })"
+                                           class="read-more-modern">
+                                            <span>Devamını Oku</span>
+                                            <i class="fas fa-long-arrow-alt-right"></i>
+                                        </a>
+
+                                        <!-- Share Action -->
+                                        <div class="share-action">
+                                            <button class="share-btn" title="Paylaş">
+                                                <i class="fas fa-share-alt"></i>
+                                                <span>Paylaş</span>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
+
+                                <!-- Hover Effect Overlay -->
+                                <div class="card-hover-effect"></div>
                             </article>
                         }
                     </div>
@@ -152,13 +224,14 @@
                     <!-- Pagination -->
                     @if (ViewBag.TotalPages > 1)
                     {
-                        <nav aria-label="Blog pagination" class="blog-pagination">
-                            <ul class="pagination">
+                        <nav aria-label="Blog pagination" class="modern-pagination-wrapper">
+                            <ul class="modern-pagination">
                                 @if (ViewBag.CurrentPage > 1)
                                 {
                                     <li class="page-item">
-                                        <a class="page-link" href="@Url.Action("Index", "PublicBlog", new { page = ViewBag.CurrentPage - 1 })" aria-label="Önceki">
+                                        <a class="page-link prev-link" href="@Url.Action("Index", "PublicBlog", new { page = ViewBag.CurrentPage - 1 })" aria-label="Önceki">
                                             <i class="fas fa-chevron-left"></i>
+                                            <span>Önceki</span>
                                         </a>
                                     </li>
                                 }
@@ -173,7 +246,8 @@
                                 @if (ViewBag.CurrentPage < ViewBag.TotalPages)
                                 {
                                     <li class="page-item">
-                                        <a class="page-link" href="@Url.Action("Index", "PublicBlog", new { page = ViewBag.CurrentPage + 1 })" aria-label="Sonraki">
+                                        <a class="page-link next-link" href="@Url.Action("Index", "PublicBlog", new { page = ViewBag.CurrentPage + 1 })" aria-label="Sonraki">
+                                            <span>Sonraki</span>
                                             <i class="fas fa-chevron-right"></i>
                                         </a>
                                     </li>
@@ -274,7 +348,7 @@
     <link href="~/css/blog-cards.css" rel="stylesheet" />
     <link href="~/css/blog-sidebar.css" rel="stylesheet" />
 }
-
+<script src="~/js/blog-cards.js" asp-append-version="true"></script>
 <script>
     // Kategori Scroll - Kullanıcı İpuçları ile
     document.addEventListener('DOMContentLoaded', function() {
@@ -381,4 +455,5 @@
             });
         }
     });
+
 </script>

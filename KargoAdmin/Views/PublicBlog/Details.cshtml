@@ -6,7 +6,7 @@
 
 <!-- Modern Blog Detail Header -->
 <section class="blog-detail-hero">
-    <div class="blog-hero-background" style="background-image: url('@(!string.IsNullOrEmpty(Model.ImageUrl) ? "/uploads/" + Model.ImageUrl : "/img/blog-placeholder.jpg")')"></div>
+    <div class="blog-hero-background" style="background-image: url('@(!string.IsNullOrEmpty(Model.ImageUrl) ? "/uploads/" + Model.ImageUrl : "/img/blog-no-image.png")')"></div>
     <div class="blog-hero-overlay"></div>
     <div class="container">
         <div class="blog-hero-content">
@@ -130,64 +130,113 @@
             </div>
         </div>
 
-        <!-- Related Posts Section -->
+        <!-- Modern Related Posts Section - GÜNCEL VERSİYON -->
         @if (ViewBag.RelatedBlogs != null && ((List<Blog>)ViewBag.RelatedBlogs).Any())
         {
-            <div class="row">
+            <div class="row mt-5">
                 <div class="col-12">
-                    <div class="related-posts-section">
-                        <div class="related-header">
-                            <h2 class="related-title">
-                                <i class="fas fa-newspaper"></i>
-                                İlgili Yazılar
-                            </h2>
-                            <p class="related-subtitle">Bu konuyla ilgili diğer yazılarımız</p>
+                    <div class="modern-related-section">
+                        <!-- Dinamik Başlık -->
+                        <div class="section-header">
+                            @{
+                                string sectionTitle = "Son Yazılar";
+                                string sectionIcon = "fas fa-clock";
+                                string sectionDescription = "En son yayınlanan yazılarımız";
+
+                                if (ViewBag.RelatedPostsType?.ToString() == "related")
+                                {
+                                    sectionTitle = "İlgili Yazılar";
+                                    sectionIcon = "fas fa-link";
+                                    sectionDescription = "Bu konuyla ilgili diğer yazılarımız";
+                                }
+                                else if (ViewBag.RelatedPostsType?.ToString() == "popular")
+                                {
+                                    sectionTitle = "Popüler Yazılar";
+                                    sectionIcon = "fas fa-fire";
+                                    sectionDescription = "En çok okunan yazılarımız";
+                                }
+                            }
+
+                            <div class="section-title-wrapper">
+                                <h2 class="section-title">
+                                    <i class="@sectionIcon"></i>
+                                    @sectionTitle
+                                </h2>
+                                <p class="section-subtitle">@sectionDescription</p>
+                            </div>
                         </div>
 
-                        <div class="related-posts-grid">
+                        <!-- Modern Cards Grid -->
+                        <div class="modern-posts-grid">
                             @foreach (var relatedBlog in ((List<Blog>)ViewBag.RelatedBlogs))
                             {
-                                <article class="related-post-card">
-                                    <div class="related-post-image">
-                                        <img src="@(!string.IsNullOrEmpty(relatedBlog.ImageUrl) ? "/uploads/" + relatedBlog.ImageUrl : "/img/blog-placeholder.png")"
-                                             alt="@relatedBlog.Title">
-                                        <div class="related-post-overlay">
+                                <article class="modern-post-card">
+                                    <!-- Card Image -->
+                                    <div class="card-image-wrapper">
+                                        <img src="@(!string.IsNullOrEmpty(relatedBlog.ImageUrl) ? "/uploads/" + relatedBlog.ImageUrl : "/img/blog-no-image.png")"
+                                             alt="@relatedBlog.Title"
+                                             class="card-image">
+
+                                        <!-- Overlay with Action -->
+                                        <div class="image-overlay">
                                             <a href="@Url.Action("Details", "PublicBlog", new { id = relatedBlog.Id, slug = relatedBlog.Slug })"
-                                               class="read-more-btn">
+                                               class="read-action-btn">
                                                 <i class="fas fa-arrow-right"></i>
                                             </a>
                                         </div>
-                                        <div class="post-category">
-                                            @if (!string.IsNullOrEmpty(relatedBlog.Tags))
-                                            {
-                                                <span class="category-badge">@relatedBlog.Tags.Split(',').FirstOrDefault()?.Trim()</span>
-                                            }
-                                        </div>
+
+                                        <!-- Category Badge -->
+                                        @if (!string.IsNullOrEmpty(relatedBlog.Tags))
+                                        {
+                                            <span class="category-badge">
+                                                @relatedBlog.Tags.Split(',').FirstOrDefault()?.Trim()
+                                            </span>
+                                        }
+
+                                        <!-- Popularity Indicator -->
+                                        @if (ViewBag.RelatedPostsType?.ToString() == "popular")
+                                        {
+                                            <span class="popularity-badge">
+                                                <i class="fas fa-fire"></i>
+                                                Popüler
+                                            </span>
+                                        }
                                     </div>
-                                    <div class="related-post-content">
-                                        <div class="related-post-meta">
-                                            <span class="meta-date">
+
+                                    <!-- Card Content -->
+                                    <div class="card-content">
+                                        <!-- Meta Info -->
+                                        <div class="post-meta">
+                                            <span class="meta-item">
                                                 <i class="far fa-calendar-alt"></i>
                                                 @relatedBlog.PublishDate.ToString("dd MMM yyyy")
                                             </span>
-                                            <span class="meta-views">
+                                            <span class="meta-item">
                                                 <i class="far fa-eye"></i>
                                                 @relatedBlog.ViewCount
                                             </span>
                                         </div>
-                                        <h3 class="related-post-title">
+
+                                        <!-- Title -->
+                                        <h3 class="post-title">
                                             <a href="@Url.Action("Details", "PublicBlog", new { id = relatedBlog.Id, slug = relatedBlog.Slug })">
                                                 @relatedBlog.Title
                                             </a>
                                         </h3>
+
+                                        <!-- Excerpt -->
                                         @{
-                                            var relatedExcerpt = System.Text.RegularExpressions.Regex.Replace(relatedBlog.Content, "<.*?>", "");
-                                            relatedExcerpt = relatedExcerpt.Length > 120 ? relatedExcerpt.Substring(0, 120) + "..." : relatedExcerpt;
+                                            var excerpt = System.Text.RegularExpressions.Regex.Replace(relatedBlog.Content, "<.*?>", "");
+                                            excerpt = excerpt.Length > 100 ? excerpt.Substring(0, 100) + "..." : excerpt;
                                         }
-                                        <p class="related-post-excerpt">@relatedExcerpt</p>
-                                        <div class="read-more-link">
-                                            <a href="@Url.Action("Details", "PublicBlog", new { id = relatedBlog.Id, slug = relatedBlog.Slug })">
-                                                Devamını Oku <i class="fas fa-arrow-right"></i>
+                                        <p class="post-excerpt">@excerpt</p>
+
+                                        <!-- Read More -->
+                                        <div class="read-more-wrapper">
+                                            <a href="@Url.Action("Details", "PublicBlog", new { id = relatedBlog.Id, slug = relatedBlog.Slug })"
+                                               class="read-more-link">
+                                                Devamını Oku
+                                                <i class="fas fa-chevron-right"></i>
                                             </a>
                                         </div>
                                     </div>

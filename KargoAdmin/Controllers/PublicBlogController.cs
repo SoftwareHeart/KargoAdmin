@@ -110,7 +110,7 @@ namespace KargoAdmin.Controllers
             return View("Index", blogs);
         }
 
-        // Blog detay sayfası
+        // Blog detay sayfası - GELİŞTİRİLMİŞ VERSİYON
         public async Task<IActionResult> Details(int? id, string slug)
         {
             if (id == null && string.IsNullOrEmpty(slug))
@@ -138,37 +138,69 @@ namespace KargoAdmin.Controllers
                 return NotFound();
             }
 
+            // View sayısını artır
             blog.ViewCount++;
             _context.Update(blog);
             await _context.SaveChangesAsync();
 
-            var relatedBlogs = new List<Blog>();
+            // İlgili yazıları bul - GELİŞTİRİLMİŞ MANTIK
+            var relatedBlogs = await GetRelatedBlogs(blog);
 
-            if (!string.IsNullOrEmpty(blog.Tags))
-            {
-                var tags = blog.Tags.Split(',').Select(t => t.Trim()).ToList();
-
-                relatedBlogs = await _context.Blogs
-                    .Where(b => b.Id != blog.Id &&
-                           b.IsPublished &&
-                           tags.Any(tag => b.Tags.Contains(tag)))
-                    .OrderByDescending(b => b.PublishDate)
-                    .Take(3)
-                    .ToListAsync();
-            }
-
-            if (relatedBlogs.Count == 0)
-            {
-                relatedBlogs = await _context.Blogs
-                    .Where(b => b.Id != blog.Id && b.IsPublished)
-                    .OrderByDescending(b => b.PublishDate)
-                    .Take(3)
-                    .ToListAsync();
-            }
-
-            ViewBag.RelatedBlogs = relatedBlogs;
+            ViewBag.RelatedBlogs = relatedBlogs.relatedPosts;
+            ViewBag.RelatedPostsType = relatedBlogs.type; // "related", "popular", "recent"
 
             return View(blog);
+        }
+
+        // İlgili yazıları bulma mantığı - YENİ METOD
+        private async Task<(List<Blog> relatedPosts, string type)> GetRelatedBlogs(Blog currentBlog)
+        {
+            var relatedBlogs = new List<Blog>();
+            string relationType = "recent"; // varsayılan
+
+            // 1. ÖNCE ETİKETLERE GÖRE İLGİLİ YAZILAR ARA
+            if (!string.IsNullOrEmpty(currentBlog.Tags))
+            {
+                var tags = currentBlog.Tags.Split(',').Select(t => t.Trim()).ToList();
+
+                relatedBlogs = await _context.Blogs
+                    .Where(b => b.Id != currentBlog.Id &&
+                               b.IsPublished &&
+                               tags.Any(tag => b.Tags.Contains(tag)))
+                    .OrderByDescending(b => b.PublishDate)
+                    .Take(3)
+                    .ToListAsync();
+
+                if (relatedBlogs.Count >= 2) // En az 2 ilgili yazı varsa
+                {
+                    relationType = "related";
+                    return (relatedBlogs, relationType);
+                }
+            }
+
+            // 2. ETİKET BAZLI İLGİLİ YAZI YOKSA, POPÜLER YAZILAR GETİR
+            var popularBlogs = await _context.Blogs
+                .Where(b => b.Id != currentBlog.Id && b.IsPublished)
+                .OrderByDescending(b => b.ViewCount)
+                .ThenByDescending(b => b.PublishDate)
+                .Take(3)
+                .ToListAsync();
+
+            if (popularBlogs.Count >= 2) // En az 2 popüler yazı varsa
+            {
+                relationType = "popular";
+                return (popularBlogs, relationType);
+            }
+
+            // 3. POPÜLER YAZI DA YOKSA, EN SON YAZILAR GETİR
+            var recentBlogs = await _context.Blogs
+                .Where(b => b.Id != currentBlog.Id && b.IsPublished)
+                .OrderByDescending(b => b.PublishDate)
+                .Take(3)
+                .ToListAsync();
+
+            relationType = "recent";
+            return (recentBlogs, relationType);
         }
 
         // BASİT TAG LİSTESİ - Hata vermez
