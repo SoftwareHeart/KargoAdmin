@@ -1,0 +1,188 @@
+﻿@{
+    ViewData["Title"] = "Kara Yolu Taşımacılığı";
+    Layout = "_PublicLayout";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/service-detail.css" asp-append-version="true" />
+}
+
+<!-- Hero Section -->
+<section class="service-hero">
+    <img src="~/img/karaTasimaciligi.png" alt="Kara Yolu Taşımacılığı" class="service-hero-image">
+    <div class="service-hero-content">
+        <h1>Aleris Lojistik: Kara Yolu Taşımacılığı</h1>
+        <p class="service-hero-subtitle">
+            Yurtici ve uluslararası karayolu taşımacılığı alanında geniş hizmet yelpazemizle,
+            müşterilerimize güvenli, hızlı ve esnek çözümler sunuyoruz.
+        </p>
+    </div>
+</section>
+
+<!-- Services Overview -->
+<section class="services-overview">
+    <div class="services-overview-content">
+        <h2>Hizmetlerimiz</h2>
+        <p class="services-overview-intro">
+            Modern araç filomuz ve deneyimli ekibimizle, her türlü yük taşımacılığında
+            profesyonel hizmet anlayışımızı sürdürüyoruz. Müşteri memnuniyetini ön planda
+            tutarak, güvenilir ve kaliteli hizmet sunmaktayız.
+        </p>
+
+        <div class="services-grid">
+            <!-- Geniş Coğrafi Kapsama Alanı -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-globe-europe"></i>
+                </div>
+                <h3>Geniş Coğrafi Kapsama Alanı</h3>
+                <p>Avrupa, Ortadoğu ve Bağımsız Devletler Topluluğu (CIS) ülkelerine komple ve parsiyet taşıma hizmetleri.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> Avrupa genelinde depolama, etiketleme, yeniden paketleme</li>
+                    <li><i class="fas fa-check-circle"></i> CIS ülkelerine komple ve parsiyet taşımalar</li>
+                </ul>
+            </div>
+
+            <!-- Teklikeli Madde ve İşi Kontrollü Taşımacılık -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3>Tehlikeli Madde ve İşi Kontrollü Taşımacılık</h3>
+                <p>ADR (tehlikeli madde) ve frigorifik (sıcaklık kontrollü) taşıma çözümleriyle özel yüklemeler için uygundur.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> ADR sertifikalı sürücüler</li>
+                    <li><i class="fas fa-check-circle"></i> Sıcaklık kontrollü taşıma sistemleri</li>
+                </ul>
+            </div>
+
+            <!-- Hızli Teslimat Seçenekleri -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-shipping-fast"></i>
+                </div>
+                <h3>Hızlı Teslimat Seçenekleri</h3>
+                <p>Minivan araçlarla Avrupa genelinde 48-72 saat içinde ekspres teslimat imkanı.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> 48-72 saat ekspres teslimat</li>
+                    <li><i class="fas fa-check-circle"></i> Avrupa çapında hızlı dağıtım ağı</li>
+                </ul>
+            </div>
+
+            <!-- Avrupada Depolama ve Katma Değerli Hizmetler -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-warehouse"></i>
+                </div>
+                <h3>Avrupa'da Depolama ve Katma Değerli Hizmetler</h3>
+                <p>Avrupa genelinde depolama, etiketleme, yeniden paketleme gibi katma değerli lojistik hizmetleri.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> Depolama hizmetleri</li>
+                    <li><i class="fas fa-check-circle"></i> Etiketleme ve yeniden paketleme</li>
+                </ul>
+            </div>
+
+            <!-- Yurt İçi Lojistik Hizmetleri -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-truck-moving"></i>
+                </div>
+                <h3>Yurt İçi Lojistik Hizmetleri</h3>
+                <p>Türkiye genelinde dağıtım, toplama ve depolama hizmetleriyle entegre çözümler.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> Türkiye geneli dağıtım ağı</li>
+                    <li><i class="fas fa-check-circle"></i> Toplama ve depolama hizmetleri</li>
+                </ul>
+            </div>
+
+            <!-- Özel Sertifikalı Taşımalar -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-certificate"></i>
+                </div>
+                <h3>Özel Sertifikalı Taşımalar</h3>
+                <p>Sağlık ve veteriner sertifikası gerektiren yükler için uygun taşıma altyapısı ve belge yönetimi.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> Sağlık ve veteriner belgeleri</li>
+                    <li><i class="fas fa-check-circle"></i> Özel sertifikasyon gereksinimleri</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="why-choose-us">
+    <div class="why-choose-content">
+        <h2>Neden Aleris Lojistik?</h2>
+
+        <div class="advantages-grid">
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <h3>Uygun Fiyat</h3>
+                <p>En uygun nakliyat fiyatlarını sunuyoruz, en iyi hizmet fiyatlarla vadediyoruz.</p>
+            </div>
+
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Güvenli Teslimat</h3>
+                <p>Sıfır hasar politikamız sayesinde yüklerinizi her zaman güvende kalacağını vaat ederiz.</p>
+            </div>
+
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3>Hızlı Hizmet</h3>
+                <p>Tüm hizmetlerimizde maksimum hız ve kaliteli yapılacak için çalışıyoruz.</p>
+            </div>
+
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h3>7/24 Destek</h3>
+                <p>Müşteri hizmetlerimiz 7 gün 24 saat hizmetinizdedir. Her an ulaşabilirsiniz.</p>
+            </div>
+
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-route"></i>
+                </div>
+                <h3>Geniş Ağ</h3>
+                <p>Türkiye genelinde ve Avrupa'da geniş bir lojistik ağına sahibiz.</p>
+            </div>
+
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <h3>Özel Çözümler</h3>
+                <p>Her müşterimizin ihtiyacına özel lojistik çözümleri geliştiriyoruz.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="service-cta">
+    <div class="service-cta-content">
+        <h2>Kara Yolu Taşımacılığı Hizmeti Almak İster Misiniz?</h2>
+        <p>Uzman ekibimizle ihtiyaçlarınıza en uygun lojistik çözümünü bulalım. Size özel fiyat teklifi için hemen iletişime geçin.</p>
+
+        <div class="cta-buttons">
+            <a href="/Public/Contact" class="btn-cta-primary">
+                <i class="fas fa-envelope"></i>
+                Teklif İste
+            </a>
+            <a href="tel:+902123456789" class="btn-cta-secondary">
+                <i class="fas fa-phone"></i>
+                Hemen Ara
+            </a>
+        </div>
+    </div>
+</section>

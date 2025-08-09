@@ -1,0 +1,194 @@
+﻿@{
+    ViewData["Title"] = "Depolama ve Dağıtım";
+    Layout = "_PublicLayout";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/service-detail.css" asp-append-version="true" />
+}
+
+<!-- Hero Section -->
+<section class="service-hero">
+    <img src="~/img/depolamaDagitim.png" alt="Depolama ve Dağıtım" class="service-hero-image">
+    <div class="service-hero-content">
+        <h1>Aleris Lojistik: Depolama ve Dağıtım</h1>
+        <p class="service-hero-subtitle">
+            Modern depolama tesislerimiz ve gelişmiş dağıtım ağımızla, tedarik zincirinizin
+            her aşamasında güvenilir ve esnek lojistik çözümleri sunuyoruz.
+        </p>
+    </div>
+</section>
+
+<!-- Services Overview -->
+<section class="services-overview">
+    <div class="services-overview-content">
+        <h2>Depolama ve Dağıtım Hizmetlerimiz</h2>
+        <p class="services-overview-intro">
+            Stratejik konumlardaki modern depolama tesislerimizde, mallarınızı güvenli koşullarda
+            saklıyoruz. Gelişmiş envanter yönetim sistemi ve hızlı dağıtım ağımız ile
+            tedarik zincirinizin verimliliğini artırıyoruz.
+        </p>
+
+        <div class="services-grid">
+            <!-- Genel Depolama -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-warehouse"></i>
+                </div>
+                <h3>Genel Depolama Hizmetleri</h3>
+                <p>Klimatize edilmiş modern depolarımızda her türlü ürün için güvenli depolama hizmeti.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> 7/24 güvenlik sistemi</li>
+                    <li><i class="fas fa-check-circle"></i> Klima ve nem kontrol</li>
+                    <li><i class="fas fa-check-circle"></i> Esnek depolama süreleri</li>
+                </ul>
+            </div>
+
+            <!-- Soğuk Zincir Depolama -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-snowflake"></i>
+                </div>
+                <h3>Soğuk Zincir Depolama</h3>
+                <p>Gıda, ilaç ve soğuk zincir gerektiren ürünler için özel sıcaklık kontrollü depolama.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> -25°C ile +25°C arası kontrol</li>
+                    <li><i class="fas fa-check-circle"></i> Sürekli sıcaklık izleme</li>
+                    <li><i class="fas fa-check-circle"></i> HACCP sertifikalı tesisler</li>
+                </ul>
+            </div>
+
+            <!-- Envanter Yönetimi -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-clipboard-list"></i>
+                </div>
+                <h3>Envanter Yönetimi</h3>
+                <p>WMS (Warehouse Management System) ile gerçek zamanlı stok takibi ve raporlama.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> Barkod sistemi ile takip</li>
+                    <li><i class="fas fa-check-circle"></i> Otomatik stok uyarıları</li>
+                    <li><i class="fas fa-check-circle"></i> Detaylı raporlama</li>
+                </ul>
+            </div>
+
+            <!-- Pick & Pack Hizmetleri -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-box"></i>
+                </div>
+                <h3>Pick & Pack Hizmetleri</h3>
+                <p>Siparişlerinizi hızlı bir şekilde hazırlayıp, profesyonel paketleme ile gönderiye hazırlıyoruz.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> Hızlı sipariş hazırlama</li>
+                    <li><i class="fas fa-check-circle"></i> Özel paketleme seçenekleri</li>
+                    <li><i class="fas fa-check-circle"></i> Aynı gün kargo</li>
+                </ul>
+            </div>
+
+            <!-- Cross-Docking -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <h3>Cross-Docking Hizmetleri</h3>
+                <p>Gelen yükleri minimum bekleme süresi ile dağıtım araçlarına aktararak hızlı dağıtım sağlıyoruz.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> Hızlı aktarım işlemleri</li>
+                    <li><i class="fas fa-check-circle"></i> Minimum stok maliyeti</li>
+                    <li><i class="fas fa-check-circle"></i> Konsolidasyon hizmetleri</li>
+                </ul>
+            </div>
+
+            <!-- Last Mile Dağıtım -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-truck-moving"></i>
+                </div>
+                <h3>Son Nokta Dağıtım</h3>
+                <p>Şehir içi ve bölgesel dağıtım ağımızla müşterilerinize hızlı teslimat sağlıyoruz.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> Şehir içi aynı gün teslimat</li>
+                    <li><i class="fas fa-check-circle"></i> Bölgesel dağıtım ağı</li>
+                    <li><i class="fas fa-check-circle"></i> Esnek teslimat saatleri</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="why-choose-us">
+    <div class="why-choose-content">
+        <h2>Depolama ve Dağıtım Avantajlarımız</h2>
+
+        <div class="advantages-grid">
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <h3>Modern Tesisler</h3>
+                <p>Son teknoloji ile donatılmış, güvenli ve verimli depolama tesislerimizle hizmet veriyoruz.</p>
+            </div>
+
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <h3>Stratejik Lokasyonlar</h3>
+                <p>Ulaşım ağlarına yakın konumlardaki depolarımızla hızlı giriş-çıkış imkânı sağlıyoruz.</p>
+            </div>
+
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-laptop"></i>
+                </div>
+                <h3>Teknoloji Entegrasyonu</h3>
+                <p>WMS, ERP entegrasyonu ve online raporlama ile tam şeffaflık sunuyoruz.</p>
+            </div>
+
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-users-cog"></i>
+                </div>
+                <h3>Uzman Ekip</h3>
+                <p>Deneyimli lojistik profesyonellerimizle depolama ve dağıtım operasyonlarını yönetiyoruz.</p>
+            </div>
+
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <h3>Esnek Çözümler</h3>
+                <p>İş ihtiyaçlarınıza uygun özelleştirilmiş depolama ve dağıtım çözümleri geliştiriyoruz.</p>
+            </div>
+
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <h3>KPI Takibi</h3>
+                <p>Performans göstergelerini sürekli izleyerek hizmet kalitesini artırıyoruz.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="service-cta">
+    <div class="service-cta-content">
+        <h2>Depolama ve Dağıtım İçin Bize Güvenin</h2>
+        <p>Tedarik zincirinizi güçlendirin! Modern depolama tesislerimiz ve hızlı dağıtım ağımızla işinizi büyütün.</p>
+
+        <div class="cta-buttons">
+            <a href="/Public/Contact" class="btn-cta-primary">
+                <i class="fas fa-warehouse"></i>
+                Depo Turu Talep Et
+            </a>
+            <a href="tel:+902123456789" class="btn-cta-secondary">
+                <i class="fas fa-phone"></i>
+                Fiyat Bilgisi Al
+            </a>
+        </div>
+    </div>
+</section>

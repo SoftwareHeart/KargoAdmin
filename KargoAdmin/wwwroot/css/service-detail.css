@@ -1,0 +1,424 @@
+﻿/* Service Detail Pages - Modern CSS */
+
+/* Hero Section */
+.service-hero {
+    position: relative;
+    height: 60vh;
+    min-height: 400px;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+    .service-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, rgba(30, 60, 114, 0.9), rgba(42, 82, 152, 0.7));
+        z-index: 1;
+    }
+
+.service-hero-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.service-hero-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    width: 100%;
+}
+
+.service-hero h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.service-hero-subtitle {
+    font-size: 1.3rem;
+    font-weight: 300;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+    max-width: 600px;
+}
+
+
+/* Services Overview Section */
+.services-overview {
+    padding: 5rem 0;
+    background: white;
+}
+
+.services-overview-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.services-overview h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1e3c72;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.services-overview-intro {
+    font-size: 1.2rem;
+    color: #666;
+    text-align: center;
+    margin-bottom: 3rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+}
+
+/* Services Grid */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.service-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid #f0f0f0;
+    position: relative;
+    overflow: hidden;
+}
+
+    .service-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, #ff6b35, #f7931e);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+    }
+
+    .service-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .service-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+.service-card-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(45deg, #ff6b35, #f7931e);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+    .service-card-icon i {
+        font-size: 1.8rem;
+        color: white;
+    }
+
+.service-card h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #1e3c72;
+    margin-bottom: 1rem;
+}
+
+.service-card p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.service-features {
+    list-style: none;
+    padding: 0;
+}
+
+    .service-features li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.8rem;
+        color: #555;
+    }
+
+        .service-features li i {
+            color: #ff6b35;
+            margin-right: 0.8rem;
+            font-size: 0.9rem;
+        }
+
+/* Why Choose Us Section */
+.why-choose-us {
+    padding: 5rem 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.why-choose-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.why-choose-us h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1e3c72;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.advantages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.advantage-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border: 1px solid #f0f0f0;
+}
+
+    .advantage-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+    }
+
+.advantage-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(45deg, #1e3c72, #2a5298);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.advantage-card:hover .advantage-icon {
+    background: linear-gradient(45deg, #ff6b35, #f7931e);
+}
+
+.advantage-icon i {
+    font-size: 2rem;
+    color: white;
+}
+
+.advantage-card h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #1e3c72;
+    margin-bottom: 1rem;
+}
+
+.advantage-card p {
+    color: #666;
+    line-height: 1.6;
+}
+
+/* CTA Section */
+.service-cta {
+    padding: 4rem 0;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: white;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+    .service-cta::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+        animation: rotate 20s linear infinite;
+    }
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.service-cta-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.service-cta h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.service-cta p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-cta-primary {
+    background: linear-gradient(45deg, #ff6b35, #f7931e);
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+}
+
+    .btn-cta-primary:hover {
+        background: linear-gradient(45deg, #f7931e, #ff6b35);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(255, 107, 53, 0.3);
+        color: white;
+    }
+
+.btn-cta-secondary {
+    background: transparent;
+    color: white;
+    padding: 1rem 2rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+}
+
+    .btn-cta-secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: white;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .service-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .service-hero-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .services-overview h2,
+    .why-choose-us h2,
+    .service-cta h2 {
+        font-size: 2rem;
+    }
+
+    .services-overview-intro {
+        font-size: 1.1rem;
+    }
+
+    .services-grid,
+    .advantages-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .service-card,
+    .advantage-card {
+        padding: 1.5rem;
+    }
+
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn-cta-primary,
+    .btn-cta-secondary {
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .service-hero {
+        height: 50vh;
+        min-height: 350px;
+    }
+
+        .service-hero h1 {
+            font-size: 2rem;
+        }
+
+    .service-hero-content {
+        padding: 0 1rem;
+    }
+
+    .services-overview,
+    .why-choose-us,
+    .service-cta {
+        padding: 3rem 0;
+    }
+
+    .services-overview-content,
+    .why-choose-content,
+    .service-cta-content {
+        padding: 0 1rem;
+    }
+}

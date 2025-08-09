@@ -1,0 +1,194 @@
+﻿@{
+    ViewData["Title"] = "Deniz Yolu Taşımacılığı";
+    Layout = "_PublicLayout";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/service-detail.css" asp-append-version="true" />
+}
+
+<!-- Hero Section -->
+<section class="service-hero">
+    <img src="~/img/denizTasimaciligi.png" alt="Deniz Yolu Taşımacılığı" class="service-hero-image">
+    <div class="service-hero-content">
+        <h1>Aleris Lojistik: Deniz Yolu Taşımacılığı</h1>
+        <p class="service-hero-subtitle">
+            Global ticaret ağınızı genişletin! Konteyner ve bulk yük taşımacılığı ile
+            dünya limanlarına güvenilir ve ekonomik deniz taşımacılığı çözümleri sunuyoruz.
+        </p>
+    </div>
+</section>
+
+<!-- Services Overview -->
+<section class="services-overview">
+    <div class="services-overview-content">
+        <h2>Deniz Taşımacılığı Hizmetlerimiz</h2>
+        <p class="services-overview-intro">
+            Dünya denizlerinde faaliyet gösteren önde gelen konteyner hatlarıyla yaptığımız
+            işbirlikleri sayesinde, büyük hacimli yüklerinizi en uygun fiyatlarla güvenle taşıyoruz.
+            Deneyimli operasyon ekibimiz, kapsamlı liman ağımız ve güçlü partner ağımızla hizmetinizdeyiz.
+        </p>
+
+        <div class="services-grid">
+            <!-- FCL (Full Container Load) -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-shipping-fast"></i>
+                </div>
+                <h3>FCL (Full Container Load) Taşımacılığı</h3>
+                <p>Komple konteyner kiralama ile büyük hacimli yüklerinizi ekonomik şekilde taşıyoruz.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> 20ft ve 40ft konteyner seçenekleri</li>
+                    <li><i class="fas fa-check-circle"></i> High Cube ve Open Top konteynerler</li>
+                    <li><i class="fas fa-check-circle"></i> Özel ekipman talepleri</li>
+                </ul>
+            </div>
+
+            <!-- LCL (Less Container Load) -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-boxes"></i>
+                </div>
+                <h3>LCL (Less Container Load) Taşımacılığı</h3>
+                <p>Küçük hacimli yüklerinizi diğer gönderilerle konsolide ederek uygun fiyatla gönderiyoruz.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> Haftalık konsolide gönderimler</li>
+                    <li><i class="fas fa-check-circle"></i> Esnek hacim seçenekleri</li>
+                    <li><i class="fas fa-check-circle"></i> Uygun maliyet avantajı</li>
+                </ul>
+            </div>
+
+            <!-- Bulk Yük Taşımacılığı -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-mountain"></i>
+                </div>
+                <h3>Dökme Yük Taşımacılığı</h3>
+                <p>Tahıl, kömür, cevher gibi dökme yükleriniz için özel bulk carrier gemilerle taşımacılık.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> Kuru dökme yük taşımacılığı</li>
+                    <li><i class="fas fa-check-circle"></i> Özel yükleme/boşaltma sistemleri</li>
+                    <li><i class="fas fa-check-circle"></i> Büyük tonajlı gönderimler</li>
+                </ul>
+            </div>
+
+            <!-- RO-RO Taşımacılığı -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-truck-loading"></i>
+                </div>
+                <h3>RO-RO Taşımacılığı</h3>
+                <p>Araçlar, römorklar ve tekerlekli yükler için özel RO-RO gemileriyle güvenli taşımacılık.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> Kamyon ve römork taşımacılığı</li>
+                    <li><i class="fas fa-check-circle"></i> Araç ve iş makinesi transportu</li>
+                    <li><i class="fas fa-check-circle"></i> Hızlı yükleme/boşaltma</li>
+                </ul>
+            </div>
+
+            <!-- Proje Kargo -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-project-diagram"></i>
+                </div>
+                <h3>Proje Kargo</h3>
+                <p>Ağır, büyük boyutlu ve özel ekipman gerektiren projeler için özelleştirilmiş taşımacılık çözümleri.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> Ağır lift operasyonları</li>
+                    <li><i class="fas fa-check-circle"></i> Özel boyutlu yüklemeler</li>
+                    <li><i class="fas fa-check-circle"></i> Teknik danışmanlık</li>
+                </ul>
+            </div>
+
+            <!-- Liman Hizmetleri -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-anchor"></i>
+                </div>
+                <h3>Liman Hizmetleri</h3>
+                <p>Tüm büyük limanlarda temsilcilik ağımızla gümrük, depolama ve elleçleme hizmetleri.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> Gümrük işlemleri</li>
+                    <li><i class="fas fa-check-circle"></i> Liman depolama</li>
+                    <li><i class="fas fa-check-circle"></i> Yükleme/boşaltma operasyonları</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="why-choose-us">
+    <div class="why-choose-content">
+        <h2>Deniz Taşımacılığı Avantajlarımız</h2>
+
+        <div class="advantages-grid">
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-ship"></i>
+                </div>
+                <h3>Güçlü Filo Ağı</h3>
+                <p>Dünyanın en büyük konteyner hatlarıyla yapılan anlaşmalarımızla geniş kapasiteli gemi filosuna erişim.</p>
+            </div>
+
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <h3>Global Liman Ağı</h3>
+                <p>500+ liman destinasyonuna düzenli servislerimizle dünyanın her yerine ulaşım imkânı.</p>
+            </div>
+
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Rekabetçi Fiyatlar</h3>
+                <p>Büyük hacimli anlaşmalarımız sayesinde piyasadaki en uygun navlun fiyatlarını sunuyoruz.</p>
+            </div>
+
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <h3>Düzenli Seferler</h3>
+                <p>Ana rotalarda haftalık, diğer destinasyonlarda iki haftalık düzenli seferlerle garantili kapasite.</p>
+            </div>
+
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-file-contract"></i>
+                </div>
+                <h3>Profesyonel Dokümantasyon</h3>
+                <p>Gümrük, sigorta ve sevkiyat belgelerinin eksiksiz hazırlanması için uzman destek.</p>
+            </div>
+
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-satellite-dish"></i>
+                </div>
+                <h3>Gerçek Zamanlı Takip</h3>
+                <p>Konteynırınızın denizde bulunduğu konumunu ve varış tahminini anlık olarak takip edin.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="service-cta">
+    <div class="service-cta-content">
+        <h2>Deniz Yolu İle Ekonomik Taşımacılık</h2>
+        <p>Büyük hacimli gönderimleriniz için en uygun navlun fiyatlarını alın. Uzman ekibimiz size en iyi rotayı önerecek!</p>
+
+        <div class="cta-buttons">
+            <a href="/Public/Contact" class="btn-cta-primary">
+                <i class="fas fa-calculator"></i>
+                Navlun Hesapla
+            </a>
+            <a href="tel:+902123456789" class="btn-cta-secondary">
+                <i class="fas fa-phone"></i>
+                Uzman Görüşü Al
+            </a>
+        </div>
+    </div>
+</section>

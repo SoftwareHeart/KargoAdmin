@@ -1,0 +1,194 @@
+﻿@{
+    ViewData["Title"] = "Hava Yolu Taşımacılığı";
+    Layout = "_PublicLayout";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/service-detail.css" asp-append-version="true" />
+}
+
+<!-- Hero Section -->
+<section class="service-hero">
+    <img src="~/img/havaTasimaciligi.png" alt="Hava Yolu Taşımacılığı" class="service-hero-image">
+    <div class="service-hero-content">
+        <h1>Aleris Lojistik: Hava Yolu Taşımacılığı</h1>
+        <p class="service-hero-subtitle">
+            Hızlı ve güvenilir hava kargo hizmetleriyle, acil gönderilerinizi dünyanın her yerine
+            zamanında ulaştırıyoruz. Global havayolları ağımızla kesintisiz hizmet sunuyoruz.
+        </p>
+    </div>
+</section>
+
+<!-- Services Overview -->
+<section class="services-overview">
+    <div class="services-overview-content">
+        <h2>Hava Kargo Hizmetlerimiz</h2>
+        <p class="services-overview-intro">
+            Dünya çapında güvenilir havayolu şirketleriyle kurduğumuz güçlü işbirlikleri sayesinde,
+            acil ve kritik gönderilerinizi en hızlı şekilde hedefe ulaştırıyoruz.
+            Profesyonel ekibimiz ve gelişmiş teknolojimizle, her adımda yanınızdayız.
+        </p>
+
+        <div class="services-grid">
+            <!-- Express Hava Kargo -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-plane"></i>
+                </div>
+                <h3>Express Hava Kargo</h3>
+                <p>Acil gönderileriniz için 24-48 saat içinde dünya geneline teslimat hizmeti.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> 24-48 saat express teslimat</li>
+                    <li><i class="fas fa-check-circle"></i> Öncelikli gümrük işlemleri</li>
+                    <li><i class="fas fa-check-circle"></i> 7/24 takip sistemi</li>
+                </ul>
+            </div>
+
+            <!-- Ekonomik Hava Kargo -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <h3>Ekonomik Hava Kargo</h3>
+                <p>Uygun fiyatlı hava kargo çözümleriyle, bütçenizi zorlamadan güvenli taşımacılık.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> Rekabetçi fiyatlar</li>
+                    <li><i class="fas fa-check-circle"></i> Konsolide gönderimler</li>
+                    <li><i class="fas fa-check-circle"></i> Esnek teslimat süreleri</li>
+                </ul>
+            </div>
+
+            <!-- Özel Kargo Çözümleri -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-box-open"></i>
+                </div>
+                <h3>Özel Kargo Çözümleri</h3>
+                <p>Değerli, kırılgan veya özel bakım gerektiren yükleriniz için özel taşıma hizmetleri.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> Değerli eşya taşımacılığı</li>
+                    <li><i class="fas fa-check-circle"></i> Kırılgan malzeme koruması</li>
+                    <li><i class="fas fa-check-circle"></i> Sıcaklık kontrollü taşıma</li>
+                </ul>
+            </div>
+
+            <!-- Gümrük ve Dokümantasyon -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <h3>Gümrük ve Dokümantasyon</h3>
+                <p>Tüm gümrük işlemlerinizi ve gerekli evrak süreçlerinizi uzman ekibimizle yönetiyoruz.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> Profesyonel gümrük işlemleri</li>
+                    <li><i class="fas fa-check-circle"></i> Dokümantasyon desteği</li>
+                    <li><i class="fas fa-check-circle"></i> Vergi ve harç hesaplaması</li>
+                </ul>
+            </div>
+
+            <!-- Kapıdan Kapıya Hizmet -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-door-open"></i>
+                </div>
+                <h3>Kapıdan Kapıya Hizmet</h3>
+                <p>Gönderinizi sizden alıp, alıcısının kapısına kadar teslim ediyoruz.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> Ücretsiz paketleme</li>
+                    <li><i class="fas fa-check-circle"></i> Adrese teslim</li>
+                    <li><i class="fas fa-check-circle"></i> Sigortalı gönderim</li>
+                </ul>
+            </div>
+
+            <!-- Anlık Takip Sistemi -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-satellite"></i>
+                </div>
+                <h3>Anlık Takip Sistemi</h3>
+                <p>Gönderinizin her anını takip edebilir, gerçek zamanlı bilgi alabilirsiniz.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> Gerçek zamanlı takip</li>
+                    <li><i class="fas fa-check-circle"></i> SMS ve e-posta bildirimleri</li>
+                    <li><i class="fas fa-check-circle"></i> Teslimat onayı</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="why-choose-us">
+    <div class="why-choose-content">
+        <h2>Hava Kargo Avantajlarımız</h2>
+
+        <div class="advantages-grid">
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <h3>Global Ağ</h3>
+                <p>Dünya genelinde 200+ destinasyona direkt uçuş imkânı ile gönderimlerinizi hızla ulaştırıyoruz.</p>
+            </div>
+
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-lightning-bolt"></i>
+                </div>
+                <h3>Hızlı Teslimat</h3>
+                <p>Express servisle 24 saat içinde, standart servisle 3-5 gün içinde teslimat garantisi.</p>
+            </div>
+
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-shield-check"></i>
+                </div>
+                <h3>Güvenli Taşımacılık</h3>
+                <p>Profesyonel paketleme ve sigortalı gönderimlerle %100 güvende kargo taşımacılığı.</p>
+            </div>
+
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h3>Uzman Ekip</h3>
+                <p>15+ yıl deneyimli uzman ekibimizle, her türlü hava kargo ihtiyacınıza çözüm üretiyoruz.</p>
+            </div>
+
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <h3>Şeffaf Fiyatlandırma</h3>
+                <p>Gizli ek ücret yok, tüm masraflarınızı önceden net olarak bildiriyoruz.</p>
+            </div>
+
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-headphones"></i>
+                </div>
+                <h3>7/24 Müşteri Desteği</h3>
+                <p>Hafta sonları dahil 24 saat müşteri hizmetlerimizden destek alabilirsiniz.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="service-cta">
+    <div class="service-cta-content">
+        <h2>Hızlı Hava Kargo Hizmeti İçin Bize Ulaşın</h2>
+        <p>Acil gönderimleriniz için profesyonel hava kargo hizmeti alın. Ücretsiz fiyat teklifi için hemen başvurun!</p>
+
+        <div class="cta-buttons">
+            <a href="/Public/Contact" class="btn-cta-primary">
+                <i class="fas fa-paper-plane"></i>
+                Ücretsiz Teklif Al
+            </a>
+            <a href="tel:+902123456789" class="btn-cta-secondary">
+                <i class="fas fa-phone-alt"></i>
+                Acil Destek Hattı
+            </a>
+        </div>
+    </div>
+</section>

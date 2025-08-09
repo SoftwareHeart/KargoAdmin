@@ -63,13 +63,13 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "public",
     pattern: "",
-    defaults: new { controller = "Public", action = "Index" });
+    defaults: new { controller = "Aleris", action = "Index" });
 
 // Diğer public sayfalar
 app.MapControllerRoute(
     name: "publicPages",
     pattern: "public/{action}/{id?}",
-    defaults: new { controller = "Public" });
+    defaults: new { controller = "Aleris" });
 
 // Blog sayfaları için SEO dostu URL'ler
 app.MapControllerRoute(
@@ -94,17 +94,12 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "about",
     pattern: "about",
-    defaults: new { controller = "Public", action = "About" });
-
-app.MapControllerRoute(
-    name: "services",
-    pattern: "services",
-    defaults: new { controller = "Public", action = "Services" });
+    defaults: new { controller = "Aleris", action = "About" });
 
 app.MapControllerRoute(
     name: "contact",
     pattern: "contact",
-    defaults: new { controller = "Public", action = "Contact" });
+    defaults: new { controller = "Aleris", action = "Contact" });
 // Admin panel giriş URL'si
 app.MapControllerRoute(
     name: "adminLogin",
@@ -115,7 +110,47 @@ app.MapControllerRoute(
     name: "adminBlog",
     pattern: "admin/blog/{action=Index}/{id?}",
     defaults: new { controller = "Blog", action = "Index" });
+// Service detail pages routes
+app.MapControllerRoute(
+    name: "landTransport",
+    pattern: "karayolu-tasimaciligi",
+    defaults: new { controller = "Aleris", action = "LandTransport" });
 
+app.MapControllerRoute(
+    name: "airTransport",
+    pattern: "havayolu-tasimaciligi",
+    defaults: new { controller = "Aleris", action = "AirTransport" });
+
+app.MapControllerRoute(
+    name: "seaTransport",
+    pattern: "denizyolu-tasimaciligi",
+    defaults: new { controller = "Aleris", action = "SeaTransport" });
+
+app.MapControllerRoute(
+    name: "storageDistribution",
+    pattern: "depolama-dagitim",
+    defaults: new { controller = "Aleris", action = "StorageDistribution" });
+
+// Alternative routes for service details
+app.MapControllerRoute(
+    name: "servicesKarayolu",
+    pattern: "Aleris/Servisler/KaraYolu",
+    defaults: new { controller = "Aleris", action = "LandTransport" });
+
+app.MapControllerRoute(
+    name: "servicesHavayolu",
+    pattern: "Aleris/Servisler/HavaYolu",
+    defaults: new { controller = "Aleris", action = "AirTransport" });
+
+app.MapControllerRoute(
+    name: "servicesDenizyolu",
+    pattern: "Aleris/Servisler/DenizYolu",
+    defaults: new { controller = "Aleris", action = "SeaTransport" });
+
+app.MapControllerRoute(
+    name: "servicesDepolama",
+    pattern: "Aleris/Servisler/DepolamaDagitim",
+    defaults: new { controller = "Aleris", action = "StorageDistribution" });
 // Standart route
 app.MapControllerRoute(
     name: "default",
