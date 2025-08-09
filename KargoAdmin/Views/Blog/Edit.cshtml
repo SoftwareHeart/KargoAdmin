@@ -5,420 +5,924 @@
     Layout = "_AdminLayout";
 }
 
-<div class="container-fluid px-4">
-    <h1 class="mt-4">Blog Düzenle</h1>
-    <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item"><a href="/Admin">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Blog")">Blog Listesi</a></li>
-        <li class="breadcrumb-item active">Blog Düzenle</li>
-    </ol>
+<link href="~/css/admin-edit.css" rel="stylesheet" asp-append-version="true" />
 
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="fas fa-check-circle me-2"></i> @TempData["SuccessMessage"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<div class="blog-edit-container">
+    <!-- Header -->
+    <div class="edit-header">
+        <div class="container-fluid">
+            <div class="edit-header-content">
+                <h1 class="edit-title">
+                    <i class="fas fa-edit me-2"></i>Blog Düzenle
+                </h1>
+                <p class="edit-subtitle">
+                    Blog yazınızı düzenleyin ve güncelleyin - ID: #@Model.Id
+                </p>
+                <div class="edit-breadcrumb">
+                    <a href="/Admin">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                    <span class="separator">/</span>
+                    <a href="@Url.Action("Index", "Blog")">
+                        <i class="fas fa-blog"></i> Blog Listesi
+                    </a>
+                    <span class="separator">/</span>
+                    <span>Düzenle</span>
+                </div>
+            </div>
         </div>
-    }
+    </div>
 
-    <form asp-action="Edit" enctype="multipart/form-data" id="blogForm">
-        <div class="row">
-            <div class="col-md-8">
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <i class="fas fa-edit me-1"></i>
-                        Blog Düzenle - #@Model.Id
-                    </div>
-                    <div class="card-body">
-                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+    <!-- Ana Form Container -->
+    <div class="edit-form-container">
+        <form asp-action="Edit" enctype="multipart/form-data" class="edit-form" id="blogEditForm">
+            <div class="edit-form-body">
+                <!-- Validation Summary -->
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger d-none" role="alert" id="validationSummary"></div>
+
+                <div class="edit-form-row">
+                    <!-- Sol Kolon - Ana İçerik -->
+                    <div class="edit-main-content">
+                        <!-- Hidden Fields -->
                         <input type="hidden" asp-for="Id" />
                         <input type="hidden" asp-for="ExistingImageUrl" />
 
-                        <div class="mb-3">
-                            <label asp-for="Title" class="form-label">Başlık</label>
-                            <input asp-for="Title" class="form-control form-control-lg" placeholder="Blog yazısı başlığı" autofocus />
+                        <!-- Blog Başlığı -->
+                        <div class="edit-form-group">
+                            <label asp-for="Title" class="edit-form-label">
+                                <i class="fas fa-heading"></i>
+                                Blog Başlığı
+                            </label>
+                            <input asp-for="Title"
+                                   class="edit-form-control"
+                                   placeholder="Etkileyici bir başlık yazın..."
+                                   maxlength="100"
+                                   id="titleInput"
+                                   required />
                             <span asp-validation-for="Title" class="text-danger"></span>
-                            <div class="form-text">SEO için önemli: Başlığınız 60 karakterden az olmalıdır.</div>
-                            <div class="progress mt-1" style="height: 3px;" id="titleProgress">
-                                <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+
+                            <div class="edit-progress-wrapper">
+                                <div class="edit-counter">
+                                    <span class="edit-counter-text">SEO için ideal: 50-60 karakter</span>
+                                    <span class="edit-counter-number" id="titleCounter">0/100</span>
+                                </div>
+                                <div class="edit-progress">
+                                    <div class="edit-progress-bar" id="titleProgress"></div>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="Content" class="form-label">İçerik</label>
-                            <textarea asp-for="Content" id="editor" class="form-control" rows="10"></textarea>
+                        <!-- Blog İçeriği -->
+                        <div class="edit-form-group">
+                            <label asp-for="Content" class="edit-form-label">
+                                <i class="fas fa-paragraph"></i>
+                                Blog İçeriği
+                            </label>
+                            <div class="edit-editor-wrapper">
+                                <textarea asp-for="Content"
+                                          id="contentEditor"
+                                          class="edit-form-control edit-textarea"
+                                          placeholder="Blog içeriğinizi buraya yazın..."
+                                          required></textarea>
+                            </div>
                             <span asp-validation-for="Content" class="text-danger"></span>
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="MetaDescription" class="form-label">Meta Açıklama</label>
-                            <textarea asp-for="MetaDescription" class="form-control" rows="2" maxlength="160" placeholder="Google aramaları için kısa bir açıklama"></textarea>
-                            <div class="form-text">
-                                <span id="metaDescriptionCounter">0</span>/160 karakter - Bu açıklama Google arama sonuçlarında görünecektir.
+                        <!-- Meta Açıklama -->
+                        <div class="edit-form-group">
+                            <label asp-for="MetaDescription" class="edit-form-label">
+                                <i class="fas fa-search"></i>
+                                SEO Meta Açıklaması
+                            </label>
+                            <textarea asp-for="MetaDescription"
+                                      class="edit-form-control edit-textarea"
+                                      rows="3"
+                                      placeholder="Arama motorları için kısa bir açıklama yazın..."
+                                      maxlength="160"
+                                      id="metaInput"></textarea>
+                            <span asp-validation-for="MetaDescription" class="text-danger"></span>
+
+                            <div class="edit-progress-wrapper">
+                                <div class="edit-counter">
+                                    <span class="edit-counter-text">Google'da görünecek açıklama</span>
+                                    <span class="edit-counter-number" id="metaCounter">0/160</span>
+                                </div>
+                                <div class="edit-progress">
+                                    <div class="edit-progress-bar" id="metaProgress"></div>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="Tags" class="form-label">Etiketler</label>
-                            <div class="tag-input-container" id="tagContainer">
-                                <input type="text" class="tag-input" id="tagInput" placeholder="Etiket ekle ve Enter'a bas" />
+                        <!-- Etiketler -->
+                        <div class="edit-form-group">
+                            <label asp-for="Tags" class="edit-form-label">
+                                <i class="fas fa-tags"></i>
+                                Etiketler
+                            </label>
+                            <div class="edit-tag-container" id="tagContainer">
+                                <input type="text"
+                                       class="edit-tag-input"
+                                       id="tagInput"
+                                       placeholder="Etiket ekleyip Enter'a basın" />
                             </div>
                             <input type="hidden" asp-for="Tags" id="tagsHidden" />
-                            <div class="form-text">Etiketler yazınızın kategorize edilmesine yardımcı olur.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <!-- Görsel Yükleme Kartı -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <i class="fas fa-image me-1"></i>
-                        Kapak Görseli
-                    </div>
-                    <div class="card-body">
-                        <div class="text-center mb-3">
-                            <div class="image-preview-container">
-                                @if (!string.IsNullOrEmpty(Model.ExistingImageUrl))
-                                {
-                                    <img id="imagePreview" src="/uploads/@Model.ExistingImageUrl" class="img-fluid rounded mb-2" style="max-height: 200px; width: auto;" />
-                                    <div id="dropZone" class="dropzone-area d-none">
-                                        <i class="fas fa-cloud-upload-alt fa-3x mb-2"></i>
-                                        <p>Görsel yüklemek için tıklayın veya sürükleyin</p>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <img id="imagePreview" src="/img/placeholder-image.png" class="img-fluid rounded mb-2 d-none" style="max-height: 200px; width: auto;" />
-                                    <div id="dropZone" class="dropzone-area">
-                                        <i class="fas fa-cloud-upload-alt fa-3x mb-2"></i>
-                                        <p>Görsel yüklemek için tıklayın veya sürükleyin</p>
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                        <input type="file" name="ImageFile" id="ImageFile" class="form-control d-none" accept="image/*" />
-                        <div class="d-grid gap-2">
-                            <button type="button" id="selectImageBtn" class="btn btn-outline-primary">
-                                <i class="fas fa-image me-1"></i> Görsel Seç
-                            </button>
-                            @if (!string.IsNullOrEmpty(Model.ExistingImageUrl))
-                            {
-                                <button type="button" id="removeImageBtn" class="btn btn-outline-danger">
-                                    <i class="fas fa-trash me-1"></i> Görseli Kaldır
-                                </button>
-                            }
-                        </div>
-                        <div class="form-text mt-2 text-center">Önerilen boyut: 1200x630px (16:9)</div>
-                    </div>
-                </div>
-
-                <!-- Yayınlama Seçenekleri Kartı -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <i class="fas fa-cog me-1"></i>
-                        Yayınlama Seçenekleri
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label class="form-label d-block">Yayın Durumu</label>
-                            <div class="form-check form-switch">
-                                <input asp-for="IsPublished" class="form-check-input" role="switch" id="publishSwitch" />
-                                <label asp-for="IsPublished" class="form-check-label">Yayınla</label>
-                            </div>
-                            <small class="form-text text-muted">
-                                @if (Model.IsPublished)
-                                {
-                                    <span class="text-success">Bu blog yazısı şu anda yayında.</span>
-                                }
-                                else
-                                {
-                                    <span class="text-warning">Bu blog yazısı şu anda taslak modunda.</span>
-                                }
+                            <small class="edit-counter-text">
+                                <i class="fas fa-lightbulb me-1"></i>
+                                Önerilen: teknoloji, lojistik, kargo, dijital, yazılım
                             </small>
                         </div>
                     </div>
-                </div>
 
-                <!-- SEO Önizleme Kartı -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <i class="fas fa-search me-1"></i>
-                        Google Önizleme
-                    </div>
-                    <div class="card-body">
-                        <div class="seo-preview">
-                            <div class="seo-preview-title" id="seoTitle">@Model.Title</div>
-                            <div class="seo-preview-url">www.kargotanitim.com/blog/...</div>
-                            <div class="seo-preview-description" id="seoDescription">
-                                @if (string.IsNullOrEmpty(Model.MetaDescription))
+                    <!-- Sağ Kolon - Yan Panel -->
+                    <div class="edit-sidebar">
+                        <!-- Yayınlama Durumu -->
+                        <div class="edit-sidebar-section">
+                            <h3 class="edit-sidebar-title">
+                                <i class="fas fa-rocket"></i>
+                                Yayınlama
+                            </h3>
+
+                            <div class="edit-publish-wrapper">
+                                <div class="edit-publish-info">
+                                    <h6>Blog Durumu</h6>
+                                    <small>Yayın görünürlüğünü kontrol edin</small>
+                                </div>
+                                <label class="edit-switch">
+                                    <input asp-for="IsPublished" type="checkbox" id="publishSwitch">
+                                    <span class="edit-switch-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="edit-status-indicator" id="statusIndicator">
+                                <i class="fas fa-globe"></i>
+                                <span id="statusText">Blog yayında</span>
+                            </div>
+                        </div>
+
+                        <!-- Kapak Görseli -->
+                        <div class="edit-sidebar-section">
+                            <h3 class="edit-sidebar-title">
+                                <i class="fas fa-image"></i>
+                                Kapak Görseli
+                            </h3>
+
+                            <div class="edit-image-wrapper">
+                                @if (!string.IsNullOrEmpty(Model.ExistingImageUrl))
                                 {
-                                    <span class="text-muted">Meta açıklama ekleyerek Google'da nasıl görüneceğini kontrol edin.</span>
+                                    <img id="imagePreview"
+                                         src="/uploads/@Model.ExistingImageUrl"
+                                         class="edit-image-preview"
+                                         alt="Mevcut görsel" />
+                                    <div class="edit-image-actions">
+                                        <button type="button" class="edit-image-btn primary" id="changeImageBtn">
+                                            <i class="fas fa-edit"></i> Değiştir
+                                        </button>
+                                        <button type="button" class="edit-image-btn danger" id="removeImageBtn">
+                                            <i class="fas fa-trash"></i> Kaldır
+                                        </button>
+                                    </div>
+                                    <div class="edit-dropzone edit-hidden" id="dropZone">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <p>Görsel yüklemek için tıklayın</p>
+                                        <small>veya sürükleyip bırakın</small>
+                                    </div>
                                 }
                                 else
                                 {
-                                    @Model.MetaDescription
+                                    <div class="edit-dropzone" id="dropZone">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <p>Görsel yüklemek için tıklayın</p>
+                                        <small>veya sürükleyip bırakın</small>
+                                    </div>
+                                    <img id="imagePreview" src="" class="edit-image-preview edit-hidden" />
                                 }
+
+                                <input type="file" name="ImageFile" id="imageFile" class="edit-hidden" accept="image/*" />
+
+                                <div class="edit-image-actions">
+                                    <button type="button" class="edit-image-btn primary" id="selectImageBtn">
+                                        <i class="fas fa-plus"></i> Görsel Seç
+                                    </button>
+                                </div>
+
+                                <small class="edit-counter-text">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    <strong>Önerilen:</strong> 1200x630px • <strong>Maks:</strong> 5MB
+                                </small>
+                            </div>
+                        </div>
+
+                        <!-- İstatistikler -->
+                        <div class="edit-sidebar-section">
+                            <h3 class="edit-sidebar-title">
+                                <i class="fas fa-chart-line"></i>
+                                İstatistikler
+                            </h3>
+
+                            <div class="edit-stats-grid">
+                                <div class="edit-stat-item">
+                                    <i class="fas fa-eye edit-stat-icon views"></i>
+                                    <div class="edit-stat-number">@(ViewBag.ViewCount ?? 0)</div>
+                                    <div class="edit-stat-label">Görüntülenme</div>
+                                </div>
+                                <div class="edit-stat-item">
+                                    <i class="fas fa-calendar edit-stat-icon time"></i>
+                                    <div class="edit-stat-number">
+                                        @{
+                                            var daysDiff = (DateTime.Now - DateTime.Now).Days;
+                                            var displayDays = daysDiff >= 0 ? daysDiff : 0;
+                                        }
+                                        @displayDays
+                                    </div>
+                                    <div class="edit-stat-label">Gün Önce</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SEO Önizleme -->
+                        <div class="edit-sidebar-section">
+                            <h3 class="edit-sidebar-title">
+                                <i class="fab fa-google"></i>
+                                SEO Önizleme
+                            </h3>
+
+                            <div class="edit-seo-preview">
+                                <div class="edit-seo-url">
+                                    <i class="fas fa-link"></i>
+                                    yoursite.com/blog/@Model.Id
+                                </div>
+                                <h4 class="edit-seo-title" id="seoTitle">
+                                    @(string.IsNullOrEmpty(Model.Title) ? "Blog başlığı..." : Model.Title)
+                                </h4>
+                                <p class="edit-seo-description" id="seoDescription">
+                                    @(string.IsNullOrEmpty(Model.MetaDescription) ? "Meta açıklaması eklenmemiş..." : Model.MetaDescription)
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Hızlı Eylemler -->
+                        <div class="edit-sidebar-section">
+                            <h3 class="edit-sidebar-title">
+                                <i class="fas fa-bolt"></i>
+                                Hızlı Eylemler
+                            </h3>
+
+                            <div class="d-grid gap-2">
+                                <a href="@Url.Action("Details", "Blog", new { id = Model.Id })"
+                                   class="edit-image-btn primary"
+                                   target="_blank">
+                                    <i class="fas fa-eye"></i> Önizleme
+                                </a>
+                                <a href="@Url.Action("Index", "Blog")"
+                                   class="edit-image-btn">
+                                    <i class="fas fa-list"></i> Blog Listesi
+                                </a>
+                                <button type="button"
+                                        class="edit-image-btn"
+                                        onclick="window.history.back()">
+                                    <i class="fas fa-arrow-left"></i> Geri Dön
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Butonlar -->
-                <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-primary btn-lg">
-                        <i class="fas fa-save me-1"></i> Güncelle
-                    </button>
-                    <a asp-action="Index" class="btn btn-outline-secondary">
-                        <i class="fas fa-arrow-left me-1"></i> Listeye Dön
+            <!-- Form Actions -->
+            <div class="edit-actions">
+                <div class="edit-save-info">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Ctrl+S ile hızlı kaydet • Değişiklikler otomatik kontrol edilir</span>
+                </div>
+                <div class="edit-action-buttons">
+                    <a href="@Url.Action("Index", "Blog")" class="edit-btn edit-btn-secondary">
+                        <i class="fas fa-times"></i>
+                        İptal
                     </a>
+                    <button type="submit" class="edit-btn edit-btn-primary" id="saveButton">
+                        <i class="fas fa-save"></i>
+                        <span id="saveText">Değişiklikleri Kaydet</span>
+                    </button>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
 
+<!-- Success/Error Messages -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+        <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-success text-white">
+                <i class="fas fa-check-circle me-2"></i>
+                <strong class="me-auto">Başarılı</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                @TempData["SuccessMessage"]
+            </div>
+        </div>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+        <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-danger text-white">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                <strong class="me-auto">Hata</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                @TempData["ErrorMessage"]
+            </div>
+        </div>
+    </div>
+}
+
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-    <script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
     <script>
-        // CKEditor Entegrasyonu
-        let editor;
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Modern Blog Edit sayfası başlatılıyor...');
 
-        ClassicEditor
-            .create(document.querySelector('#editor'), {
-                toolbar: {
-                    items: [
-                        'heading', '|',
-                        'bold', 'italic', 'strikethrough', 'underline', 'link', '|',
-                        'bulletedList', 'numberedList', '|',
-                        'outdent', 'indent', '|',
-                        'blockQuote', 'insertTable', 'horizontalLine', '|',
-                        'undo', 'redo'
-                    ]
-                },
-                language: 'tr'
-            })
-            .then(newEditor => {
-                editor = newEditor;
-            })
-            .catch(error => {
-                console.error(error);
-            });
+            // ===== CKEditor Başlatma =====
+            let editor;
+            ClassicEditor
+                .create(document.querySelector('#contentEditor'), {
+                    toolbar: {
+                        items: [
+                            'heading', '|',
+                            'bold', 'italic', 'strikethrough', 'underline', 'link', '|',
+                            'bulletedList', 'numberedList', '|',
+                            'outdent', 'indent', '|',
+                            'blockQuote', 'insertTable', 'horizontalLine', '|',
+                            'undo', 'redo'
+                        ]
+                    },
+                    language: 'tr',
+                    placeholder: 'Blog içeriğinizi buraya yazın...',
+                    heading: {
+                        options: [
+                            { model: 'paragraph', title: 'Paragraf', class: 'ck-heading_paragraph' },
+                            { model: 'heading1', view: 'h1', title: 'Başlık 1', class: 'ck-heading_heading1' },
+                            { model: 'heading2', view: 'h2', title: 'Başlık 2', class: 'ck-heading_heading2' },
+                            { model: 'heading3', view: 'h3', title: 'Başlık 3', class: 'ck-heading_heading3' }
+                        ]
+                    }
+                })
+                .then(newEditor => {
+                    editor = newEditor;
 
-        // Görsel Önizleme
-        document.getElementById('selectImageBtn').addEventListener('click', function() {
-            document.getElementById('ImageFile').click();
-        });
+                    // Editor yüksekliği ayarla
+                    const editingView = editor.editing.view;
+                    editingView.change(writer => {
+                        writer.setStyle('min-height', '400px', editingView.document.getRoot());
+                    });
 
-        document.getElementById('ImageFile').addEventListener('change', function(e) {
-            previewImage(this);
-        });
+                    console.log('✅ CKEditor başarıyla yüklendi');
+                })
+                .catch(error => {
+                    console.error('❌ CKEditor Error:', error);
+                });
 
-        function previewImage(input) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
+            // ===== Başlık Sayacı ve Progress =====
+            const titleInput = document.getElementById('titleInput');
+            const titleCounter = document.getElementById('titleCounter');
+            const titleProgress = document.getElementById('titleProgress');
+            const seoTitle = document.getElementById('seoTitle');
 
-                reader.onload = function(e) {
-                    const preview = document.getElementById('imagePreview');
-                    preview.src = e.target.result;
-                    preview.classList.remove('d-none');
-                    document.getElementById('dropZone').classList.add('d-none');
+            function updateTitleProgress() {
+                const length = titleInput.value.length;
+                const percentage = Math.min((length / 100) * 100, 100);
+
+                titleCounter.textContent = `${length}/100`;
+                titleProgress.style.width = `${percentage}%`;
+
+                // Renk sistemi
+                titleCounter.className = 'edit-counter-number';
+                if (length < 30) {
+                    titleProgress.className = 'edit-progress-bar danger';
+                    titleCounter.classList.add('danger');
+                } else if (length >= 30 && length < 50) {
+                    titleProgress.className = 'edit-progress-bar warning';
+                    titleCounter.classList.add('warning');
+                } else if (length >= 50 && length <= 60) {
+                    titleProgress.className = 'edit-progress-bar success';
+                    titleCounter.classList.add('success');
+                } else if (length <= 100) {
+                    titleProgress.className = 'edit-progress-bar info';
+                    titleCounter.classList.add('info');
+                } else {
+                    titleProgress.className = 'edit-progress-bar danger';
+                    titleCounter.classList.add('danger');
                 }
 
-                reader.readAsDataURL(input.files[0]);
+                // SEO önizleme güncelle
+                seoTitle.textContent = titleInput.value || 'Blog başlığı...';
             }
-        }
 
-        // Görseli kaldır
-        if (document.getElementById('removeImageBtn')) {
-            document.getElementById('removeImageBtn').addEventListener('click', function() {
-                const preview = document.getElementById('imagePreview');
-                preview.src = '/img/placeholder-image.png';
-                preview.classList.add('d-none');
-                document.getElementById('dropZone').classList.remove('d-none');
-                document.getElementById('ImageFile').value = '';
+            if (titleInput) {
+                titleInput.addEventListener('input', updateTitleProgress);
+                updateTitleProgress(); // İlk yükleme
+            }
 
-                // Varolan görseli silmek istediğimizi belirtmek için gizli bir input ekleyelim
-                if (document.getElementById('ExistingImageUrl').value) {
-                    if (!document.getElementById('DeleteExistingImage')) {
-                        const input = document.createElement('input');
-                        input.type = 'hidden';
-                        input.id = 'DeleteExistingImage';
-                        input.name = 'DeleteExistingImage';
-                        input.value = 'true';
-                        document.getElementById('blogForm').appendChild(input);
+            // ===== Meta Açıklama Sayacı =====
+            const metaInput = document.getElementById('metaInput');
+            const metaCounter = document.getElementById('metaCounter');
+            const metaProgress = document.getElementById('metaProgress');
+            const seoDescription = document.getElementById('seoDescription');
+
+            function updateMetaProgress() {
+                const length = metaInput.value.length;
+                const percentage = Math.min((length / 160) * 100, 100);
+
+                metaCounter.textContent = `${length}/160`;
+                metaProgress.style.width = `${percentage}%`;
+
+                // Renk sistemi
+                metaCounter.className = 'edit-counter-number';
+                if (length <= 120) {
+                    metaProgress.className = 'edit-progress-bar success';
+                    metaCounter.classList.add('success');
+                } else if (length <= 155) {
+                    metaProgress.className = 'edit-progress-bar info';
+                    metaCounter.classList.add('info');
+                } else if (length <= 160) {
+                    metaProgress.className = 'edit-progress-bar warning';
+                    metaCounter.classList.add('warning');
+                } else {
+                    metaProgress.className = 'edit-progress-bar danger';
+                    metaCounter.classList.add('danger');
+                }
+
+                // SEO önizleme güncelle
+                seoDescription.textContent = metaInput.value || 'Meta açıklaması eklenmemiş...';
+            }
+
+            if (metaInput) {
+                metaInput.addEventListener('input', updateMetaProgress);
+                updateMetaProgress(); // İlk yükleme
+            }
+
+            // ===== Tag Sistemi =====
+            const tagContainer = document.getElementById('tagContainer');
+            const tagInput = document.getElementById('tagInput');
+            const tagsHidden = document.getElementById('tagsHidden');
+            let tags = [];
+
+            // Mevcut etiketleri yükle
+            if (tagsHidden && tagsHidden.value) {
+                tags = tagsHidden.value.split(',').filter(tag => tag.trim());
+                renderTags();
+            }
+
+            function renderTags() {
+                // Mevcut tag'leri temizle
+                const existingTags = tagContainer.querySelectorAll('.edit-tag-item');
+                existingTags.forEach(tag => tag.remove());
+
+                // Yeni tag'leri ekle
+                tags.forEach((tag, index) => {
+                    const tagElement = document.createElement('div');
+                    tagElement.className = 'edit-tag-item edit-fade-in';
+                    tagElement.innerHTML = `
+                        <span>${tag}</span>
+                        <span class="edit-tag-remove" data-index="${index}">
+                            <i class="fas fa-times"></i>
+                        </span>
+                    `;
+                    tagContainer.insertBefore(tagElement, tagInput);
+                });
+
+                // Hidden input güncelle
+                if (tagsHidden) {
+                    tagsHidden.value = tags.join(',');
+                }
+            }
+
+            function addTag(tagText) {
+                const tag = tagText.trim().toLowerCase();
+                if (tag && !tags.includes(tag) && tags.length < 10) {
+                    tags.push(tag);
+                    renderTags();
+                    if (tagInput) {
+                        tagInput.value = '';
+                    }
+                }
+            }
+
+            function removeTag(index) {
+                tags.splice(index, 1);
+                renderTags();
+            }
+
+            if (tagInput) {
+                tagInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ',') {
+                        e.preventDefault();
+                        addTag(this.value);
+                    } else if (e.key === 'Backspace' && !this.value && tags.length > 0) {
+                        removeTag(tags.length - 1);
+                    }
+                });
+
+                tagInput.addEventListener('blur', function() {
+                    if (this.value.trim()) {
+                        addTag(this.value);
+                    }
+                });
+            }
+
+            if (tagContainer) {
+                tagContainer.addEventListener('click', function(e) {
+                    const removeBtn = e.target.closest('.edit-tag-remove');
+                    if (removeBtn) {
+                        const index = parseInt(removeBtn.dataset.index);
+                        removeTag(index);
+                    }
+                });
+            }
+
+            // ===== Yayınlama Switch =====
+            const publishSwitch = document.getElementById('publishSwitch');
+            const statusIndicator = document.getElementById('statusIndicator');
+            const statusText = document.getElementById('statusText');
+
+            function updatePublishStatus() {
+                if (publishSwitch && statusIndicator && statusText) {
+                    if (publishSwitch.checked) {
+                        statusIndicator.className = 'edit-status-indicator edit-status-published';
+                        statusText.innerHTML = '<i class="fas fa-globe"></i> Blog yayında ve herkese açık';
+                    } else {
+                        statusIndicator.className = 'edit-status-indicator edit-status-draft';
+                        statusText.innerHTML = '<i class="fas fa-lock"></i> Blog taslak halinde';
+                    }
+                }
+            }
+
+            if (publishSwitch) {
+                publishSwitch.addEventListener('change', updatePublishStatus);
+                updatePublishStatus(); // İlk yükleme
+            }
+
+            // ===== Görsel Yükleme Sistemi =====
+            const imageFile = document.getElementById('imageFile');
+            const imagePreview = document.getElementById('imagePreview');
+            const dropZone = document.getElementById('dropZone');
+            const selectImageBtn = document.getElementById('selectImageBtn');
+            const changeImageBtn = document.getElementById('changeImageBtn');
+            const removeImageBtn = document.getElementById('removeImageBtn');
+
+            // Buton click event'leri
+            selectImageBtn?.addEventListener('click', () => imageFile?.click());
+            changeImageBtn?.addEventListener('click', () => imageFile?.click());
+            dropZone?.addEventListener('click', () => imageFile?.click());
+
+            // Dosya seçimi
+            if (imageFile) {
+                imageFile.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        // Dosya validasyonu
+                        if (file.size > 5 * 1024 * 1024) {
+                            alert('⚠️ Dosya boyutu 5MB\'dan büyük olamaz!');
+                            this.value = '';
+                            return;
+                        }
+
+                        if (!file.type.startsWith('image/')) {
+                            alert('⚠️ Lütfen geçerli bir resim dosyası seçin!');
+                            this.value = '';
+                            return;
+                        }
+
+                        // Önizleme oluştur
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            if (imagePreview) {
+                                imagePreview.src = e.target.result;
+                                imagePreview.classList.remove('edit-hidden');
+                            }
+                            if (dropZone) {
+                                dropZone.classList.add('edit-hidden');
+                            }
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+
+            // Görsel kaldırma
+            removeImageBtn?.addEventListener('click', function() {
+                if (imagePreview) {
+                    imagePreview.src = '';
+                    imagePreview.classList.add('edit-hidden');
+                }
+                if (dropZone) {
+                    dropZone.classList.remove('edit-hidden');
+                }
+                if (imageFile) {
+                    imageFile.value = '';
+                }
+
+                // Mevcut görseli silmek için hidden input ekle
+                let deleteInput = document.querySelector('input[name="DeleteExistingImage"]');
+                if (!deleteInput) {
+                    deleteInput = document.createElement('input');
+                    deleteInput.type = 'hidden';
+                    deleteInput.name = 'DeleteExistingImage';
+                    document.getElementById('blogEditForm').appendChild(deleteInput);
+                }
+                deleteInput.value = 'true';
+            });
+
+            // Drag & Drop işlevselliği
+            if (dropZone) {
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, preventDefaults, false);
+                });
+
+                function preventDefaults(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, function() {
+                        this.classList.add('dragover');
+                    }, false);
+                });
+
+                ['dragleave', 'drop'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, function() {
+                        this.classList.remove('dragover');
+                    }, false);
+                });
+
+                dropZone.addEventListener('drop', function(e) {
+                    const dt = e.dataTransfer;
+                    const files = dt.files;
+
+                    if (files.length > 0 && imageFile) {
+                        imageFile.files = files;
+                        const event = new Event('change', { bubbles: true });
+                        imageFile.dispatchEvent(event);
+                    }
+                }, false);
+            }
+
+            // ===== Form Gönderme ve Kaydetme =====
+            const form = document.getElementById('blogEditForm');
+            const saveButton = document.getElementById('saveButton');
+            const saveText = document.getElementById('saveText');
+
+            if (form && saveButton && saveText) {
+                form.addEventListener('submit', function(e) {
+                    // Form validasyonu
+                    if (!form.checkValidity()) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        form.classList.add('was-validated');
+                        return;
+                    }
+
+                    // Değişiklikleri sıfırla (uyarı çıkmaması için)
+                    resetChangeDetection();
+
+                    // Loading state
+                    saveButton.classList.add('loading');
+                    saveButton.disabled = true;
+                    saveText.textContent = 'Kaydediliyor...';
+
+                    // Icon'u döndür
+                    const icon = saveButton.querySelector('i');
+                    if (icon) {
+                        icon.className = 'fas fa-spinner fa-spin';
+                    }
+
+                    console.log('💾 Form gönderiliyor...');
+                });
+            }
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // Ctrl+S ile kaydetme
+                if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                    e.preventDefault();
+
+                    console.log('⌨️ Ctrl+S ile kaydetme tetiklendi');
+
+                    // Değişiklikleri sıfırla
+                    resetChangeDetection();
+
+                    if (form) {
+                        // Form submit'i tetikle
+                        const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
+                        form.dispatchEvent(submitEvent);
+
+                        // Eğer event cancel edilmediyse formu gönder
+                        if (!submitEvent.defaultPrevented) {
+                            form.submit();
+                        }
+                    }
+                }
+
+                // Esc ile iptal
+                if (e.key === 'Escape') {
+                    if (confirm('Değişiklikleri kaydetmeden çıkmak istediğinize emin misiniz?')) {
+                        window.location.href = '@Url.Action("Index", "Blog")';
                     }
                 }
             });
-        }
 
-        // Sürükle-Bırak
-        const dropZone = document.getElementById('dropZone');
+            // ===== Auto-save İndikasyonu =====
+            let autoSaveTimeout;
+            let hasChanges = false;
+            let initialFormData = new FormData(form); // İlk form durumunu kaydet
 
-        if (dropZone) {
-            dropZone.addEventListener('dragover', function(e) {
-                e.preventDefault();
-                dropZone.classList.add('dragover');
-            });
-
-            dropZone.addEventListener('dragleave', function(e) {
-                e.preventDefault();
-                dropZone.classList.remove('dragover');
-            });
-
-            dropZone.addEventListener('drop', function(e) {
-                e.preventDefault();
-                dropZone.classList.remove('dragover');
-
-                const fileInput = document.getElementById('ImageFile');
-                fileInput.files = e.dataTransfer.files;
-                previewImage(fileInput);
-            });
-
-            dropZone.addEventListener('click', function() {
-                document.getElementById('ImageFile').click();
-            });
-        }
-
-        // Başlık karakter sayacı
-        const titleInput = document.getElementById('Title');
-        const titleProgress = document.querySelector('#titleProgress .progress-bar');
-
-        titleInput.addEventListener('input', function() {
-            const maxLength = 60;
-            const currentLength = this.value.length;
-            const percentage = (currentLength / maxLength) * 100;
-
-            titleProgress.style.width = percentage + '%';
-
-            if (percentage > 85) {
-                titleProgress.classList.remove('bg-success', 'bg-warning');
-                titleProgress.classList.add('bg-danger');
-            } else if (percentage > 60) {
-                titleProgress.classList.remove('bg-success', 'bg-danger');
-                titleProgress.classList.add('bg-warning');
-            } else {
-                titleProgress.classList.remove('bg-warning', 'bg-danger');
-                titleProgress.classList.add('bg-success');
-            }
-
-            // SEO önizleme güncellemesi
-            document.getElementById('seoTitle').textContent = this.value;
-        });
-
-        // İlk yükleme sırasında mevcut başlık ilerlemesini göster
-        if (titleInput.value) {
-            const maxLength = 60;
-            const currentLength = titleInput.value.length;
-            const percentage = (currentLength / maxLength) * 100;
-
-            titleProgress.style.width = percentage + '%';
-
-            if (percentage > 85) {
-                titleProgress.classList.add('bg-danger');
-            } else if (percentage > 60) {
-                titleProgress.classList.add('bg-warning');
-            } else {
-                titleProgress.classList.add('bg-success');
-            }
-        }
-
-        // Meta açıklama karakter sayacı
-        const metaDescInput = document.getElementById('MetaDescription');
-        const metaCounter = document.getElementById('metaDescriptionCounter');
-
-        metaDescInput.addEventListener('input', function() {
-            const currentLength = this.value.length;
-            metaCounter.textContent = currentLength;
-
-            if (currentLength > 140) {
-                metaCounter.classList.add('text-danger');
-                metaCounter.classList.remove('text-warning', 'text-success');
-            } else if (currentLength > 100) {
-                metaCounter.classList.add('text-warning');
-                metaCounter.classList.remove('text-danger', 'text-success');
-            } else {
-                metaCounter.classList.add('text-success');
-                metaCounter.classList.remove('text-danger', 'text-warning');
-            }
-
-            // SEO önizleme güncellemesi
-            document.getElementById('seoDescription').textContent = this.value ||
-                "Meta açıklama ekleyerek Google'da nasıl görüneceğini kontrol edin.";
-        });
-
-        // İlk yükleme sırasında mevcut karakter sayısını göster
-        if (metaDescInput.value) {
-            metaCounter.textContent = metaDescInput.value.length;
-
-            const currentLength = metaDescInput.value.length;
-            if (currentLength > 140) {
-                metaCounter.classList.add('text-danger');
-            } else if (currentLength > 100) {
-                metaCounter.classList.add('text-warning');
-            } else {
-                metaCounter.classList.add('text-success');
-            }
-        }
-
-        // Etiket sistemi
-        const tagInput = document.getElementById('tagInput');
-        const tagContainer = document.getElementById('tagContainer');
-        const tagsHidden = document.getElementById('tagsHidden');
-        const tags = [];
-
-        // Mevcut etiketleri yükle
-        if (tagsHidden.value) {
-            const existingTags = tagsHidden.value.split(',');
-            existingTags.forEach(tag => {
-                if (tag.trim() !== '') {
-                    addTag(tag.trim());
+            function markAsChanged() {
+                if (!hasChanges) {
+                    hasChanges = true;
+                    console.log('📝 Form değişikliği algılandı');
                 }
-            });
-        }
 
-        tagInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ',') {
-                e.preventDefault();
+                clearTimeout(autoSaveTimeout);
+                autoSaveTimeout = setTimeout(() => {
+                    if (hasChanges) {
+                        showAutoSaveIndicator();
+                    }
+                }, 3000);
+            }
 
-                const value = this.value.trim();
-                if (value && !tags.includes(value)) {
-                    addTag(value);
-                    this.value = '';
+            function showAutoSaveIndicator() {
+                const saveInfo = document.querySelector('.edit-save-info span');
+                if (saveInfo) {
+                    const originalText = saveInfo.textContent;
+                    saveInfo.innerHTML = '<i class="fas fa-save text-warning"></i> Değişiklikler algılandı - Kaydetmeyi unutmayın!';
+                    saveInfo.style.color = '#f59e0b';
+
+                    setTimeout(() => {
+                        if (!hasChanges) { // Eğer kaydedildiyse
+                            saveInfo.innerHTML = '<i class="fas fa-check text-success"></i> Değişiklikler kaydedildi!';
+                            saveInfo.style.color = '#10b981';
+
+                            setTimeout(() => {
+                                saveInfo.textContent = originalText;
+                                saveInfo.style.color = '';
+                            }, 2000);
+                        }
+                    }, 100);
                 }
             }
-        });
 
-        function addTag(text) {
-            const tag = document.createElement('div');
-            tag.className = 'tag-item';
-            tag.textContent = text;
+            function resetChangeDetection() {
+                hasChanges = false;
+                clearTimeout(autoSaveTimeout);
+                console.log('✅ Form değişiklikleri sıfırlandı');
 
-            const removeBtn = document.createElement('span');
-            removeBtn.className = 'tag-remove';
-            removeBtn.innerHTML = '&times;';
-            removeBtn.addEventListener('click', function() {
-                const index = tags.indexOf(text);
-                if (index !== -1) {
-                    tags.splice(index, 1);
+                // beforeunload uyarısını kaldır
+                window.onbeforeunload = null;
+
+                // Kısa bir süre sonra tekrar aktif et
+                setTimeout(() => {
+                    window.addEventListener('beforeunload', beforeUnloadHandler);
+                }, 500);
+            }
+
+            // beforeunload handler'ı ayrı tanımla
+            function beforeUnloadHandler(e) {
+                if (hasChanges) {
+                    const message = 'Kaydedilmemiş değişiklikleriniz var. Sayfadan ayrılmak istediğinize emin misiniz?';
+                    e.preventDefault();
+                    e.returnValue = message;
+                    return message;
                 }
-                tag.remove();
-                updateTagsInput();
+            }
+
+            // Change detection
+            if (titleInput) titleInput.addEventListener('input', markAsChanged);
+            if (metaInput) metaInput.addEventListener('input', markAsChanged);
+            if (tagInput) tagInput.addEventListener('input', markAsChanged);
+            if (publishSwitch) publishSwitch.addEventListener('change', markAsChanged);
+
+            // ===== Toast Bildirimlerini Otomatik Gizle =====
+            const toasts = document.querySelectorAll('.toast');
+            toasts.forEach(toast => {
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => {
+                        toast.remove();
+                    }, 300);
+                }, 5000);
             });
 
-            tag.appendChild(removeBtn);
-            tagContainer.insertBefore(tag, tagInput);
+            // ===== Form Ayrılma Uyarısı =====
+            window.addEventListener('beforeunload', function(e) {
+                if (hasChanges) {
+                    const message = 'Kaydedilmemiş değişiklikleriniz var. Sayfadan ayrılmak istediğinize emin misiniz?';
+                    e.preventDefault();
+                    e.returnValue = message;
+                    return message;
+                }
+            });
 
-            tags.push(text);
-            updateTagsInput();
-        }
+            // Form submit edildiğinde ve sayfa değiştiğinde uyarıyı kaldır
+            if (form) {
+                form.addEventListener('submit', function() {
+                    hasChanges = false;
 
-        function updateTagsInput() {
-            tagsHidden.value = tags.join(',');
+                    // Kısa bir gecikme ile uyarıyı tamamen devre dışı bırak
+                    setTimeout(() => {
+                        window.onbeforeunload = null;
+                    }, 100);
+                });
+            }
+
+            // Sayfa yüklendiğinde değişiklikleri sıfırla
+            window.addEventListener('load', function() {
+                hasChanges = false;
+            });
+
+            // Tüm linkler için uyarıyı devre dışı bırak
+            document.addEventListener('click', function(e) {
+                const link = e.target.closest('a');
+                if (link && !hasChanges) {
+                    window.onbeforeunload = null;
+                }
+            });
+
+            // ===== Accessibility İyileştirmeleri =====
+            // Enter tuşu ile butonları tetikleme
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && e.target.type === 'button') {
+                    e.target.click();
+                }
+            });
+
+            // Focus management
+            const firstInput = document.querySelector('.edit-form-control');
+            if (firstInput && !firstInput.value) {
+                setTimeout(() => firstInput.focus(), 100);
+            }
+
+            // ===== Debug ve Monitoring =====
+            console.log('✅ Blog Edit sayfası tam olarak yüklendi!');
+            console.log('📊 Aktif özellikler:');
+            console.log('  • CKEditor Rich Text Editor');
+            console.log('  • Progress Bar Sayaçları');
+            console.log('  • Tag Sistemi');
+            console.log('  • Drag & Drop Görsel Yükleme');
+            console.log('  • SEO Canlı Önizleme');
+            console.log('  • Keyboard Shortcuts (Ctrl+S, Esc)');
+            console.log('  • Auto-save Detection');
+            console.log('  • Form Validation');
+            console.log('  • Toast Notifications');
+            console.log('🚀 Sayfa kullanıma hazır!');
+
+            // Performance monitoring
+            if (window.performance) {
+                const loadTime = window.performance.timing.loadEventEnd - window.performance.timing.navigationStart;
+                console.log(`⚡ Sayfa yükleme süresi: ${loadTime}ms`);
+            }
+        });
+
+        // ===== Hata Yakalama =====
+        window.addEventListener('error', function(e) {
+            console.error('❌ JavaScript Hatası:', e.error);
+
+            // Kullanıcıya bildir
+            const errorToast = document.createElement('div');
+            errorToast.className = 'toast-container position-fixed top-0 end-0 p-3';
+            errorToast.style.zIndex = '9999';
+            errorToast.innerHTML = `
+                <div class="toast show" role="alert">
+                    <div class="toast-header bg-warning text-dark">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong class="me-auto">Uyarı</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                    </div>
+                    <div class="toast-body">
+                        Bir hata oluştu. Sayfayı yenilemeyi deneyin.
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(errorToast);
+
+            setTimeout(() => {
+                errorToast.remove();
+            }, 5000);
+        });
+
+        // ===== Service Worker (Offline Support) =====
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                console.log('📱 Service Worker registered:', registration);
+            }).catch(function(error) {
+                console.log('📱 Service Worker registration failed:', error);
+            });
         }
     </script>
 }

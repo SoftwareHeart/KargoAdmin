@@ -119,3 +119,23 @@
             display: none;
         }
 }
+/* Responsive iyileþtirmeler */
+@media (max-width: 768px) {
+    .btn-group {
+        flex-direction: column;
+    }
+
+        .btn-group .btn {
+            margin: 1px 0;
+            border-radius: 0.25rem !important;
+        }
+
+    .table-responsive {
+        font-size: 0.875rem;
+    }
+
+    .blog-thumbnail {
+        width: 40px !important;
+        height: 40px !important;
+    }
+}

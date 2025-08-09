@@ -9,7 +9,7 @@
     <h1 class="mt-4">Blog Yönetimi</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="/Admin">Dashboard</a></li>
-        <li class="breadcrumb-item active">Blog Listesi</li>
+        <li class="breadcrumb-item active">Blog Yönetimi</li>
     </ol>
 
     @if (TempData["SuccessMessage"] != null)
@@ -20,74 +20,133 @@
         </div>
     }
 
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i> @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <!-- Blog Tablosu -->
     <div class="card mb-4">
-        <div class="card-header">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <i class="fas fa-table me-1"></i>
-                    Blog Yazıları
-                </div>
-                <div>
-                    <a href="@Url.Action("Create", "Blog")" class="btn btn-primary">
-                        <i class="fas fa-plus me-1"></i> Yeni Blog Yazısı
-                    </a>
-                </div>
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+                <i class="fas fa-table me-1"></i>
+                Blog Listesi
             </div>
+            <a href="@Url.Action("Create", "Blog")" class="btn btn-primary">
+                <i class="fas fa-plus me-1"></i> Yeni Blog Ekle
+            </a>
         </div>
         <div class="card-body">
+            <!-- Arama Kutusu -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="position-relative">
+                        <i class="fas fa-search position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); color: #6c757d;"></i>
+                        <input type="text"
+                               id="tableSearch"
+                               class="form-control ps-5"
+                               placeholder="Blog başlığı, yazar, tarih veya güncelleme ile arama yapın..."
+                               autocomplete="off">
+                        <button class="btn position-absolute d-none"
+                                id="clearSearch"
+                                style="right: 5px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #6c757d;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <div class="table-responsive">
-                <table id="blogsTable" class="table table-striped table-hover">
-                    <thead>
+                <table class="table table-hover" id="blogsTable">
+                    <thead class="table-dark">
                         <tr>
+                            <th>Görsel</th>
                             <th>Başlık</th>
-                            <th width="100">Resim</th>
                             <th>Yazar</th>
-                            <th>Tarih</th>
+                            <th>Yayın Tarihi</th>
+                            <th>Güncelleme</th>
                             <th>Durum</th>
-                            <th width="120">İşlemler</th>
+                            <th>İşlemler</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tableBody">
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                <td>
-                                    <div class="d-flex flex-column">
-                                        <strong>@item.Title</strong>
-                                        @if (!string.IsNullOrEmpty(item.Tags))
-                                        {
-                                            <div class="mt-1">
-                                                @foreach (var tag in item.Tags.Split(','))
-                                                {
-                                                    <span class="badge bg-light text-dark me-1">@tag</span>
-                                                }
-                                            </div>
-                                        }
-                                    </div>
-                                </td>
+                            <tr data-blog-id="@item.Id" class="blog-row">
                                 <td>
                                     @if (!string.IsNullOrEmpty(item.ImageUrl))
                                     {
-                                        <img src="/uploads/@item.ImageUrl" style="height: 50px; width: auto;" class="rounded" />
+                                        @if (item.ImageUrl.StartsWith("/uploads/") || item.ImageUrl.StartsWith("http"))
+                                        {
+                                            <!-- Yeni format: Tam yol (geçici uyumluluk) -->
+                                            <img src="@item.ImageUrl"
+                                                 alt="@item.Title"
+                                                 class="blog-thumbnail"
+                                                 style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
+                                        }
+                                        else
+                                        {
+                                            <!-- ESKİ SİSTEM: Sadece dosya adı -->
+                                            <img src="/uploads/@item.ImageUrl"
+                                                 alt="@item.Title"
+                                                 class="blog-thumbnail"
+                                                 style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
+                                        }
                                     }
                                     else
                                     {
-                                        <div class="rounded bg-light d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
-                                            <i class="fas fa-image text-muted"></i>
+                                        <div class="bg-secondary d-flex align-items-center justify-content-center"
+                                             style="width: 50px; height: 50px; border-radius: 5px;">
+                                            <i class="fas fa-image text-white"></i>
                                         </div>
                                     }
                                 </td>
-                                <td>@item.Author.FirstName @item.Author.LastName</td>
-                                <td>
-                                    <div>
-                                        <i class="fas fa-calendar-alt text-primary me-1"></i>
-                                        @item.PublishDate.ToString("dd.MM.yyyy")
-                                    </div>
-                                    <small class="text-muted">
-                                        @item.UpdateDate.ToString("HH:mm")
-                                    </small>
+                                <td class="title-cell">
+                                    <a href="@Url.Action("Details", "Blog", new { id = item.Id })"
+                                       class="text-decoration-none fw-bold blog-title-link"
+                                       data-blog-id="@item.Id"
+                                       data-action="details">
+                                        @item.Title
+                                    </a>
+                                    <br>
+                                    <small class="text-muted">ID: @item.Id | Görüntülenme: @item.ViewCount</small>
                                 </td>
-                                <td>
+                                <td class="author-cell">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-user-circle me-2 text-muted"></i>
+                                        @item.Author.FirstName @item.Author.LastName
+                                    </div>
+                                </td>
+                                <td class="date-cell">
+                                    <div>
+                                        <strong>@item.PublishDate.ToString("dd.MM.yyyy")</strong>
+                                        <br>
+                                        <small class="text-muted">@item.PublishDate.ToString("HH:mm")</small>
+                                    </div>
+                                </td>
+                                <td class="update-cell">
+                                    <div>
+                                        @if (item.UpdateDate != item.PublishDate)
+                                        {
+                                            <span class="badge bg-info text-white">
+                                                <i class="fas fa-edit me-1"></i>
+                                                @item.UpdateDate.ToString("dd.MM.yyyy")
+                                            </span>
+                                            <br>
+                                            <small class="text-muted">@item.UpdateDate.ToString("HH:mm")</small>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">
+                                                <i class="fas fa-minus"></i> Güncellenmemiş
+                                            </span>
+                                        }
+                                    </div>
+                                </td>
+                                <td class="status-cell">
                                     @if (item.IsPublished)
                                     {
                                         <span class="badge bg-success">
@@ -101,15 +160,30 @@
                                         </span>
                                     }
                                 </td>
-                                <td>
+                                <td class="actions-cell">
                                     <div class="btn-group" role="group">
-                                        <a href="@Url.Action("Details", "Blog", new { id = item.Id })" class="btn btn-info btn-sm text-white" data-bs-toggle="tooltip" title="Görüntüle">
+                                        <a href="@Url.Action("Details", "Blog", new { id = item.Id })"
+                                           class="btn btn-info btn-sm text-white blog-details-btn"
+                                           data-blog-id="@item.Id"
+                                           data-action="details"
+                                           data-bs-toggle="tooltip"
+                                           title="Görüntüle">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <a href="@Url.Action("Edit", "Blog", new { id = item.Id })" class="btn btn-primary btn-sm" data-bs-toggle="tooltip" title="Düzenle">
+                                        <a href="@Url.Action("Edit", "Blog", new { id = item.Id })"
+                                           class="btn btn-primary btn-sm blog-edit-btn"
+                                           data-blog-id="@item.Id"
+                                           data-action="edit"
+                                           data-bs-toggle="tooltip"
+                                           title="Düzenle">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a href="@Url.Action("Delete", "Blog", new { id = item.Id })" class="btn btn-danger btn-sm" data-bs-toggle="tooltip" title="Sil">
+                                        <a href="@Url.Action("Delete", "Blog", new { id = item.Id })"
+                                           class="btn btn-danger btn-sm blog-delete-btn"
+                                           data-blog-id="@item.Id"
+                                           data-action="delete"
+                                           data-bs-toggle="tooltip"
+                                           title="Sil">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </div>
@@ -118,75 +192,372 @@
                         }
                     </tbody>
                 </table>
+
+                <!-- Sonuç Bulunamadı Mesajı -->
+                <div class="text-center py-5 d-none" id="noResults">
+                    <div class="mb-3">
+                        <i class="fas fa-search fa-3x text-muted"></i>
+                    </div>
+                    <h5 class="text-muted mb-2">Arama sonucu bulunamadı</h5>
+                    <p class="text-muted">Arama kriterlerinize uygun blog yazısı bulunamadı.</p>
+                    <button class="btn btn-outline-primary btn-sm" onclick="globalBlogTableManager?.clearSearch()">
+                        <i class="fas fa-refresh me-1"></i> Aramayı Temizle
+                    </button>
+                </div>
+
+                <!-- Tablo Boşsa -->
+                @if (!Model.Any())
+                {
+                    <div class="text-center py-5">
+                        <div class="mb-3">
+                            <i class="fas fa-blog fa-3x text-muted"></i>
+                        </div>
+                        <h5 class="text-muted mb-2">Henüz blog yazısı bulunmuyor</h5>
+                        <p class="text-muted">İlk blog yazınızı oluşturmak için butona tıklayın.</p>
+                        <a href="@Url.Action("Create", "Blog")" class="btn btn-primary">
+                            <i class="fas fa-plus me-1"></i> İlk Blog Yazınızı Oluşturun
+                        </a>
+                    </div>
+                }
             </div>
         </div>
     </div>
 
     <!-- Blog İstatistik Kartları -->
-    <div class="row">
-        <div class="col-md-3 mb-4">
-            <div class="card bg-primary text-white h-100">
-                <div class="card-body d-flex align-items-center">
-                    <i class="fas fa-file-alt fa-3x me-3"></i>
-                    <div>
-                        <h5 class="mb-0">Toplam Blog</h5>
-                        <h2 class="mt-2 mb-0">@Model.Count()</h2>
+    @if (Model.Any())
+    {
+        <div class="row">
+            <div class="col-md-3 mb-4">
+                <div class="card bg-primary text-white h-100 shadow">
+                    <div class="card-body d-flex align-items-center">
+                        <i class="fas fa-file-alt fa-3x me-3 opacity-75"></i>
+                        <div>
+                            <h6 class="mb-0 text-uppercase">Toplam Blog</h6>
+                            <h2 class="mt-2 mb-0 fw-bold">@Model.Count()</h2>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex align-items-center justify-content-between small">
+                        <span>Tüm blog yazıları</span>
+                        <i class="fas fa-angle-right"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card bg-success text-white h-100 shadow">
+                    <div class="card-body d-flex align-items-center">
+                        <i class="fas fa-check-circle fa-3x me-3 opacity-75"></i>
+                        <div>
+                            <h6 class="mb-0 text-uppercase">Yayında</h6>
+                            <h2 class="mt-2 mb-0 fw-bold">@Model.Count(b => b.IsPublished)</h2>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex align-items-center justify-content-between small">
+                        <span>Aktif yayınlar</span>
+                        <i class="fas fa-angle-right"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card bg-warning text-white h-100 shadow">
+                    <div class="card-body d-flex align-items-center">
+                        <i class="fas fa-clock fa-3x me-3 opacity-75"></i>
+                        <div>
+                            <h6 class="mb-0 text-uppercase">Taslak</h6>
+                            <h2 class="mt-2 mb-0 fw-bold">@Model.Count(b => !b.IsPublished)</h2>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex align-items-center justify-content-between small">
+                        <span>Bekleyen yazılar</span>
+                        <i class="fas fa-angle-right"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card bg-info text-white h-100 shadow">
+                    <div class="card-body d-flex align-items-center">
+                        <i class="fas fa-eye fa-3x me-3 opacity-75"></i>
+                        <div>
+                            <h6 class="mb-0 text-uppercase">Görüntülenme</h6>
+                            <h2 class="mt-2 mb-0 fw-bold">@Model.Sum(b => b.ViewCount)</h2>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex align-items-center justify-content-between small">
+                        <span>Toplam okuma</span>
+                        <i class="fas fa-angle-right"></i>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3 mb-4">
-            <div class="card bg-success text-white h-100">
-                <div class="card-body d-flex align-items-center">
-                    <i class="fas fa-check-circle fa-3x me-3"></i>
-                    <div>
-                        <h5 class="mb-0">Yayındaki Blog</h5>
-                        <h2 class="mt-2 mb-0">@Model.Count(b => b.IsPublished)</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 mb-4">
-            <div class="card bg-warning text-dark h-100">
-                <div class="card-body d-flex align-items-center">
-                    <i class="fas fa-clock fa-3x me-3"></i>
-                    <div>
-                        <h5 class="mb-0">Taslaklar</h5>
-                        <h2 class="mt-2 mb-0">@Model.Count(b => !b.IsPublished)</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 mb-4">
-            <div class="card bg-info text-white h-100">
-                <div class="card-body d-flex align-items-center">
-                    <i class="fas fa-eye fa-3x me-3"></i>
-                    <div>
-                        <h5 class="mb-0">Toplam Görüntülenme</h5>
-                        <h2 class="mt-2 mb-0">@Model.Sum(b => b.ViewCount)</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    }
 </div>
 
 @section Scripts {
-    <script>
-        $(document).ready(function () {
-            $('#blogsTable').DataTable({
-                responsive: true,
-                order: [[3, 'desc']], // Tarihe göre sırala
-                language: {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Turkish.json"
-                }
-            });
+    <style>
+        /* Blog Table Özel Stilleri - Scripts section içinde */
+        #tableSearch {
+            transition: all 0.3s ease;
+            border-radius: 25px;
+            border: 2px solid #e9ecef;
+        }
 
-            // Tooltips'i etkinleştir
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl)
-            });
+            #tableSearch:focus {
+                border-color: #0d6efd;
+                box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+                transform: scale(1.02);
+            }
+
+        #clearSearch {
+            transition: all 0.2s ease;
+        }
+
+            #clearSearch:hover {
+                color: #dc3545 !important;
+                transform: scale(1.1);
+            }
+
+        .blog-thumbnail {
+            transition: all 0.3s ease;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+
+            .blog-thumbnail:hover {
+                transform: scale(2.5);
+                z-index: 1000;
+                position: relative;
+                box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+                border: 3px solid #0d6efd;
+            }
+
+        .blog-title-link {
+            color: #2c3e50;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+            .blog-title-link:hover {
+                color: #0d6efd;
+                text-decoration: underline !important;
+            }
+
+        .blog-row {
+            transition: all 0.3s ease;
+        }
+
+            .blog-row:hover {
+                background-color: #f8f9fa !important;
+                transform: translateY(-1px);
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+
+        .btn-group .btn {
+            margin: 0 1px;
+            transition: all 0.2s ease;
+        }
+
+            .btn-group .btn:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            }
+
+        .card {
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+            .card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            }
+    </style>
+
+    <script>
+        class BlogTableManager {
+            constructor() {
+                this.searchInput = document.getElementById('tableSearch');
+                this.clearButton = document.getElementById('clearSearch');
+                this.tableBody = document.getElementById('tableBody');
+                this.noResults = document.getElementById('noResults');
+                this.allRows = [];
+
+                this.init();
+            }
+
+            init() {
+                // Tüm satırları kaydet
+                this.allRows = Array.from(this.tableBody.querySelectorAll('tr[data-blog-id]'));
+
+                // Event listener'ları ekle
+                if (this.searchInput) {
+                    this.searchInput.addEventListener('input', (e) => this.handleSearch(e.target.value));
+                }
+
+                if (this.clearButton) {
+                    this.clearButton.addEventListener('click', () => this.clearSearch());
+                }
+
+                // Blog linklerine güvenli event listener'ları ekle
+                this.attachSafeBlogLinks();
+
+                console.log('Blog Table Manager initialized with', this.allRows.length, 'rows');
+            }
+
+            handleSearch(searchTerm) {
+                const term = searchTerm.toLowerCase().trim();
+
+                // Clear button'u göster/gizle
+                if (this.clearButton) {
+                    if (term.length > 0) {
+                        this.clearButton.classList.remove('d-none');
+                    } else {
+                        this.clearButton.classList.add('d-none');
+                    }
+                }
+
+                if (term === '') {
+                    this.showAllRows();
+                    return;
+                }
+
+                let visibleCount = 0;
+
+                this.allRows.forEach(row => {
+                    const isMatch = this.isRowMatching(row, term);
+
+                    if (isMatch) {
+                        row.style.display = '';
+                        visibleCount++;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+
+                // Sonuç bulunamadı mesajını göster/gizle
+                if (this.noResults) {
+                    if (visibleCount === 0) {
+                        this.noResults.classList.remove('d-none');
+                    } else {
+                        this.noResults.classList.add('d-none');
+                    }
+                }
+
+                console.log(`Search: "${term}" - ${visibleCount} results found`);
+            }
+
+            isRowMatching(row, term) {
+                const blogId = row.getAttribute('data-blog-id');
+                const titleElement = row.querySelector('.blog-title-link');
+                const authorElement = row.querySelector('.author-cell');
+                const dateElement = row.querySelector('.date-cell');
+                const updateElement = row.querySelector('.update-cell');
+
+                const title = titleElement?.textContent?.toLowerCase() || '';
+                const author = authorElement?.textContent?.toLowerCase() || '';
+                const date = dateElement?.textContent?.toLowerCase() || '';
+                const update = updateElement?.textContent?.toLowerCase() || '';
+
+                return title.includes(term) ||
+                       author.includes(term) ||
+                       date.includes(term) ||
+                       update.includes(term) ||
+                       blogId === term;
+            }
+
+            showAllRows() {
+                this.allRows.forEach(row => {
+                    row.style.display = '';
+                });
+
+                if (this.noResults) {
+                    this.noResults.classList.add('d-none');
+                }
+            }
+
+            clearSearch() {
+                if (this.searchInput) {
+                    this.searchInput.value = '';
+                }
+
+                if (this.clearButton) {
+                    this.clearButton.classList.add('d-none');
+                }
+
+                this.showAllRows();
+                this.searchInput?.focus();
+            }
+
+            attachSafeBlogLinks() {
+                this.allRows.forEach(row => {
+                    const blogId = row.getAttribute('data-blog-id');
+
+                    if (!blogId) {
+                        console.warn('Blog ID not found for row:', row);
+                        return;
+                    }
+
+                    // Tüm action butonlarını bul
+                    const actionButtons = row.querySelectorAll('a[data-blog-id]');
+
+                    actionButtons.forEach(button => {
+                        button.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            const action = button.getAttribute('data-action') || 'details';
+                            this.handleSafeBlogClick(action, blogId);
+                        });
+                    });
+                });
+            }
+
+            handleSafeBlogClick(action, blogId) {
+                console.log(`Safe blog click - Action: ${action}, Blog ID: ${blogId}`);
+
+                let targetUrl = '';
+
+                switch (action) {
+                    case 'details':
+                        targetUrl = `@Url.Action("Details", "Blog")?id=${blogId}`;
+                        break;
+                    case 'edit':
+                        targetUrl = `@Url.Action("Edit", "Blog")?id=${blogId}`;
+                        break;
+                    case 'delete':
+                        if (confirm(`${blogId} ID'li blog yazısını silmek istediğinize emin misiniz?`)) {
+                            targetUrl = `@Url.Action("Delete", "Blog")?id=${blogId}`;
+                        } else {
+                            return;
+                        }
+                        break;
+                    default:
+                        targetUrl = `@Url.Action("Details", "Blog")?id=${blogId}`;
+                }
+
+                console.log(`Navigating to: ${targetUrl}`);
+                window.location.href = targetUrl;
+            }
+        }
+
+        // Global değişken
+        let globalBlogTableManager = null;
+
+        // Sayfa yüklendiğinde başlat
+        document.addEventListener('DOMContentLoaded', function() {
+            const tableBody = document.getElementById('tableBody');
+            if (tableBody) {
+                globalBlogTableManager = new BlogTableManager();
+
+                // Bootstrap tooltip'lerini aktif et
+                const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl);
+                });
+            }
         });
     </script>
 }

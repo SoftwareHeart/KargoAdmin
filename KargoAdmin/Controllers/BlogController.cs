@@ -1,4 +1,5 @@
-﻿using KargoAdmin.Data;
+﻿// BlogController.cs - Düzeltilmiş versiyon
+using KargoAdmin.Data;
 using KargoAdmin.Models;
 using KargoAdmin.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -40,72 +41,51 @@ namespace KargoAdmin.Controllers
             return View(blogs);
         }
 
-        // Blog oluşturma sayfası
-        public IActionResult Create()
+        // Blog detayı - ID parametresini güvenli şekilde al
+        public async Task<IActionResult> Details(int? id)
         {
-            return View(new BlogCreateViewModel { IsPublished = true });
-        }
-
-        // Blog oluşturma (POST)
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(BlogCreateViewModel model)
-        {
-            // ImageFile için ModelState doğrulamasını kaldır
-            ModelState.Remove("ImageFile");
-
-            if (ModelState.IsValid)
+            // ID kontrolü
+            if (id == null || id <= 0)
             {
-                string fileName = null; // Varsayılan olarak null
-
-                if (model.ImageFile != null && model.ImageFile.Length > 0)
-                {
-                    fileName = await UploadImage(model.ImageFile);
-                }
-
-                var user = await _userManager.GetUserAsync(User);
-
-                // URL uyumlu slug oluştur
-                string slug = GenerateSlug(model.Title);
-
-                var blog = new Blog
-                {
-                    Title = model.Title,
-                    Content = model.Content,
-                    ImageUrl = fileName, // Null olabilir
-                    PublishDate = DateTime.Now,
-                    UpdateDate = DateTime.Now,
-                    IsPublished = model.IsPublished,
-                    AuthorId = user.Id,
-                    MetaDescription = model.MetaDescription ?? "", // Null ise boş string
-                    Tags = model.Tags ?? "", // Null ise boş string
-                    Slug = slug,
-                    ViewCount = 0
-                };
-
-                _context.Add(blog);
-                await _context.SaveChangesAsync();
-
-                TempData["SuccessMessage"] = "Blog yazısı başarıyla oluşturuldu.";
+                TempData["ErrorMessage"] = "Geçersiz blog ID'si.";
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(model);
+            var blog = await _context.Blogs
+                .Include(b => b.Author)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (blog == null)
+            {
+                TempData["ErrorMessage"] = "Blog yazısı bulunamadı.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Log ekleme - debugging için
+            System.Diagnostics.Debug.WriteLine($"Blog Details - Requested ID: {id}, Found Blog ID: {blog.Id}, Title: {blog.Title}");
+
+            return View(blog);
         }
 
-        // Blog düzenleme sayfası
+        // Blog düzenleme sayfası - ID parametresini güvenli şekilde al
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            // ID kontrolü
+            if (id == null || id <= 0)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "Geçersiz blog ID'si.";
+                return RedirectToAction(nameof(Index));
             }
 
             var blog = await _context.Blogs.FindAsync(id);
             if (blog == null)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "Düzenlenecek blog yazısı bulunamadı.";
+                return RedirectToAction(nameof(Index));
             }
+
+            // Log ekleme - debugging için
+            System.Diagnostics.Debug.WriteLine($"Blog Edit - Requested ID: {id}, Found Blog ID: {blog.Id}, Title: {blog.Title}");
 
             var model = new BlogEditViewModel
             {
@@ -126,9 +106,18 @@ namespace KargoAdmin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, BlogEditViewModel model)
         {
+            // ID eşleşme kontrolü
             if (id != model.Id)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "ID eşleşmiyor.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            // ID geçerlilik kontrolü
+            if (id <= 0)
+            {
+                TempData["ErrorMessage"] = "Geçersiz blog ID'si.";
+                return RedirectToAction(nameof(Index));
             }
 
             // ImageFile için ModelState doğrulamasını kaldır
@@ -143,8 +132,12 @@ namespace KargoAdmin.Controllers
                     var blog = await _context.Blogs.FindAsync(id);
                     if (blog == null)
                     {
-                        return NotFound();
+                        TempData["ErrorMessage"] = "Güncellenecek blog yazısı bulunamadı.";
+                        return RedirectToAction(nameof(Index));
                     }
+
+                    // Log ekleme - debugging için
+                    System.Diagnostics.Debug.WriteLine($"Blog Edit POST - ID: {id}, Blog ID: {blog.Id}, Title: {blog.Title}");
 
                     // URL uyumlu slug oluştur (başlık değiştiyse)
                     if (blog.Title != model.Title)
@@ -187,28 +180,27 @@ namespace KargoAdmin.Controllers
                     _context.Update(blog);
                     await _context.SaveChangesAsync();
 
-                    // Başarılı güncelleme, listeye dön
                     TempData["SuccessMessage"] = "Blog yazısı başarıyla güncellendi.";
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
                 {
-                    // Hata durumunda log
-                    Console.WriteLine($"Edit error: {ex.Message}");
+                    System.Diagnostics.Debug.WriteLine($"Edit error: {ex.Message}");
                     ModelState.AddModelError("", "Güncelleme sırasında bir hata oluştu: " + ex.Message);
                 }
             }
 
-            // Kod buraya ulaşırsa (hata varsa) modelini tekrar view'e döndür
             return View(model);
         }
 
-        // Blog silme
+        // Blog silme sayfası
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            // ID kontrolü
+            if (id == null || id <= 0)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "Geçersiz blog ID'si.";
+                return RedirectToAction(nameof(Index));
             }
 
             var blog = await _context.Blogs
@@ -217,8 +209,12 @@ namespace KargoAdmin.Controllers
 
             if (blog == null)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "Silinecek blog yazısı bulunamadı.";
+                return RedirectToAction(nameof(Index));
             }
+
+            // Log ekleme - debugging için
+            System.Diagnostics.Debug.WriteLine($"Blog Delete - Requested ID: {id}, Found Blog ID: {blog.Id}, Title: {blog.Title}");
 
             return View(blog);
         }
@@ -228,7 +224,22 @@ namespace KargoAdmin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // ID geçerlilik kontrolü
+            if (id <= 0)
+            {
+                TempData["ErrorMessage"] = "Geçersiz blog ID'si.";
+                return RedirectToAction(nameof(Index));
+            }
+
             var blog = await _context.Blogs.FindAsync(id);
+            if (blog == null)
+            {
+                TempData["ErrorMessage"] = "Silinecek blog yazısı bulunamadı.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Log ekleme - debugging için
+            System.Diagnostics.Debug.WriteLine($"Blog Delete Confirmed - ID: {id}, Blog ID: {blog.Id}, Title: {blog.Title}");
 
             // Resmi sil
             if (!string.IsNullOrEmpty(blog.ImageUrl))
@@ -243,90 +254,135 @@ namespace KargoAdmin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // Blog detayı
-        public async Task<IActionResult> Details(int? id)
+        // Blog oluşturma sayfası
+        public IActionResult Create()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var blog = await _context.Blogs
-                .Include(b => b.Author)
-                .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (blog == null)
-            {
-                return NotFound();
-            }
-
-            return View(blog);
+            return View(new BlogCreateViewModel { IsPublished = true });
         }
 
-        // Yardımcı metotlar
-        private bool BlogExists(int id)
+        // Blog oluşturma (POST)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(BlogCreateViewModel model)
         {
-            return _context.Blogs.Any(e => e.Id == id);
+            ModelState.Remove("ImageFile");
+
+            if (ModelState.IsValid)
+            {
+                string fileName = null;
+
+                if (model.ImageFile != null && model.ImageFile.Length > 0)
+                {
+                    fileName = await UploadImage(model.ImageFile);
+                }
+
+                var user = await _userManager.GetUserAsync(User);
+                string slug = GenerateSlug(model.Title);
+
+                var blog = new Blog
+                {
+                    Title = model.Title,
+                    Content = model.Content,
+                    ImageUrl = fileName,
+                    PublishDate = DateTime.Now,
+                    UpdateDate = DateTime.Now,
+                    IsPublished = model.IsPublished,
+                    AuthorId = user.Id,
+                    MetaDescription = model.MetaDescription ?? "",
+                    Tags = model.Tags ?? "",
+                    Slug = slug,
+                    ViewCount = 0
+                };
+
+                _context.Add(blog);
+                await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Blog yazısı başarıyla oluşturuldu.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(model);
         }
 
-        private async Task<string> UploadImage(IFormFile file)
+        // Yardımcı metodlar
+        private string GenerateSlug(string title)
         {
-            if (file == null) return null;
+            if (string.IsNullOrEmpty(title))
+                return Guid.NewGuid().ToString();
 
-            string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
-            string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
-            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+            // Türkçe karakterleri değiştir
+            title = title.Replace("ı", "i").Replace("İ", "I")
+                         .Replace("ş", "s").Replace("Ş", "S")
+                         .Replace("ğ", "g").Replace("Ğ", "G")
+                         .Replace("ü", "u").Replace("Ü", "U")
+                         .Replace("ö", "o").Replace("Ö", "O")
+                         .Replace("ç", "c").Replace("Ç", "C");
 
-            // uploads klasörü yoksa oluştur
-            if (!Directory.Exists(uploadsFolder))
-            {
-                Directory.CreateDirectory(uploadsFolder);
-            }
+            // Küçük harfe çevir
+            title = title.ToLowerInvariant();
+
+            // Özel karakterleri temizle
+            title = Regex.Replace(title, @"[^a-z0-9\s-]", "");
+
+            // Boşlukları ve çoklu tire işaretlerini tek tire ile değiştir
+            title = Regex.Replace(title, @"\s+", "-");
+            title = Regex.Replace(title, @"-+", "-");
+
+            // Baş ve sondaki tireleri temizle
+            title = title.Trim('-');
+
+            return string.IsNullOrEmpty(title) ? Guid.NewGuid().ToString() : title;
+        }
+
+        private async Task<string> UploadImage(IFormFile imageFile)
+        {
+            if (imageFile == null || imageFile.Length == 0)
+                return null;
+
+            var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+            Directory.CreateDirectory(uploadsFolder);
+
+            var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(imageFile.FileName);
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
             using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
-                await file.CopyToAsync(fileStream);
+                await imageFile.CopyToAsync(fileStream);
             }
 
+            // ESKİ SİSTEM: Sadece dosya adını döndür
             return uniqueFileName;
         }
 
-        private void DeleteImage(string fileName)
+        private void DeleteImage(string imageUrl)
         {
-            if (string.IsNullOrEmpty(fileName)) return;
+            if (string.IsNullOrEmpty(imageUrl))
+                return;
 
-            string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", fileName);
-            if (System.IO.File.Exists(filePath))
+            try
             {
-                System.IO.File.Delete(filePath);
+                string imagePath;
+
+                // Eski sistem: Sadece dosya adı
+                if (!imageUrl.StartsWith("/") && !imageUrl.StartsWith("http"))
+                {
+                    imagePath = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", imageUrl);
+                }
+                else
+                {
+                    // Yeni sistem: Tam yol (geçici uyumluluk için)
+                    imagePath = Path.Combine(_webHostEnvironment.WebRootPath, imageUrl.TrimStart('/'));
+                }
+
+                if (System.IO.File.Exists(imagePath))
+                {
+                    System.IO.File.Delete(imagePath);
+                }
             }
-        }
-
-        // SEO dostu URL oluşturmak için slug oluşturucu
-        private string GenerateSlug(string title)
-        {
-            // Türkçe karakterleri değiştir
-            string turkishChars = "ığüşöçĞÜŞİÖÇ";
-            string englishChars = "igusocGUSIOC";
-
-            for (int i = 0; i < turkishChars.Length; i++)
+            catch (Exception ex)
             {
-                title = title.Replace(turkishChars[i], englishChars[i]);
+                System.Diagnostics.Debug.WriteLine($"Error deleting image: {ex.Message}");
             }
-
-            // Boşlukları, özel karakterleri, sembolleri temizle
-            string slug = Regex.Replace(title.ToLower(), @"[^a-z0-9\s-]", "");
-
-            // Boşlukları tire ile değiştir
-            slug = Regex.Replace(slug, @"\s+", "-");
-
-            // Ardışık tireleri tek tire yap
-            slug = Regex.Replace(slug, @"-+", "-");
-
-            // Başta ve sonda tire varsa kaldır
-            slug = slug.Trim('-');
-
-            return slug;
         }
     }
 }
