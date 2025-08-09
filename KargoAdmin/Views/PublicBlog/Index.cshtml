@@ -1,114 +1,169 @@
 ﻿@model IEnumerable<Blog>
 @using System.Text.RegularExpressions
 @{
-    ViewData["Title"] = "Blog";
+    ViewData["Title"] = "Blog/Haber";
     Layout = "_PublicLayout";
 }
 
-<!-- Page Header -->
-<div class="bg-primary text-white py-5">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <h1 class="fw-bold">Blog</h1>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="/" class="text-white">Ana Sayfa</a></li>
-                        <li class="breadcrumb-item active text-white" aria-current="page">Blog</li>
-                    </ol>
-                </nav>
+<!-- Blog Header Section -->
+<section class="blog-header-section">
+    <div class="container blog-header-container">
+        <!-- Blog Başlık -->
+        <h1 class="blog-main-title">Blog/Haber</h1>
+        <p class="blog-subtitle">
+            Lojistik dünyasındaki en güncel trendler, sektörel analizler ve
+            uzman görüşleriyle işinizi ileriye taşıyacak içerikler burada
+        </p>
+
+        <!-- Kategori Tabları - Scroll İpuçları ile -->
+        <div class="blog-category-wrapper">
+            <div class="blog-category-tabs" id="categoryTabs">
+                <!-- Global Tab -->
+                <a href="@Url.Action("Index", "PublicBlog")"
+                   class="category-tab @(ViewBag.CurrentTag == null ? "active" : "")">
+                    Global
+                </a>
+
+                <!-- Dinamik Tag'ler -->
+                @if (ViewBag.AvailableTags != null)
+                {
+                    @foreach (var tag in ViewBag.AvailableTags)
+                    {
+                        var tagObj = (dynamic)tag;
+                        <a href="@Url.Action("Tag", "PublicBlog", new { tag = tagObj.Name })"
+                           class="category-tab @(ViewBag.CurrentTag?.ToString() == tagObj.Name?.ToString() ? "active" : "")">
+                            @tagObj.Name
+                        </a>
+                    }
+                }
             </div>
-            <div class="col-md-6 text-md-end">
-                <img src="~/img/blog-header.png" alt="Aleris Global Lojistik Blog" class="img-fluid" style="max-height: 200px;">
+
+            <!-- Scroll İpucu -->
+            <div class="scroll-hint" id="scrollHint">
+                <i class="fas fa-hand-point-left"></i>
+                Kaydırmak için sürükleyin veya mouse tekerleğini kullanın
+                <i class="fas fa-hand-point-right"></i>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<!-- Blog Section -->
-<section class="section">
+<!-- Blog Content Section -->
+<section class="blog-content-section">
     <div class="container">
         <div class="row">
             <!-- Blog Posts -->
             <div class="col-lg-8">
+                <!-- Filter Alerts -->
                 @if (ViewBag.CurrentTag != null)
                 {
-                    <div class="alert alert-primary mb-4">
-                        <i class="fas fa-tag me-2"></i> <strong>Etiket:</strong> @ViewBag.CurrentTag
-                        <a href="@Url.Action("Index", "PublicBlog")" class="float-end text-decoration-none">
-                            <i class="fas fa-times"></i> Filtreyi Temizle
+                    <div class="blog-alert alert-primary">
+                        <div>
+                            <i class="fas fa-tag me-2"></i>
+                            <strong>Kategori:</strong> @ViewBag.CurrentTag
+                        </div>
+                        <a href="@Url.Action("Index", "PublicBlog")" class="close-filter">
+                            <i class="fas fa-times"></i>
                         </a>
                     </div>
                 }
 
+                @if (ViewBag.SearchQuery != null)
+                {
+                    <div class="blog-alert alert-info">
+                        <div>
+                            <i class="fas fa-search me-2"></i>
+                            <strong>Arama:</strong> "@ViewBag.SearchQuery"
+                            <span class="ms-2 text-muted">(@Model.Count() sonuç)</span>
+                        </div>
+                        <a href="@Url.Action("Index", "PublicBlog")" class="close-filter">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    </div>
+                }
+
+                <!-- Blog Cards Grid -->
                 @if (!Model.Any())
                 {
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle me-2"></i> Bu kategoride henüz blog yazısı bulunmamaktadır.
+                    <div class="blog-empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <h3>Henüz İçerik Bulunmuyor</h3>
+                        <p>Bu kategoride henüz blog yazısı bulunmamaktadır.</p>
                     </div>
                 }
                 else
                 {
-                    <div class="row">
+                    <div class="blog-grid">
                         @foreach (var blog in Model)
                         {
-                            <div class="col-md-6 mb-4">
-                                <div class="blog-card h-100">
-                                    @if (!string.IsNullOrEmpty(blog.ImageUrl))
-                                    {
-                                        <div class="blog-card-img" style="background-image: url('/uploads/@blog.ImageUrl')"></div>
-                                    }
-                                    else
-                                    {
-                                        <div class="blog-card-img" style="background-image: url('/img/blog-placeholder.png')"></div>
-                                    }
-                                    <div class="p-4">
-                                        <p class="blog-card-date">
-                                            <i class="far fa-calendar-alt me-2"></i> @blog.PublishDate.ToString("dd.MM.yyyy")
-                                            <span class="ms-3">
-                                                <i class="far fa-eye me-1"></i> @blog.ViewCount
-                                            </span>
-                                        </p>
-                                        <h3 class="blog-card-title">@blog.Title</h3>
-                                        @{
-                                            var plainText = Regex.Replace(blog.Content, "<.*?>", ""); // HTML tag'lerini sil
-                                            var excerpt = plainText.Length > 150 ? plainText.Substring(0, 150) + "..." : plainText;
-                                        }
-
-                                        <p class="blog-card-excerpt">@excerpt</p>
-                                        @if (!string.IsNullOrEmpty(blog.Tags))
-                                        {
-                                            <div class="mb-3">
-                                                @foreach (var tag in blog.Tags.Split(','))
-                                                {
-                                                    <a href="@Url.Action("Tag", "PublicBlog", new { tag = tag.Trim() })" class="tag">@tag.Trim()</a>
-                                                }
-                                            </div>
-                                        }
-                                        <a href="@Url.Action("Details", "PublicBlog", new { id = blog.Id, slug = blog.Slug })" class="btn btn-sm btn-outline-primary">
-                                            Devamını Oku <i class="fas fa-arrow-right ms-1"></i>
-                                        </a>
-                                    </div>
+                            <article class="blog-card">
+                                <!-- Blog Image -->
+                                <div class="blog-card-image">
+                                    <div class="blog-card-img" style="background-image: url('@(!string.IsNullOrEmpty(blog.ImageUrl) ? "/uploads/" + blog.ImageUrl : "/img/blog-placeholder.png")')"></div>
                                 </div>
-                            </div>
+
+                                <!-- Blog Content -->
+                                <div class="blog-card-content">
+                                    <!-- Meta Information -->
+                                    <div class="blog-card-meta">
+                                        <div class="blog-meta-item">
+                                            <i class="far fa-calendar-alt"></i>
+                                            <span>@blog.PublishDate.ToString("dd MMM yyyy")</span>
+                                        </div>
+                                        <div class="blog-meta-item">
+                                            <i class="far fa-eye"></i>
+                                            <span>@blog.ViewCount görüntülenme</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Blog Title -->
+                                    <h2 class="blog-card-title">@blog.Title</h2>
+
+                                    <!-- Blog Excerpt -->
+                                    @{
+                                        var plainText = Regex.Replace(blog.Content, "<.*?>", "");
+                                        var excerpt = plainText.Length > 160 ? plainText.Substring(0, 160) + "..." : plainText;
+                                    }
+                                    <p class="blog-card-excerpt">@excerpt</p>
+
+                                    <!-- Blog Tags -->
+                                    @if (!string.IsNullOrEmpty(blog.Tags))
+                                    {
+                                        <div class="blog-card-tags">
+                                            @foreach (var tag in blog.Tags.Split(',').Take(3))
+                                            {
+                                                <a href="@Url.Action("Tag", "PublicBlog", new { tag = tag.Trim() })"
+                                                   class="blog-tag">@tag.Trim()</a>
+                                            }
+                                        </div>
+                                    }
+
+                                    <!-- Read More Button -->
+                                    <a href="@Url.Action("Details", "PublicBlog", new { id = blog.Id, slug = blog.Slug })"
+                                       class="blog-read-more">
+                                        <span>Devamını Oku</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </article>
                         }
                     </div>
 
                     <!-- Pagination -->
                     @if (ViewBag.TotalPages > 1)
                     {
-                        <nav aria-label="Blog pagination" class="mt-5">
-                            <ul class="pagination justify-content-center">
+                        <nav aria-label="Blog pagination" class="blog-pagination">
+                            <ul class="pagination">
                                 @if (ViewBag.CurrentPage > 1)
                                 {
                                     <li class="page-item">
-                                        <a class="page-link" href="@Url.Action("Index", "PublicBlog", new { page = ViewBag.CurrentPage - 1 })" aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
+                                        <a class="page-link" href="@Url.Action("Index", "PublicBlog", new { page = ViewBag.CurrentPage - 1 })" aria-label="Önceki">
+                                            <i class="fas fa-chevron-left"></i>
                                         </a>
                                     </li>
                                 }
 
-                                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                                @for (int i = Math.Max(1, ViewBag.CurrentPage - 2); i <= Math.Min((int)ViewBag.TotalPages, ViewBag.CurrentPage + 2); i++)
                                 {
                                     <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
                                         <a class="page-link" href="@Url.Action("Index", "PublicBlog", new { page = i })">@i</a>
@@ -118,8 +173,8 @@
                                 @if (ViewBag.CurrentPage < ViewBag.TotalPages)
                                 {
                                     <li class="page-item">
-                                        <a class="page-link" href="@Url.Action("Index", "PublicBlog", new { page = ViewBag.CurrentPage + 1 })" aria-label="Next">
-                                            <span aria-hidden="true">&raquo;</span>
+                                        <a class="page-link" href="@Url.Action("Index", "PublicBlog", new { page = ViewBag.CurrentPage + 1 })" aria-label="Sonraki">
+                                            <i class="fas fa-chevron-right"></i>
                                         </a>
                                     </li>
                                 }
@@ -131,93 +186,199 @@
 
             <!-- Sidebar -->
             <div class="col-lg-4">
-                <!-- Search Box -->
-                <div class="card mb-4 border-0 shadow-sm">
-                    <div class="card-body">
-                        <h4 class="mb-3">Arama</h4>
-                        <form action="#" method="get" class="search-form">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Ara..." aria-label="Ara...">
-                                <button class="btn btn-primary" type="submit">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </form>
+                <!-- Modern Search Box -->
+                <div class="modern-search-card">
+                    <div class="search-header">
+                        <i class="fas fa-search search-icon"></i>
+                        <h4 class="search-title">Blog Arama</h4>
                     </div>
-                </div>
-
-                <!-- Cargo Tracking -->
-                <div class="card mb-4 border-0 shadow-sm">
-                    <div class="card-body bg-light">
-                        <h4 class="mb-3">Kargo Takibi</h4>
-                        <p>Kargo takip numaranız ile gönderinizin durumunu hemen kontrol edin.</p>
-                        <form action="#" method="get" class="cargo-tracking-form">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Takip Numarası" aria-label="Takip Numarası">
-                                <button class="btn btn-primary" type="submit">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Services -->
-                <div class="card mb-4 border-0 shadow-sm">
-                    <div class="card-body">
-                        <h4 class="mb-3">Hizmetlerimiz</h4>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item ps-0 border-0">
-                                <a href="/Public/Services#land" class="text-decoration-none">
-                                    <i class="fas fa-truck text-primary me-2"></i> Kara Taşımacılığı
-                                </a>
-                            </li>
-                            <li class="list-group-item ps-0 border-0">
-                                <a href="/Public/Services#sea" class="text-decoration-none">
-                                    <i class="fas fa-ship text-primary me-2"></i> Deniz Taşımacılığı
-                                </a>
-                            </li>
-                            <li class="list-group-item ps-0 border-0">
-                                <a href="/Public/Services#air" class="text-decoration-none">
-                                    <i class="fas fa-plane text-primary me-2"></i> Hava Taşımacılığı
-                                </a>
-                            </li>
-                            <li class="list-group-item ps-0 border-0">
-                                <a href="/Public/Services#warehouse" class="text-decoration-none">
-                                    <i class="fas fa-warehouse text-primary me-2"></i> Depolama
-                                </a>
-                            </li>
-                            <li class="list-group-item ps-0 border-0">
-                                <a href="/Public/Services#ecommerce" class="text-decoration-none">
-                                    <i class="fas fa-box text-primary me-2"></i> E-ticaret Lojistiği
-                                </a>
-                            </li>
-                            <li class="list-group-item ps-0 border-0">
-                                <a href="/Public/Services#customs" class="text-decoration-none">
-                                    <i class="fas fa-file-contract text-primary me-2"></i> Gümrük Danışmanlığı
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Contact -->
-                <div class="card mb-4 border-0 shadow-sm">
-                    <div class="card-body bg-primary text-white">
-                        <h4 class="mb-3">İletişime Geçin</h4>
-                        <p>Lojistik ihtiyaçlarınız için bizimle iletişime geçin. Size özel çözümler sunalım.</p>
-                        <div class="mb-2">
-                            <i class="fas fa-phone me-2"></i> +90 212 123 45 67
+                    <form action="@Url.Action("Search", "PublicBlog")" method="get" class="modern-search-form">
+                        <div class="search-input-wrapper">
+                            <input type="text"
+                                   name="query"
+                                   value="@ViewBag.SearchQuery"
+                                   class="modern-search-input"
+                                   placeholder="Ne arıyorsunuz?"
+                                   autocomplete="off">
+                            <button type="submit" class="search-submit-btn">
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
                         </div>
-                        <div class="mb-3">
-                            <i class="fas fa-envelope me-2"></i> info@alerisglobal.com
+                        <div class="search-suggestions">
+                            <span class="suggestion-label">Popüler aramalar:</span>
+                            <div class="suggestion-tags">
+                                <a href="@Url.Action("Search", "PublicBlog", new { query = "lojistik" })" class="suggestion-tag">Lojistik</a>
+                                <a href="@Url.Action("Search", "PublicBlog", new { query = "teknoloji" })" class="suggestion-tag">Teknoloji</a>
+                                <a href="@Url.Action("Search", "PublicBlog", new { query = "kargo" })" class="suggestion-tag">Kargo</a>
+                            </div>
                         </div>
-                        <a href="/Public/Contact" class="btn btn-light">
-                            İletişim Formu <i class="fas fa-arrow-right ms-1"></i>
-                        </a>
+                    </form>
+                </div>
+
+                <!-- Recent Posts -->
+                <div class="sidebar-card">
+                    <h4 class="sidebar-card-title">
+                        <i class="fas fa-clock"></i>
+                        Son Yazılar
+                    </h4>
+                    <div class="recent-posts">
+                        @{
+                            var recentPosts = Model.Take(5);
+                        }
+                        @foreach (var recentPost in recentPosts)
+                        {
+                            <div class="recent-post-item">
+                                <h6>
+                                    <a href="@Url.Action("Details", "PublicBlog", new { id = recentPost.Id, slug = recentPost.Slug })">
+                                        @recentPost.Title
+                                    </a>
+                                </h6>
+                                <div class="recent-post-meta">
+                                    <i class="far fa-calendar-alt"></i>
+                                    <span>@recentPost.PublishDate.ToString("dd MMM yyyy")</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Popular Tags -->
+                <div class="sidebar-card">
+                    <h4 class="sidebar-card-title">
+                        <i class="fas fa-tags"></i>
+                        Popüler Etiketler
+                    </h4>
+                    <div class="tag-cloud">
+                        @if (ViewBag.AvailableTags != null)
+                        {
+                            @foreach (var tag in ((List<object>)ViewBag.AvailableTags).Take(8))
+                            {
+                                var tagObj = (dynamic)tag;
+                                <a href="@Url.Action("Tag", "PublicBlog", new { tag = tagObj.Name })"
+                                   class="tag @(ViewBag.CurrentTag?.ToString() == tagObj.Name?.ToString() ? "active" : "")"
+                                   title="@tagObj.Count adet yazı">
+                                    @tagObj.Name
+                                    <span class="tag-count">(@tagObj.Count)</span>
+                                </a>
+                            }
+                        }
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+@section Styles {
+    <link href="~/css/blog-header-modern.css" rel="stylesheet" />
+    <link href="~/css/blog-cards.css" rel="stylesheet" />
+    <link href="~/css/blog-sidebar.css" rel="stylesheet" />
+}
+
+<script>
+    // Kategori Scroll - Kullanıcı İpuçları ile
+    document.addEventListener('DOMContentLoaded', function() {
+        const categoryTabs = document.getElementById('categoryTabs');
+        const scrollHint = document.getElementById('scrollHint');
+
+        if (categoryTabs) {
+            // Scroll olabilir mi kontrol et
+            function checkScrollable() {
+                const isScrollable = categoryTabs.scrollWidth > categoryTabs.clientWidth;
+
+                if (isScrollable) {
+                    categoryTabs.classList.add('has-more');
+                    if (scrollHint) {
+                        scrollHint.classList.add('show');
+                        // 5 saniye sonra ipucunu gizle
+                        setTimeout(() => {
+                            scrollHint.classList.remove('show');
+                        }, 5000);
+                    }
+                } else {
+                    categoryTabs.classList.remove('has-more');
+                    if (scrollHint) {
+                        scrollHint.classList.remove('show');
+                    }
+                }
+            }
+
+            // İlk kontrol
+            setTimeout(checkScrollable, 100);
+
+            // Pencere boyutu değiştiğinde kontrol et
+            window.addEventListener('resize', checkScrollable);
+
+            // Aktif tab'e scroll - Sayfa yüklendiğinde
+            const activeTab = categoryTabs.querySelector('.category-tab.active');
+            if (activeTab) {
+                setTimeout(() => {
+                    activeTab.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'nearest',
+                        inline: 'center'
+                    });
+                }, 200);
+            }
+
+            // Mouse wheel ile yatay scroll
+            categoryTabs.addEventListener('wheel', function(e) {
+                if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+                    e.preventDefault();
+                    this.scrollLeft += e.deltaY;
+
+                    // İpucu kullanıldıktan sonra gizle
+                    if (scrollHint) {
+                        scrollHint.classList.remove('show');
+                    }
+                }
+            }, { passive: false });
+
+            // Touch scroll - Mobil
+            let touchStartX = 0;
+            let scrollStartX = 0;
+            let hasTouched = false;
+
+            categoryTabs.addEventListener('touchstart', function(e) {
+                touchStartX = e.touches[0].clientX;
+                scrollStartX = this.scrollLeft;
+                hasTouched = true;
+            });
+
+            categoryTabs.addEventListener('touchmove', function(e) {
+                if (e.touches.length === 1) {
+                    const touchX = e.touches[0].clientX;
+                    const diff = touchStartX - touchX;
+                    this.scrollLeft = scrollStartX + diff;
+
+                    // İpucu kullanıldıktan sonra gizle
+                    if (hasTouched && scrollHint) {
+                        scrollHint.classList.remove('show');
+                    }
+                }
+            });
+
+            // Mouse enter/leave ile ipucu göster
+            categoryTabs.addEventListener('mouseenter', function() {
+                const isScrollable = this.scrollWidth > this.clientWidth;
+                if (isScrollable && scrollHint && !scrollHint.classList.contains('used')) {
+                    scrollHint.classList.add('show');
+                }
+            });
+
+            categoryTabs.addEventListener('mouseleave', function() {
+                if (scrollHint) {
+                    scrollHint.classList.remove('show');
+                }
+            });
+
+            // Scroll kullanıldığında ipucunu kalıcı gizle
+            categoryTabs.addEventListener('scroll', function() {
+                if (scrollHint) {
+                    scrollHint.classList.add('used');
+                    scrollHint.classList.remove('show');
+                }
+            });
+        }
+    });
+</script>

@@ -50,6 +50,10 @@ input, textarea, select {
     font-weight: 400;
 }
 
+a{
+    text-decoration: none;
+}
+
 /* Footer reset */
 .footer {
     position: relative;

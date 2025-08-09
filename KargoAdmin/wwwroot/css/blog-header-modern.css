@@ -1,0 +1,386 @@
+﻿/* Blog Header Modern Design - Complete CSS */
+
+/* Header Section - Tutarlı gradient background */
+.blog-header-section {
+    position: relative;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    padding: 6rem 0 6rem 0; /* Üstten daha fazla padding */
+    margin-top: 0;
+    overflow: hidden;
+}
+
+/* Eğer navbar fixed/sticky ise ekstra boşluk */
+.navbar-fixed ~ .blog-header-section,
+.fixed-top ~ .blog-header-section {
+    padding-top: 8rem;
+}
+
+/* Navbar yüksekliğine göre dinamik padding */
+@supports (padding-top: calc(6rem + var(--navbar-height, 80px))) {
+    .blog-header-section {
+        padding-top: calc(7rem + var(--navbar-height, 0px));
+    }
+}
+
+.blog-header-container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Blog Title */
+.blog-main-title {
+    font-size: 4rem;
+    font-weight: 800;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+
+.blog-subtitle {
+    font-size: 1.1rem;
+    color: #6c757d;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 3rem auto;
+    line-height: 1.6;
+}
+
+/* Category System - Scroll İpuçları ile */
+.blog-category-wrapper {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.blog-category-tabs {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: #ffffff;
+    border-radius: 50px;
+    padding: 8px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e9ecef;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    position: relative;
+}
+
+    .blog-category-tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Scroll olabilir ipucu - sağ tarafta fade */
+    .blog-category-tabs::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 40px;
+        height: 100%;
+        background: linear-gradient(to left, rgba(255,255,255,0.9), transparent);
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 2;
+    }
+
+    .blog-category-tabs.has-more::after {
+        opacity: 1;
+    }
+
+/* Kategori tabları */
+.category-tab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    padding: 12px 24px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #6c757d;
+    border-radius: 40px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    cursor: pointer;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+    .category-tab:hover {
+        background: rgba(0, 92, 185, 0.08);
+        color: #005cb9;
+        text-decoration: none;
+    }
+
+    .category-tab.active {
+        background: #005cb9;
+        color: #ffffff;
+        font-weight: 600;
+        box-shadow: 0 4px 15px rgba(0, 92, 185, 0.25);
+    }
+
+/* Scroll ipucu text */
+.scroll-hint {
+    text-align: center;
+    margin-top: 8px;
+    font-size: 0.75rem;
+    color: #9ca3af;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+    .scroll-hint.show {
+        opacity: 1;
+    }
+
+    .scroll-hint i {
+        margin: 0 2px;
+        animation: scrollHint 2s ease-in-out infinite;
+    }
+
+@keyframes scrollHint {
+    0%, 100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(3px);
+    }
+}
+
+/* Hover state - daha belirgin cursor */
+.blog-category-tabs:hover {
+    cursor: grab;
+}
+
+.blog-category-tabs:active {
+    cursor: grabbing;
+}
+
+.category-tab:hover {
+    background: rgba(0, 92, 185, 0.08);
+    color: #005cb9;
+    text-decoration: none;
+}
+
+.category-tab.active {
+    background: #005cb9;
+    color: #ffffff;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(0, 92, 185, 0.25);
+}
+
+.category-tab:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 92, 185, 0.1);
+}
+
+/* Progress bar ve scroll indikatorleri tamamen kaldırıldı */
+
+/* Blog Cards */
+.blog-card {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    height: 100%;
+    background: #ffffff;
+}
+
+    .blog-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+.blog-card-img {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.blog-card-date {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+}
+
+.blog-card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0.5rem 0;
+    color: #2c3e50;
+    line-height: 1.3;
+}
+
+.blog-card-excerpt {
+    font-size: 0.9rem;
+    color: #6c757d;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+/* Tags */
+.tag {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    background-color: #f0f0f0;
+    color: #6c757d;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+    .tag:hover {
+        background-color: #005cb9;
+        color: white;
+        text-decoration: none;
+    }
+
+    .tag.active {
+        background-color: #005cb9;
+        color: white;
+    }
+
+.tag-count {
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+/* Section */
+.section {
+    padding: 5rem 0;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.blog-main-title,
+.blog-subtitle,
+.blog-category-tabs {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.blog-subtitle {
+    animation-delay: 0.2s;
+}
+
+.blog-category-tabs {
+    animation-delay: 0.4s;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .blog-category-wrapper {
+        padding: 0 45px;
+    }
+}
+
+@media (max-width: 768px) {
+    .blog-main-title {
+        font-size: 2.8rem;
+    }
+
+    .blog-subtitle {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+        padding: 0 1rem;
+    }
+
+    .blog-category-wrapper {
+        padding: 0 15px;
+    }
+
+    .blog-category-tabs {
+        padding: 6px;
+    }
+
+    .category-tab {
+        padding: 10px 18px;
+        font-size: 0.85rem;
+    }
+
+    .blog-header-section {
+        padding: 5rem 0 4rem 0; /* Mobilde navbar için boşluk */
+    }
+}
+
+@media (max-width: 576px) {
+    .blog-main-title {
+        font-size: 2.2rem;
+    }
+
+    .blog-category-wrapper {
+        padding: 0 10px;
+    }
+
+    .category-tab {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+    }
+
+    .blog-category-tabs {
+        padding: 5px;
+    }
+
+    .blog-header-section {
+        padding: 4rem 0 3rem 0; /* Küçük mobilde daha az */
+    }
+
+        .blog-header-section::before {
+            width: 200px;
+            height: 200px;
+            transform: translate(50px, -50px);
+        }
+
+        .blog-header-section::after {
+            width: 150px;
+            height: 150px;
+            transform: translate(-25px, 25px);
+        }
+}
+
+@media (max-width: 480px) {
+    .blog-main-title {
+        font-size: 1.8rem;
+    }
+
+    .blog-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .blog-header-section {
+        padding: 2rem 0 3rem 0;
+    }
+
+    .blog-category-wrapper {
+        padding: 0 30px;
+    }
+
+    .category-tab {
+        padding: 6px 12px;
+        font-size: 0.75rem;
+    }
+}

@@ -2,12 +2,13 @@
 using KargoAdmin.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace KargoAdmin.Controllers
 {
-    // Bu controller kullanıcı tarafı için blog sayfalarını yönetir
     public class PublicBlogController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -20,9 +21,8 @@ namespace KargoAdmin.Controllers
         // Blog listesi
         public async Task<IActionResult> Index(int page = 1)
         {
-            int pageSize = 6; // Her sayfada gösterilecek blog sayısı
+            int pageSize = 6;
 
-            // Sadece yayınlanmış blogları getir
             var blogs = await _context.Blogs
                 .Where(b => b.IsPublished)
                 .OrderByDescending(b => b.PublishDate)
@@ -31,16 +31,83 @@ namespace KargoAdmin.Controllers
                 .Include(b => b.Author)
                 .ToListAsync();
 
-            // Toplam blog sayısı
             var totalBlogs = await _context.Blogs
                 .Where(b => b.IsPublished)
                 .CountAsync();
 
-            // Sayfalama bilgisi
             ViewBag.CurrentPage = page;
             ViewBag.TotalPages = (int)Math.Ceiling(totalBlogs / (double)pageSize);
 
+            // Dinamik tag listesi - BASİT YÖNTEM
+            ViewBag.AvailableTags = await GetAvailableTagsSimple();
+
             return View(blogs);
+        }
+
+        // Tag ile filtreleme
+        public async Task<IActionResult> Tag(string tag, int page = 1)
+        {
+            if (string.IsNullOrEmpty(tag))
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            int pageSize = 6;
+
+            var blogs = await _context.Blogs
+                .Where(b => b.IsPublished && b.Tags.Contains(tag))
+                .OrderByDescending(b => b.PublishDate)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Include(b => b.Author)
+                .ToListAsync();
+
+            var totalBlogs = await _context.Blogs
+                .Where(b => b.IsPublished && b.Tags.Contains(tag))
+                .CountAsync();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalBlogs / (double)pageSize);
+            ViewBag.CurrentTag = tag;
+            ViewBag.AvailableTags = await GetAvailableTagsSimple();
+
+            return View("Index", blogs);
+        }
+
+        // Arama
+        public async Task<IActionResult> Search(string query, int page = 1)
+        {
+            if (string.IsNullOrEmpty(query))
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            int pageSize = 6;
+
+            var blogs = await _context.Blogs
+                .Where(b => b.IsPublished &&
+                           (b.Title.Contains(query) ||
+                            b.Content.Contains(query) ||
+                            b.Tags.Contains(query)))
+                .OrderByDescending(b => b.PublishDate)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Include(b => b.Author)
+                .ToListAsync();
+
+            var totalBlogs = await _context.Blogs
+                .Where(b => b.IsPublished &&
+                           (b.Title.Contains(query) ||
+                            b.Content.Contains(query) ||
+                            b.Tags.Contains(query)))
+                .CountAsync();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalBlogs / (double)pageSize);
+            ViewBag.SearchQuery = query;
+            ViewBag.AvailableTags = await GetAvailableTagsSimple();
+
+            return View("Index", blogs);
         }
 
         // Blog detay sayfası
@@ -53,7 +120,6 @@ namespace KargoAdmin.Controllers
 
             Blog blog;
 
-            // ID ile mi yoksa slug ile mi arama yapılacak
             if (id.HasValue)
             {
                 blog = await _context.Blogs
@@ -72,20 +138,16 @@ namespace KargoAdmin.Controllers
                 return NotFound();
             }
 
-            // Görüntülenme sayısını artır
             blog.ViewCount++;
             _context.Update(blog);
             await _context.SaveChangesAsync();
 
-            // İlgili diğer blogları getir
             var relatedBlogs = new List<Blog>();
 
-            // Etiketlere göre ilgili blogları bul
             if (!string.IsNullOrEmpty(blog.Tags))
             {
                 var tags = blog.Tags.Split(',').Select(t => t.Trim()).ToList();
 
-                // Aynı etiketlere sahip en fazla 3 blog
                 relatedBlogs = await _context.Blogs
                     .Where(b => b.Id != blog.Id &&
                            b.IsPublished &&
@@ -95,7 +157,6 @@ namespace KargoAdmin.Controllers
                     .ToListAsync();
             }
 
-            // Eğer ilgili blog bulunamazsa, son eklenen bloglardan göster
             if (relatedBlogs.Count == 0)
             {
                 relatedBlogs = await _context.Blogs
@@ -110,36 +171,57 @@ namespace KargoAdmin.Controllers
             return View(blog);
         }
 
-        // Tag ile filtreleme
-        public async Task<IActionResult> Tag(string tag, int page = 1)
+        // BASİT TAG LİSTESİ - Hata vermez
+        private async Task<List<object>> GetAvailableTagsSimple()
         {
-            if (string.IsNullOrEmpty(tag))
+            var result = new List<object>();
+
+            try
             {
-                return RedirectToAction(nameof(Index));
+                // Tüm yayınlanmış blogların tag'lerini al
+                var allTagStrings = await _context.Blogs
+                    .Where(b => b.IsPublished && !string.IsNullOrEmpty(b.Tags))
+                    .Select(b => b.Tags)
+                    .ToListAsync();
+
+                // Tag sayılarını hesapla
+                var tagCounts = new Dictionary<string, int>();
+
+                foreach (var tagString in allTagStrings)
+                {
+                    // "Dijital Dönüşüm,Teknoloji,Lojistik,IoT" formatındaki string'i ayır
+                    var tags = tagString.Split(',');
+
+                    foreach (var tag in tags)
+                    {
+                        var cleanTag = tag.Trim();
+                        if (!string.IsNullOrEmpty(cleanTag))
+                        {
+                            if (tagCounts.ContainsKey(cleanTag))
+                                tagCounts[cleanTag]++;
+                            else
+                                tagCounts[cleanTag] = 1;
+                        }
+                    }
+                }
+
+                // En çok kullanılan tag'lerden az kullanılana doğru sırala
+                var sortedTags = tagCounts
+                    .OrderByDescending(x => x.Value)
+                    .ThenBy(x => x.Key);
+
+                foreach (var tag in sortedTags)
+                {
+                    result.Add(new { Name = tag.Key, Count = tag.Value });
+                }
+            }
+            catch (Exception)
+            {
+                // Hata durumunda boş liste döndür
+                result = new List<object>();
             }
 
-            int pageSize = 6;
-
-            // Belirli etiketi içeren blogları getir
-            var blogs = await _context.Blogs
-                .Where(b => b.IsPublished && b.Tags.Contains(tag))
-                .OrderByDescending(b => b.PublishDate)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .Include(b => b.Author)
-                .ToListAsync();
-
-            // Toplam blog sayısı
-            var totalBlogs = await _context.Blogs
-                .Where(b => b.IsPublished && b.Tags.Contains(tag))
-                .CountAsync();
-
-            // Sayfalama bilgisi
-            ViewBag.CurrentPage = page;
-            ViewBag.TotalPages = (int)Math.Ceiling(totalBlogs / (double)pageSize);
-            ViewBag.CurrentTag = tag;
-
-            return View("Index", blogs);
+            return result;
         }
     }
 }

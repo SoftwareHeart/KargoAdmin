@@ -4,223 +4,328 @@
     Layout = "_PublicLayout";
 }
 
-<!-- Blog Header -->
-<div class="blog-detail-header" style="background-image: url('@(string.IsNullOrEmpty(Model.ImageUrl) ? "/img/blog-placeholder.jpg" : "/uploads/" + Model.ImageUrl)')">
+<!-- Modern Blog Detail Header -->
+<section class="blog-detail-hero">
+    <div class="blog-hero-background" style="background-image: url('@(!string.IsNullOrEmpty(Model.ImageUrl) ? "/uploads/" + Model.ImageUrl : "/img/blog-placeholder.jpg")')"></div>
+    <div class="blog-hero-overlay"></div>
     <div class="container">
-        <div class="blog-detail-header-content">
-            <div class="blog-detail-date">
-                <i class="far fa-calendar-alt me-2"></i> @Model.PublishDate.ToString("dd MMMM yyyy")
-                <span class="ms-3"><i class="far fa-eye me-1"></i> @Model.ViewCount görüntülenme</span>
-            </div>
-            <h1 class="blog-detail-title">@Model.Title</h1>
-            <div class="blog-detail-author">
-                <img src="/img/author-placeholder.jpg" alt="@Model.Author.FirstName @Model.Author.LastName" class="rounded-circle me-2" width="40" height="40">
-                <span>@Model.Author.FirstName @Model.Author.LastName</span>
-            </div>
-        </div>
-    </div>
-</div>
+        <div class="blog-hero-content">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="blog-breadcrumb-nav">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Ana Sayfa</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "PublicBlog")">Blog</a></li>
+                    <li class="breadcrumb-item active">@Model.Title</li>
+                </ol>
+            </nav>
 
-<!-- Blog Content -->
-<section class="section">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8">
-                <!-- Blog Content -->
-                <div class="card border-0 shadow-sm mb-4">
-                    <div class="card-body p-md-5">
-                        <div class="blog-content">
-                            @Html.Raw(Model.Content)
-                        </div>
-
-                        @if (!string.IsNullOrEmpty(Model.Tags))
-                        {
-                            <div class="tags mt-5">
-                                <h5 class="mb-3">Etiketler:</h5>
-                                @foreach (var tag in Model.Tags.Split(','))
-                                {
-                                    <a href="@Url.Action("Tag", "PublicBlog", new { tag = tag.Trim() })" class="tag">@tag.Trim()</a>
-                                }
-                            </div>
-                        }
-
-                        <!-- Share Buttons -->
-                        <div class="mt-5">
-                            <h5 class="mb-3">Bu yazıyı paylaş:</h5>
-                            <div class="social-share">
-                                <a href="#" class="btn btn-outline-primary me-2" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href), 'facebook-share', 'width=580,height=296'); return false;">
-                                    <i class="fab fa-facebook-f me-1"></i> Facebook
-                                </a>
-                                <a href="#" class="btn btn-outline-info me-2" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent('@Model.Title') + '&url=' + encodeURIComponent(window.location.href), 'twitter-share', 'width=580,height=296'); return false;">
-                                    <i class="fab fa-twitter me-1"></i> Twitter
-                                </a>
-                                <a href="#" class="btn btn-outline-secondary me-2" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(window.location.href) + '&title=' + encodeURIComponent('@Model.Title'), 'linkedin-share', 'width=580,height=296'); return false;">
-                                    <i class="fab fa-linkedin-in me-1"></i> LinkedIn
-                                </a>
-                                <a href="#" class="btn btn-outline-success" onclick="window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent('@Model.Title') + ' ' + encodeURIComponent(window.location.href), 'whatsapp-share', 'width=580,height=296'); return false;">
-                                    <i class="fab fa-whatsapp me-1"></i> WhatsApp
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Blog Meta -->
+            <div class="blog-hero-meta">
+                <div class="meta-item">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>@Model.PublishDate.ToString("dd MMMM yyyy")</span>
                 </div>
-
-                <!-- Related Posts -->
-                @if (ViewBag.RelatedBlogs != null && ViewBag.RelatedBlogs.Count > 0)
-                {
-                    <div class="mt-5">
-                        <h4 class="mb-4">İlgili Yazılar</h4>
-                        <div class="row">
-                            @foreach (var relatedBlog in ViewBag.RelatedBlogs)
-                            {
-                                <div class="col-md-4 mb-4">
-                                    <div class="blog-card h-100">
-                                        @if (!string.IsNullOrEmpty(relatedBlog.ImageUrl))
-                                        {
-                                            <div class="blog-card-img" style="background-image: url('/uploads/@relatedBlog.ImageUrl')"></div>
-                                        }
-                                        else
-                                        {
-                                            <div class="blog-card-img" style="background-image: url('/img/blog-placeholder.png')"></div>
-                                        }
-                                        <div class="p-3">
-                                            <p class="blog-card-date small">
-                                                <i class="far fa-calendar-alt me-1"></i> @relatedBlog.PublishDate.ToString("dd.MM.yyyy")
-                                            </p>
-                                            <h5 class="blog-card-title fs-6">@relatedBlog.Title</h5>
-                                            <a href="@Url.Action("Details", "PublicBlog", new { id = relatedBlog.Id, slug = relatedBlog.Slug })" class="btn btn-sm btn-outline-primary mt-2">
-                                                Devamını Oku
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                }
-
-                <!-- Back Button -->
-                <div class="mt-4">
-                    <a href="@Url.Action("Index", "PublicBlog")" class="btn btn-outline-primary">
-                        <i class="fas fa-arrow-left me-2"></i> Tüm Yazılara Dön
-                    </a>
+                <div class="meta-item">
+                    <i class="far fa-eye"></i>
+                    <span>@Model.ViewCount görüntülenme</span>
+                </div>
+                <div class="meta-item">
+                    <i class="far fa-clock"></i>
+                    <span>@((Model.Content.Length / 200) + 1) dk okuma</span>
                 </div>
             </div>
 
-            <div class="col-lg-4">
-                <!-- Sidebar -->
-                <div class="position-sticky" style="top: 90px;">
-                    <!-- Search Box -->
-                    <div class="card mb-4 border-0 shadow-sm">
-                        <div class="card-body">
-                            <h4 class="mb-3">Arama</h4>
-                            <form action="#" method="get" class="search-form">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Ara..." aria-label="Ara...">
-                                    <button class="btn btn-primary" type="submit">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+            <!-- Blog Title -->
+            <h1 class="blog-hero-title">@Model.Title</h1>
 
-                    <!-- Cargo Tracking -->
-                    <div class="card mb-4 border-0 shadow-sm">
-                        <div class="card-body bg-light">
-                            <h4 class="mb-3">Kargo Takibi</h4>
-                            <p>Kargo takip numaranız ile gönderinizin durumunu hemen kontrol edin.</p>
-                            <form action="#" method="get" class="cargo-tracking-form">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Takip Numarası" aria-label="Takip Numarası">
-                                    <button class="btn btn-primary" type="submit">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
-                    <!-- Services -->
-                    <div class="card mb-4 border-0 shadow-sm">
-                        <div class="card-body">
-                            <h4 class="mb-3">Hizmetlerimiz</h4>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item ps-0 border-0">
-                                    <a href="/Public/Services#land" class="text-decoration-none">
-                                        <i class="fas fa-truck text-primary me-2"></i> Kara Taşımacılığı
-                                    </a>
-                                </li>
-                                <li class="list-group-item ps-0 border-0">
-                                    <a href="/Public/Services#sea" class="text-decoration-none">
-                                        <i class="fas fa-ship text-primary me-2"></i> Deniz Taşımacılığı
-                                    </a>
-                                </li>
-                                <li class="list-group-item ps-0 border-0">
-                                    <a href="/Public/Services#air" class="text-decoration-none">
-                                        <i class="fas fa-plane text-primary me-2"></i> Hava Taşımacılığı
-                                    </a>
-                                </li>
-                                <li class="list-group-item ps-0 border-0">
-                                    <a href="/Public/Services#warehouse" class="text-decoration-none">
-                                        <i class="fas fa-warehouse text-primary me-2"></i> Depolama
-                                    </a>
-                                </li>
-                                <li class="list-group-item ps-0 border-0">
-                                    <a href="/Public/Services#ecommerce" class="text-decoration-none">
-                                        <i class="fas fa-box text-primary me-2"></i> E-ticaret Lojistiği
-                                    </a>
-                                </li>
-                                <li class="list-group-item ps-0 border-0">
-                                    <a href="/Public/Services#customs" class="text-decoration-none">
-                                        <i class="fas fa-file-contract text-primary me-2"></i> Gümrük Danışmanlığı
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Contact -->
-                    <div class="card mb-4 border-0 shadow-sm">
-                        <div class="card-body bg-primary text-white">
-                            <h4 class="mb-3">İletişime Geçin</h4>
-                            <p>Lojistik ihtiyaçlarınız için bizimle iletişime geçin. Size özel çözümler sunalım.</p>
-                            <div class="mb-2">
-                                <i class="fas fa-phone me-2"></i> +90 212 123 45 67
-                            </div>
-                            <div class="mb-3">
-                                <i class="fas fa-envelope me-2"></i> info@alerisglobal.com
-                            </div>
-                            <a href="/Public/Contact" class="btn btn-light">
-                                İletişim Formu <i class="fas fa-arrow-right ms-1"></i>
-                            </a>
-                        </div>
-                    </div>
+            <!-- Author Info -->
+            <div class="blog-hero-author">
+                <div class="author-avatar">
+                    <img src="/img/author-placeholder.jpg" alt="@Model.Author.FirstName @Model.Author.LastName">
+                </div>
+                <div class="author-info">
+                    <span class="author-name">@Model.Author.FirstName @Model.Author.LastName</span>
+                    <span class="author-title">İçerik Editörü</span>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-@section Scripts {
-    <script>
-        // Blog içeriğindeki resimlere stil ekle
-        document.addEventListener('DOMContentLoaded', function() {
-            var images = document.querySelectorAll('.blog-content img');
-            images.forEach(function(img) {
-                img.classList.add('img-fluid', 'rounded', 'my-3');
-            });
+<!-- Blog Content Section -->
+<section class="blog-detail-content">
+    <div class="container">
+        <!-- Main Content - Full Width -->
+        <div class="row justify-content-center">
+            <div class="col-lg-12 col-xl-12">
+                <!-- Blog Content Card -->
+                <article class="blog-content-card">
+                    <!-- Content -->
+                    <div class="blog-article-content">
+                        @Html.Raw(Model.Content)
+                    </div>
 
-            // Blog içeriğindeki bağlantılara stil ekle
-            var links = document.querySelectorAll('.blog-content a');
-            links.forEach(function(link) {
-                link.classList.add('text-primary');
-                // Dış bağlantıları yeni sekmede aç
-                if (link.hostname !== window.location.hostname) {
-                    link.setAttribute('target', '_blank');
-                    link.setAttribute('rel', 'noopener noreferrer');
+                    <!-- Tags Section -->
+                    @if (!string.IsNullOrEmpty(Model.Tags))
+                    {
+                        <div class="blog-tags-section">
+                            <h4 class="tags-title">
+                                <i class="fas fa-tags"></i>
+                                Etiketler
+                            </h4>
+                            <div class="tags-container">
+                                @foreach (var tag in Model.Tags.Split(','))
+                                {
+                                    <a href="@Url.Action("Tag", "PublicBlog", new { tag = tag.Trim() })"
+                                       class="blog-detail-tag">
+                                        #@tag.Trim()
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Social Share -->
+                    <div class="blog-share-section">
+                        <h4 class="share-title">
+                            <i class="fas fa-share-alt"></i>
+                            Bu yazıyı paylaş
+                        </h4>
+                        <div class="share-buttons">
+                            <a href="javascript:void(0)"
+                               onclick="shareOnFacebook(); return false;"
+                               class="share-btn facebook">
+                                <i class="fab fa-facebook-f"></i>
+                                <span>Facebook</span>
+                            </a>
+                            <a href="javascript:void(0)"
+                               onclick="shareOnTwitter('@Html.Raw(Html.Encode(Model.Title))'); return false;"
+                               class="share-btn twitter">
+                                <i class="fab fa-twitter"></i>
+                                <span>Twitter</span>
+                            </a>
+                            <a href="javascript:void(0)"
+                               onclick="shareOnLinkedIn('@Html.Raw(Html.Encode(Model.Title))'); return false;"
+                               class="share-btn linkedin">
+                                <i class="fab fa-linkedin-in"></i>
+                                <span>LinkedIn</span>
+                            </a>
+                            <a href="javascript:void(0)"
+                               onclick="copyToClipboard(this); return false;"
+                               class="share-btn copy">
+                                <i class="fas fa-link"></i>
+                                <span>Linki Kopyala</span>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Navigation -->
+                <div class="blog-navigation">
+                    <a href="@Url.Action("Index", "PublicBlog")" class="nav-btn back-to-list">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Tüm Yazılara Dön</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Posts Section -->
+        @if (ViewBag.RelatedBlogs != null && ((List<Blog>)ViewBag.RelatedBlogs).Any())
+        {
+            <div class="row">
+                <div class="col-12">
+                    <div class="related-posts-section">
+                        <div class="related-header">
+                            <h2 class="related-title">
+                                <i class="fas fa-newspaper"></i>
+                                İlgili Yazılar
+                            </h2>
+                            <p class="related-subtitle">Bu konuyla ilgili diğer yazılarımız</p>
+                        </div>
+
+                        <div class="related-posts-grid">
+                            @foreach (var relatedBlog in ((List<Blog>)ViewBag.RelatedBlogs))
+                            {
+                                <article class="related-post-card">
+                                    <div class="related-post-image">
+                                        <img src="@(!string.IsNullOrEmpty(relatedBlog.ImageUrl) ? "/uploads/" + relatedBlog.ImageUrl : "/img/blog-placeholder.png")"
+                                             alt="@relatedBlog.Title">
+                                        <div class="related-post-overlay">
+                                            <a href="@Url.Action("Details", "PublicBlog", new { id = relatedBlog.Id, slug = relatedBlog.Slug })"
+                                               class="read-more-btn">
+                                                <i class="fas fa-arrow-right"></i>
+                                            </a>
+                                        </div>
+                                        <div class="post-category">
+                                            @if (!string.IsNullOrEmpty(relatedBlog.Tags))
+                                            {
+                                                <span class="category-badge">@relatedBlog.Tags.Split(',').FirstOrDefault()?.Trim()</span>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="related-post-content">
+                                        <div class="related-post-meta">
+                                            <span class="meta-date">
+                                                <i class="far fa-calendar-alt"></i>
+                                                @relatedBlog.PublishDate.ToString("dd MMM yyyy")
+                                            </span>
+                                            <span class="meta-views">
+                                                <i class="far fa-eye"></i>
+                                                @relatedBlog.ViewCount
+                                            </span>
+                                        </div>
+                                        <h3 class="related-post-title">
+                                            <a href="@Url.Action("Details", "PublicBlog", new { id = relatedBlog.Id, slug = relatedBlog.Slug })">
+                                                @relatedBlog.Title
+                                            </a>
+                                        </h3>
+                                        @{
+                                            var relatedExcerpt = System.Text.RegularExpressions.Regex.Replace(relatedBlog.Content, "<.*?>", "");
+                                            relatedExcerpt = relatedExcerpt.Length > 120 ? relatedExcerpt.Substring(0, 120) + "..." : relatedExcerpt;
+                                        }
+                                        <p class="related-post-excerpt">@relatedExcerpt</p>
+                                        <div class="read-more-link">
+                                            <a href="@Url.Action("Details", "PublicBlog", new { id = relatedBlog.Id, slug = relatedBlog.Slug })">
+                                                Devamını Oku <i class="fas fa-arrow-right"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </article>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+@section Styles {
+    <link href="~/css/blog-detail.css" rel="stylesheet" />
+}
+
+<script>
+    // Social Share Functions - Dinamik URL kullanımı
+    function getCurrentPageUrl() {
+        return window.location.href;
+    }
+
+    function getCurrentPageTitle() {
+        return document.title;
+    }
+
+    function shareOnFacebook() {
+        const url = getCurrentPageUrl();
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'width=600,height=400');
+    }
+
+    function shareOnTwitter(title) {
+        const url = getCurrentPageUrl();
+        const text = title || getCurrentPageTitle();
+        window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(url), '_blank', 'width=600,height=400');
+    }
+
+    function shareOnLinkedIn(title) {
+        const url = getCurrentPageUrl();
+        window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(url), '_blank', 'width=600,height=400');
+    }
+
+    function copyToClipboard(buttonElement) {
+        const url = getCurrentPageUrl();
+
+        navigator.clipboard.writeText(url).then(function() {
+            // Show success message
+            const btn = buttonElement;
+            const originalText = btn.querySelector('span').textContent;
+            const originalBg = btn.style.background;
+
+            btn.querySelector('span').textContent = 'Kopyalandı!';
+            btn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+
+            setTimeout(() => {
+                btn.querySelector('span').textContent = originalText;
+                btn.style.background = originalBg;
+            }, 2000);
+        }).catch(function(err) {
+            // Fallback for older browsers
+            const textArea = document.createElement('textarea');
+            textArea.value = url;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                document.execCommand('copy');
+                const btn = buttonElement;
+                const originalText = btn.querySelector('span').textContent;
+                const originalBg = btn.style.background;
+
+                btn.querySelector('span').textContent = 'Kopyalandı!';
+                btn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+
+                setTimeout(() => {
+                    btn.querySelector('span').textContent = originalText;
+                    btn.style.background = originalBg;
+                }, 2000);
+            } catch (err) {
+                console.error('Kopyalama başarısız:', err);
+                alert('Link kopyalanamadı. Lütfen manuel olarak kopyalayın: ' + url);
+            }
+
+            document.body.removeChild(textArea);
+        });
+    }
+
+    // Smooth scroll for internal links
+    document.addEventListener('DOMContentLoaded', function() {
+        // Internal link scroll
+        const links = document.querySelectorAll('a[href^="#"]');
+        links.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
                 }
             });
         });
-    </script>
-}
+
+        // Reading progress bar (optional)
+        const article = document.querySelector('.blog-article-content');
+        if (article) {
+            const progressBar = document.createElement('div');
+            progressBar.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 0%;
+                height: 3px;
+                background: linear-gradient(90deg, #005cb9, #0066cc);
+                z-index: 9999;
+                transition: width 0.1s ease;
+            `;
+            document.body.appendChild(progressBar);
+
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const articleTop = article.offsetTop;
+                const articleHeight = article.offsetHeight;
+                const windowHeight = window.innerHeight;
+                const maxScroll = articleTop + articleHeight - windowHeight;
+
+                if (scrolled >= articleTop && scrolled <= maxScroll) {
+                    const progress = ((scrolled - articleTop) / (articleHeight - windowHeight)) * 100;
+                    progressBar.style.width = Math.min(100, Math.max(0, progress)) + '%';
+                } else if (scrolled < articleTop) {
+                    progressBar.style.width = '0%';
+                } else {
+                    progressBar.style.width = '100%';
+                }
+            });
+        }
+    });
+</script>
