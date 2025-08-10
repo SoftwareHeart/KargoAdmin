@@ -1,5 +1,65 @@
-﻿@model KargoAdmin.Models.ViewModels.ContactViewModel
-@{
+﻿@{
     ViewData["Title"] = "İletişim";
-    Layout = "_PublicLayout";
+    Layout = "~/Views/Shared/_PublicLayout.cshtml";
 }
+
+<link href="~/css/contact.css" rel="stylesheet" />
+
+<div class="contact-container">
+    <div class="contact-header">
+        <p class="contact-breadcrumb">İletişim Bilgileri</p>
+        <h1 class="contact-title">Size yardımcı olmaktan her zaman mutluluk duyarız</h1>
+    </div>
+
+    <div class="contact-info-section">
+        <div class="contact-cards">
+            <!-- E-posta Kartı -->
+            <div class="contact-card">
+                <div class="contact-icon email-icon">
+                    <img src="~/img/mail-icon.png" alt="E-posta İkonu" class="contact-icon-img">
+                </div>
+                <h3 class="contact-card-title">E-posta</h3>
+                <p class="contact-card-description">Lorem ipsum dolor sit amet</p>
+                <a href="mailto:help@info.com" class="contact-link">help@info.com</a>
+            </div>
+
+            <!-- Telefon Kartı -->
+            <div class="contact-card">
+                <div class="contact-icon phone-icon">
+                    <img src="~/img/phone-icon.png" alt="Telefon İkonu" class="contact-icon-img">
+                </div>
+                <h3 class="contact-card-title">Telefon</h3>
+                <p class="contact-card-description">Lorem ipsum dolor sit amet</p>
+                <a href="tel:+7-843-672-431" class="contact-link">+7-843-672-431</a>
+            </div>
+
+            <!-- Adres Kartı -->
+            <div class="contact-card">
+                <div class="contact-icon location-icon">
+                    <img src="~/img/address-icon.png" alt="Adres İkonu" class="contact-icon-img">
+                </div>
+                <h3 class="contact-card-title">Adres</h3>
+                <p class="contact-card-description">Lorem ipsum dolor sit amet</p>
+                <div class="contact-address">
+                    <span class="contact-link">Sokak / Mahalle / İlçe / İl Açık</span><br>
+                    <span class="contact-link">Adres Metni</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sosyal Medya İkonları -->
+    <div class="social-media-section">
+        <div class="social-icons">
+            <a href="#" class="social-icon facebook-icon">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="social-icon instagram-icon">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="social-icon twitter-icon">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </div>
+    </div>
+</div>

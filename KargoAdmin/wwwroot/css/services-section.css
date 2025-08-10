@@ -130,8 +130,11 @@
 }
 
 /* Vehicle specific positions */
-.land-vehicle {
-    bottom: 15%;
+.land-truck-vehicle{
+    bottom: 0;
+}
+.land-van-vehicle {
+    bottom: 0;
     left: 5%;
 }
 
@@ -140,13 +143,13 @@
     right: 15%;
 }
 
-.ship-vehicle {
-    bottom: 20%;
+.sea-vehicle {
+    bottom: 0;
     right: 10%;
 }
 
 .vehicle-image {
-    width: 280px;
+    width: 580px;
     height: auto;
     object-fit: contain;
     filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
