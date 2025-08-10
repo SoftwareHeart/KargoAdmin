@@ -213,8 +213,8 @@
                                     <div class="card-action-footer">
                                         <a href="@Url.Action("Details", "PublicBlog", new { id = blog.Id, slug = blog.Slug })"
                                            class="read-more-modern">
-                                            <span>Devamını Oku</span>
-                                            <i class="fas fa-long-arrow-alt-right"></i>
+                                            <span>Detayını Gör</span>
+                                            <i class="fas fa-chevron-right"></i>
                                         </a>
 
                                         <!-- Share Action -->
@@ -380,6 +380,37 @@
                 if (scrollHint) {
                     scrollHint.classList.add('used');
                     scrollHint.classList.remove('show');
+                }
+            });
+        }
+    });
+        // Header Search Enhanced Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchForm = document.querySelector('.compact-search-form');
+        const searchBtn = document.querySelector('.compact-search-btn');
+        const searchInput = document.querySelector('.compact-search-input');
+
+        if (searchForm && searchBtn && searchInput) {
+            // Loading animation
+            searchForm.addEventListener('submit', function() {
+                searchBtn.classList.add('loading');
+                searchForm.classList.add('searching');
+            });
+
+            // Input focus effects
+            searchInput.addEventListener('focus', function() {
+                searchForm.classList.add('focused');
+            });
+
+            searchInput.addEventListener('blur', function() {
+                searchForm.classList.remove('focused');
+            });
+
+            // Enter key handling
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    searchForm.submit();
                 }
             });
         }

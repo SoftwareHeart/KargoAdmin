@@ -425,7 +425,7 @@
 .read-more-modern {
     color: black;
     text-decoration: none;
-    font-weight: 400;
+    font-weight: 300;
     font-size: 1rem;
     border: 1.5px black solid;
     display: flex;
@@ -443,6 +443,7 @@
 
     .read-more-modern i {
         transition: transform 0.3s ease;
+
     }
 
     .read-more-modern:hover i {
