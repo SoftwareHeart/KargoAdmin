@@ -34,6 +34,7 @@
     transform: translate(-50%, -50%);
     object-fit: cover;
     opacity: 0.3;
+    object-position: right center;
 }
 
 .services-overlay {
@@ -131,8 +132,9 @@
 
 /* Vehicle specific positions */
 .land-truck-vehicle{
-    bottom: 0;
+    bottom: 5%;
 }
+
 .land-van-vehicle {
     bottom: 0;
     left: 5%;
@@ -149,7 +151,7 @@
 }
 
 .vehicle-image {
-    width: 580px;
+    width: 550px;
     height: auto;
     object-fit: contain;
     filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
