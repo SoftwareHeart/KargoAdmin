@@ -10,7 +10,12 @@
     align-items: center;
     overflow: hidden;
 }
-
+@supports (padding-top: calc(6rem + var(--navbar-height, 80px))) {
+    .service-hero {
+        padding-top: calc(7rem + var(--navbar-height, 0px));
+        padding-bottom: 1rem;
+    }
+}
     .service-hero::before {
         content: '';
         position: absolute;

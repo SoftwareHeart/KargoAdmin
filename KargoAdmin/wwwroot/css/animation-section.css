@@ -87,8 +87,6 @@
     }
 
 .service-mini-icon {
-    width: 80px;
-    height: 80px;
 
     border-radius: 50%;
     display: flex;
@@ -104,33 +102,7 @@
     background: rgba(0, 92, 185, 0.15);
 }
 
-/* İlk kart - Dünya ikonu */
-.service-mini-card:first-child .service-mini-icon i {
-    font-size: 55px;
-    color: #005cb9;
-}
 
-/* İkinci kart - Uçak ve kamyon ikonu */
-.service-mini-card:last-child .service-mini-icon {
-    position: relative;
-}
-
-    .service-mini-card:last-child .service-mini-icon i.fa-plane {
-        font-size: 32px;
-        color: #005cb9;
-        position: absolute;
-        top: 12px;
-        left: 18px;
-        transform: rotate(-10deg);
-    }
-
-    .service-mini-card:last-child .service-mini-icon i.fa-truck {
-        font-size: 36px;
-        color: #005cb9;
-        position: absolute;
-        bottom: 12px;
-        right: 15px;
-    }
 
 .service-mini-title {
     font-size: 1.1rem;
@@ -468,22 +440,6 @@
         margin-bottom: 15px;
     }
 
-    .service-mini-card:first-child .service-mini-icon i {
-        font-size: 40px;
-    }
-
-    .service-mini-card:last-child .service-mini-icon i.fa-plane {
-        font-size: 24px;
-        top: 8px;
-        left: 12px;
-    }
-
-    .service-mini-card:last-child .service-mini-icon i.fa-truck {
-        font-size: 28px;
-        bottom: 8px;
-        right: 10px;
-    }
-
     .service-mini-title {
         font-size: 0.95rem;
         font-weight: 600;
@@ -586,32 +542,22 @@
         margin-bottom: 10px;
     }
 
-    .service-mini-card:first-child .service-mini-icon i {
-        font-size: 32px;
-    }
-
-    .service-mini-card:last-child .service-mini-icon i.fa-plane {
-        font-size: 18px;
-        top: 6px;
-        left: 8px;
-    }
-
-    .service-mini-card:last-child .service-mini-icon i.fa-truck {
-        font-size: 22px;
-        bottom: 6px;
-        right: 8px;
-    }
-
+    .service-mini-icon 
     .service-mini-title {
         font-size: 0.85rem;
         line-height: 1.2;
     }
-
+    .service-mini-icon 
     /* Animasyon elementleri - Mobile */
     .world-container {
         top: 50%;
         right: 50%;
         transform: translateX(50%) translateY(-50%);
+    }
+
+    .service-mini-icon img{
+        width: 48px;
+        height: 48px;
     }
 
     .world-image {
@@ -711,21 +657,6 @@
         flex-shrink: 0;
     }
 
-    .service-mini-card:first-child .service-mini-icon i {
-        font-size: 28px;
-    }
-
-    .service-mini-card:last-child .service-mini-icon i.fa-plane {
-        font-size: 16px;
-        top: 4px;
-        left: 6px;
-    }
-
-    .service-mini-card:last-child .service-mini-icon i.fa-truck {
-        font-size: 18px;
-        bottom: 4px;
-        right: 6px;
-    }
 
     .service-mini-title {
         font-size: 0.8rem;
@@ -820,18 +751,6 @@
         margin-right: 12px;
     }
 
-    .service-mini-card:first-child .service-mini-icon i {
-        font-size: 24px;
-    }
-
-    .service-mini-card:last-child .service-mini-icon i.fa-plane {
-        font-size: 14px;
-    }
-
-    .service-mini-card:last-child .service-mini-icon i.fa-truck {
-        font-size: 16px;
-    }
-
     .service-mini-title {
         font-size: 0.7rem;
     }
@@ -897,9 +816,6 @@
         margin-right: 10px;
     }
 
-    .service-mini-card:first-child .service-mini-icon i {
-        font-size: 20px;
-    }
 
     .service-mini-title {
         font-size: 0.65rem;

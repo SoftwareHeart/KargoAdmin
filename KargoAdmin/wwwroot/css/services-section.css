@@ -1,4 +1,4 @@
-﻿/* Services Section Styles - Scroll Animasyonları Eklendi */
+﻿/* Services Section Styles - Modern Scroll Animations */
 
 .services-section {
     position: relative;
@@ -9,23 +9,9 @@
     overflow: hidden;
     display: flex;
     align-items: center;
-    /* Scroll animasyonu için başlangıç durumu - Daha stabil */
-    opacity: 0;
-    transform: translateY(50px);
-    transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    /* Tekrar animasyonu engellemek için */
-    animation-fill-mode: forwards;
 }
 
-    /* Scroll animasyonu tetiklendiğinde - Sadece bir kez */
-    .services-section.animate-in {
-        opacity: 1;
-        transform: translateY(0);
-        /* Animasyon tamamlandıktan sonra state'i koru */
-        animation-fill-mode: forwards;
-    }
-
-/* Background Video - Animation-section ile aynı */
+/* Background Video - HER ZAMAN GÖRÜNÜR, ANİMASYON YOK */
 .services-background-video {
     position: absolute;
     top: 0;
@@ -34,12 +20,7 @@
     height: 100%;
     z-index: 1;
     overflow: hidden;
-    opacity: 0;
-    transition: opacity 1.5s ease-in-out;
-}
-
-.services-section.animate-in .services-background-video {
-    opacity: 1;
+    opacity: 1; /* Hep görünür */
 }
 
 .services-video {
@@ -52,7 +33,7 @@
     height: auto;
     transform: translate(-50%, -50%);
     object-fit: cover;
-    opacity:0.3;
+    opacity: 0.3;
 }
 
 .services-overlay {
@@ -84,20 +65,33 @@
     height: 100vh;
 }
 
-/* World Container - Scroll Animasyonu Eklendi */
-.world-services-container {
+/* ===== ANİMASYON ELEMENTLERİ - SCROLL İLE GELİR ===== */
+
+/* Animation Ready State - Başlangıç durumu */
+.animation-ready {
+    opacity: 0;
+    transform: translateY(80px) scale(0.8);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+    /* Animated State - Görünür durum */
+    .animation-ready.animate-in {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+/* World Container Animations */
+.world-services-container.animation-ready {
     position: absolute;
     top: 8%;
     left: -5%;
     z-index: 3;
-    opacity: 0;
-    transform: translateX(-100px) rotate(-45deg);
-    transition: all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translateX(-120px) translateY(80px) rotate(-15deg) scale(0.6);
+    transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.services-section.animate-in .world-services-container {
-    opacity: 1;
-    transform: translateX(0) rotate(0deg);
+.world-services-container.animate-in {
+    transform: translateX(0) translateY(0) rotate(0deg) scale(1);
 }
 
 .world-services-image {
@@ -106,10 +100,13 @@
     object-fit: contain;
     filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.15));
     transition: all 0.3s ease;
+}
+
+/* World Pulse Effect */
+.world-services-container.world-pulse .world-services-image {
     animation: worldPulse 6s ease-in-out infinite;
 }
 
-/* Dünya nabız animasyonu */
 @keyframes worldPulse {
     0%, 100% {
         transform: scale(1);
@@ -120,173 +117,81 @@
     }
 }
 
-/* Vehicle Containers - Scroll Animasyonları Eklendi */
-.vehicle-container {
+/* Vehicle Container Animations */
+.vehicle-container.animation-ready {
     position: absolute;
     z-index: 4;
-    opacity: 0;
-    transform: translateY(100px) scale(0.8);
-    transition: all 1.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform: translateX(-200px) translateY(100px) scale(0.5);
+    transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.services-section.animate-in .vehicle-container {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+.vehicle-container.animate-in {
+    transform: translateX(0) translateY(0) scale(1);
+}
+
+/* Vehicle specific positions */
+.land-vehicle {
+    bottom: 15%;
+    left: 5%;
+}
+
+.air-vehicle {
+    top: 25%;
+    right: 15%;
+}
+
+.ship-vehicle {
+    bottom: 20%;
+    right: 10%;
 }
 
 .vehicle-image {
+    width: 280px;
+    height: auto;
     object-fit: contain;
     filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
-    transition: all 0.4s ease;
+    transition: all 0.3s ease;
+}
+
+/* Vehicle Float Effect */
+.vehicle-container.vehicle-float .vehicle-image {
     animation: vehicleFloat 4s ease-in-out infinite;
 }
 
-/* Vehicle Float Animation - Hafif Uçma Animasyonu */
 @keyframes vehicleFloat {
     0%, 100% {
         transform: translateY(0px);
     }
 
     50% {
-        transform: translateY(-12px);
+        transform: translateY(-15px);
     }
 }
 
-/* Air Vehicle - Animasyon Gecikmesi */
-.air-vehicle {
-    top: 25%;
-    left: 15%;
-    transition-delay: 0.3s;
-}
-
-    .air-vehicle .vehicle-image {
-        width: 550px;
-        height: auto;
-        animation: vehicleFloat 4s ease-in-out infinite, airPlaneSpecial 8s linear infinite;
-    }
-
-@keyframes airPlaneSpecial {
-    0%, 100% {
-        transform: translateY(0px) rotate(0deg);
-    }
-
-    25% {
-        transform: translateY(-8px) rotate(2deg);
-    }
-
-    50% {
-        transform: translateY(-12px) rotate(0deg);
-    }
-
-    75% {
-        transform: translateY(-8px) rotate(-2deg);
-    }
-}
-
-/* Sea Vehicle - Animasyon Gecikmesi */
-.sea-vehicle {
-    top: 45%;
-    left: 10%;
-    transition-delay: 0.5s;
-}
-
-    .sea-vehicle .vehicle-image {
-        width: 500px;
-        height: auto;
-        animation: vehicleFloat 4.5s ease-in-out infinite 1s, seaWave 6s ease-in-out infinite;
-    }
-
-@keyframes seaWave {
-    0%, 100% {
-        transform: translateY(0px) rotate(0deg);
-    }
-
-    50% {
-        transform: translateY(-15px) rotate(1deg);
-    }
-}
-
-/* Land Van Vehicle - Animasyon Gecikmesi */
-.land-van-vehicle {
-    top: 50%;
-    left: 20%;
-    transition-delay: 0.7s;
-}
-
-    .land-van-vehicle .vehicle-image {
-        width: 400px;
-        height: auto;
-        animation: vehicleFloat 5s ease-in-out infinite 2s, landBounce 4s ease-in-out infinite;
-    }
-
-@keyframes landBounce {
-    0%, 100% {
-        transform: translateY(0px) scaleY(1);
-    }
-
-    50% {
-        transform: translateY(-10px) scaleY(0.98);
-    }
-}
-
-/* Land Truck Vehicle - Animasyon Gecikmesi */
-.land-truck-vehicle {
-    top: 50%;
-    left: 5%;
-    transition-delay: 0.4s;
-}
-
-    .land-truck-vehicle .vehicle-image {
-        width: 480px;
-        height: auto;
-        animation: vehicleFloat 4.2s ease-in-out infinite 0.5s, truckRoll 7s linear infinite;
-    }
-
-@keyframes truckRoll {
-    0%, 100% {
-        transform: translateY(0px);
-    }
-
-    25% {
-        transform: translateY(-8px);
-    }
-
-    50% {
-        transform: translateY(-5px);
-    }
-
-    75% {
-        transform: translateY(-10px);
-    }
-}
-
-/* Right Side - Containers */
+/* Right Side - Title and Containers */
 .services-right {
     flex: 1;
     position: relative;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    justify-content: start;
+    align-items: flex-start;
+    padding: 0 5% 0 2%;
     height: 100vh;
-    padding-right: 50px;
 }
 
-/* Services Title - Konteynerların Üzerinde */
-.services-title {
+/* Services Title Animation - Eski konumuna göre */
+.services-title.animation-ready {
     position: relative;
     text-align: center;
     margin-bottom: 80px;
     z-index: 10;
-    opacity: 0;
     transform: translateY(-50px);
     transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.services-section.animate-in .services-title {
-    opacity: 1;
+.services-title.animate-in {
     transform: translateY(0);
-    transition-delay: 0.4s;
 }
 
 .services-title h2 {
@@ -306,54 +211,62 @@
         color: #2c3e50;
     }
 
-/* Containers Wrapper - Scroll Animasyonu */
-.containers-wrapper {
+/* Containers Wrapper Animation */
+.containers-wrapper.animation-ready {
     position: relative;
     width: 100%;
-    height: 60%;
+    height: 100%;
     display: flex;
     align-items: start;
     justify-content: center;
-    opacity: 0;
     transform: translateX(100px) scale(0.8);
     transition: all 1.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.services-section.animate-in .containers-wrapper {
-    opacity: 1;
+.containers-wrapper.animate-in {
     transform: translateX(0) scale(1);
-    transition-delay: 0.6s;
 }
 
-/* Service Container - Scroll Animasyonları */
-.service-container {
+/* Service Container Animations - Crane Style Positioning */
+.service-container.animation-ready {
     position: absolute;
-    opacity: 0;
+    cursor: pointer;
     transform: translateY(80px) rotate(15deg) scale(0.7);
     transition: all 1.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    cursor: pointer;
 }
 
-.services-section.animate-in .service-container {
-    opacity: 1;
+.service-container.animate-in {
     transform: translateY(0) rotate(0deg) scale(1);
 }
 
-/* Her konteyner için farklı gecikmeler */
+/* Container Positioning - Crane Style (eski konumlar) */
 .service-container:nth-child(1) {
-    transition-delay: 0.8s;
+    top: 0%;
+    left: 0%;
+    transform: rotate(-1deg);
 }
 
 .service-container:nth-child(2) {
-    transition-delay: 1s;
+    top: 0%;
+    left: 20%;
+    transform: rotate(-8deg);
 }
 
 .service-container:nth-child(3) {
-    transition-delay: 1.2s;
+    top: 0%;
+    right: 25%;
+    transform: rotate(8deg);
 }
 
 .service-container:nth-child(4) {
-    transition-delay: 1.4s;
+    top: 0%;
+    right: 0%;
+    transform: rotate(15deg);
+}
+
+/* Container Hover Effects */
+.service-container.container-hover {
+    transform: translateY(-10px) scale(1.05);
 }
 
 .container-image {
@@ -368,124 +281,36 @@
 /* Container Float Animasyonu */
 @keyframes containerFloat {
     0%, 100% {
-        transform: translateY(0px) rotate(0deg);
+        transform: translateY(0px);
     }
 
-    33% {
-        transform: translateY(-8px) rotate(1deg);
-    }
-
-    66% {
-        transform: translateY(-5px) rotate(-0.5deg);
-    }
-}
-
-.service-container:hover .container-image {
-    transform: scale(1.08) translateY(-5px) rotate(1deg);
-    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.25));
-    animation-play-state: paused;
-}
-
-/* Container Content - Animasyon - FİX */
-.container-content {
-    position: absolute;
-    top: 75%;
-    left: 25%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    color: white;
-    z-index: 5;
-    pointer-events: none;
-    opacity: 0;
-    transition: all 0.6s ease;
-}
-
-.services-section.animate-in .container-content {
-    opacity: 1;
-    transition-delay: 2.2s;
-}
-
-.container-content h3 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 10px;
-    line-height: 1.2;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s ease;
-    animation: textGlow 3s ease-in-out infinite;
-    visibility: hidden;
-    height: 0;
-}
-
-/* Konteyner İçerikleri - Her konteyner tipine özel - FİX */
-.service-container:nth-child(1) .container-content::before {
-    content: "Kara\ATaşımacılık";
-    white-space: pre-line;
-    font-size: 1.5rem;
-    font-weight: 600;
-    line-height: 1.2;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    display: block;
-    position: absolute;
-    top: -60px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: max-content;
-}
-
-.service-container:nth-child(2) .container-content::before {
-    content: "Hava\ATaşımacılık";
-    white-space: pre-line;
-    font-size: 1.5rem;
-    font-weight: 600;
-    line-height: 1.2;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    display: block;
-    position: absolute;
-    top: -60px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: max-content;
-}
-
-.service-container:nth-child(3) .container-content::before {
-    content: "Deniz\ATaşımacılık";
-    white-space: pre-line;
-    font-size: 1.5rem;
-    font-weight: 600;
-    line-height: 1.2;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    display: block;
-    position: absolute;
-    top: -60px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: max-content;
-}
-
-.service-container:nth-child(4) .container-content::before {
-    content: "Depolama\Ave Dağıtım";
-    white-space: pre-line;
-    font-size: 1.5rem;
-    font-weight: 600;
-    line-height: 1.2;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    display: block;
-    position: absolute;
-    top: -60px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: max-content;
-}
-
-@keyframes textGlow {
-    0%, 100% {
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    25% {
+        transform: translateY(-8px);
     }
 
     50% {
-        text-shadow: 0 2px 8px rgba(255, 255, 255, 0.2), 0 2px 4px rgba(0, 0, 0, 0.3);
+        transform: translateY(-5px);
     }
+
+    75% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Container Content Animation */
+.container-content.animation-ready {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    color: white;
+    text-align: center;
+    transform: translateY(50px);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.container-content.animate-in {
+    transform: translateY(0);
 }
 
 .container-number {
@@ -507,6 +332,12 @@
     }
 }
 
+.container-content h3 {
+    font-size: 1rem;
+    margin: 0 0 10px 0;
+    font-weight: 600;
+}
+
 .container-content p {
     font-size: 1.5rem;
     margin: 0;
@@ -514,1066 +345,83 @@
     transition: all 0.3s ease;
 }
 
-/* Container Positioning - Crane Style */
-.service-container:nth-child(1) {
-    top: -30%;
-    left: 0%;
-    transform: rotate(-1deg);
-}
-
-.service-container:nth-child(2) {
-    top: -30%;
-    left: 20%;
-    transform: rotate(-8deg);
-}
-
-.service-container:nth-child(3) {
-    top: -30%;
-    right: 25%;
-    transform: rotate(8deg);
-}
-
-.service-container:nth-child(4) {
-    top: -30%;
-    right: 0%;
-    transform: rotate(15deg);
-}
-
 /* Active Container - Özel Animasyon */
 .service-container.active-container {
     z-index: 10;
-    animation: activeGlow 2s ease-in-out infinite;
 }
 
-@keyframes activeGlow {
-    0%, 100% {
-        box-shadow: 0 0 0px rgba(255, 106, 0, 0);
-    }
 
-    50% {
-        box-shadow: 0 0 30px rgba(255, 106, 0, 0.3);
-    }
-}
-
-.service-container.active-container .container-image {
-    transform: scale(1.12);
-    filter: drop-shadow(0 25px 50px rgba(255, 106, 0, 0.4));
-    animation: activeContainerFloat 3s ease-in-out infinite;
-}
-
-@keyframes activeContainerFloat {
-    0%, 100% {
-        transform: scale(1.12) translateY(0px);
-    }
-
-    50% {
-        transform: scale(1.15) translateY(-8px);
-    }
-}
-
-/* Container Types */
-.blue-container .container-image {
-    filter: drop-shadow(0 10px 20px rgba(0, 92, 185, 0.2));
-}
-
-.blue-container:hover .container-image {
-    filter: drop-shadow(0 20px 40px rgba(0, 92, 185, 0.4));
-}
-
-.blue-container .container-content h3 {
-    animation: blueTextGlow 3s ease-in-out infinite;
-}
-
-@keyframes blueTextGlow {
-    0%, 100% {
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    50% {
-        text-shadow: 0 2px 8px rgba(0, 92, 185, 0.3), 0 2px 4px rgba(0, 0, 0, 0.3);
-    }
-}
-
-.orange-container .container-image {
-    filter: drop-shadow(0 10px 20px rgba(255, 106, 0, 0.2));
-}
-
-.orange-container:hover .container-image {
-    filter: drop-shadow(0 20px 40px rgba(255, 106, 0, 0.4));
-}
-
-.orange-container .container-content h3 {
-    animation: orangeTextGlow 3s ease-in-out infinite;
-}
-
-@keyframes orangeTextGlow {
-    0%, 100% {
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    50% {
-        text-shadow: 0 2px 8px rgba(255, 106, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.3);
-    }
-}
-
-/* Hover Effects - Geliştirilmiş - FİX */
-.service-container:hover {
-    z-index: 15;
-    transform: translateY(-2px) scale(1.02);
-    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-    .service-container:hover .container-image {
-        transform: scale(1.18) rotate(2deg) translateY(-8px);
-        filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.3));
-        animation-play-state: paused;
-    }
-
-    .service-container:hover .container-content::before {
-        transform: translateX(-50%) scale(1.05);
-        text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
-        animation-play-state: paused;
-    }
-
-    .service-container:hover .container-number {
-        transform: translateX(-50%) scale(1.1);
-        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-        animation-play-state: paused;
-    }
-
-    .service-container:hover .container-content p {
-        transform: translateX(-50%) scale(1.05);
-        text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
-    }
-
-/* Scroll Progress Indicator */
-.scroll-progress {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 0%;
-    height: 4px;
-    background: linear-gradient(90deg, #005cb9, #ff6a00);
-    z-index: 1000;
-    transition: width 0.3s ease;
-}
-
-/* Intersection Observer için görünürlük sınıfları */
-.fade-in-up {
-    opacity: 0;
-    transform: translateY(60px);
-    transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-    .fade-in-up.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-.fade-in-left {
-    opacity: 0;
-    transform: translateX(-60px);
-    transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-    .fade-in-left.visible {
-        opacity: 1;
-        transform: translateX(0);
-    }
-
-.fade-in-right {
-    opacity: 0;
-    transform: translateX(60px);
-    transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-    .fade-in-right.visible {
-        opacity: 1;
-        transform: translateX(0);
-    }
-
-.scale-in {
-    opacity: 0;
-    transform: scale(0.8);
-    transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-    .scale-in.visible {
-        opacity: 1;
-        transform: scale(1);
-    }
 
 /* Responsive Design */
-@media (max-width: 1199.98px) {
+@media (max-width: 1200px) {
     .world-services-image {
         width: 450px;
         height: 450px;
     }
 
-    .air-vehicle .vehicle-image {
-        width: 430px;
+    .vehicle-image {
+        width: 220px;
     }
 
-    .sea-vehicle .vehicle-image {
-        width: 430px;
-    }
-
-    .land-van-vehicle .vehicle-image {
-        width: 430px;
-    }
-
-    .land-truck-vehicle .vehicle-image {
-        width: 430px;
-    }
-
-    .container-image {
-        width: 130px;
-    }
-
-    .container-number {
-        font-size: 1.5rem;
-    }
-
-    .container-content h3 {
-        font-size: 1rem;
-    }
-
-    .container-content p {
-        font-size: 1.2rem;
+    .services-title h2 {
+        font-size: 3rem;
     }
 }
 
-@media (max-width: 991.98px) {
-    .services-section {
-        min-height: auto;
-        padding: 50px 0;
-        transform: translateY(30px);
-    }
-
-        .services-section.animate-in {
-            transform: translateY(0);
-        }
-
+@media (max-width: 992px) {
     .services-container {
-        flex-direction: column-reverse;
-        height: auto;
-        gap: 30px;
-        padding: 0 20px;
-    }
-
-    .services-left {
-        height: 40vh;
-        min-height: 320px;
-        order: 1;
-    }
-
-    .services-right {
-        height: 45vh;
-        min-height: 320px;
-        order: 2;
-        padding-right: 0;
-        padding-left: 0;
-        display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        padding-top: 20px;
+        height: auto;
+        min-height: 100vh;
     }
 
-    /* Services Title - Tablet */
-    .services-title {
-        margin-bottom: 40px;
-        text-align: center;
+    .services-left,
+    .services-right {
+        flex: none;
+        height: 50vh;
     }
-
-        .services-title h2 {
-            font-size: 2.5rem;
-            line-height: 1.2;
-        }
 
     .world-services-container {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        transition-delay: 0.2s;
+        position: relative;
+        top: auto;
+        left: auto;
+        margin: 20px 0;
     }
 
-    .services-section.animate-in .world-services-container {
-        transform: translate(-50%, -50%);
+    .vehicle-container {
+        position: relative;
+        top: auto;
+        bottom: auto;
+        left: auto;
+        right: auto;
+        margin: 20px 0;
     }
 
+    .containers-wrapper {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
     .world-services-image {
         width: 300px;
         height: 300px;
     }
 
-    .air-vehicle {
-        top: 30%;
-        left: 50%;
-        transform: translateX(-50%);
-        transition-delay: 0.4s;
+    .vehicle-image {
+        width: 180px;
     }
 
-        .air-vehicle .vehicle-image {
-            width: 420px;
-        }
-
-    .sea-vehicle {
-        top: 35%;
-        left: 50%;
-        transform: translateX(-50%);
-        transition-delay: 0.6s;
-    }
-
-        .sea-vehicle .vehicle-image {
-            width: 420px;
-        }
-
-    .land-van-vehicle {
-        top: 40%;
-        left: 50%;
-        transform: translateX(-50%);
-        transition-delay: 0.8s;
-    }
-
-        .land-van-vehicle .vehicle-image {
-            width: 420px;
-        }
-
-    .land-truck-vehicle {
-        top: 35%;
-        left: 50%;
-        transform: translateX(-50%);
-        transition-delay: 0.5s;
-    }
-
-        .land-truck-vehicle .vehicle-image {
-            width: 420px;
-        }
-
-    .containers-wrapper {
-        height: auto;
-        transform: scale(1);
-        justify-content: center;
-        position: relative;
-        display: flex;
-        flex-wrap: wrap;
-        align-items: flex-start;
-        gap: 20px;
-        padding: 10px 20px 20px 20px;
-        transition-delay: 1s;
-    }
-
-    .services-section.animate-in .containers-wrapper {
-        transform: scale(1);
+    .services-title h2 {
+        font-size: 2.5rem;
     }
 
     .service-container {
-        position: relative !important;
-        top: auto !important;
-        left: auto !important;
-        right: auto !important;
-        transform: none !important;
-        margin: 10px;
-        width: 140px;
-        height: 180px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        width: 160px;
+        height: 220px;
     }
-
-        .service-container:nth-child(1),
-        .service-container:nth-child(2),
-        .service-container:nth-child(3),
-        .service-container:nth-child(4) {
-            position: relative !important;
-            top: auto !important;
-            left: auto !important;
-            right: auto !important;
-            transform: none !important;
-            transition-delay: 1.2s;
-        }
-
-    .services-section.animate-in .service-container {
-        transform: none;
-    }
-
-    .container-image {
-        width: 140px !important;
-        height: auto !important;
-    }
-
-    .container-content {
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        color: white;
-        z-index: 5;
-        pointer-events: none;
-    }
-
-        .container-content::before {
-            font-size: 1rem !important;
-            line-height: 1.2;
-            top: -25px !important;
-            left: 50% !important;
-            transform: translateX(-50%) !important;
-            position: absolute !important;
-            width: max-content !important;
-        }
 
     .container-number {
-        font-size: 1.6rem;
-        margin: 5px 0;
-        top: 5px !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        position: absolute !important;
-    }
-
-    .container-content p {
-        font-size: 1rem;
-        margin: 0;
-        top: 35px !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        position: absolute !important;
-        width: max-content !important;
-    }
-}
-
-/* Diğer responsive kodlar aynı kalacak - sadece animasyon gecikmelerini ekledik */
-
-@media (max-width: 767.98px) {
-    .services-section {
-        padding: 40px 0;
-        min-height: auto;
-        transform: translateY(20px);
-    }
-
-    /* Mobilde animasyon gecikmeleri daha hızlı */
-    .service-container:nth-child(1) {
-        transition-delay: 0.5s;
-    }
-
-    .service-container:nth-child(2) {
-        transition-delay: 0.7s;
-    }
-
-    .service-container:nth-child(3) {
-        transition-delay: 0.9s;
-    }
-
-    .service-container:nth-child(4) {
-        transition-delay: 1.1s;
-    }
-
-    .services-container {
-        gap: 20px;
-        padding: 0 15px;
-    }
-
-    .services-left {
-        height: 35vh;
-        min-height: 280px;
-    }
-
-    .services-right {
-        height: 55vh;
-        min-height: 420px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        padding-top: 30px;
-    }
-
-    /* Services Title - Mobile */
-    .services-title {
-        margin-bottom: 30px;
-        text-align: center;
-    }
-
-        .services-title h2 {
-            font-size: 2rem;
-            line-height: 1.1;
-        }
-
-    .world-services-container {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-
-    .world-services-image {
-        width: 250px;
-        height: 250px;
-    }
-
-    .air-vehicle {
-        top: 25%;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-        .air-vehicle .vehicle-image {
-            width: 360px;
-        }
-
-    .sea-vehicle {
-        top: 30%;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-        .sea-vehicle .vehicle-image {
-            width: 360px;
-        }
-
-    .land-van-vehicle {
-        top: 35%;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-        .land-van-vehicle .vehicle-image {
-            width: 360px;
-        }
-
-    .land-truck-vehicle {
-        top: 30%;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-        .land-truck-vehicle .vehicle-image {
-            width: 360px;
-        }
-
-    .containers-wrapper {
-        transform: scale(1);
-        height: auto;
-        width: 100%;
-        position: relative;
-        display: flex;
-        flex-wrap: wrap;
-        align-items: flex-start;
-        justify-content: center;
-        gap: 15px;
-        padding: 10px 15px 15px 15px;
-    }
-
-    .service-container {
-        position: relative !important;
-        top: auto !important;
-        left: auto !important;
-        right: auto !important;
-        transform: none !important;
-        margin: 10px;
-        width: 120px;
-        height: 160px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-        .service-container:nth-child(1),
-        .service-container:nth-child(2),
-        .service-container:nth-child(3),
-        .service-container:nth-child(4) {
-            position: relative !important;
-            top: auto !important;
-            left: auto !important;
-            right: auto !important;
-            transform: none !important;
-        }
-
-    .container-image {
-        width: 120px !important;
-        height: auto !important;
-    }
-
-    .container-content {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        color: white;
-        z-index: 5;
-        pointer-events: none;
-    }
-
-        .container-content::before {
-            font-size: 0.8rem !important;
-            line-height: 1.1;
-            top: -20px !important;
-            left: 50% !important;
-            transform: translateX(-50%) !important;
-            position: absolute !important;
-            width: max-content !important;
-        }
-
-    .container-number {
-        font-size: 1.4rem;
-        margin: 3px 0;
-        top: 5px !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        position: absolute !important;
-    }
-
-    .container-content p {
-        font-size: 0.8rem;
-        margin: 0;
-        top: 30px !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        position: absolute !important;
-        width: max-content !important;
-    }
-}
-
-@media (max-width: 767.98px) {
-    .services-section {
-        padding: 40px 0;
-        min-height: auto;
-    }
-
-    .services-container {
-        gap: 20px;
-        padding: 0 15px;
-    }
-
-    .services-left {
-        height: 35vh;
-        min-height: 280px;
-    }
-
-    .services-right {
-        height: 55vh;
-        min-height: 420px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: center;
-        padding-top: 30px;
-    }
-
-    .services-title {
         font-size: 2rem;
-        margin-bottom: 25px;
-        text-align: left;
-        width: 100%;
-        padding-left: 15px;
-    }
-
-    .world-services-container {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-
-    .world-services-image {
-        width: 250px;
-        height: 250px;
-    }
-
-    .air-vehicle {
-        top: 25%;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-        .air-vehicle .vehicle-image {
-            width: 360px;
-        }
-
-    .sea-vehicle {
-        top: 30%;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-        .sea-vehicle .vehicle-image {
-            width: 360px;
-        }
-
-    .land-van-vehicle {
-        top: 35%;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-        .land-van-vehicle .vehicle-image {
-            width: 360px;
-        }
-
-    .land-truck-vehicle {
-        top: 30%;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-        .land-truck-vehicle .vehicle-image {
-            width: 360px;
-        }
-
-    .containers-wrapper {
-        transform: scale(1);
-        height: 100%;
-        width: 100%;
-        position: relative;
-        display: flex;
-        flex-wrap: wrap;
-        align-items: flex-start;
-        justify-content: center;
-        gap: 15px;
-        padding: 10px 15px 15px 15px;
-    }
-
-    .service-container {
-        position: relative !important;
-        top: auto !important;
-        left: auto !important;
-        right: auto !important;
-        transform: none !important;
-        margin: 10px;
-        width: 120px;
-        height: 160px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-        .service-container:nth-child(1),
-        .service-container:nth-child(2),
-        .service-container:nth-child(3),
-        .service-container:nth-child(4) {
-            position: relative !important;
-            top: auto !important;
-            left: auto !important;
-            right: auto !important;
-            transform: none !important;
-        }
-
-    .container-image {
-        width: 120px !important;
-        height: auto !important;
-    }
-
-    .container-content {
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        color: white;
-        z-index: 5;
-        pointer-events: none;
-    }
-
-        .container-content h3 {
-            font-size: 0.8rem;
-            line-height: 1.1;
-            margin-bottom: 5px;
-        }
-
-    .container-number {
-        font-size: 1.4rem;
-        margin: 3px 0;
-    }
-
-    .container-content p {
-        font-size: 0.8rem;
-        margin: 0;
     }
 }
-
-@media (max-width: 480px) {
-    .services-section {
-        padding: 30px 0;
-    }
-
-    .services-container {
-        gap: 15px;
-        padding: 0 10px;
-    }
-
-    .services-left {
-        height: 30vh;
-        min-height: 200px;
-    }
-
-    .services-right {
-        height: 50vh;
-        min-height: 380px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: center;
-        padding-top: 20px;
-    }
-
-    .services-title {
-        font-size: 1.8rem;
-        margin-bottom: 20px;
-        text-align: left;
-        width: 100%;
-        padding-left: 10px;
-    }
-
-    .world-services-container {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-
-    .world-services-image {
-        width: 200px;
-        height: 200px;
-    }
-
-    .air-vehicle .vehicle-image {
-        width: 320px;
-    }
-
-    .sea-vehicle .vehicle-image {
-        width: 320px;
-    }
-
-    .land-van-vehicle .vehicle-image {
-        width: 320px;
-    }
-
-    .land-truck-vehicle .vehicle-image {
-        width: 320px;
-    }
-
-    .containers-wrapper {
-        transform: scale(1);
-        height: 100%;
-        width: 100%;
-        position: relative;
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        gap: 0px;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-    }
-
-    .service-container {
-        position: relative !important;
-        top: auto !important;
-        left: auto !important;
-        right: auto !important;
-        transform: none !important;
-        margin: 5px;
-        width: 100px;
-        height: 130px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-        .service-container:nth-child(1),
-        .service-container:nth-child(2),
-        .service-container:nth-child(3),
-        .service-container:nth-child(4) {
-            position: relative !important;
-            top: auto !important;
-            left: auto !important;
-            right: auto !important;
-            transform: none !important;
-        }
-
-    .container-image {
-        width: 90px !important;
-        height: auto !important;
-    }
-
-    .container-content {
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        color: white;
-        z-index: 5;
-        pointer-events: none;
-    }
-
-        .container-content h3 {
-            font-size: 0.65rem;
-            line-height: 1;
-            margin-bottom: 3px;
-        }
-
-    .container-number {
-        font-size: 1.1rem;
-        margin: 2px 0;
-    }
-
-    .container-content p {
-        font-size: 0.65rem;
-        margin: 0;
-    }
-}
-
-/* Landscape mode için ek düzenlemeler */
-@media (max-width: 767.98px) and (orientation: landscape) {
-    .services-section {
-        padding: 20px 0;
-    }
-
-    .services-container {
-        flex-direction: row;
-        height: 100vh;
-        gap: 20px;
-    }
-
-    .services-left {
-        height: 100vh;
-        flex: 0.6;
-    }
-
-    .services-right {
-        height: 100vh;
-        flex: 0.4;
-    }
-
-    .world-services-image {
-        width: 550px;
-        height: 550px;
-    }
-
-    .containers-wrapper {
-        transform: scale(0.6);
-    }
-}
-
-/* Ultra küçük ekranlar için */
-@media (max-width: 360px) {
-    .services-section {
-        padding: 20px 0;
-    }
-
-    .services-container {
-        gap: 10px;
-        padding: 0 5px;
-    }
-
-    .services-left {
-        height: 25vh;
-        min-height: 180px;
-    }
-
-    .services-right {
-        height: 40vh;
-        min-height: 300px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .world-services-image {
-        width: 150px;
-        height: 150px;
-    }
-
-    .air-vehicle .vehicle-image {
-        width: 100px;
-    }
-
-    .sea-vehicle .vehicle-image {
-        width: 100px;
-    }
-
-    .land-van-vehicle .vehicle-image {
-        width: 100px;
-    }
-
-    .land-truck-vehicle .vehicle-image {
-        width: 100px;
-    }
-
-    .containers-wrapper {
-        transform: scale(1);
-        height: 100%;
-        width: 100%;
-        position: relative;
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        gap: 8px;
-        align-items: center;
-        justify-content: center;
-        padding: 15px;
-    }
-
-    .service-container {
-        position: relative !important;
-        top: auto !important;
-        left: auto !important;
-        right: auto !important;
-        transform: none !important;
-        margin: 3px;
-        width: 80px;
-        height: 110px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-        .service-container:nth-child(1),
-        .service-container:nth-child(2),
-        .service-container:nth-child(3),
-        .service-container:nth-child(4) {
-            position: relative !important;
-            top: auto !important;
-            left: auto !important;
-            right: auto !important;
-            transform: none !important;
-        }
-
-    .container-image {
-        width: 80px !important;
-        height: auto !important;
-    }
-
-    .container-content {
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        color: white;
-        z-index: 5;
-        pointer-events: none;
-    }
-
-        .container-content h3 {
-            font-size: 0.5rem;
-            line-height: 0.9;
-            margin-bottom: 2px;
-        }
-
-    .container-number {
-        font-size: 0.9rem;
-        margin: 1px 0;
-    }
-
-    .container-content p {
-        font-size: 0.5rem;
-        margin: 0;
-    }
-}
-
-

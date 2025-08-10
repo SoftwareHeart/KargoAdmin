@@ -29,10 +29,17 @@
                     <i class="far fa-eye"></i>
                     <span>@Model.ViewCount görüntülenme</span>
                 </div>
-                <div class="meta-item">
-                    <i class="far fa-clock"></i>
-                    <span>@((Model.Content.Length / 200) + 1) dk okuma</span>
-                </div>
+ 
+                    @{
+                        var wordCount = Model.Content.Split(new char[] { ' ', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Length;
+                        var wordsPerMinute = 250;
+                        var readingTime = (int)Math.Ceiling((double)wordCount / wordsPerMinute);
+                        if (readingTime == 0) readingTime = 1; // Minimum 1 dakika göster
+                    }
+                    <div class="meta-item">
+                        <i class="far fa-clock"></i>
+                        <span>@readingTime dk okuma</span>
+                    </div>
             </div>
 
             <!-- Blog Title -->
