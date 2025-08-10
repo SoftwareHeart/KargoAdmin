@@ -573,17 +573,6 @@
         font-size: 1.1rem;
     }
 
-    /* Forklift'i mobilde gizle */
-    .forklift-container,
-    .forklift-cabin,
-    .forklift-tip {
-        display: none !important;
-    }
-
-    /* Mobil için video optimizasyonu */
-    .sector-leader-background-video {
-        opacity: 0.2;
-    }
 }
 
 /* ===== MOBILE PORTRAIT (<=575px) ===== */
@@ -642,58 +631,11 @@
         font-size: 1rem;
     }
 
-    /* Forklift mobilde tamamen gizli */
-    .forklift-container,
-    .forklift-cabin,
-    .forklift-tip {
-        display: none !important;
-    }
-
     /* Koliler (stats-box-image) responsive */
     .stats-box-image {
         width: 100%;
         height: 100%;
         object-fit: cover;
-    }
-}
-
-/* ===== ANİMASYON OPTİMİZASYONLARI ===== */
-
-/* Tablet ve mobilde performans için animasyonları sadeleştir */
-@media (max-width: 991px) {
-    .stats-box.loaded {
-        animation: simpleMobileFloat 4s ease-in-out infinite !important;
-    }
-
-    @keyframes simpleMobileFloat {
-        0%, 100% {
-            transform: translateY(0px);
-        }
-
-        50% {
-            transform: translateY(-5px);
-        }
-    }
-
-    .stats-box.drop {
-        animation: simpleMobileDrop 0.6s ease-out forwards !important;
-    }
-
-    @keyframes simpleMobileDrop {
-        0% {
-            opacity: 1;
-            transform: translateY(-10px);
-        }
-
-        100% {
-            opacity: 1;
-            transform: translateY(0px);
-        }
-    }
-
-    /* Video performansı için */
-    .sector-leader-background-video {
-        opacity: 0.15;
     }
 }
 
@@ -705,47 +647,6 @@
         transform: translateY(-10px) scale(1.05) !important;
         filter: brightness(1.1);
         transition: all 0.3s ease;
-    }
-}
-
-/* Mobil ve tablette hover efektini kaldır */
-@media (max-width: 991px) {
-    .stats-box:hover {
-        transform: none !important;
-        filter: none !important;
-    }
-}
-
-/* ===== PERFORMANS OPTİMİZASYONLARI ===== */
-
-/* Mobilde GPU hızlandırma */
-@media (max-width: 767px) {
-    .sector-leader-section,
-    .stats-box,
-    .sector-leader-background-video {
-        transform: translateZ(0);
-        backface-visibility: hidden;
-        perspective: 1000px;
-    }
-
-    /* Animasyon sürelerini kısalt */
-    .sector-leader-section {
-        transition: all 0.8s ease;
-    }
-
-    .stats-box {
-        animation-duration: 0.8s !important;
-    }
-}
-
-/* ===== KÜÇÜK EKRANİÇİN VİDEO OPTİMİZASYONU ===== */
-@media (max-width: 768px) {
-    .sector-leader-video-container {
-        display: none; /* Mobilde video'yu kapat, performans için */
-    }
-
-    .sector-leader-section {
-        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     }
 }
 
@@ -806,24 +707,6 @@
     .forklift-tip {
         width: 200px;
         right: 230px;
-    }
-}
-
-/* ===== İPAD PRO PORTRAIT (768px x 1024px) ===== */
-@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
-    .stats-boxes-container {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .stats-box {
-        width: 300px;
-        height: 250px;
-        margin-bottom: 1rem;
-    }
-
-    .forklift-container {
-        display: none;
     }
 }
 
