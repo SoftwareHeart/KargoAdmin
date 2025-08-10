@@ -38,5 +38,8 @@ namespace KargoAdmin.Models
 
         // SEO dostu URL için slug
         public string? Slug { get; set; }
+
+        [StringLength(20)]
+        public string Type { get; set; } = "Haber";
     }
 }

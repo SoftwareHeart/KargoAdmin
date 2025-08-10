@@ -18,7 +18,7 @@
 /* Navbar yüksekliğine göre dinamik padding */
 @supports (padding-top: calc(6rem + var(--navbar-height, 80px))) {
     .blog-header-section {
-        padding-top: calc(8rem + var(--navbar-height, 0px));
+        padding-top: calc(7rem + var(--navbar-height, 0px));
         padding-bottom: 1rem;
     }
 }
@@ -323,9 +323,6 @@
         font-size: 0.85rem;
     }
 
-    .blog-header-section {
-        padding: 5rem 0 4rem 0; /* Mobilde navbar için boşluk */
-    }
 }
 
 @media (max-width: 576px) {
@@ -346,9 +343,6 @@
         padding: 5px;
     }
 
-    .blog-header-section {
-        padding: 4rem 0 3rem 0; /* Küçük mobilde daha az */
-    }
 
         .blog-header-section::before {
             width: 200px;
@@ -370,10 +364,6 @@
 
     .blog-subtitle {
         font-size: 0.9rem;
-    }
-
-    .blog-header-section {
-        padding: 2rem 0 3rem 0;
     }
 
     .blog-category-wrapper {

@@ -211,7 +211,41 @@
                                 </small>
                             </div>
                         </div>
+                        <div class="edit-sidebar-section">
+                            <h3 class="edit-sidebar-title">
+                                <i class="fas fa-layer-group"></i>
+                                İçerik Türü
+                            </h3>
 
+                            <div class="edit-type-wrapper">
+                                <div class="edit-type-info">
+                                    <h6>Bu içerik nedir?</h6>
+                                    <small>Haber mi yoksa faydalı bilgi mi?</small>
+                                </div>
+
+                                <div class="edit-type-selection">
+                                    <div class="edit-type-option">
+                                        <input asp-for="Type" type="radio" id="editTypeHaber" value="Haber" class="edit-type-radio">
+                                        <label for="editTypeHaber" class="edit-type-label">
+                                            <i class="fas fa-newspaper"></i>
+                                            <span>Haber</span>
+                                            <small>Güncel haberler ve duyurular</small>
+                                        </label>
+                                    </div>
+
+                                    <div class="edit-type-option">
+                                        <input asp-for="Type" type="radio" id="editTypeFaydaliBilgi" value="Faydalı Bilgi" class="edit-type-radio">
+                                        <label for="editTypeFaydaliBilgi" class="edit-type-label">
+                                            <i class="fas fa-lightbulb"></i>
+                                            <span>Faydalı Bilgi</span>
+                                            <small>Rehberler ve ipuçları</small>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <span asp-validation-for="Type" class="text-danger"></span>
+                            </div>
+                        </div>
                         <!-- İstatistikler -->
                         <div class="edit-sidebar-section">
                             <h3 class="edit-sidebar-title">

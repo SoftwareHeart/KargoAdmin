@@ -26,6 +26,10 @@ namespace KargoAdmin.Models.ViewModels
 
         [Display(Name = "Etiketler")]
         public string Tags { get; set; } = "";  // Boş string ata
+
+        [Required(ErrorMessage = "İçerik türü seçilmelidir")]
+        [Display(Name = "İçerik Türü")]
+        public string Type { get; set; } = "Haber"; // Default: Haber
     }
 
     public class BlogEditViewModel
@@ -55,5 +59,9 @@ namespace KargoAdmin.Models.ViewModels
 
         [Display(Name = "Etiketler")]
         public string? Tags { get; set; }
+
+        [Required(ErrorMessage = "İçerik türü seçilmelidir")]
+        [Display(Name = "İçerik Türü")]
+        public string Type { get; set; } = "Haber"; // Default: Haber
     }
 }

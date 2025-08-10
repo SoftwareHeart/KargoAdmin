@@ -1,14 +1,7 @@
 ﻿// Sector Leader Section JavaScript
 
 document.addEventListener('DOMContentLoaded', function () {
-    // ÖNCE TÜM STATS BOXLARIN INLINE STYLE'LARINI TEMİZLE
-    const allStatsBoxes = document.querySelectorAll('.stats-box');
-    allStatsBoxes.forEach(box => {
-        box.style.removeProperty('background');
-        box.style.removeProperty('background-color');
-        box.style.removeProperty('backgroundColor');
-        console.log('Stats box temizlendi:', box);
-    });
+
 
     // Intersection Observer for animations - Services section ile aynı yapı
     const observerOptions = {
@@ -23,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // Section'a animate-in class'ı ekle (video için)
                 section.classList.add('animate-in');
-                console.log('Sector Leader section görüldü, animasyonlar başlıyor');
 
                 // Counter animation
                 animateCounters(section);
@@ -31,16 +23,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Stats box drop animation after initial slide-in (3 saniye sonra)
                 setTimeout(() => {
                     const statsBoxes = section.querySelectorAll('.stats-box');
-                    console.log('Drop animasyonu başlıyor, bulunan box sayısı:', statsBoxes.length);
 
                     statsBoxes.forEach((box, index) => {
                         setTimeout(() => {
-                            console.log('Box', index, 'drop class ekleniyor');
                             box.classList.add('drop');
 
                             // Add floating animation after drop (1 saniye sonra)
                             setTimeout(() => {
-                                console.log('Box', index, 'loaded class ekleniyor');
                                 box.classList.add('loaded');
                             }, 1000);
                         }, index * 200);
@@ -56,7 +45,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Observe the sector leader section
     const sectorLeaderSection = document.querySelector('.sector-leader-section');
     if (sectorLeaderSection) {
-        console.log('Sector leader section bulundu, observer ekleniyor');
         observer.observe(sectorLeaderSection);
     } else {
         console.log('Sector leader section bulunamadı!');

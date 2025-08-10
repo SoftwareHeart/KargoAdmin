@@ -339,6 +339,9 @@
     .fleet-stat-number {
         font-size: 48px;
     }
+    .container-fluid {
+        display:flex;
+    }
 }
 
 /* Smaller Tablets & Large Phones (Landscape) */

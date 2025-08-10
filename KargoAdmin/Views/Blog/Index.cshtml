@@ -65,9 +65,10 @@
                         <tr>
                             <th>Görsel</th>
                             <th>Başlık</th>
+                            <th>Tür</th> <!-- Yeni kolon -->
                             <th>Yazar</th>
                             <th>Yayın Tarihi</th>
-                            <th>Güncelleme</th>
+                            <th>Tip</th>
                             <th>Durum</th>
                             <th>İşlemler</th>
                         </tr>
@@ -145,6 +146,20 @@
                                             </span>
                                         }
                                     </div>
+                                </td>
+                                <td>
+                                    @if (item.Type == "Faydalı Bilgi")
+                                    {
+                                        <span class="badge bg-info">
+                                            <i class="fas fa-lightbulb me-1"></i>Faydalı Bilgi
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-primary">
+                                            <i class="fas fa-newspaper me-1"></i>Haber
+                                        </span>
+                                    }
                                 </td>
                                 <td class="status-cell">
                                     @if (item.IsPublished)

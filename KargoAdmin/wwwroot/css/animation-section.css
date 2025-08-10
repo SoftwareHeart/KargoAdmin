@@ -92,7 +92,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
     transition: all 0.3s ease;
     position: relative;
 }
@@ -324,11 +323,6 @@
         width: 340px;
     }
 
-    .service-mini-card {
-        width: 220px;
-        height: 180px;
-        padding: 30px 25px;
-    }
 }
 
 /* Standard Desktops (992px - 1199px) */
@@ -367,12 +361,6 @@
         width: 280px;
     }
 
-    .service-mini-card {
-        width: 200px;
-        height: 160px;
-        padding: 25px 20px;
-        gap: 30px;
-    }
 
     .service-cards-container {
         gap: 30px;
@@ -427,16 +415,7 @@
         flex-wrap: wrap;
     }
 
-    .service-mini-card {
-        width: 180px;
-        height: 140px;
-        padding: 20px 15px;
-        border-radius: 30px;
-    }
-
     .service-mini-icon {
-        width: 65px;
-        height: 65px;
         margin-bottom: 15px;
     }
 

@@ -338,3 +338,11 @@
             top: 5px;
         }
 }
+
+@media (max-width: 480px) {
+    .navbar-logo img {
+        height: 20px;
+        transition: height 0.3s ease;
+    }
+}
+

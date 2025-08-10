@@ -61,20 +61,20 @@ app.UseAuthorization();
 
 // Ana sayfa kullanıcı tarafına yönlendirir
 app.MapControllerRoute(
-    name: "public",
+    name: "aleris",
     pattern: "",
     defaults: new { controller = "Aleris", action = "Index" });
 
 // Diğer public sayfalar
 app.MapControllerRoute(
-    name: "publicPages",
-    pattern: "public/{action}/{id?}",
+    name: "AlerisPages",
+    pattern: "Aleris/{action}/{id?}",
     defaults: new { controller = "Aleris" });
 
 // Blog sayfaları için SEO dostu URL'ler
 app.MapControllerRoute(
     name: "blogWithSlug",
-    pattern: "blog/{slug}",
+    pattern: "Blog/{slug}",
     defaults: new { controller = "PublicBlog", action = "Details" });
 
 app.MapControllerRoute(
@@ -89,7 +89,7 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "blogIndex",
-    pattern: "blog",
+    pattern: "Blog",
     defaults: new { controller = "PublicBlog", action = "Index" });
 app.MapControllerRoute(
     name: "about",
@@ -151,10 +151,31 @@ app.MapControllerRoute(
     name: "servicesDepolama",
     pattern: "Aleris/Servisler/DepolamaDagitim",
     defaults: new { controller = "Aleris", action = "StorageDistribution" });
+
+app.MapControllerRoute(
+    name: "usefulInfoTag",
+    pattern: "faydali-bilgiler/kategori/{tag}",
+    defaults: new { controller = "PublicBlog", action = "UsefulInfoTag" });
+
+app.MapControllerRoute(
+    name: "usefulInfoSearch",
+    pattern: "faydali-bilgiler/ara",
+    defaults: new { controller = "PublicBlog", action = "SearchUsefulInfo" });
+
+app.MapControllerRoute(
+    name: "usefulInfoIndex",
+    pattern: "faydali-bilgiler",
+    defaults: new { controller = "PublicBlog", action = "UsefulInfo" });
+
+// Alternatif route'lar
+app.MapControllerRoute(
+    name: "usefulInfoAlt",
+    pattern: "useful-info",
+    defaults: new { controller = "PublicBlog", action = "UsefulInfo" });
 // Standart route
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Public}/{action=Index}/{id?}");
+    pattern: "{controller=Aleris}/{action=Index}/{id?}");
 app.MapRazorPages();
 
 app.Run();

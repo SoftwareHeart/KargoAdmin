@@ -1361,3 +1361,143 @@
         transform: translate(-50%, -50%) scale(0.8);
     }
 }
+/* Type Seçimi Stilleri - admin-create.css ve admin-edit.css dosyalarına ekleyin */
+
+/* ===== TYPE SELECTION STYLES ===== */
+.create-type-wrapper, .edit-type-wrapper {
+    background: #f8f9ff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 2px solid #e6e9ff;
+    transition: all 0.3s ease;
+}
+
+.create-type-info, .edit-type-info {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+    .create-type-info h6, .edit-type-info h6 {
+        color: #4a5568;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .create-type-info small, .edit-type-info small {
+        color: #718096;
+        font-size: 0.85rem;
+    }
+
+.create-type-selection, .edit-type-selection {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.create-type-option, .edit-type-option {
+    position: relative;
+}
+
+.create-type-radio, .edit-type-radio {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.create-type-label, .edit-type-label {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+    .create-type-label:hover, .edit-type-label:hover {
+        border-color: #667eea;
+        background: #f7faff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+    }
+
+    .create-type-label i, .edit-type-label i {
+        font-size: 1.5rem;
+        margin-right: 1rem;
+        color: #a0aec0;
+        transition: color 0.3s ease;
+    }
+
+    .create-type-label span, .edit-type-label span {
+        font-weight: 600;
+        color: #2d3748;
+        font-size: 1rem;
+        display: block;
+    }
+
+    .create-type-label small, .edit-type-label small {
+        color: #718096;
+        font-size: 0.8rem;
+        margin-top: 0.25rem;
+        display: block;
+    }
+
+/* Seçili durumu */
+.create-type-radio:checked + .create-type-label,
+.edit-type-radio:checked + .edit-type-label {
+    border-color: #667eea;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+    .create-type-radio:checked + .create-type-label i,
+    .edit-type-radio:checked + .edit-type-label i {
+        color: #ffd700;
+    }
+
+    .create-type-radio:checked + .create-type-label span,
+    .edit-type-radio:checked + .edit-type-label span {
+        color: white;
+    }
+
+    .create-type-radio:checked + .create-type-label small,
+    .edit-type-radio:checked + .edit-type-label small {
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+/* Animasyon efekti */
+.create-type-label::before, .edit-type-label::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.create-type-radio:checked + .create-type-label::before,
+.edit-type-radio:checked + .edit-type-label::before {
+    left: 100%;
+}
+
+/* Responsive tasarım */
+@media (max-width: 768px) {
+    .create-type-selection, .edit-type-selection {
+        gap: 0.75rem;
+    }
+
+    .create-type-label, .edit-type-label {
+        padding: 0.75rem;
+    }
+
+        .create-type-label i, .edit-type-label i {
+            font-size: 1.25rem;
+            margin-right: 0.75rem;
+        }
+}

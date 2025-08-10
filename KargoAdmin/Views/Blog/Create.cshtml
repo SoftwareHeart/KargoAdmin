@@ -133,7 +133,42 @@
                             </small>
                         </div>
                     </div>
+                    <!-- İçerik Türü Seçimi -->
+                    <div class="create-sidebar-section">
+                        <h3 class="create-sidebar-title">
+                            <i class="fas fa-layer-group"></i>
+                            İçerik Türü
+                        </h3>
 
+                        <div class="create-type-wrapper">
+                            <div class="create-type-info">
+                                <h6>Bu içerik nedir?</h6>
+                                <small>Haber mi yoksa faydalı bilgi mi?</small>
+                            </div>
+
+                            <div class="create-type-selection">
+                                <div class="create-type-option">
+                                    <input asp-for="Type" type="radio" id="typeHaber" value="Haber" checked class="create-type-radio">
+                                    <label for="typeHaber" class="create-type-label">
+                                        <i class="fas fa-newspaper"></i>
+                                        <span>Haber</span>
+                                        <small>Güncel haberler ve duyurular</small>
+                                    </label>
+                                </div>
+
+                                <div class="create-type-option">
+                                    <input asp-for="Type" type="radio" id="typeFaydaliBilgi" value="Faydalı Bilgi" class="create-type-radio">
+                                    <label for="typeFaydaliBilgi" class="create-type-label">
+                                        <i class="fas fa-lightbulb"></i>
+                                        <span>Faydalı Bilgi</span>
+                                        <small>Rehberler ve ipuçları</small>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <span asp-validation-for="Type" class="text-danger"></span>
+                        </div>
+                    </div>
                     <!-- Sağ Kolon - Yan Panel -->
                     <div class="create-sidebar">
                         <!-- Yayınlama Durumu -->

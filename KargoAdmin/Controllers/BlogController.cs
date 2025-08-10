@@ -70,7 +70,6 @@ namespace KargoAdmin.Controllers
         // Blog düzenleme sayfası - ID parametresini güvenli şekilde al
         public async Task<IActionResult> Edit(int? id)
         {
-            // ID kontrolü
             if (id == null || id <= 0)
             {
                 TempData["ErrorMessage"] = "Geçersiz blog ID'si.";
@@ -84,10 +83,7 @@ namespace KargoAdmin.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // Log ekleme - debugging için
-            System.Diagnostics.Debug.WriteLine($"Blog Edit - Requested ID: {id}, Found Blog ID: {blog.Id}, Title: {blog.Title}");
-
-            var model = new BlogEditViewModel
+            var viewModel = new BlogEditViewModel
             {
                 Id = blog.Id,
                 Title = blog.Title,
@@ -95,10 +91,11 @@ namespace KargoAdmin.Controllers
                 ExistingImageUrl = blog.ImageUrl,
                 IsPublished = blog.IsPublished,
                 MetaDescription = blog.MetaDescription,
-                Tags = blog.Tags
+                Tags = blog.Tags,
+                Type = blog.Type ?? "Haber" // Type alanını ekle
             };
 
-            return View(model);
+            return View(viewModel);
         }
 
         // Blog düzenleme (POST)
@@ -106,24 +103,13 @@ namespace KargoAdmin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, BlogEditViewModel model)
         {
-            // ID eşleşme kontrolü
             if (id != model.Id)
-            {
-                TempData["ErrorMessage"] = "ID eşleşmiyor.";
-                return RedirectToAction(nameof(Index));
-            }
-
-            // ID geçerlilik kontrolü
-            if (id <= 0)
             {
                 TempData["ErrorMessage"] = "Geçersiz blog ID'si.";
                 return RedirectToAction(nameof(Index));
             }
 
-            // ImageFile için ModelState doğrulamasını kaldır
             ModelState.Remove("ImageFile");
-            ModelState.Remove("ExistingImageUrl");
-            ModelState.Remove("Tags");
 
             if (ModelState.IsValid)
             {
@@ -132,28 +118,12 @@ namespace KargoAdmin.Controllers
                     var blog = await _context.Blogs.FindAsync(id);
                     if (blog == null)
                     {
-                        TempData["ErrorMessage"] = "Güncellenecek blog yazısı bulunamadı.";
+                        TempData["ErrorMessage"] = "Blog yazısı bulunamadı.";
                         return RedirectToAction(nameof(Index));
                     }
 
-                    // Log ekleme - debugging için
-                    System.Diagnostics.Debug.WriteLine($"Blog Edit POST - ID: {id}, Blog ID: {blog.Id}, Title: {blog.Title}");
-
-                    // URL uyumlu slug oluştur (başlık değiştiyse)
-                    if (blog.Title != model.Title)
-                    {
-                        blog.Slug = GenerateSlug(model.Title);
-                    }
-
-                    // Blog bilgilerini güncelle
-                    blog.Title = model.Title;
-                    blog.Content = model.Content;
-                    blog.IsPublished = model.IsPublished;
-                    blog.UpdateDate = DateTime.Now;
-                    blog.MetaDescription = model.MetaDescription;
-                    blog.Tags = model.Tags;
-
-                    // Yeni resim yüklendiyse işle
+                    // Yeni resim yüklendiyse
+                    string fileName = blog.ImageUrl;
                     if (model.ImageFile != null && model.ImageFile.Length > 0)
                     {
                         // Eski resmi sil
@@ -162,31 +132,29 @@ namespace KargoAdmin.Controllers
                             DeleteImage(blog.ImageUrl);
                         }
 
-                        // Yeni resmi yükle
-                        blog.ImageUrl = await UploadImage(model.ImageFile);
+                        fileName = await UploadImage(model.ImageFile);
                     }
 
-                    // Eğer varsa ve true ise mevcut görseli sil
-                    bool deleteExistingImage = false;
-                    if (bool.TryParse(Request.Form["DeleteExistingImage"], out deleteExistingImage) && deleteExistingImage)
-                    {
-                        if (!string.IsNullOrEmpty(blog.ImageUrl))
-                        {
-                            DeleteImage(blog.ImageUrl);
-                            blog.ImageUrl = null;
-                        }
-                    }
+                    // Blog bilgilerini güncelle
+                    blog.Title = model.Title;
+                    blog.Content = model.Content;
+                    blog.ImageUrl = fileName;
+                    blog.UpdateDate = DateTime.Now;
+                    blog.IsPublished = model.IsPublished;
+                    blog.MetaDescription = model.MetaDescription ?? "";
+                    blog.Tags = model.Tags ?? "";
+                    blog.Type = model.Type ?? "Haber"; // Type alanını güncelle
+                    blog.Slug = GenerateSlug(model.Title);
 
                     _context.Update(blog);
                     await _context.SaveChangesAsync();
 
-                    TempData["SuccessMessage"] = "Blog yazısı başarıyla güncellendi.";
-                    return RedirectToAction(nameof(Index));
+                    TempData["SuccessMessage"] = $"{blog.Type} başarıyla güncellendi.";
+                    return RedirectToAction(nameof(Details), new { id = blog.Id });
                 }
-                catch (Exception ex)
+                catch (DbUpdateConcurrencyException)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Edit error: {ex.Message}");
-                    ModelState.AddModelError("", "Güncelleme sırasında bir hata oluştu: " + ex.Message);
+                    throw;
                 }
             }
 
@@ -291,13 +259,14 @@ namespace KargoAdmin.Controllers
                     MetaDescription = model.MetaDescription ?? "",
                     Tags = model.Tags ?? "",
                     Slug = slug,
-                    ViewCount = 0
+                    ViewCount = 0,
+                    Type = model.Type ?? "Haber" // Type alanını ekle
                 };
 
                 _context.Add(blog);
                 await _context.SaveChangesAsync();
 
-                TempData["SuccessMessage"] = "Blog yazısı başarıyla oluşturuldu.";
+                TempData["SuccessMessage"] = $"{blog.Type} başarıyla oluşturuldu.";
                 return RedirectToAction(nameof(Index));
             }
 
