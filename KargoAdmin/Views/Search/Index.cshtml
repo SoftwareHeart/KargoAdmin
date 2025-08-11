@@ -1,0 +1,184 @@
+@model KargoAdmin.Models.ViewModels.SearchViewModel
+@using KargoAdmin.Services
+@using KargoAdmin.Helpers
+@inject ILanguageService LanguageService
+@{
+    ViewData["Title"] = LanguageService.GetCurrentLanguage() == "en" ? "Search" : "Arama";
+    Layout = "_PublicLayout";
+}
+
+<section class="blog-header-section">
+    <div class="container blog-header-container">
+        <h1 class="blog-main-title">@(LanguageService.GetCurrentLanguage() == "en" ? "Search Results" : "Arama Sonuçları")</h1>
+        <p class="blog-subtitle">
+            <i class="fas fa-search me-2"></i>
+            <strong>"@Model.Query"</strong>
+        </p>
+        <div class="blog-header-search">
+            <form action="@Url.Action("Index", "Search")" method="get" class="compact-search-form">
+                <div class="search-wrapper">
+                    <input type="text" name="q" value="@Model.Query" placeholder="@(LanguageService.GetCurrentLanguage() == "en" ? "Search site..." : "Sitede ara...")" class="compact-search-input" />
+                    <button type="submit" class="compact-search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Styles {
+    <link href="~/css/blog-header-modern.css" rel="stylesheet" />
+    <link href="~/css/blog-cards.css" rel="stylesheet" />
+}
+
+<section class="blog-content-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                @if (!Model.BlogResults.Any() && !Model.UsefulInfoResults.Any() && !Model.Pages.Any())
+                {
+                    <div class="blog-empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>@(LanguageService.GetCurrentLanguage() == "en" ? "No results found" : "Sonuç bulunamadı")</h3>
+                        <p>@(LanguageService.GetCurrentLanguage() == "en" ? "Try different keywords or check your spelling." : "Farklı anahtar kelimeler deneyin veya yazımı kontrol edin.")</p>
+                        <a href="@Url.Action("Index", "PublicBlog")" class="btn-primary-outline">
+                            @(LanguageService.GetCurrentLanguage() == "en" ? "Go to Blog" : "Blog'a Git")
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="modern-blog-grid">
+                        @if (Model.BlogResults.Any())
+                        {
+                            <div class="section-title" style="grid-column: 1 / -1;">
+                                <h3>@(LanguageService.GetCurrentLanguage() == "en" ? "News" : "Haberler") <small class="text-muted">(@Model.BlogTotal)</small></h3>
+                            </div>
+                            @foreach (var blog in Model.BlogResults)
+                            {
+                                <article class="modern-blog-card">
+                                    <div class="card-header-section">
+                                        <div class="blog-image-container">
+                                            <img src="@(!string.IsNullOrEmpty(blog.ImageUrl) ? "/uploads/" + blog.ImageUrl : "/img/blog-placeholder.png")" alt="@blog.GetLocalizedTitle(LanguageService)" class="blog-featured-image" />
+                                        </div>
+                                    </div>
+                                    <div class="card-content-section">
+                                        <h2 class="blog-title-modern">
+                                            <a href="@Url.Action("Details", "PublicBlog", new { id = blog.Id, slug = blog.GetLocalizedSlug(LanguageService) })">@blog.GetLocalizedTitle(LanguageService)</a>
+                                        </h2>
+                                        <div class="card-action-footer">
+                                            <a href="@Url.Action("Details", "PublicBlog", new { id = blog.Id, slug = blog.Slug })" class="read-more-modern">
+                                                <span>@(LanguageService.GetCurrentLanguage() == "en" ? "Read More" : "Detayını Gör")</span>
+                                                <i class="fas fa-chevron-right"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </article>
+                            }
+
+                            @if (Model.BlogTotal > Model.BlogResults.Count)
+                            {
+                                <div style="grid-column: 1 / -1; text-align:center; margin-top: 12px;">
+                                    <a class="btn btn-outline-primary" href="@Url.Action("Search", "PublicBlog", new { query = Model.Query })">
+                                        @(LanguageService.GetCurrentLanguage() == "en" ? "See all news results" : "Tüm haber sonuçlarını gör")
+                                    </a>
+                                </div>
+                            }
+                        }
+
+                        @if (Model.UsefulInfoResults.Any())
+                        {
+                            <div class="section-title" style="grid-column: 1 / -1;">
+                                <h3>@(LanguageService.GetCurrentLanguage() == "en" ? "Useful Information" : "Faydalı Bilgiler") <small class="text-muted">(@Model.UsefulInfoTotal)</small></h3>
+                            </div>
+                            @foreach (var info in Model.UsefulInfoResults)
+                            {
+                                <article class="modern-blog-card">
+                                    <div class="card-header-section">
+                                        <div class="blog-image-container">
+                                            <img src="@(!string.IsNullOrEmpty(info.ImageUrl) ? "/uploads/" + info.ImageUrl : "/img/blog-placeholder.png")" alt="@info.GetLocalizedTitle(LanguageService)" class="blog-featured-image" />
+                                        </div>
+                                    </div>
+                                    <div class="card-content-section">
+                                        <h2 class="blog-title-modern">
+                                            <a href="@Url.Action("Details", "UsefulInfo", new { id = info.Id, slug = info.GetLocalizedSlug(LanguageService) })">@info.GetLocalizedTitle(LanguageService)</a>
+                                        </h2>
+                                        <div class="card-action-footer">
+                                            <a href="@Url.Action("Details", "UsefulInfo", new { id = info.Id, slug = info.Slug })" class="read-more-modern">
+                                                <span>@(LanguageService.GetCurrentLanguage() == "en" ? "Read More" : "Detayını Gör")</span>
+                                                <i class="fas fa-chevron-right"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </article>
+                            }
+
+                            @if (Model.UsefulInfoTotal > Model.UsefulInfoResults.Count)
+                            {
+                                <div style="grid-column: 1 / -1; text-align:center; margin-top: 12px;">
+                                    <a class="btn btn-outline-primary" href="@Url.Action("Search", "UsefulInfo", new { query = Model.Query })">
+                                        @(LanguageService.GetCurrentLanguage() == "en" ? "See all useful info results" : "Tüm faydalı bilgi sonuçlarını gör")
+                                    </a>
+                                </div>
+                            }
+                        }
+
+                        @if (Model.Pages.Any())
+                        {
+                            <div class="section-title" style="grid-column: 1 / -1;">
+                                <h3>@(LanguageService.GetCurrentLanguage() == "en" ? "Pages" : "Sayfalar")</h3>
+                            </div>
+                            @foreach (var pageItem in Model.Pages)
+                            {
+                                <article class="modern-blog-card">
+                                    <div class="card-content-section">
+                                        <h2 class="blog-title-modern">
+                                            <a href="@pageItem.Url">@pageItem.Title</a>
+                                        </h2>
+                                    </div>
+                                </article>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="~/js/blog-cards.js" asp-append-version="true"></script>
+<script>
+    // Header Search Enhanced Functionality (UsefulInfo/Blog ile aynı davranış)
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchForm = document.querySelector('.compact-search-form');
+        const searchBtn = document.querySelector('.compact-search-btn');
+        const searchInput = document.querySelector('.compact-search-input');
+
+        if (searchForm && searchBtn && searchInput) {
+            searchForm.addEventListener('submit', function () {
+                searchBtn.classList.add('loading');
+                searchForm.classList.add('searching');
+            });
+
+            searchInput.addEventListener('focus', function () {
+                searchForm.classList.add('focused');
+            });
+
+            searchInput.addEventListener('blur', function () {
+                searchForm.classList.remove('focused');
+            });
+
+            searchInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    searchForm.submit();
+                }
+            });
+        }
+    });
+</script>
+
+

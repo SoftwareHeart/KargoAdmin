@@ -1,0 +1,158 @@
+/* Search Modal - modern, large input, suggestions and subtle animations */
+
+.search-modal .modal-dialog {
+    max-width: 720px;
+}
+
+.search-modal .modal-content {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+.search-modal .modal-header {
+    border-bottom: none;
+    padding: 18px 24px 0 24px;
+}
+
+.search-modal .modal-title {
+    font-weight: 700;
+}
+
+.search-modal .modal-body {
+    padding: 12px 24px 24px 24px;
+}
+
+.search-input-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f5f7fb;
+    border: 1px solid #e6e9f2;
+    border-radius: 12px;
+    padding: 12px 14px;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.search-input-group:focus-within {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.08);
+    background: #fff;
+}
+
+.search-input-group .search-icon {
+    color: #6b7280;
+    font-size: 18px;
+}
+
+.search-input {
+    border: none;
+    outline: none;
+    flex: 1;
+    background: transparent;
+    font-size: 18px;
+}
+
+.search-helper {
+    color: #6b7280;
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+.search-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.search-chip {
+    border: 1px solid #e6e9f2;
+    background: #fff;
+    color: #111827;
+    border-radius: 999px;
+    padding: 8px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background .2s ease, transform .05s ease, border-color .2s ease;
+}
+
+.search-chip:hover {
+    background: #f3f6ff;
+    border-color: #cfd8ff;
+}
+
+.search-chip:active {
+    transform: translateY(1px);
+}
+
+.search-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.search-footer .btn-primary.loading {
+    position: relative;
+    pointer-events: none;
+}
+
+.search-footer .btn-primary.loading::after {
+    content: "";
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    margin-top: -8px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-top-color: #fff;
+    animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Backdrop blur for nicer feel */
+.modal-backdrop.show {
+    backdrop-filter: blur(2px);
+}
+
+/* Suggestions list */
+.search-suggestions {
+    margin-top: 12px;
+    border-top: 1px solid #eef1f6;
+    padding-top: 12px;
+}
+
+.suggestion-group-title {
+    font-size: 12px;
+    letter-spacing: .04em;
+    color: #6b7280;
+    text-transform: uppercase;
+    margin: 10px 0 6px 0;
+}
+
+.suggestion-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.suggestion-item a {
+    display: block;
+    padding: 8px 10px;
+    border-radius: 8px;
+    color: #111827;
+    text-decoration: none;
+    transition: background .15s ease;
+}
+
+.suggestion-item a:hover {
+    background: #f5f7fb;
+}

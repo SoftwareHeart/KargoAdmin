@@ -7,7 +7,7 @@
 
 <!DOCTYPE html>
 <html lang="@(LanguageService.GetCurrentLanguage())">
-<head>
+    <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Aleris Global Lojistik</title>
@@ -21,7 +21,8 @@
     <link rel="stylesheet" href="~/css/services-section.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/fleet-showcase.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/sector-leader.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/footer.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/footer.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/search-modal.css" asp-append-version="true" />
     <!-- Font Awesome CDN -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
 
@@ -104,7 +105,7 @@
     </header>
 
     <!-- Search Modal -->
-    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal fade search-modal" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -113,24 +114,48 @@
                 </div>
                 <div class="modal-body">
                     <form id="searchForm">
-                        <div class="mb-3">
-                            <label for="searchQuery" class="form-label">@(LanguageService.GetCurrentLanguage() == "en" ? "What would you like to search?" : "Ne aramak istiyorsunuz?")</label>
-                            <input type="text" class="form-control" id="searchQuery" placeholder="@(LanguageService.GetCurrentLanguage() == "en" ? "Enter your search term..." : "Arama teriminizi giriniz...")">
+                        <label for="searchQuery" class="form-label">@(LanguageService.GetCurrentLanguage() == "en" ? "What would you like to search?" : "Ne aramak istiyorsunuz?")</label>
+                        <div class="search-input-group">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" class="search-input" id="searchQuery" placeholder="@(LanguageService.GetCurrentLanguage() == "en" ? "Search the site..." : "Sitede ara...")">
                         </div>
-                        <div class="mb-3">
-                            <small class="text-muted">
-                                <i class="fas fa-lightbulb me-1"></i>
-                                @(LanguageService.GetCurrentLanguage() == "en" ? "Tip: You can search for services, blog posts or general information." : "İpucu: Hizmetler, blog yazıları veya genel bilgiler arayabilirsiniz.")
-                            </small>
+                        <div class="search-helper">
+                            <i class="fas fa-lightbulb me-1"></i>
+                            @(LanguageService.GetCurrentLanguage() == "en" ? "Try keywords like 'air cargo', 'sea transport', 'blog'" : "'hava kargo', 'deniz taşımacılığı', 'blog' gibi anahtar kelimeleri deneyin")
+                        </div>
+                        <div class="search-chips">
+                            <span class="search-chip" onclick="fillAndSearch(this)">@(LanguageService.GetCurrentLanguage() == "en" ? "Air Cargo" : "Hava Kargo")</span>
+                            <span class="search-chip" onclick="fillAndSearch(this)">@(LanguageService.GetCurrentLanguage() == "en" ? "Sea Transport" : "Deniz Taşımacılığı")</span>
+                            <span class="search-chip" onclick="fillAndSearch(this)">@(LanguageService.GetCurrentLanguage() == "en" ? "Storage" : "Depolama")</span>
+                            <span class="search-chip" onclick="fillAndSearch(this)">Blog</span>
+                        </div>
+                        <div class="search-suggestions" id="searchSuggestions" style="display:none;">
+                            <div class="suggestion-group" id="suggestPages" style="display:none;">
+                                <div class="suggestion-group-title">@(LanguageService.GetCurrentLanguage() == "en" ? "Pages" : "Sayfalar")</div>
+                                <ul class="suggestion-list" id="suggestPagesList"></ul>
+                            </div>
+                            <div class="suggestion-group" id="suggestNews" style="display:none;">
+                                <div class="suggestion-group-title">@(LanguageService.GetCurrentLanguage() == "en" ? "News" : "Haberler")</div>
+                                <ul class="suggestion-list" id="suggestNewsList"></ul>
+                            </div>
+                            <div class="suggestion-group" id="suggestUseful" style="display:none;">
+                                <div class="suggestion-group-title">@(LanguageService.GetCurrentLanguage() == "en" ? "Useful Info" : "Faydalı Bilgi")</div>
+                                <ul class="suggestion-list" id="suggestUsefulList"></ul>
+                            </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@(LanguageService.GetCurrentLanguage() == "en" ? "Close" : "Kapat")</button>
-                    <button type="button" class="btn btn-primary" onclick="performSearch()">
+                    <div class="search-footer">
+                        <small class="text-muted">@(LanguageService.GetCurrentLanguage() == "en" ? "Press Enter to search" : "Aramak için Enter'a basın")</small>
+                        <div>
+                            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">@(LanguageService.GetCurrentLanguage() == "en" ? "Close" : "Kapat")</button>
+                            <button id="searchSubmitBtn" type="button" class="btn btn-primary" onclick="performSearch()">
                         <i class="fas fa-search me-1"></i>
                         @(LanguageService.GetCurrentLanguage() == "en" ? "Search" : "Ara")
-                    </button>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -425,21 +450,76 @@
         function performSearch() {
             const query = document.getElementById('searchQuery').value;
             if (query.trim()) {
-                // Burada arama işlemi yapılabilir
-                console.log('Searching for:', query);
-                // Modal'ı kapat
-                bootstrap.Modal.getInstance(document.getElementById('searchModal')).hide();
-                // Arama sayfasına yönlendir veya sonuçları göster
-                // window.location.href = '/search?q=' + encodeURIComponent(query);
+                const modal = bootstrap.Modal.getInstance(document.getElementById('searchModal'));
+                if (modal) modal.hide();
+                window.location.href = '/Search?q=' + encodeURIComponent(query);
             }
         }
 
-        // Enter tuşu ile arama
-        document.getElementById('searchQuery').addEventListener('keypress', function(e) {
+        // Enter tuşu ile arama + modal açıldığında input'a odaklanma + butonda loading efekti
+        const searchInputEl = document.getElementById('searchQuery');
+        const searchSubmitBtn = document.getElementById('searchSubmitBtn');
+        document.getElementById('searchModal').addEventListener('shown.bs.modal', function () {
+            setTimeout(() => searchInputEl?.focus(), 150);
+        });
+        searchInputEl.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
                 performSearch();
             }
+        });
+
+        // Fill from chip and search
+        function fillAndSearch(el) {
+            const val = el.textContent.trim();
+            document.getElementById('searchQuery').value = val;
+            performSearch();
+        }
+
+        // Suggestions (debounced)
+        let suggestTimer = null;
+        const suggestionsRoot = document.getElementById('searchSuggestions');
+        const pagesList = document.getElementById('suggestPagesList');
+        const newsList = document.getElementById('suggestNewsList');
+        const usefulList = document.getElementById('suggestUsefulList');
+        const groupPages = document.getElementById('suggestPages');
+        const groupNews = document.getElementById('suggestNews');
+        const groupUseful = document.getElementById('suggestUseful');
+
+        searchInputEl.addEventListener('input', function () {
+            const q = this.value.trim();
+            clearTimeout(suggestTimer);
+            if (q.length < 2) {
+                suggestionsRoot.style.display = 'none';
+                return;
+            }
+            suggestTimer = setTimeout(async () => {
+                try {
+                    const res = await fetch('/Search/Suggest?q=' + encodeURIComponent(q));
+                    const data = await res.json();
+
+                    // Fill lists
+                    function fillList(listEl, items) {
+                        listEl.innerHTML = '';
+                        items.forEach(i => {
+                            const li = document.createElement('li');
+                            li.className = 'suggestion-item';
+                            li.innerHTML = `<a href="${i.url}">${i.title}</a>`;
+                            listEl.appendChild(li);
+                        });
+                    }
+                    fillList(pagesList, data.pages || []);
+                    fillList(newsList, data.news || []);
+                    fillList(usefulList, data.useful || []);
+
+                    groupPages.style.display = (data.pages && data.pages.length) ? '' : 'none';
+                    groupNews.style.display = (data.news && data.news.length) ? '' : 'none';
+                    groupUseful.style.display = (data.useful && data.useful.length) ? '' : 'none';
+
+                    const hasAny = (data.pages && data.pages.length) || (data.news && data.news.length) || (data.useful && data.useful.length);
+                    suggestionsRoot.style.display = hasAny ? '' : 'none';
+                } catch { suggestionsRoot.style.display = 'none'; }
+            }, 250);
         });
 
         // Mobile menu dışına tıklayınca kapat
