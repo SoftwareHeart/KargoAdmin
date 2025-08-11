@@ -67,7 +67,9 @@
                     </div>
 
                     <a href="/Blog" class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "PublicBlog" ? "active" : "")">Haberler</a>
-                    <a href="#" class="nav-item">Faydalı Bilgiler</a>
+                    <a href="@Url.Action("Index", "UsefulInfo")" class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "UsefulInfo" ? "active" : "")">
+                        Faydalı Bilgiler
+                    </a>
                     <a href="/Aleris/Hakkımızda" class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">Hakkımızda</a>
                 </div>
 

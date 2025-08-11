@@ -153,25 +153,50 @@ app.MapControllerRoute(
     defaults: new { controller = "Aleris", action = "StorageDistribution" });
 
 app.MapControllerRoute(
+    name: "usefulInfoWithSlug",
+    pattern: "FaydaliBilgiler/{slug}",
+    defaults: new { controller = "UsefulInfo", action = "Details" });
+
+app.MapControllerRoute(
+    name: "usefulInfoById",
+    pattern: "faydali-bilgiler/id/{id}",
+    defaults: new { controller = "UsefulInfo", action = "Details" });
+
+app.MapControllerRoute(
     name: "usefulInfoTag",
-    pattern: "faydali-bilgiler/kategori/{tag}",
-    defaults: new { controller = "PublicBlog", action = "UsefulInfoTag" });
+    pattern: "faydali-bilgiler/tag/{tag}",
+    defaults: new { controller = "UsefulInfo", action = "Tag" });
 
 app.MapControllerRoute(
     name: "usefulInfoSearch",
     pattern: "faydali-bilgiler/ara",
-    defaults: new { controller = "PublicBlog", action = "SearchUsefulInfo" });
+    defaults: new { controller = "UsefulInfo", action = "Search" });
 
 app.MapControllerRoute(
     name: "usefulInfoIndex",
-    pattern: "faydali-bilgiler",
-    defaults: new { controller = "PublicBlog", action = "UsefulInfo" });
+    pattern: "FaydaliBilgiler",
+    defaults: new { controller = "UsefulInfo", action = "Index" });
 
-// Alternatif route'lar
 app.MapControllerRoute(
-    name: "usefulInfoAlt",
-    pattern: "useful-info",
-    defaults: new { controller = "PublicBlog", action = "UsefulInfo" });
+    name: "usefulInfoAlternative",
+    pattern: "faydali-bilgiler",
+    defaults: new { controller = "UsefulInfo", action = "Index" });
+
+app.MapControllerRoute(
+    name: "usefulInfoAlternativeSlug",
+    pattern: "faydali-bilgiler/{slug}",
+    defaults: new { controller = "UsefulInfo", action = "Details" });
+
+// Alternatif URL'ler (Türkçe karaktersiz)
+app.MapControllerRoute(
+    name: "usefulInfoAlternative",
+    pattern: "faydali-bilgiler",
+    defaults: new { controller = "UsefulInfo", action = "Index" });
+
+app.MapControllerRoute(
+    name: "usefulInfoAlternativeSlug",
+    pattern: "faydali-bilgiler/{slug}",
+    defaults: new { controller = "UsefulInfo", action = "Details" });
 // Standart route
 app.MapControllerRoute(
     name: "default",

@@ -75,7 +75,7 @@
                 color: #005cb9;
             }
 
-/* Newsletter Column - Kompakt tasarım */
+/* Newsletter Column */
 .newsletter-column {
     max-width: 100%;
     display: flex;
@@ -249,40 +249,41 @@
     }
 }
 
+/* Tablet görünüm */
 @media (max-width: 991.98px) {
     .footer-main {
-        padding: 60px 0 40px 0;
+        padding: 50px 0 35px 0;
     }
 
     .footer-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 40px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
     }
 
     .newsletter-column {
-        grid-column: span 2;
+        grid-column: 1 / -1;
     }
 
     .footer-social-section {
-        justify-content: flex-start;
-        margin-bottom: 40px;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .footer-description-section {
+        text-align: center;
     }
 
     .footer-bottom-container {
         flex-direction: column;
         text-align: center;
-        gap: 20px;
-    }
-
-    .footer-bottom-left {
-        flex-direction: column;
-        gap: 20px;
+        gap: 15px;
     }
 }
 
+/* Mobil görünüm */
 @media (max-width: 767.98px) {
     .footer-main {
-        padding: 50px 0 30px 0;
+        padding: 40px 0 25px 0;
     }
 
     .footer-container {
@@ -290,65 +291,41 @@
     }
 
     .footer-grid {
-        grid-template-columns: 1fr;
-        gap: 35px;
-    }
-
-    .newsletter-column {
-        grid-column: span 1;
-    }
-
-    .newsletter-form {
-        flex-direction: column;
-        border-radius: 8px;
-    }
-
-    .newsletter-input {
-        border-bottom: 1px solid #ddd;
-    }
-
-    .newsletter-button {
-        border-radius: 0 0 8px 8px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
     }
 
     .footer-social {
-        justify-content: flex-start;
-        gap: 15px;
+        justify-content: center;
+        gap: 12px;
     }
 
-        .footer-social a {
-            width: 35px;
-            height: 35px;
-            font-size: 18px;
-        }
+    .footer-description {
+        text-align: center;
+        margin: 0 auto;
+    }
 
     .footer-bottom-links {
         flex-direction: column;
-        gap: 15px;
-        text-align: center;
+        gap: 10px;
+        align-items: center;
     }
 }
 
+/* En küçük ekranlar */
 @media (max-width: 480px) {
-    .footer-main {
-        padding: 40px 0 25px 0;
-    }
-
-    .footer-container {
-        padding: 0 15px;
-    }
-
     .footer-grid {
+        grid-template-columns: 1fr;
         gap: 30px;
     }
 
     .footer-column h5 {
         font-size: 1rem;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
     }
 
     .footer-column ul li {
-        margin-bottom: 12px;
+        margin-bottom: 10px;
     }
 
     .footer-social a {

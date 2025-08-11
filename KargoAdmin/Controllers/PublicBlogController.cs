@@ -24,7 +24,7 @@ namespace KargoAdmin.Controllers
             int pageSize = 6;
 
             var blogs = await _context.Blogs
-                .Where(b => b.IsPublished)
+                .Where(b => b.IsPublished && b.Type == "Haber")
                 .OrderByDescending(b => b.PublishDate)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
@@ -32,7 +32,7 @@ namespace KargoAdmin.Controllers
                 .ToListAsync();
 
             var totalBlogs = await _context.Blogs
-                .Where(b => b.IsPublished)
+                .Where(b => b.IsPublished && b.Type == "Haber")
                 .CountAsync();
 
             ViewBag.CurrentPage = page;
@@ -55,7 +55,7 @@ namespace KargoAdmin.Controllers
             int pageSize = 6;
 
             var blogs = await _context.Blogs
-                .Where(b => b.IsPublished && b.Tags.Contains(tag))
+                .Where(b => b.IsPublished && b.Tags.Contains(tag) && b.Type == "Haber")
                 .OrderByDescending(b => b.PublishDate)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
@@ -63,7 +63,7 @@ namespace KargoAdmin.Controllers
                 .ToListAsync();
 
             var totalBlogs = await _context.Blogs
-                .Where(b => b.IsPublished && b.Tags.Contains(tag))
+                .Where(b => b.IsPublished && b.Tags.Contains(tag) && b.Type == "Haber")
                 .CountAsync();
 
             ViewBag.CurrentPage = page;
@@ -85,7 +85,7 @@ namespace KargoAdmin.Controllers
             int pageSize = 6;
 
             var blogs = await _context.Blogs
-                .Where(b => b.IsPublished &&
+                .Where(b => b.IsPublished && b.Type == "Haber" &&
                            (b.Title.Contains(query) ||
                             b.Content.Contains(query) ||
                             b.Tags.Contains(query)))
@@ -96,7 +96,7 @@ namespace KargoAdmin.Controllers
                 .ToListAsync();
 
             var totalBlogs = await _context.Blogs
-                .Where(b => b.IsPublished &&
+                .Where(b => b.IsPublished && b.Type == "Haber" &&
                            (b.Title.Contains(query) ||
                             b.Content.Contains(query) ||
                             b.Tags.Contains(query)))
@@ -165,7 +165,7 @@ namespace KargoAdmin.Controllers
 
                 relatedBlogs = await _context.Blogs
                     .Where(b => b.Id != currentBlog.Id &&
-                               b.IsPublished &&
+                               b.IsPublished && b.Type == "Haber" &&
                                tags.Any(tag => b.Tags.Contains(tag)))
                     .OrderByDescending(b => b.PublishDate)
                     .Take(3)
@@ -180,7 +180,7 @@ namespace KargoAdmin.Controllers
 
             // 2. ETİKET BAZLI İLGİLİ YAZI YOKSA, POPÜLER YAZILAR GETİR
             var popularBlogs = await _context.Blogs
-                .Where(b => b.Id != currentBlog.Id && b.IsPublished)
+                .Where(b => b.Id != currentBlog.Id && b.IsPublished && b.Type == "Haber")
                 .OrderByDescending(b => b.ViewCount)
                 .ThenByDescending(b => b.PublishDate)
                 .Take(3)
@@ -194,7 +194,7 @@ namespace KargoAdmin.Controllers
 
             // 3. POPÜLER YAZI DA YOKSA, EN SON YAZILAR GETİR
             var recentBlogs = await _context.Blogs
-                .Where(b => b.Id != currentBlog.Id && b.IsPublished)
+                .Where(b => b.Id != currentBlog.Id && b.IsPublished && b.Type == "Haber")
                 .OrderByDescending(b => b.PublishDate)
                 .Take(3)
                 .ToListAsync();
@@ -212,7 +212,7 @@ namespace KargoAdmin.Controllers
             {
                 // Tüm yayınlanmış blogların tag'lerini al
                 var allTagStrings = await _context.Blogs
-                    .Where(b => b.IsPublished && !string.IsNullOrEmpty(b.Tags))
+                    .Where(b => b.IsPublished && !string.IsNullOrEmpty(b.Tags) && b.Type == "Haber")
                     .Select(b => b.Tags)
                     .ToListAsync();
 
