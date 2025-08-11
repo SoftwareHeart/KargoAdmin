@@ -1,5 +1,6 @@
 ﻿using KargoAdmin.Data;
 using KargoAdmin.Models;
+using KargoAdmin.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,16 +13,19 @@ namespace KargoAdmin.Controllers
     public class PublicBlogController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILanguageService _languageService;
 
-        public PublicBlogController(ApplicationDbContext context)
+        public PublicBlogController(ApplicationDbContext context, ILanguageService languageService)
         {
             _context = context;
+            _languageService = languageService;
         }
 
         // Blog listesi
         public async Task<IActionResult> Index(int page = 1)
         {
             int pageSize = 6;
+            var currentLanguage = _languageService.GetCurrentLanguage();
 
             var blogs = await _context.Blogs
                 .Where(b => b.IsPublished && b.Type == "Haber")
@@ -37,6 +41,7 @@ namespace KargoAdmin.Controllers
 
             ViewBag.CurrentPage = page;
             ViewBag.TotalPages = (int)Math.Ceiling(totalBlogs / (double)pageSize);
+            ViewBag.CurrentLanguage = currentLanguage;
 
             // Dinamik tag listesi - BASİT YÖNTEM
             ViewBag.AvailableTags = await GetAvailableTagsSimple();

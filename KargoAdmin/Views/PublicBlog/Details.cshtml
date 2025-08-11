@@ -1,6 +1,9 @@
 ﻿@model Blog
+@using KargoAdmin.Services
+@using KargoAdmin.Helpers
+@inject ILanguageService LanguageService
 @{
-    ViewData["Title"] = Model.Title;
+    ViewData["Title"] = Model.GetLocalizedTitle(LanguageService);
     Layout = "_PublicLayout";
 }
 
@@ -13,9 +16,9 @@
             <!-- Breadcrumb -->
             <nav aria-label="breadcrumb" class="blog-breadcrumb-nav">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/">Ana Sayfa</a></li>
-                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "PublicBlog")">Blog</a></li>
-                    <li class="breadcrumb-item active">@Model.Title</li>
+                    <li class="breadcrumb-item"><a href="/">@(LanguageService.GetCurrentLanguage() == "en" ? "Home" : "Ana Sayfa")</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "PublicBlog")">@(LanguageService.GetCurrentLanguage() == "en" ? "Blog" : "Blog")</a></li>
+                    <li class="breadcrumb-item active">@Model.GetLocalizedTitle(LanguageService)</li>
                 </ol>
             </nav>
 
@@ -27,23 +30,24 @@
                 </div>
                 <div class="meta-item">
                     <i class="far fa-eye"></i>
-                    <span>@Model.ViewCount görüntülenme</span>
+                    <span>@Model.ViewCount @(LanguageService.GetCurrentLanguage() == "en" ? "views" : "görüntülenme")</span>
                 </div>
  
                     @{
-                        var wordCount = Model.Content.Split(new char[] { ' ', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Length;
+                        var localizedContent = Model.GetLocalizedContent(LanguageService);
+                        var wordCount = localizedContent.Split(new char[] { ' ', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Length;
                         var wordsPerMinute = 250;
                         var readingTime = (int)Math.Ceiling((double)wordCount / wordsPerMinute);
                         if (readingTime == 0) readingTime = 1; // Minimum 1 dakika göster
                     }
                     <div class="meta-item">
                         <i class="far fa-clock"></i>
-                        <span>@readingTime dk okuma</span>
+                        <span>@readingTime @(LanguageService.GetCurrentLanguage() == "en" ? "min read" : "dk okuma")</span>
                     </div>
             </div>
 
             <!-- Blog Title -->
-            <h1 class="blog-hero-title">@Model.Title</h1>
+            <h1 class="blog-hero-title">@Model.GetLocalizedTitle(LanguageService)</h1>
 
             <!-- Author Info -->
             <div class="blog-hero-author">
@@ -52,7 +56,7 @@
                 </div>
                 <div class="author-info">
                     <span class="author-name">@Model.Author.FirstName @Model.Author.LastName</span>
-                    <span class="author-title">İçerik Editörü</span>
+                    <span class="author-title">@(LanguageService.GetCurrentLanguage() == "en" ? "Content Editor" : "İçerik Editörü")</span>
                 </div>
             </div>
         </div>
@@ -69,19 +73,19 @@
                 <article class="blog-content-card">
                     <!-- Content -->
                     <div class="blog-article-content">
-                        @Html.Raw(Model.Content)
+                        @Html.Raw(Model.GetLocalizedContent(LanguageService))
                     </div>
 
                     <!-- Tags Section -->
-                    @if (!string.IsNullOrEmpty(Model.Tags))
+                    @if (!string.IsNullOrEmpty(Model.GetLocalizedTags(LanguageService)))
                     {
                         <div class="blog-tags-section">
                             <h4 class="tags-title">
                                 <i class="fas fa-tags"></i>
-                                Etiketler
+                                @(LanguageService.GetCurrentLanguage() == "en" ? "Tags" : "Etiketler")
                             </h4>
                             <div class="tags-container">
-                                @foreach (var tag in Model.Tags.Split(','))
+                                @foreach (var tag in Model.GetLocalizedTags(LanguageService).Split(','))
                                 {
                                     <a href="@Url.Action("Tag", "PublicBlog", new { tag = tag.Trim() })"
                                        class="blog-detail-tag">
@@ -96,7 +100,7 @@
                     <div class="blog-share-section">
                         <h4 class="share-title">
                             <i class="fas fa-share-alt"></i>
-                            Bu yazıyı paylaş
+                            @(LanguageService.GetCurrentLanguage() == "en" ? "Share this post" : "Bu yazıyı paylaş")
                         </h4>
                         <div class="share-buttons">
                             <a href="javascript:void(0)"

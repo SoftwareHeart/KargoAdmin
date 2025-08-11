@@ -87,11 +87,15 @@ namespace KargoAdmin.Controllers
             {
                 Id = blog.Id,
                 Title = blog.Title,
+                TitleEn = blog.TitleEn,
                 Content = blog.Content,
+                ContentEn = blog.ContentEn,
                 ExistingImageUrl = blog.ImageUrl,
                 IsPublished = blog.IsPublished,
                 MetaDescription = blog.MetaDescription,
+                MetaDescriptionEn = blog.MetaDescriptionEn,
                 Tags = blog.Tags,
+                TagsEn = blog.TagsEn,
                 Type = blog.Type ?? "Haber" // Type alanını ekle
             };
 
@@ -137,20 +141,25 @@ namespace KargoAdmin.Controllers
 
                     // Blog bilgilerini güncelle
                     blog.Title = model.Title;
+                    blog.TitleEn = model.TitleEn;
                     blog.Content = model.Content;
+                    blog.ContentEn = model.ContentEn;
                     blog.ImageUrl = fileName;
                     blog.UpdateDate = DateTime.Now;
                     blog.IsPublished = model.IsPublished;
                     blog.MetaDescription = model.MetaDescription ?? "";
+                    blog.MetaDescriptionEn = model.MetaDescriptionEn;
                     blog.Tags = model.Tags ?? "";
+                    blog.TagsEn = model.TagsEn;
                     blog.Type = model.Type ?? "Haber"; // Type alanını güncelle
                     blog.Slug = GenerateSlug(model.Title);
+                    blog.SlugEn = !string.IsNullOrEmpty(model.TitleEn) ? GenerateSlug(model.TitleEn) : null;
 
                     _context.Update(blog);
                     await _context.SaveChangesAsync();
 
                     TempData["SuccessMessage"] = $"{blog.Type} başarıyla güncellendi.";
-                    return RedirectToAction(nameof(Details), new { id = blog.Id });
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -250,15 +259,20 @@ namespace KargoAdmin.Controllers
                 var blog = new Blog
                 {
                     Title = model.Title,
+                    TitleEn = model.TitleEn,
                     Content = model.Content,
+                    ContentEn = model.ContentEn,
                     ImageUrl = fileName,
                     PublishDate = DateTime.Now,
                     UpdateDate = DateTime.Now,
                     IsPublished = model.IsPublished,
                     AuthorId = user.Id,
                     MetaDescription = model.MetaDescription ?? "",
+                    MetaDescriptionEn = model.MetaDescriptionEn,
                     Tags = model.Tags ?? "",
+                    TagsEn = model.TagsEn,
                     Slug = slug,
+                    SlugEn = !string.IsNullOrEmpty(model.TitleEn) ? GenerateSlug(model.TitleEn) : null,
                     ViewCount = 0,
                     Type = model.Type ?? "Haber" // Type alanını ekle
                 };

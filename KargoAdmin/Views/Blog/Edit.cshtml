@@ -51,7 +51,7 @@
                         <div class="edit-form-group">
                             <label asp-for="Title" class="edit-form-label">
                                 <i class="fas fa-heading"></i>
-                                Blog Başlığı
+                                Blog Başlığı (Türkçe)
                             </label>
                             <input asp-for="Title"
                                    class="edit-form-control"
@@ -72,11 +72,35 @@
                             </div>
                         </div>
 
+                        <!-- Blog Başlığı - İngilizce -->
+                        <div class="edit-form-group">
+                            <label asp-for="TitleEn" class="edit-form-label">
+                                <i class="fas fa-heading"></i>
+                                Blog Başlığı (İngilizce) <span class="text-muted">(Opsiyonel)</span>
+                            </label>
+                            <input asp-for="TitleEn"
+                                   class="edit-form-control"
+                                   placeholder="Write an impressive title..."
+                                   maxlength="100"
+                                   id="titleEnInput" />
+                            <span asp-validation-for="TitleEn" class="text-danger"></span>
+
+                            <div class="edit-progress-wrapper">
+                                <div class="edit-counter">
+                                    <span class="edit-counter-text">SEO için ideal: 50-60 karakter</span>
+                                    <span class="edit-counter-number" id="titleEnCounter">0/100</span>
+                                </div>
+                                <div class="edit-progress">
+                                    <div class="edit-progress-bar" id="titleEnProgress"></div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Blog İçeriği -->
                         <div class="edit-form-group">
                             <label asp-for="Content" class="edit-form-label">
                                 <i class="fas fa-paragraph"></i>
-                                Blog İçeriği
+                                Blog İçeriği (Türkçe)
                             </label>
                             <div class="edit-editor-wrapper">
                                 <textarea asp-for="Content"
@@ -88,11 +112,26 @@
                             <span asp-validation-for="Content" class="text-danger"></span>
                         </div>
 
+                        <!-- Blog İçeriği - İngilizce -->
+                        <div class="edit-form-group">
+                            <label asp-for="ContentEn" class="edit-form-label">
+                                <i class="fas fa-paragraph"></i>
+                                Blog İçeriği (İngilizce) <span class="text-muted">(Opsiyonel)</span>
+                            </label>
+                            <div class="edit-editor-wrapper">
+                                <textarea asp-for="ContentEn"
+                                          id="contentEnEditor"
+                                          class="edit-form-control edit-textarea"
+                                          placeholder="Write your blog content here..."></textarea>
+                            </div>
+                            <span asp-validation-for="ContentEn" class="text-danger"></span>
+                        </div>
+
                         <!-- Meta Açıklama -->
                         <div class="edit-form-group">
                             <label asp-for="MetaDescription" class="edit-form-label">
                                 <i class="fas fa-search"></i>
-                                SEO Meta Açıklaması
+                                SEO Meta Açıklaması (Türkçe)
                             </label>
                             <textarea asp-for="MetaDescription"
                                       class="edit-form-control edit-textarea"
@@ -113,11 +152,36 @@
                             </div>
                         </div>
 
+                        <!-- Meta Açıklama - İngilizce -->
+                        <div class="edit-form-group">
+                            <label asp-for="MetaDescriptionEn" class="edit-form-label">
+                                <i class="fas fa-search"></i>
+                                SEO Meta Açıklaması (İngilizce) <span class="text-muted">(Opsiyonel)</span>
+                            </label>
+                            <textarea asp-for="MetaDescriptionEn"
+                                      class="edit-form-control edit-textarea"
+                                      rows="3"
+                                      placeholder="Write a short description for search engines..."
+                                      maxlength="160"
+                                      id="metaEnInput"></textarea>
+                            <span asp-validation-for="MetaDescriptionEn" class="text-danger"></span>
+
+                            <div class="edit-progress-wrapper">
+                                <div class="edit-counter">
+                                    <span class="edit-counter-text">Description that will appear on Google</span>
+                                    <span class="edit-counter-number" id="metaEnCounter">0/160</span>
+                                </div>
+                                <div class="edit-progress">
+                                    <div class="edit-progress-bar" id="metaEnProgress"></div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Etiketler -->
                         <div class="edit-form-group">
                             <label asp-for="Tags" class="edit-form-label">
                                 <i class="fas fa-tags"></i>
-                                Etiketler
+                                Etiketler (Türkçe)
                             </label>
                             <div class="edit-tag-container" id="tagContainer">
                                 <input type="text"
@@ -129,6 +193,25 @@
                             <small class="edit-counter-text">
                                 <i class="fas fa-lightbulb me-1"></i>
                                 Önerilen: teknoloji, lojistik, kargo, dijital, yazılım
+                            </small>
+                        </div>
+
+                        <!-- Etiketler - İngilizce -->
+                        <div class="edit-form-group">
+                            <label asp-for="TagsEn" class="edit-form-label">
+                                <i class="fas fa-tags"></i>
+                                Etiketler (İngilizce) <span class="text-muted">(Opsiyonel)</span>
+                            </label>
+                            <div class="edit-tag-container" id="tagEnContainer">
+                                <input type="text"
+                                       class="edit-tag-input"
+                                       id="tagEnInput"
+                                       placeholder="Add tags and press Enter" />
+                            </div>
+                            <input type="hidden" asp-for="TagsEn" id="tagsEnHidden" />
+                            <small class="edit-counter-text">
+                                <i class="fas fa-lightbulb me-1"></i>
+                                Recommended: technology, logistics, cargo, digital, software
                             </small>
                         </div>
                     </div>
@@ -384,6 +467,9 @@
 
             // ===== CKEditor Başlatma =====
             let editor;
+            let editorEn;
+            
+            // Türkçe CKEditor
             ClassicEditor
                 .create(document.querySelector('#contentEditor'), {
                     toolbar: {
@@ -416,10 +502,49 @@
                         writer.setStyle('min-height', '400px', editingView.document.getRoot());
                     });
 
-                    console.log('✅ CKEditor başarıyla yüklendi');
+                    console.log('✅ Türkçe CKEditor başarıyla yüklendi');
                 })
                 .catch(error => {
-                    console.error('❌ CKEditor Error:', error);
+                    console.error('❌ Türkçe CKEditor Error:', error);
+                });
+
+            // İngilizce CKEditor
+            ClassicEditor
+                .create(document.querySelector('#contentEnEditor'), {
+                    toolbar: {
+                        items: [
+                            'heading', '|',
+                            'bold', 'italic', 'strikethrough', 'underline', 'link', '|',
+                            'bulletedList', 'numberedList', '|',
+                            'outdent', 'indent', '|',
+                            'blockQuote', 'insertTable', 'horizontalLine', '|',
+                            'undo', 'redo'
+                        ]
+                    },
+                    language: 'en',
+                    placeholder: 'Write your blog content here...',
+                    heading: {
+                        options: [
+                            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                            { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                            { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                            { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' }
+                        ]
+                    }
+                })
+                .then(newEditor => {
+                    editorEn = newEditor;
+
+                    // Editor yüksekliği ayarla
+                    const editingView = editorEn.editing.view;
+                    editingView.change(writer => {
+                        writer.setStyle('min-height', '400px', editingView.document.getRoot());
+                    });
+
+                    console.log('✅ İngilizce CKEditor başarıyla yüklendi');
+                })
+                .catch(error => {
+                    console.error('❌ İngilizce CKEditor Error:', error);
                 });
 
             // ===== Başlık Sayacı ve Progress =====
@@ -427,6 +552,10 @@
             const titleCounter = document.getElementById('titleCounter');
             const titleProgress = document.getElementById('titleProgress');
             const seoTitle = document.getElementById('seoTitle');
+
+            const titleEnInput = document.getElementById('titleEnInput');
+            const titleEnCounter = document.getElementById('titleEnCounter');
+            const titleEnProgress = document.getElementById('titleEnProgress');
 
             function updateTitleProgress() {
                 const length = titleInput.value.length;
@@ -463,11 +592,48 @@
                 updateTitleProgress(); // İlk yükleme
             }
 
+            // ===== İngilizce Başlık Sayacı ve Progress =====
+            function updateTitleEnProgress() {
+                const length = titleEnInput.value.length;
+                const percentage = Math.min((length / 100) * 100, 100);
+
+                titleEnCounter.textContent = `${length}/100`;
+                titleEnProgress.style.width = `${percentage}%`;
+
+                // Renk sistemi
+                titleEnCounter.className = 'edit-counter-number';
+                if (length < 30) {
+                    titleEnProgress.className = 'edit-progress-bar danger';
+                    titleEnCounter.classList.add('danger');
+                } else if (length >= 30 && length < 50) {
+                    titleEnProgress.className = 'edit-progress-bar warning';
+                    titleEnCounter.classList.add('warning');
+                } else if (length >= 50 && length <= 60) {
+                    titleEnProgress.className = 'edit-progress-bar success';
+                    titleEnCounter.classList.add('success');
+                } else if (length <= 100) {
+                    titleEnProgress.className = 'edit-progress-bar info';
+                    titleEnCounter.classList.add('info');
+                } else {
+                    titleEnProgress.className = 'edit-progress-bar danger';
+                    titleEnCounter.classList.add('danger');
+                }
+            }
+
+            if (titleEnInput) {
+                titleEnInput.addEventListener('input', updateTitleEnProgress);
+                updateTitleEnProgress(); // İlk yükleme
+            }
+
             // ===== Meta Açıklama Sayacı =====
             const metaInput = document.getElementById('metaInput');
             const metaCounter = document.getElementById('metaCounter');
             const metaProgress = document.getElementById('metaProgress');
             const seoDescription = document.getElementById('seoDescription');
+
+            const metaEnInput = document.getElementById('metaEnInput');
+            const metaEnCounter = document.getElementById('metaEnCounter');
+            const metaEnProgress = document.getElementById('metaEnProgress');
 
             function updateMetaProgress() {
                 const length = metaInput.value.length;
@@ -501,16 +667,57 @@
                 updateMetaProgress(); // İlk yükleme
             }
 
+            // ===== İngilizce Meta Açıklama Sayacı =====
+            function updateMetaEnProgress() {
+                const length = metaEnInput.value.length;
+                const percentage = Math.min((length / 160) * 100, 100);
+
+                metaEnCounter.textContent = `${length}/160`;
+                metaEnProgress.style.width = `${percentage}%`;
+
+                // Renk sistemi
+                metaEnCounter.className = 'edit-counter-number';
+                if (length <= 120) {
+                    metaEnProgress.className = 'edit-progress-bar success';
+                    metaEnCounter.classList.add('success');
+                } else if (length <= 155) {
+                    metaEnProgress.className = 'edit-progress-bar info';
+                    metaEnCounter.classList.add('info');
+                } else if (length <= 160) {
+                    metaEnProgress.className = 'edit-progress-bar warning';
+                    metaEnCounter.classList.add('warning');
+                } else {
+                    metaEnProgress.className = 'edit-progress-bar danger';
+                    metaEnCounter.classList.add('danger');
+                }
+            }
+
+            if (metaEnInput) {
+                metaEnInput.addEventListener('input', updateMetaEnProgress);
+                updateMetaEnProgress(); // İlk yükleme
+            }
+
             // ===== Tag Sistemi =====
             const tagContainer = document.getElementById('tagContainer');
             const tagInput = document.getElementById('tagInput');
             const tagsHidden = document.getElementById('tagsHidden');
             let tags = [];
 
+            const tagEnContainer = document.getElementById('tagEnContainer');
+            const tagEnInput = document.getElementById('tagEnInput');
+            const tagsEnHidden = document.getElementById('tagsEnHidden');
+            let tagsEn = [];
+
             // Mevcut etiketleri yükle
             if (tagsHidden && tagsHidden.value) {
                 tags = tagsHidden.value.split(',').filter(tag => tag.trim());
                 renderTags();
+            }
+
+            // Mevcut İngilizce etiketleri yükle
+            if (tagsEnHidden && tagsEnHidden.value) {
+                tagsEn = tagsEnHidden.value.split(',').filter(tag => tag.trim());
+                renderTagsEn();
             }
 
             function renderTags() {
@@ -576,6 +783,74 @@
                     if (removeBtn) {
                         const index = parseInt(removeBtn.dataset.index);
                         removeTag(index);
+                    }
+                });
+            }
+
+            // ===== İngilizce Tag Sistemi =====
+            function renderTagsEn() {
+                // Mevcut tag'leri temizle
+                const existingTags = tagEnContainer.querySelectorAll('.edit-tag-item');
+                existingTags.forEach(tag => tag.remove());
+
+                // Yeni tag'leri ekle
+                tagsEn.forEach((tag, index) => {
+                    const tagElement = document.createElement('div');
+                    tagElement.className = 'edit-tag-item edit-fade-in';
+                    tagElement.innerHTML = `
+                        <span>${tag}</span>
+                        <span class="edit-tag-remove" data-index="${index}">
+                            <i class="fas fa-times"></i>
+                        </span>
+                    `;
+                    tagEnContainer.insertBefore(tagElement, tagEnInput);
+                });
+
+                // Hidden input güncelle
+                if (tagsEnHidden) {
+                    tagsEnHidden.value = tagsEn.join(',');
+                }
+            }
+
+            function addTagEn(tagText) {
+                const tag = tagText.trim().toLowerCase();
+                if (tag && !tagsEn.includes(tag) && tagsEn.length < 10) {
+                    tagsEn.push(tag);
+                    renderTagsEn();
+                    if (tagEnInput) {
+                        tagEnInput.value = '';
+                    }
+                }
+            }
+
+            function removeTagEn(index) {
+                tagsEn.splice(index, 1);
+                renderTagsEn();
+            }
+
+            if (tagEnInput) {
+                tagEnInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ',') {
+                        e.preventDefault();
+                        addTagEn(this.value);
+                    } else if (e.key === 'Backspace' && !this.value && tagsEn.length > 0) {
+                        removeTagEn(tagsEn.length - 1);
+                    }
+                });
+
+                tagEnInput.addEventListener('blur', function() {
+                    if (this.value.trim()) {
+                        addTagEn(this.value);
+                    }
+                });
+            }
+
+            if (tagEnContainer) {
+                tagEnContainer.addEventListener('click', function(e) {
+                    const removeBtn = e.target.closest('.edit-tag-remove');
+                    if (removeBtn) {
+                        const index = parseInt(removeBtn.dataset.index);
+                        removeTagEn(index);
                     }
                 });
             }
@@ -838,8 +1113,11 @@
 
             // Change detection
             if (titleInput) titleInput.addEventListener('input', markAsChanged);
+            if (titleEnInput) titleEnInput.addEventListener('input', markAsChanged);
             if (metaInput) metaInput.addEventListener('input', markAsChanged);
+            if (metaEnInput) metaEnInput.addEventListener('input', markAsChanged);
             if (tagInput) tagInput.addEventListener('input', markAsChanged);
+            if (tagEnInput) tagEnInput.addEventListener('input', markAsChanged);
             if (publishSwitch) publishSwitch.addEventListener('change', markAsChanged);
 
             // ===== Toast Bildirimlerini Otomatik Gizle =====

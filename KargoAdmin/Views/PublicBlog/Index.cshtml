@@ -1,7 +1,10 @@
 ﻿@model IEnumerable<Blog>
 @using System.Text.RegularExpressions
+@using KargoAdmin.Services
+@using KargoAdmin.Helpers
+@inject ILanguageService LanguageService
 @{
-    ViewData["Title"] = "Blog/Haber";
+    ViewData["Title"] = LanguageService.GetCurrentLanguage() == "en" ? "Blog/News" : "Blog/Haber";
     Layout = "_PublicLayout";
 }
 
@@ -9,10 +12,11 @@
 <section class="blog-header-section">
     <div class="container blog-header-container">
         <!-- Blog Başlık -->
-        <h1 class="blog-main-title">Blog/Haber</h1>
+        <h1 class="blog-main-title">@(LanguageService.GetCurrentLanguage() == "en" ? "Blog/News" : "Blog/Haber")</h1>
         <p class="blog-subtitle">
-            Lojistik dünyasındaki en güncel trendler, sektörel analizler ve
-            uzman görüşleriyle işinizi ileriye taşıyacak içerikler burada
+            @(LanguageService.GetCurrentLanguage() == "en" 
+                ? "Stay ahead with the latest trends in logistics, industry analysis and expert insights that will advance your business" 
+                : "Lojistik dünyasındaki en güncel trendler, sektörel analizler ve uzman görüşleriyle işinizi ileriye taşıyacak içerikler burada")
         </p>
 
         <!-- Kategori Tabları - Scroll İpuçları ile -->
@@ -21,7 +25,7 @@
                 <!-- Global Tab -->
                 <a href="@Url.Action("Index", "PublicBlog")"
                    class="category-tab @(ViewBag.CurrentTag == null ? "active" : "")">
-                    Global
+                    @(LanguageService.GetCurrentLanguage() == "en" ? "Global" : "Global")
                 </a>
 
                 <!-- Dinamik Tag'ler -->
@@ -50,8 +54,8 @@
     <div class="blog-header-search">
         <form action="@Url.Action("Search", "PublicBlog")" method="get" class="compact-search-form">
             <div class="search-wrapper">
-                <input type="text" name="query" value="@ViewBag.SearchQuery"
-                       placeholder="Blog ara..." class="compact-search-input">
+                            <input type="text" name="query" value="@ViewBag.SearchQuery"
+                   placeholder="@(LanguageService.GetCurrentLanguage() == "en" ? "Search blog..." : "Blog ara...")" class="compact-search-input">
                 <button type="submit" class="compact-search-btn">
                     <i class="fas fa-search"></i>
                 </button>
@@ -101,10 +105,10 @@
                         <div class="empty-icon">
                             <i class="fas fa-newspaper"></i>
                         </div>
-                        <h3>Henüz İçerik Bulunmuyor</h3>
-                        <p>Bu kategoride henüz blog yazısı bulunmamaktadır.</p>
+                        <h3>@(LanguageService.GetCurrentLanguage() == "en" ? "No Content Found" : "Henüz İçerik Bulunmuyor")</h3>
+                        <p>@(LanguageService.GetCurrentLanguage() == "en" ? "No blog posts found in this category yet." : "Bu kategoride henüz blog yazısı bulunmamaktadır.")</p>
                         <a href="@Url.Action("Index", "PublicBlog")" class="btn-primary-outline">
-                            Tüm Yazılara Dön
+                            @(LanguageService.GetCurrentLanguage() == "en" ? "Back to All Posts" : "Tüm Yazılara Dön")
                         </a>
                     </div>
                 }
@@ -131,10 +135,10 @@
                                         </div>
 
                                         <!-- Category Badge -->
-                                        @if (!string.IsNullOrEmpty(blog.Tags))
+                                        @if (!string.IsNullOrEmpty(blog.GetLocalizedTags(LanguageService)))
                                         {
                                             <span class="category-badge-modern">
-                                                @blog.Tags.Split(',').FirstOrDefault()?.Trim()
+                                                @blog.GetLocalizedTags(LanguageService).Split(',').FirstOrDefault()?.Trim()
                                             </span>
                                         }
 
@@ -153,29 +157,31 @@
                                         <div class="meta-group">
                                             <span class="meta-item">
                                                 <i class="far fa-eye"></i>
-                                                @blog.ViewCount görüntülenme
+                                                @blog.ViewCount @(LanguageService.GetCurrentLanguage() == "en" ? "views" : "görüntülenme")
                                             </span>
                                             <span class="meta-divider">•</span>
                                             <span class="meta-item">
                                                 @{
-                                                    var readingTime = (blog.Content.Length / 200) + 1;
+                                                    var contentLength = blog.GetLocalizedContent(LanguageService).Length;
+                                                    var readingTime = (contentLength / 200) + 1;
                                                 }
                                                 <i class="far fa-clock"></i>
-                                                @readingTime dk okuma
+                                                @readingTime @(LanguageService.GetCurrentLanguage() == "en" ? "min read" : "dk okuma")
                                             </span>
                                         </div>
                                     </div>
 
                                     <!-- Blog Title -->
                                     <h2 class="blog-title-modern">
-                                        <a href="@Url.Action("Details", "PublicBlog", new { id = blog.Id, slug = blog.Slug })">
-                                            @blog.Title
+                                        <a href="@Url.Action("Details", "PublicBlog", new { id = blog.Id, slug = blog.GetLocalizedSlug(LanguageService) })">
+                                            @blog.GetLocalizedTitle(LanguageService)
                                         </a>
                                     </h2>
 
                                     <!-- Blog Excerpt -->
                                     @{
-                                        var plainText = Regex.Replace(blog.Content, "<.*?>", "");
+                                        var localizedContent = blog.GetLocalizedContent(LanguageService);
+                                        var plainText = Regex.Replace(localizedContent, "<.*?>", "");
                                         var excerpt = plainText.Length > 140 ? plainText.Substring(0, 140) + "..." : plainText;
                                     }
                                     <p class="blog-excerpt-modern">@excerpt</p>

@@ -43,11 +43,11 @@
                 <div class="create-form-row">
                     <!-- Sol Kolon - Ana İçerik -->
                     <div class="create-main-content">
-                        <!-- Blog Başlığı -->
+                        <!-- Blog Başlığı - Türkçe -->
                         <div class="create-form-group">
                             <label asp-for="Title" class="create-form-label">
                                 <i class="fas fa-heading"></i>
-                                Blog Başlığı
+                                Blog Başlığı (Türkçe)
                             </label>
                             <input asp-for="Title"
                                    class="create-form-control"
@@ -69,11 +69,35 @@
                             </div>
                         </div>
 
+                        <!-- Blog Başlığı - İngilizce -->
+                        <div class="create-form-group">
+                            <label asp-for="TitleEn" class="create-form-label">
+                                <i class="fas fa-heading"></i>
+                                Blog Başlığı (İngilizce) <span class="text-muted">(Opsiyonel)</span>
+                            </label>
+                            <input asp-for="TitleEn"
+                                   class="create-form-control"
+                                   placeholder="Write an impressive title that will attract readers..."
+                                   maxlength="100"
+                                   id="titleEnInput" />
+                            <span asp-validation-for="TitleEn" class="text-danger"></span>
+
+                            <div class="create-progress-wrapper">
+                                <div class="create-counter">
+                                    <span class="create-counter-text">SEO için ideal: 50-60 karakter • Etkileyici olsun!</span>
+                                    <span class="create-counter-number" id="titleEnCounter">0/100</span>
+                                </div>
+                                <div class="create-progress">
+                                    <div class="create-progress-bar" id="titleEnProgress"></div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Blog İçeriği -->
                         <div class="create-form-group">
                             <label asp-for="Content" class="create-form-label">
                                 <i class="fas fa-feather-alt"></i>
-                                Blog İçeriği
+                                Blog İçeriği (Türkçe)
                             </label>
                             <div class="create-editor-wrapper">
                                 <textarea asp-for="Content"
@@ -89,11 +113,30 @@
                             </small>
                         </div>
 
+                        <!-- Blog İçeriği - İngilizce -->
+                        <div class="create-form-group">
+                            <label asp-for="ContentEn" class="create-form-label">
+                                <i class="fas fa-feather-alt"></i>
+                                Blog İçeriği (İngilizce) <span class="text-muted">(Opsiyonel)</span>
+                            </label>
+                            <div class="create-editor-wrapper">
+                                <textarea asp-for="ContentEn"
+                                          id="contentEnEditor"
+                                          class="create-form-control create-textarea"
+                                          placeholder="Write your amazing content here... Tell your story!"></textarea>
+                            </div>
+                            <span asp-validation-for="ContentEn" class="text-danger"></span>
+                            <small class="create-counter-text">
+                                <i class="fas fa-magic me-1"></i>
+                                Create formatted content easily with rich text editor
+                            </small>
+                        </div>
+
                         <!-- Meta Açıklama -->
                         <div class="create-form-group">
                             <label asp-for="MetaDescription" class="create-form-label">
                                 <i class="fas fa-search-plus"></i>
-                                SEO Meta Açıklaması
+                                SEO Meta Açıklaması (Türkçe)
                             </label>
                             <textarea asp-for="MetaDescription"
                                       class="create-form-control create-textarea"
@@ -114,11 +157,36 @@
                             </div>
                         </div>
 
+                        <!-- Meta Açıklama - İngilizce -->
+                        <div class="create-form-group">
+                            <label asp-for="MetaDescriptionEn" class="create-form-label">
+                                <i class="fas fa-search-plus"></i>
+                                SEO Meta Açıklaması (İngilizce) <span class="text-muted">(Opsiyonel)</span>
+                            </label>
+                            <textarea asp-for="MetaDescriptionEn"
+                                      class="create-form-control create-textarea"
+                                      rows="3"
+                                      placeholder="Write a short and attractive description that will make your blog more visible on Google..."
+                                      maxlength="160"
+                                      id="metaEnInput"></textarea>
+                            <span asp-validation-for="MetaDescriptionEn" class="text-danger"></span>
+
+                            <div class="create-progress-wrapper">
+                                <div class="create-counter">
+                                    <span class="create-counter-text">Description that will appear in Google search results</span>
+                                    <span class="create-counter-number" id="metaEnCounter">0/160</span>
+                                </div>
+                                <div class="create-progress">
+                                    <div class="create-progress-bar" id="metaEnProgress"></div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Etiketler -->
                         <div class="create-form-group">
                             <label asp-for="Tags" class="create-form-label">
                                 <i class="fas fa-hashtag"></i>
-                                Etiketler
+                                Etiketler (Türkçe)
                             </label>
                             <div class="create-tag-container" id="tagContainer">
                                 <input type="text"
@@ -130,6 +198,25 @@
                             <small class="create-counter-text">
                                 <i class="fas fa-lightbulb me-1"></i>
                                 <strong>Popüler etiketler:</strong> teknoloji, lojistik, kargo, dijital, yazılım, AI, veri
+                            </small>
+                        </div>
+
+                        <!-- Etiketler - İngilizce -->
+                        <div class="create-form-group">
+                            <label asp-for="TagsEn" class="create-form-label">
+                                <i class="fas fa-hashtag"></i>
+                                Etiketler (İngilizce) <span class="text-muted">(Opsiyonel)</span>
+                            </label>
+                            <div class="create-tag-container" id="tagEnContainer">
+                                <input type="text"
+                                       class="create-tag-input"
+                                       id="tagEnInput"
+                                       placeholder="Write tags and press Enter..." />
+                            </div>
+                            <input type="hidden" asp-for="TagsEn" id="tagsEnHidden" />
+                            <small class="create-counter-text">
+                                <i class="fas fa-lightbulb me-1"></i>
+                                <strong>Popular tags:</strong> technology, logistics, cargo, digital, software, AI, data
                             </small>
                         </div>
                     </div>
@@ -341,6 +428,9 @@
 
             // ===== CKEditor Başlatma =====
             let editor;
+            let editorEn;
+            
+            // Türkçe CKEditor
             ClassicEditor
                 .create(document.querySelector('#contentEditor'), {
                     toolbar: {
@@ -373,10 +463,49 @@
                         writer.setStyle('min-height', '450px', editingView.document.getRoot());
                     });
 
-                    console.log('✅ CKEditor başarıyla yüklendi');
+                    console.log('✅ Türkçe CKEditor başarıyla yüklendi');
                 })
                 .catch(error => {
-                    console.error('❌ CKEditor Error:', error);
+                    console.error('❌ Türkçe CKEditor Error:', error);
+                });
+
+            // İngilizce CKEditor
+            ClassicEditor
+                .create(document.querySelector('#contentEnEditor'), {
+                    toolbar: {
+                        items: [
+                            'heading', '|',
+                            'bold', 'italic', 'strikethrough', 'underline', 'link', '|',
+                            'bulletedList', 'numberedList', '|',
+                            'outdent', 'indent', '|',
+                            'blockQuote', 'insertTable', 'horizontalLine', '|',
+                            'undo', 'redo'
+                        ]
+                    },
+                    language: 'en',
+                    placeholder: 'Write your amazing content here... Tell your story!',
+                    heading: {
+                        options: [
+                            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                            { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                            { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                            { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' }
+                        ]
+                    }
+                })
+                .then(newEditor => {
+                    editorEn = newEditor;
+
+                    // Editor yüksekliği ayarla
+                    const editingView = editorEn.editing.view;
+                    editingView.change(writer => {
+                        writer.setStyle('min-height', '450px', editingView.document.getRoot());
+                    });
+
+                    console.log('✅ İngilizce CKEditor başarıyla yüklendi');
+                })
+                .catch(error => {
+                    console.error('❌ İngilizce CKEditor Error:', error);
                 });
 
             // ===== Değişken Tanımlamaları =====
@@ -385,14 +514,26 @@
             const titleProgress = document.getElementById('titleProgress');
             const seoTitle = document.getElementById('seoTitle');
 
+            const titleEnInput = document.getElementById('titleEnInput');
+            const titleEnCounter = document.getElementById('titleEnCounter');
+            const titleEnProgress = document.getElementById('titleEnProgress');
+
             const metaInput = document.getElementById('metaInput');
             const metaCounter = document.getElementById('metaCounter');
             const metaProgress = document.getElementById('metaProgress');
             const seoDescription = document.getElementById('seoDescription');
 
+            const metaEnInput = document.getElementById('metaEnInput');
+            const metaEnCounter = document.getElementById('metaEnCounter');
+            const metaEnProgress = document.getElementById('metaEnProgress');
+
             const tagContainer = document.getElementById('tagContainer');
             const tagInput = document.getElementById('tagInput');
             const tagsHidden = document.getElementById('tagsHidden');
+
+            const tagEnContainer = document.getElementById('tagEnContainer');
+            const tagEnInput = document.getElementById('tagEnInput');
+            const tagsEnHidden = document.getElementById('tagsEnHidden');
 
             const publishSwitch = document.getElementById('publishSwitch');
             const statusIndicator = document.getElementById('statusIndicator');
@@ -410,6 +551,7 @@
             const saveAsDraftBtn = document.getElementById('saveAsDraftBtn');
 
             let tags = [];
+            let tagsEn = [];
             let hasChanges = false;
 
             // ===== Başlık Sayacı ve Progress =====
@@ -450,6 +592,41 @@
                 updateTitleProgress(); // İlk yükleme
             }
 
+            // ===== İngilizce Başlık Sayacı ve Progress =====
+            function updateTitleEnProgress() {
+                const length = titleEnInput.value.length;
+                const percentage = Math.min((length / 100) * 100, 100);
+
+                titleEnCounter.textContent = `${length}/100`;
+                titleEnProgress.style.width = `${percentage}%`;
+
+                // Renk sistemi ve sınıflar
+                titleEnCounter.className = 'create-counter-number';
+                if (length < 20) {
+                    titleEnProgress.className = 'create-progress-bar danger';
+                    titleEnCounter.classList.add('create-text-danger');
+                } else if (length >= 20 && length < 40) {
+                    titleEnProgress.className = 'create-progress-bar warning';
+                    titleEnCounter.classList.add('create-text-warning');
+                } else if (length >= 40 && length <= 60) {
+                    titleEnProgress.className = 'create-progress-bar excellent';
+                    titleEnCounter.classList.add('create-text-excellent');
+                } else if (length <= 100) {
+                    titleEnProgress.className = 'create-progress-bar good';
+                    titleEnCounter.classList.add('create-text-good');
+                } else {
+                    titleEnProgress.className = 'create-progress-bar danger';
+                    titleEnCounter.classList.add('create-text-danger');
+                }
+
+                markAsChanged();
+            }
+
+            if (titleEnInput) {
+                titleEnInput.addEventListener('input', updateTitleEnProgress);
+                updateTitleEnProgress(); // İlk yükleme
+            }
+
             // ===== Meta Açıklama Sayacı =====
             function updateMetaProgress() {
                 const length = metaInput.value.length;
@@ -483,6 +660,38 @@
             if (metaInput) {
                 metaInput.addEventListener('input', updateMetaProgress);
                 updateMetaProgress(); // İlk yükleme
+            }
+
+            // ===== İngilizce Meta Açıklama Sayacı =====
+            function updateMetaEnProgress() {
+                const length = metaEnInput.value.length;
+                const percentage = Math.min((length / 160) * 100, 100);
+
+                metaEnCounter.textContent = `${length}/160`;
+                metaEnProgress.style.width = `${percentage}%`;
+
+                // Renk sistemi
+                metaEnCounter.className = 'create-counter-number';
+                if (length <= 100) {
+                    metaEnProgress.className = 'create-progress-bar excellent';
+                    metaEnCounter.classList.add('create-text-excellent');
+                } else if (length <= 140) {
+                    metaEnProgress.className = 'create-progress-bar good';
+                    metaEnCounter.classList.add('create-text-good');
+                } else if (length <= 160) {
+                    metaEnProgress.className = 'create-progress-bar warning';
+                    metaEnCounter.classList.add('create-text-warning');
+                } else {
+                    metaEnProgress.className = 'create-progress-bar danger';
+                    metaEnProgress.classList.add('create-text-danger');
+                }
+
+                markAsChanged();
+            }
+
+            if (metaEnInput) {
+                metaEnInput.addEventListener('input', updateMetaEnProgress);
+                updateMetaEnProgress(); // İlk yükleme
             }
 
             // ===== Tag Sistemi =====
@@ -557,6 +766,82 @@
                     if (removeBtn) {
                         const index = parseInt(removeBtn.dataset.index);
                         removeTag(index);
+                    }
+                });
+            }
+
+            // ===== İngilizce Tag Sistemi =====
+            function renderTagsEn() {
+                // Mevcut tag'leri temizle
+                const existingTags = tagEnContainer.querySelectorAll('.create-tag-item');
+                existingTags.forEach(tag => tag.remove());
+
+                // Yeni tag'leri ekle
+                tagsEn.forEach((tag, index) => {
+                    const tagElement = document.createElement('div');
+                    tagElement.className = 'create-tag-item create-fade-in';
+                    tagElement.innerHTML = `
+                        <span>${tag}</span>
+                        <span class="create-tag-remove" data-index="${index}">
+                            <i class="fas fa-times"></i>
+                        </span>
+                    `;
+                    tagEnContainer.insertBefore(tagElement, tagEnInput);
+                });
+
+                // Hidden input güncelle
+                if (tagsEnHidden) {
+                    tagsEnHidden.value = tagsEn.join(',');
+                }
+
+                markAsChanged();
+            }
+
+            function addTagEn(tagText) {
+                const tag = tagText.trim().toLowerCase();
+                if (tag && !tagsEn.includes(tag) && tagsEn.length < 10) {
+                    tagsEn.push(tag);
+                    renderTagsEn();
+                    if (tagEnInput) {
+                        tagEnInput.value = '';
+                    }
+
+                    // Success effect
+                    tagEnContainer.classList.add('create-success-glow');
+                    setTimeout(() => {
+                        tagEnContainer.classList.remove('create-success-glow');
+                    }, 1000);
+                }
+            }
+
+            function removeTagEn(index) {
+                tagsEn.splice(index, 1);
+                renderTagsEn();
+            }
+
+            if (tagEnInput) {
+                tagEnInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ',') {
+                        e.preventDefault();
+                        addTagEn(this.value);
+                    } else if (e.key === 'Backspace' && !this.value && tagsEn.length > 0) {
+                        removeTagEn(tagsEn.length - 1);
+                    }
+                });
+
+                tagEnInput.addEventListener('blur', function() {
+                    if (this.value.trim()) {
+                        addTagEn(this.value);
+                    }
+                });
+            }
+
+            if (tagEnContainer) {
+                tagEnContainer.addEventListener('click', function(e) {
+                    const removeBtn = e.target.closest('.create-tag-remove');
+                    if (removeBtn) {
+                        const index = parseInt(removeBtn.dataset.index);
+                        removeTagEn(index);
                     }
                 });
             }

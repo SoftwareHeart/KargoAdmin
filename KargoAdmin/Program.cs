@@ -1,5 +1,6 @@
 using KargoAdmin.Data;
 using KargoAdmin.Models;
+using KargoAdmin.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +23,11 @@ builder.Services.AddAuthorization(options =>
     // Sadece Admin rolündeki kullanıcılar Register sayfasına erişebilir
     options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
 });
+
+// Dil servisi ve session ekleyin
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSession();
+builder.Services.AddScoped<ILanguageService, LanguageService>();
 var app = builder.Build();
 
 
@@ -55,6 +61,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseSession();
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -110,6 +118,12 @@ app.MapControllerRoute(
     name: "adminBlog",
     pattern: "admin/blog/{action=Index}/{id?}",
     defaults: new { controller = "Blog", action = "Index" });
+
+// Dil değiştirme route'u
+app.MapControllerRoute(
+    name: "language",
+    pattern: "Language/{action=ChangeLanguage}/{id?}",
+    defaults: new { controller = "Language" });
 // Service detail pages routes
 app.MapControllerRoute(
     name: "landTransport",

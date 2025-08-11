@@ -1,7 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using KargoAdmin.Models
+@using KargoAdmin.Services
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject ILanguageService LanguageService
 
 <!DOCTYPE html>
 <html lang="tr">
@@ -26,6 +28,7 @@
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
+    @Html.AntiForgeryToken()
     <header>
         <nav class="modern-navbar" id="modernNavbar">
             <div class="navbar-container">
@@ -85,8 +88,8 @@
 
                     <!-- Language Flags -->
                     <div class="language-flags">
-                        <img src="~/img/EngIcon.png" alt="English" class="flag-icon" onclick="changeLanguage('en')" />
-                        <img src="~/img/TrIcon.png" alt="Türkçe" class="flag-icon active" onclick="changeLanguage('tr')" />
+                        <img src="~/img/EngIcon.png" alt="English" class="flag-icon @(LanguageService.GetCurrentLanguage() == "en" ? "active" : "")" onclick="changeLanguage('en')" />
+                        <img src="~/img/TrIcon.png" alt="Türkçe" class="flag-icon @(LanguageService.GetCurrentLanguage() == "tr" ? "active" : "")" onclick="changeLanguage('tr')" />
                     </div>
                 </div>
 
@@ -399,17 +402,23 @@
 
         // Language change function
         function changeLanguage(lang) {
-            const flags = document.querySelectorAll('.flag-icon');
-            flags.forEach(flag => flag.classList.remove('active'));
-
-            if (lang === 'tr') {
-                document.querySelector('img[alt="Türkçe"]').classList.add('active');
-            } else {
-                document.querySelector('img[alt="English"]').classList.add('active');
-            }
-
-            // Burada dil değiştirme işlemi yapılabilir
-            console.log('Language changed to:', lang);
+            // AJAX ile dil değiştirme
+            fetch('/Language/ChangeLanguage', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                },
+                body: 'language=' + lang + '&returnUrl=' + encodeURIComponent(window.location.pathname + window.location.search)
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.reload();
+                }
+            })
+            .catch(error => {
+                console.error('Dil değiştirme hatası:', error);
+            });
         }
 
         // Search function

@@ -12,6 +12,10 @@ namespace KargoAdmin.Models
         [Required]
         public string Content { get; set; }
 
+        // İngilizce alanlar
+        public string? TitleEn { get; set; }
+        public string? ContentEn { get; set; }
+
         public string? ImageUrl { get; set; }
 
         public DateTime PublishDate { get; set; }
@@ -30,8 +34,15 @@ namespace KargoAdmin.Models
         [StringLength(160)]
         public string? MetaDescription { get; set; }
 
+        // İngilizce meta açıklaması
+        [StringLength(160)]
+        public string? MetaDescriptionEn { get; set; }
+
         // Etiketler (virgülle ayrılmış)
         public string? Tags { get; set; }
+
+        // İngilizce etiketler
+        public string? TagsEn { get; set; }
 
         // Görüntülenme sayısı
         public int ViewCount { get; set; } = 0;
@@ -39,7 +50,13 @@ namespace KargoAdmin.Models
         // SEO dostu URL için slug
         public string? Slug { get; set; }
 
+        // İngilizce slug
+        public string? SlugEn { get; set; }
+
         [StringLength(20)]
         public string Type { get; set; } = "Haber";
+
+        // Dil durumu
+        public bool HasEnglishContent => !string.IsNullOrEmpty(TitleEn) && !string.IsNullOrEmpty(ContentEn);
     }
 }
