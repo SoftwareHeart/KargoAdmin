@@ -231,6 +231,9 @@
     z-index: 10;
     transform: translateY(-50px);
     transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+    width: 100%;
+    justify-content: end;
 }
 
 .services-title.animate-in {
@@ -410,10 +413,10 @@
         width: 450px;
         height: 450px;
     }
-
     .vehicle-image {
-        width: 220px;
+        width: 450px;
     }
+
 
     .services-title h2 {
         font-size: 3rem;
@@ -426,17 +429,40 @@
     }
 
     .services-container {
-        flex-direction: column;
-        height: auto;
-        min-height: 100vh;
+        flex-direction: column-reverse;
+        height: 100%;
+        min-height: 100%;
+    }
+    .vehicle-image {
+        width: 420px;
     }
 
-    .services-left,
+
+    .services-left {
+        flex: none;
+        height: 50vh;
+    }
+
     .services-right {
         flex: none;
         height: 50vh;
     }
 
+        .services-title {
+            top: 10%;
+        }
+    .container-content.animation-ready{
+        height: 100%;
+        position: absolute;
+        top: 60%;
+    }
+        .container-content.animation-ready:nth-child(4) {
+            height: 100%;
+            position: absolute;
+            top: 60%;
+            left: 2000px;
+            right: 0;
+        }
     .world-services-container {
         position: relative;
         top: auto;
@@ -456,32 +482,63 @@
     .containers-wrapper {
         justify-content: center;
     }
+
 }
 
 @media (max-width: 768px) {
-    .world-services-image {
-        width: 300px;
-        height: 300px;
-    }
+
 
     .services-section {
         min-height: 100vh;
     }
 
-    .vehicle-image {
-        width: 180px;
-    }
+
 
     .services-title h2 {
         font-size: 2.5rem;
     }
+ 
+    .services-left {
+        flex: none;
 
-    .service-container {
-        width: 160px;
-        height: 220px;
+    }
+    .services-right {
+        flex: none;
+        height: 50vh;
+        top: 10%;
+    }
+}
+@media (max-width: 568px) {
+    .container-content h3 {
+        font-size: 1rem
+    }
+    .container-image {
+        width: 100px;
+    }
+    .container-content p {
+        font-size: 1rem;
     }
 
     .container-number {
-        font-size: 2rem;
+        font-size: 1rem;
+    }
+    .vehicle-image {
+        width: 300px;
+    }
+    .service-container:nth-child(1) {
+        top: 30%;
+    }
+
+    .service-container:nth-child(2) {
+        top: 30%;
+    }
+
+    .service-container:nth-child(3) {
+        top: 30%;
+    }
+
+    .service-container:nth-child(4) {
+        top: 30%;
     }
 }
+

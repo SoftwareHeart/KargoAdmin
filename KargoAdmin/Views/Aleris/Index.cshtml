@@ -9,8 +9,8 @@
 <section class="hero-section">
     <!-- Video Background Container -->
     <div class="hero-animation-container">
-        <!-- Ana video - loop yok, bir kez oynayacak -->
-        <video id="heroVideo1" autoplay muted playsinline class="hero-background-video hero-video-1">
+        <!-- Ana video - sürekli döngüde oynayacak -->
+        <video id="heroVideo1" autoplay muted loop playsinline class="hero-background-video hero-video-1">
             <source src="~/videos/BannerVideo.mp4" type="video/mp4">
         </video>
         <!-- Fallback image - sadece video yüklenemezse göster -->
@@ -679,16 +679,15 @@
     <script src="~/js/services-animation.js"></script>
     <script src="~/js/sector-leader.js"></script>
     <script>
-        // Video slow-down at end and stop
+        // Video loop handling
         document.addEventListener('DOMContentLoaded', function() {
             const video = document.getElementById('heroVideo1');
             const fallbackImage = document.querySelector('.hero-fallback-image');
-            let slowdownStarted = false;
 
             if (video) {
                 // Video yüklendiğinde
                 video.addEventListener('loadeddata', function() {
-                    console.log('Video loaded successfully');
+                    console.log('Video loaded successfully and will loop');
                     fallbackImage.style.display = 'none';
                 });
 
@@ -698,26 +697,9 @@
                     fallbackImage.style.display = 'block';
                 });
 
-                // Video timing kontrolü - son saniyede yavaşlat
-                video.addEventListener('timeupdate', function() {
-                    const duration = this.duration;
-                    const currentTime = this.currentTime;
-                    const remaining = duration - currentTime;
-
-                    // Son 1 saniyede yavaşlatmaya başla
-                    if (remaining <= 1.0 && remaining > 0 && !slowdownStarted) {
-                        slowdownStarted = true;
-                        console.log('Starting slowdown effect');
-
-                        // Yavaşça playback rate'i düşür
-                        this.playbackRate = 0.8; // %80 hız
-                    }
-                });
-
-                // Video bittiğinde - durdurmak için hiçbir şey yapma
-                video.addEventListener('ended', function() {
-                    console.log('Video ended and stopped');
-                    // Video durdu, tekrar başlamayacak
+                // Video döngüye girdiğinde (her tekrar başladığında)
+                video.addEventListener('seeked', function() {
+                    console.log('Video loop restarted');
                 });
 
                 // Manuel oynatma denemesi
