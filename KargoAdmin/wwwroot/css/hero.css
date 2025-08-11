@@ -7,9 +7,11 @@
     display: flex !important;
     align-items: center !important;
     position: relative !important;
-    background: none !important; /* Arka plan animasyon için temizlendi */
+    background: none !important;
+    /* Arka plan animasyon için temizlendi */
     overflow: hidden !important;
-    padding-top: 100px !important; /* Navbar için alan */
+    padding-top: 100px !important;
+    /* Navbar için alan */
     margin-top: 0 !important;
 }
 
@@ -30,12 +32,12 @@
     text-transform: none !important;
 }
 
-    .hero-title span {
-        display: block !important;
-        font-size: 4rem !important;
-        color: #ff6a00 !important;
-        font-weight: 900 !important;
-    }
+.hero-title span {
+    display: block !important;
+    font-size: 4rem !important;
+    color: #ff6a00 !important;
+    font-weight: 900 !important;
+}
 
 .hero-subtitle {
     font-size: 1.8rem !important;
@@ -70,20 +72,20 @@
     height: auto !important;
 }
 
-    .linkedin-floating:hover {
-        transform: scale(1.1) !important;
-    }
+.linkedin-floating:hover {
+    transform: scale(1.1) !important;
+}
 
-    .linkedin-floating img {
-        max-width: 100% !important;
-        max-height: 100% !important;
-        object-fit: contain !important;
-        transition: all 0.3s ease !important;
-    }
+.linkedin-floating img {
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    transition: all 0.3s ease !important;
+}
 
-    .linkedin-floating:hover img {
-        transform: scale(1.05) !important;
-    }
+.linkedin-floating:hover img {
+    transform: scale(1.05) !important;
+}
 
 /* Hero Banner Scroll Icon - Alt ortada */
 .hero-banner-scroll {
@@ -105,24 +107,29 @@
     height: auto !important;
 }
 
-    .hero-banner-scroll:hover {
-        transform: translateX(-50%) scale(1.1) !important;
-    }
+.hero-banner-scroll:hover {
+    transform: translateX(-50%) scale(1.1) !important;
+}
 
-    .hero-banner-scroll img {
-        max-width: 100% !important;
-        max-height: 100% !important;
-        object-fit: contain !important;
-        transition: all 0.3s ease !important;
-    }
+.hero-banner-scroll img {
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    transition: all 0.3s ease !important;
+}
 
-    .hero-banner-scroll:hover img {
-        transform: scale(1.05) !important;
-    }
+.hero-banner-scroll:hover img {
+    transform: scale(1.05) !important;
+}
 
 /* Animasyonlar */
 @keyframes bounceUpDown {
-    0%, 20%, 50%, 80%, 100% {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
         transform: translateX(-50%) translateY(0);
     }
 
@@ -151,13 +158,13 @@
     color: white !important;
 }
 
-    .hero-section .btn-secondary:hover {
-        background-color: #e36000 !important;
-        border-color: #e36000 !important;
-        color: white !important;
-        transform: translateY(-3px) !important;
-        box-shadow: 0 8px 25px rgba(255, 106, 0, 0.3) !important;
-    }
+.hero-section .btn-secondary:hover {
+    background-color: #e36000 !important;
+    border-color: #e36000 !important;
+    color: white !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 8px 25px rgba(255, 106, 0, 0.3) !important;
+}
 
 .hero-section .btn-outline-light {
     border: 2px solid white !important;
@@ -165,12 +172,12 @@
     background: transparent !important;
 }
 
-    .hero-section .btn-outline-light:hover {
-        background: white !important;
-        color: #005cb9 !important;
-        transform: translateY(-3px) !important;
-        box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2) !important;
-    }
+.hero-section .btn-outline-light:hover {
+    background: white !important;
+    color: #005cb9 !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2) !important;
+}
 
 /* Animation background için hazırlık */
 .hero-animation-container {
@@ -195,6 +202,17 @@
     transform: translate(-50%, -50%) !important;
     z-index: 0 !important;
     object-fit: cover !important;
+    pointer-events: none !important;
+}
+
+/* Smooth crossfade for background videos */
+.hero-background-video {
+    transition: opacity 400ms ease !important;
+    opacity: 0 !important;
+}
+
+.hero-background-video.is-active {
+    opacity: 1 !important;
 }
 
 /* Video fallback image - sadece video yüklenemezse göster */
@@ -238,9 +256,9 @@
         font-size: 3rem !important;
     }
 
-        .hero-title span {
-            font-size: 3rem !important;
-        }
+    .hero-title span {
+        font-size: 3rem !important;
+    }
 
     .hero-subtitle {
         font-size: 1.5rem !important;
@@ -260,6 +278,110 @@
     }
 }
 
+/* Hero Services (scroll butonunun üstü) */
+.hero-services {
+    position: absolute !important;
+    left: 50% !important;
+    bottom: 100px !important;
+    /* scroll ikonunun biraz üstü */
+    transform: translateX(-50%) !important;
+    z-index: 2 !important;
+    /* overlay üstünde */
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(180px, 1fr)) !important;
+    gap: 14px !important;
+    width: min(1100px, 92vw) !important;
+}
+
+.hero-service-card {
+    display: grid !important;
+    grid-template-columns: 56px 1fr !important;
+    gap: 12px !important;
+    align-items: center !important;
+    padding: 12px 14px !important;
+    border-radius: 14px !important;
+    text-decoration: none !important;
+    background: rgba(255, 255, 255, 0.12) !important;
+    backdrop-filter: blur(8px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease !important;
+    color: #fff !important;
+}
+
+.hero-service-card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25) !important;
+    background: rgba(255, 255, 255, 0.18) !important;
+}
+
+.hero-service-icon {
+    width: 56px !important;
+    height: 56px !important;
+    border-radius: 12px !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+    display: grid !important;
+    place-items: center !important;
+}
+
+.hero-service-icon img {
+    width: 36px !important;
+    height: 36px !important;
+    object-fit: contain !important;
+}
+
+.hero-service-text h4 {
+    font-size: 1rem !important;
+    line-height: 1.2 !important;
+    margin: 0 0 4px 0 !important;
+    color: #fff !important;
+    font-weight: 700 !important;
+}
+
+.hero-service-text span {
+    font-size: 0.85rem !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+@media (max-width: 1199.98px) {
+    .hero-services {
+        grid-template-columns: repeat(4, minmax(150px, 1fr)) !important;
+        width: min(1000px, 94vw) !important;
+        gap: 12px !important;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .hero-services {
+        grid-template-columns: repeat(2, minmax(180px, 1fr)) !important;
+        bottom: 90px !important;
+        gap: 12px !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .hero-services {
+        grid-template-columns: 1fr 1fr !important;
+        width: 92vw !important;
+        gap: 10px !important;
+        bottom: 85px !important;
+    }
+
+    .hero-service-card {
+        grid-template-columns: 48px 1fr !important;
+        padding: 10px 12px !important;
+    }
+
+    .hero-service-icon {
+        width: 48px !important;
+        height: 48px !important;
+    }
+
+    .hero-service-icon img {
+        width: 30px !important;
+        height: 30px !important;
+    }
+}
+
 @media (max-width: 767.98px) {
     .hero-section {
         padding-top: 80px !important;
@@ -269,9 +391,9 @@
         font-size: 2.5rem !important;
     }
 
-        .hero-title span {
-            font-size: 2.5rem !important;
-        }
+    .hero-title span {
+        font-size: 2.5rem !important;
+    }
 
     .hero-subtitle {
         font-size: 1.3rem !important;
@@ -296,5 +418,3 @@
         bottom: 20px !important;
     }
 }
-
-

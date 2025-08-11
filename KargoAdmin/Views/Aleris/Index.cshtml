@@ -9,8 +9,12 @@
 <section class="hero-section">
     <!-- Video Background Container -->
     <div class="hero-animation-container">
-        <!-- Ana video - sürekli döngüde oynayacak -->
-        <video id="heroVideo1" autoplay muted loop playsinline class="hero-background-video hero-video-1">
+        <!-- Arka plan video 1 -->
+        <video id="heroVideo1" autoplay muted playsinline preload="auto" class="hero-background-video hero-video-1">
+            <source src="~/videos/BannerVideo.mp4" type="video/mp4">
+        </video>
+        <!-- Arka plan video 2 (çapraz geçiş için) -->
+        <video id="heroVideo2" autoplay muted playsinline preload="auto" class="hero-background-video hero-video-2">
             <source src="~/videos/BannerVideo.mp4" type="video/mp4">
         </video>
         <!-- Fallback image - sadece video yüklenemezse göster -->
@@ -32,6 +36,38 @@
         </div>
     </div>
 
+    <!-- Hero Services - Scroll butonunun üstünde 4 servis kısayolu -->
+    <nav class="hero-services" aria-label="Hero quick services">
+        <a class="hero-service-card" href="/Aleris/Servisler/KaraYolu">
+            <span class="hero-service-icon"><img src="~/img/karaTasimaciligi.png" alt="@LanguageService.GetLocalizedText("Kara Taşımacılık", "Land Transport")" /></span>
+            <span class="hero-service-text">
+                <h4>@LanguageService.GetLocalizedText("Kara Taşımacılık", "Land Transport")</h4>
+                <span>@LanguageService.GetLocalizedText("Tüm çözümler", "All solutions")</span>
+            </span>
+        </a>
+        <a class="hero-service-card" href="/Aleris/Servisler/HavaYolu">
+            <span class="hero-service-icon"><img src="~/img/havaTasimaciligi.png" alt="@LanguageService.GetLocalizedText("Hava Taşımacılık", "Air Transport")" /></span>
+            <span class="hero-service-text">
+                <h4>@LanguageService.GetLocalizedText("Hava Taşımacılık", "Air Transport")</h4>
+                <span>@LanguageService.GetLocalizedText("Hızlı ve güvenli", "Fast and secure")</span>
+            </span>
+        </a>
+        <a class="hero-service-card" href="/Aleris/Servisler/DenizYolu">
+            <span class="hero-service-icon"><img src="~/img/denizTasimaciligi.png" alt="@LanguageService.GetLocalizedText("Deniz Taşımacılık", "Sea Transport")" /></span>
+            <span class="hero-service-text">
+                <h4>@LanguageService.GetLocalizedText("Deniz Taşımacılık", "Sea Transport")</h4>
+                <span>@LanguageService.GetLocalizedText("Küresel ağ", "Global network")</span>
+            </span>
+        </a>
+        <a class="hero-service-card" href="/Aleris/Servisler/DepolamaDagitim">
+            <span class="hero-service-icon"><img src="~/img/depolamaDagitim.png" alt="@LanguageService.GetLocalizedText("Depolama ve Dağıtım", "Storage & Distribution")" /></span>
+            <span class="hero-service-text">
+                <h4>@LanguageService.GetLocalizedText("Depolama ve Dağıtım", "Storage & Distribution")</h4>
+                <span>@LanguageService.GetLocalizedText("Uçtan uca", "End-to-end")</span>
+            </span>
+        </a>
+    </nav>
+
     <!-- Hero Banner Scroll Icon - Alt ortada -->
     <div class="hero-banner-scroll" onclick="scrollToNext()">
         <img src="~/img/BannerScrollIcon.png" alt="Scroll Down" />
@@ -42,6 +78,91 @@
         <img src="~/img/LinkedinIcon.png" alt="LinkedIn" />
     </div>
 </section>
+
+<script>
+    (function () {
+        var videoA = document.getElementById('heroVideo1');
+        var videoB = document.getElementById('heroVideo2');
+        if (!videoA || !videoB) return;
+
+        var crossfadeMs = 400; // geçiş süresi
+        var switchTimer = null;
+        var active = videoA;
+        var idle = videoB;
+
+        // Güvenlik: mobilde inline ve sessiz başlat
+        [videoA, videoB].forEach(function (v) {
+            try {
+                v.muted = true;
+                v.playsInline = true;
+            } catch (e) { }
+        });
+
+        function scheduleNextSwitch() {
+            var duration = (active && !isNaN(active.duration)) ? active.duration * 1000 : 4000;
+            var wait = Math.max(500, duration - crossfadeMs);
+            clearTimeout(switchTimer);
+            switchTimer = setTimeout(crossfade, wait);
+        }
+
+        function crossfade() {
+            // Sıradaki videoyu baştan başlat ve oynat
+            try { idle.currentTime = 0; } catch (e) { }
+            var p = idle.play();
+            if (p && typeof p.catch === 'function') {
+                p.catch(function () { /* autoplay engeli yok say */ });
+            }
+
+            // Görsel geçiş
+            idle.classList.add('is-active');
+            var prev = active;
+            setTimeout(function () {
+                prev.classList.remove('is-active');
+            }, crossfadeMs);
+
+            // Roller değişsin
+            var tmp = active; active = idle; idle = tmp;
+            scheduleNextSwitch();
+        }
+
+        function startOnceReady() {
+            // İlk videoyu görünür yap ve oynat
+            active.classList.add('is-active');
+            var p = active.play();
+            if (p && typeof p.catch === 'function') {
+                p.catch(function () { /* autoplay engeli yok say */ });
+            }
+            scheduleNextSwitch();
+        }
+
+        // Her iki videonun da meta verisi yüklendiğinde başlat
+        var metaLoaded = 0;
+        function onMeta() {
+            metaLoaded += 1;
+            if (metaLoaded >= 1) { // en az birinin süresi gelsin, yeterli
+                startOnceReady();
+            }
+        }
+        videoA.addEventListener('loadedmetadata', onMeta, { once: true });
+        videoB.addEventListener('loadedmetadata', onMeta, { once: true });
+
+        // Yedek: metadata gelmezse 1 sn sonra başlat
+        setTimeout(function () {
+            if (!videoA.classList.contains('is-active')) {
+                startOnceReady();
+            }
+        }, 1000);
+
+        // Sekme görünürlüğü değişince zamanlayıcıyı yönet
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) {
+                clearTimeout(switchTimer);
+            } else {
+                scheduleNextSwitch();
+            }
+        });
+    })();
+</script>
 
 <!-- Animation Section - Yeni eklenen bölüm -->
 <section class="animation-section" id="animation-section">
