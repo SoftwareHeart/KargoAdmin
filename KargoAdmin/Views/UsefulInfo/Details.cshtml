@@ -157,9 +157,9 @@
                         <!-- Dinamik Başlık -->
                         <div class="section-header">
                             @{
-                                string sectionTitle = "İlgili Faydalı Bilgiler";
+                                string sectionTitle = LanguageService.GetCurrentLanguage() == "en" ? "Related Useful Information" : "İlgili Faydalı Bilgiler";
                                 string sectionIcon = "fas fa-lightbulb";
-                                string sectionDescription = "Bu konuyla ilgili diğer faydalı bilgiler";
+                                string sectionDescription = LanguageService.GetCurrentLanguage() == "en" ? "Other helpful information on this topic" : "Bu konuyla ilgili diğer faydalı bilgiler";
                             }
 
                             <div class="section-title-wrapper">
@@ -191,10 +191,10 @@
                                         </div>
 
                                         <!-- Category Badge -->
-                                        @if (!string.IsNullOrEmpty(relatedInfo.Tags))
+                                        @if (!string.IsNullOrEmpty(relatedInfo.GetLocalizedTags(LanguageService)))
                                         {
                                             <span class="category-badge">
-                                                @relatedInfo.Tags.Split(',').FirstOrDefault()?.Trim()
+                                                @relatedInfo.GetLocalizedTags(LanguageService).Split(',').FirstOrDefault()?.Trim()
                                             </span>
                                         }
                                     </div>
@@ -205,7 +205,7 @@
                                         <div class="post-meta">
                                             <span class="meta-item">
                                                 <i class="far fa-calendar-alt"></i>
-                                                @relatedInfo.PublishDate.ToString("dd MMM yyyy", new System.Globalization.CultureInfo("tr-TR"))
+                                                @relatedInfo.PublishDate.ToString("dd MMM yyyy", new System.Globalization.CultureInfo(LanguageService.GetCurrentLanguage() == "en" ? "en-US" : "tr-TR"))
                                             </span>
                                             <span class="meta-item">
                                                 <i class="far fa-eye"></i>
@@ -216,13 +216,14 @@
                                         <!-- Title -->
                                         <h3 class="post-title">
                                             <a href="@Url.Action("Details", "UsefulInfo", new { id = relatedInfo.Id, slug = relatedInfo.Slug })">
-                                                @relatedInfo.Title
+                                                @relatedInfo.GetLocalizedTitle(LanguageService)
                                             </a>
                                         </h3>
 
                                         <!-- Excerpt -->
                                         @{
-                                            var plainText = Regex.Replace(relatedInfo.Content ?? "", "<.*?>", string.Empty);
+                                            var localizedContent = relatedInfo.GetLocalizedContent(LanguageService) ?? "";
+                                            var plainText = Regex.Replace(localizedContent, "<.*?>", string.Empty);
                                             var excerpt = plainText.Length > 100 ? plainText.Substring(0, 100) + "..." : plainText;
                                         }
                                         <p class="post-excerpt">@excerpt</p>
@@ -231,7 +232,7 @@
                                         <div class="read-more-wrapper">
                                             <a href="@Url.Action("Details", "UsefulInfo", new { id = relatedInfo.Id, slug = relatedInfo.Slug })"
                                                class="read-more-link">
-                                                Devamını Oku
+                                                @(LanguageService.GetCurrentLanguage() == "en" ? "Read More" : "Devamını Oku")
                                                 <i class="fas fa-chevron-right"></i>
                                             </a>
                                         </div>

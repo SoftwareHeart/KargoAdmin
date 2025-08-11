@@ -197,10 +197,10 @@
                                         </div>
 
                                         <!-- Category Badge -->
-                                        @if (!string.IsNullOrEmpty(relatedBlog.Tags))
+                                        @if (!string.IsNullOrEmpty(relatedBlog.GetLocalizedTags(LanguageService)))
                                         {
                                             <span class="category-badge">
-                                                @relatedBlog.Tags.Split(',').FirstOrDefault()?.Trim()
+                                                @relatedBlog.GetLocalizedTags(LanguageService).Split(',').FirstOrDefault()?.Trim()
                                             </span>
                                         }
 

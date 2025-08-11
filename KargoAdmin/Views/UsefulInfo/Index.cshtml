@@ -4,7 +4,7 @@
 @using KargoAdmin.Helpers
 @inject ILanguageService LanguageService
 @{
-    ViewData["Title"] = LanguageService.GetCurrentLanguage() == "en" ? "Useful Information" : "Faydalı Bilgiler";
+    ViewData["Title"] = LanguageService.GetCurrentLanguage() == "en" ? "Blog/Useful Information" : "Blog/Faydalı Bilgiler";
     Layout = "_PublicLayout";
 }
 
@@ -12,7 +12,7 @@
 <section class="blog-header-section">
     <div class="container blog-header-container">
         <!-- Blog Başlık -->
-        <h1 class="blog-main-title">@(LanguageService.GetCurrentLanguage() == "en" ? "Useful Information" : "Faydalı Bilgiler")</h1>
+        <h1 class="blog-main-title">@(LanguageService.GetCurrentLanguage() == "en" ? "Blog/Useful Information" : "Blog/Faydalı Bilgiler")</h1>
         <p class="blog-subtitle">
             @(LanguageService.GetCurrentLanguage() == "en"
                 ? "Practical tips, insights and expert recommendations to make your logistics and cargo operations easier"

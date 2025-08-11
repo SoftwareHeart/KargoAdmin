@@ -1,5 +1,7 @@
-﻿@{
-    ViewData["Title"] = "İletişim";
+﻿@using KargoAdmin.Services
+@inject ILanguageService LanguageService
+@{
+    ViewData["Title"] = LanguageService.GetLocalizedText("İletişim", "Contact");
     Layout = "~/Views/Shared/_PublicLayout.cshtml";
 }
 
@@ -7,8 +9,8 @@
 
 <div class="contact-container">
     <div class="contact-header">
-        <p class="contact-breadcrumb">İletişim Bilgileri</p>
-        <h1 class="contact-title">Size yardımcı olmaktan her zaman mutluluk duyarız</h1>
+        <p class="contact-breadcrumb">@LanguageService.GetLocalizedText("İletişim Bilgileri", "Contact Information")</p>
+        <h1 class="contact-title">@LanguageService.GetLocalizedText("Size yardımcı olmaktan her zaman mutluluk duyarız", "We are always happy to help you")</h1>
     </div>
 
     <div class="contact-info-section">
@@ -18,8 +20,8 @@
                 <div class="contact-icon email-icon">
                     <img src="~/img/mail-icon.png" alt="E-posta İkonu" class="contact-icon-img">
                 </div>
-                <h3 class="contact-card-title">E-posta</h3>
-                <p class="contact-card-description">Lorem ipsum dolor sit amet</p>
+                <h3 class="contact-card-title">@LanguageService.GetLocalizedText("E-posta", "Email")</h3>
+                <p class="contact-card-description">@LanguageService.GetLocalizedText("Lorem ipsum dolor sit amet", "Lorem ipsum dolor sit amet")</p>
                 <a href="mailto:help@info.com" class="contact-link">help@info.com</a>
             </div>
 
@@ -28,8 +30,8 @@
                 <div class="contact-icon phone-icon">
                     <img src="~/img/phone-icon.png" alt="Telefon İkonu" class="contact-icon-img">
                 </div>
-                <h3 class="contact-card-title">Telefon</h3>
-                <p class="contact-card-description">Lorem ipsum dolor sit amet</p>
+                <h3 class="contact-card-title">@LanguageService.GetLocalizedText("Telefon", "Phone")</h3>
+                <p class="contact-card-description">@LanguageService.GetLocalizedText("Lorem ipsum dolor sit amet", "Lorem ipsum dolor sit amet")</p>
                 <a href="tel:+7-843-672-431" class="contact-link">+7-843-672-431</a>
             </div>
 
@@ -38,11 +40,11 @@
                 <div class="contact-icon location-icon">
                     <img src="~/img/address-icon.png" alt="Adres İkonu" class="contact-icon-img">
                 </div>
-                <h3 class="contact-card-title">Adres</h3>
-                <p class="contact-card-description">Lorem ipsum dolor sit amet</p>
+                <h3 class="contact-card-title">@LanguageService.GetLocalizedText("Adres", "Address")</h3>
+                <p class="contact-card-description">@LanguageService.GetLocalizedText("Lorem ipsum dolor sit amet", "Lorem ipsum dolor sit amet")</p>
                 <div class="contact-address">
-                    <span class="contact-link">Sokak / Mahalle / İlçe / İl Açık</span><br>
-                    <span class="contact-link">Adres Metni</span>
+                    <span class="contact-link">@LanguageService.GetLocalizedText("Sokak / Mahalle / İlçe / İl Açık", "Street / Neighbourhood / District / City")</span><br>
+                    <span class="contact-link">@LanguageService.GetLocalizedText("Adres Metni", "Address Text")</span>
                 </div>
             </div>
         </div>

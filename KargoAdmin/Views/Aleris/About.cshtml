@@ -1,5 +1,7 @@
-﻿@{
-    ViewData["Title"] = "Hakkımızda";
+﻿@using KargoAdmin.Services
+@inject ILanguageService LanguageService
+@{
+    ViewData["Title"] = LanguageService.GetLocalizedText("Hakkımızda", "About Us");
     Layout = "_PublicLayout";
 }
 
@@ -11,16 +13,16 @@
 <section class="about-hero">
     <div class="about-hero-content">
         <div class="about-hero-header">
-            <h1>Dünyayı Taşıyan Güven: Aleris Lojistik</h1>
+            <h1>@LanguageService.GetLocalizedText("Dünyayı Taşıyan Güven: Aleris Lojistik", "Trust that Moves the World: Aleris Logistics")</h1>
             <p class="about-hero-subtitle">
-                Lojistikte sınırları kaldırmak.
+                @LanguageService.GetLocalizedText("Lojistikte sınırları kaldırmak.", "Removing boundaries in logistics.")
             </p>
             <p class="about-hero-description">
-                Küresel ticaretin tüm sektörleri için erişilebilir, sürdürülebilir ve akıllı lojistik çözümleri sunarak, dünya ekonomisinin geleceğine yön vermek.
+                @LanguageService.GetLocalizedText("Küresel ticaretin tüm sektörleri için erişilebilir, sürdürülebilir ve akıllı lojistik çözümleri sunarak, dünya ekonomisinin geleceğine yön vermek.", "By offering accessible, sustainable and smart logistics solutions for all sectors of global trade, we help shape the future of the world economy.")
             </p>
         </div>
         <div class="about-hero-image">
-            <img src="~/img/AboutFirst.png" alt="Aleris Lojistik Hakkımızda" />
+            <img src="~/img/AboutFirst.png" alt="@LanguageService.GetLocalizedText("Aleris Lojistik Hakkımızda", "About Aleris Logistics")" />
         </div>
     </div>
 </section>
@@ -30,18 +32,18 @@
     <div class="about-main-content">
         <div class="about-text-content">
             <p>
-                Aleris, global lojistik sektöründe yılların deneyimiyle; karayolu, denizcilik, havayolu ve çok modlu taşımacılık alanlarında entegre çözümler sunan öncü bir lojistik servis sağlayıcısıdır.
+                @LanguageService.GetLocalizedText("Aleris, global lojistik sektöründe yılların deneyimiyle; karayolu, denizcilik, havayolu ve çok modlu taşımacılık alanlarında entegre çözümler sunan öncü bir lojistik servis sağlayıcısıdır.", "Aleris is a leading logistics service provider offering integrated solutions in road, maritime, air and multimodal transportation with years of experience in the global logistics sector.")
             </p>
             <p>
-                Yerel gücümüzü küresel vizyonumuzla birleştirerek, müşterilerimize her adımda hızlı, güvenilir ve şeffaf hizmetler sunmayı ilke edindin.
+                @LanguageService.GetLocalizedText("Yerel gücümüzü küresel vizyonumuzla birleştirerek, müşterilerimize her adımda hızlı, güvenilir ve şeffaf hizmetler sunmayı ilke edindin.", "By combining our local strength with our global vision, we are committed to providing fast, reliable and transparent services at every step.")
             </p>
         </div>
         <div class="about-text-content">
             <p>
-                Faaliyet alanlarımız; karayolu, denizcilik, havayolu taşımacılığı başta olmak üzere, depolama, dağıtım, proje taşımacılığı, gümrükleme ve dış ticaret danışmanlığını kapsamaktadır.
+                @LanguageService.GetLocalizedText("Faaliyet alanlarımız; karayolu, denizcilik, havayolu taşımacılığı başta olmak üzere, depolama, dağıtım, proje taşımacılığı, gümrükleme ve dış ticaret danışmanlığını kapsamaktadır.", "Our activities include road, maritime and air transportation, as well as warehousing, distribution, project cargo, customs brokerage and foreign trade consultancy.")
             </p>
             <p>
-                Geniş taşıma ağımız ve stratejik iş ortaklıklarımız sayesinde, Avrupa'dan Orta Doğu'ya, Uzak Doğu'dan Amerika'ya kadar uzanan küresel bir lojistik güçüz.
+                @LanguageService.GetLocalizedText("Geniş taşıma ağımız ve stratejik iş ortaklıklarımız sayesinde, Avrupa'dan Orta Doğu'ya, Uzak Doğu'dan Amerika'ya kadar uzanan küresel bir lojistik güçüz.", "Thanks to our extensive transport network and strategic partnerships, we are a global logistics force spanning from Europe to the Middle East, from the Far East to the Americas.")
             </p>
         </div>
     </div>
@@ -51,10 +53,12 @@
 <section class="policies-section">
     <div class="policies-content">
         <div class="policies-header">
-            <span class="policies-label">POLİTİKALARIMIZ</span>
-            <h2 class="policies-title">Sağlıklı ve güvenli çalışma ortamı hedefliyoruz.</h2>
+            <span class="policies-label">@LanguageService.GetLocalizedText("POLİTİKALARIMIZ", "OUR POLICIES")</span>
+            <h2 class="policies-title">@LanguageService.GetLocalizedText("Sağlıklı ve güvenli çalışma ortamı hedefliyoruz.", "We aim for a healthy and safe working environment.")</h2>
             <p class="policies-subtitle">
-                Sürekli gelişim teknolojik alt yapmışmız, işlçievrimse uygun en doğru ve en hızlı çözümlerde, adımımın ileri taşımacılık türlenmız sunuyoruz.
+                @LanguageService.GetLocalizedText(
+                    "Sürekli gelişim ve teknolojik altyapımızla, iş süreçlerine uygun en doğru ve en hızlı çözümleri sunarak, ileri seviye lojistik hizmetleri sağlıyoruz.",
+                    "With continuous improvement and robust technological infrastructure, we deliver the most accurate and fastest solutions aligned with business processes, providing advanced logistics services.")
             </p>
         </div>
 
@@ -63,24 +67,24 @@
                 <div class="policy-icon">
                     <i class="fas fa-users"></i>
                 </div>
-                <h3>Çalışan Kişisel Verilerin İşlenmesi Aydınlatma Metni</h3>
-                <p>Kişisel verilerinizin korunması ve güvenliği konusunda titizlikle çalışıyoruz.</p>
+                <h3>@LanguageService.GetLocalizedText("Çalışan Kişisel Verilerin İşlenmesi Aydınlatma Metni", "Employee Personal Data Processing Disclosure")</h3>
+                <p>@LanguageService.GetLocalizedText("Kişisel verilerinizin korunması ve güvenliği konusunda titizlikle çalışıyoruz.", "We rigorously protect and secure your personal data.")</p>
             </div>
 
             <div class="policy-card">
                 <div class="policy-icon">
                     <i class="fas fa-shield-alt"></i>
                 </div>
-                <h3>Bilgi Güvenliği Politikası</h3>
-                <p>Tüm bilgi varlıklarımızı güvenli bir şekilde yönetmek ve korumak önceliğimizdir.</p>
+                <h3>@LanguageService.GetLocalizedText("Bilgi Güvenliği Politikası", "Information Security Policy")</h3>
+                <p>@LanguageService.GetLocalizedText("Tüm bilgi varlıklarımızı güvenli bir şekilde yönetmek ve korumak önceliğimizdir.", "Managing and protecting all our information assets securely is our priority.")</p>
             </div>
 
             <div class="policy-card">
                 <div class="policy-icon">
                     <i class="fas fa-recycle"></i>
                 </div>
-                <h3>Entegre Yönetim Sistemi Politikası</h3>
-                <p>Sürdürülebilirlik ve çevreye duyarlılık temelinde kaliteli hizmet sunuyoruz.</p>
+                <h3>@LanguageService.GetLocalizedText("Entegre Yönetim Sistemi Politikası", "Integrated Management System Policy")</h3>
+                <p>@LanguageService.GetLocalizedText("Sürdürülebilirlik ve çevreye duyarlılık temelinde kaliteli hizmet sunuyoruz.", "We deliver quality services based on sustainability and environmental responsibility.")</p>
             </div>
         </div>
     </div>
@@ -90,17 +94,17 @@
 <section class="mission-vision-section">
     <div class="mission-vision-content">
         <div class="mission-vision-image">
-            <img src="~/img/AboutShip.png" alt="Aleris Lojistik Vizyon" />
+            <img src="~/img/AboutShip.png" alt="@LanguageService.GetLocalizedText("Aleris Lojistik Vizyon", "Aleris Logistics Vision")" />
             <div class="decorative-dots"></div>
         </div>
         <div class="mission-vision-text">
-            <span class="section-label">BİZ KİMİZ?</span>
-            <h2>Dünyanın dört bir yanına ulaşmaktır hedefimiz!</h2>
+            <span class="section-label">@LanguageService.GetLocalizedText("BİZ KİMİZ?", "WHO ARE WE?")</span>
+            <h2>@LanguageService.GetLocalizedText("Dünyanın dört bir yanına ulaşmaktır hedefimiz!", "Our goal is to reach every corner of the world!")</h2>
             <p>
-                Birincil tükerimek kim yere heyecanımız; gelişen organizasyonumuz, meslektaşımız duyduğumuz hukusuında yaşım sahibi varan servlerimize...
+                @LanguageService.GetLocalizedText("Birincil tükerimek kim yere heyecanımız; gelişen organizasyonumuz, meslektaşımız duyduğumuz hukusuında yaşım sahibi varan servlerimize...", "Our primary motivation is to deliver solutions that add value to our customers with our evolving organization and experienced team...")
             </p>
             <p>
-                Tüm dünyada 1700'den fazla ülkede 6700'den fazla acemlerimiz ile karşılıklı, havayollu ve denizydolu taşımacılık hizmetlerinin yürüterek, güvenilir bulk lojistik hizmetlerimiz sayesinde yolcuünüzü haftafrekmetric en büyük hedeflmiz.
+                @LanguageService.GetLocalizedText("Tüm dünyada 1700'den fazla ülkede 6700'den fazla acemlerimiz ile karşılıklı, havayollu ve denizydolu taşımacılık hizmetlerinin yürüterek, güvenilir bulk lojistik hizmetlerimiz sayesinde yolcuünüzü haftafrekmetric en büyük hedeflmiz.", "With our network of agents around the world, we carry out road, air and sea transportation services, and our goal is to support your business with reliable logistics solutions.")
             </p>
         </div>
     </div>
@@ -110,8 +114,8 @@
 <section class="certifications-section">
     <div class="certifications-content">
         <div class="certifications-header">
-            <h2>Sertifikalarımız</h2>
-            <p>Lojistik ve taşımacılık sektöründe en güçlü servis sağlayıcılarından biri olmayı garanti ediyoruz.</p>
+            <h2>@LanguageService.GetLocalizedText("Sertifikalarımız", "Our Certifications")</h2>
+            <p>@LanguageService.GetLocalizedText("Lojistik ve taşımacılık sektöründe en güçlü servis sağlayıcılarından biri olmayı garanti ediyoruz.", "We guarantee to be one of the strongest service providers in the logistics and transportation industry.")</p>
         </div>
 
         <div class="certifications-grid">
@@ -121,8 +125,8 @@
                 </div>
                 <div class="certification-info">
                     <h3>ISO 9001</h3>
-                    <p>ISO 9001:2015 Kalite Yönetim Sistemi müşteri beklentileri, ihtiyaçları ve mevzuat gerekliliklerini karşılar ki, baştan, müşteri memnuniyetinin artırımıması önceliği sürayan hizmet görmüş biz kalite yönetimi sistemi düşündü.</p>
-                    <a href="#" class="certification-btn">Belgeyi Görüntüle</a>
+                    <p>@LanguageService.GetLocalizedText("ISO 9001:2015 Kalite Yönetim Sistemi müşteri beklentileri, ihtiyaçları ve mevzuat gerekliliklerini karşılar ki, baştan, müşteri memnuniyetinin artırımıması önceliği sürayan hizmet görmüş biz kalite yönetimi sistemi düşündü.", "ISO 9001:2015 Quality Management System ensures meeting customer expectations, needs and regulatory requirements.")</p>
+                    <a href="#" class="certification-btn">@LanguageService.GetLocalizedText("Belgeyi Görüntüle", "View Certificate")</a>
                 </div>
             </div>
 
@@ -132,8 +136,8 @@
                 </div>
                 <div class="certification-info">
                     <h3>ISO 9001</h3>
-                    <p>ISO 9001:2015 Kalite Yönetim Sistemi müşteri beklentileri, ihtiyaçları ve mevzuat gerekliliklerini karşılar ki, baştan, müşteri memnuniyetinin artırımıması önceliği sürayan hizmet görmüş biz kalite yönetimi sistemi düşündü.</p>
-                    <a href="#" class="certification-btn">Belgeyi Görüntüle</a>
+                    <p>@LanguageService.GetLocalizedText("ISO 9001:2015 Kalite Yönetim Sistemi müşteri beklentileri, ihtiyaçları ve mevzuat gerekliliklerini karşılar ki, baştan, müşteri memnuniyetinin artırımıması önceliği sürayan hizmet görmüş biz kalite yönetimi sistemi düşündü.", "ISO 9001:2015 Quality Management System ensures meeting customer expectations, needs and regulatory requirements.")</p>
+                    <a href="#" class="certification-btn">@LanguageService.GetLocalizedText("Belgeyi Görüntüle", "View Certificate")</a>
                 </div>
             </div>
         </div>
@@ -143,13 +147,13 @@
 <!-- Newsletter Section -->
 <section class="newsletter-section">
     <div class="newsletter-content">
-        <span class="newsletter-label">ABONE OL</span>
-        <h2>Gelişmelerden Haberdar Olun!</h2>
-        <p>E-bülten üyeliğimize Abone Olarak PTG LOJİSTİK Haberlerini Tüm Gelişmelerden Haberdar Olun.</p>
+        <span class="newsletter-label">@LanguageService.GetLocalizedText("ABONE OL", "SUBSCRIBE")</span>
+        <h2>@LanguageService.GetLocalizedText("Gelişmelerden Haberdar Olun!", "Stay Informed!")</h2>
+        <p>@LanguageService.GetLocalizedText("E-bülten üyeliğimize Abone Olarak PTG LOJİSTİK Haberlerini Tüm Gelişmelerden Haberdar Olun.", "Subscribe to our newsletter and stay informed about Aleris Logistics news and updates.")</p>
 
         <form class="newsletter-form" onsubmit="return subscribeNewsletter(event)">
-            <input type="email" class="newsletter-input" placeholder="E-posta adresinizi girin" required>
-            <button type="submit" class="newsletter-btn">Abone Ol</button>
+            <input type="email" class="newsletter-input" placeholder="@LanguageService.GetLocalizedText("E-posta adresinizi girin", "Enter your email address")" required>
+            <button type="submit" class="newsletter-btn">@LanguageService.GetLocalizedText("Abone Ol", "Subscribe")</button>
         </form>
     </div>
 </section>

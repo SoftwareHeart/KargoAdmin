@@ -186,8 +186,8 @@ namespace KargoAdmin.Controllers
                 (Title: "Hava Yolu Taşımacılığı", Url: "/Aleris/Servisler/HavaYolu", Keywords: new[]{"hava","uçak","air","air cargo","uçuş"}),
                 (Title: "Deniz Yolu Taşımacılığı", Url: "/Aleris/Servisler/DenizYolu", Keywords: new[]{"deniz","gemi","sea","ocean","ship"}),
                 (Title: "Depolama ve Dağıtım", Url: "/Aleris/Servisler/DepolamaDagitim", Keywords: new[]{"depo","depolama","dağıtım","storage","distribution"}),
-                (Title: "Blog/Haber", Url: "/PublicBlog", Keywords: new[]{"blog","haber","news","yazı"}),
-                (Title: "Faydalı Bilgiler", Url: "/UsefulInfo", Keywords: new[]{"faydalı","bilgi","rehber","guide","ipucu"})
+                (Title: "Blog/Haber", Url: "/Blog", Keywords: new[]{"blog","haber","news","yazı"}),
+                (Title: "Blog/Faydalı Bilgiler", Url: "/UsefulInfo", Keywords: new[]{"faydalı","bilgi","rehber","guide","ipucu","blog"})
             };
 
             var matches = new List<SearchViewModel.PageResult>();
