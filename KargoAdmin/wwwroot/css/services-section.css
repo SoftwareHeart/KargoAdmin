@@ -20,7 +20,8 @@
     height: 100%;
     z-index: 1;
     overflow: hidden;
-    opacity: 1; /* Hep görünür */
+    opacity: 1;
+    /* Hep görünür */
 }
 
 .services-video {
@@ -75,11 +76,11 @@
     transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-    /* Animated State - Görünür durum */
-    .animation-ready.animate-in {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+/* Animated State - Görünür durum */
+.animation-ready.animate-in {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
 
 /* World Container Animations */
 .world-services-container.animation-ready {
@@ -109,7 +110,9 @@
 }
 
 @keyframes worldPulse {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: scale(1);
     }
 
@@ -123,15 +126,48 @@
     position: absolute;
     z-index: 4;
     transform: translateX(-200px) translateY(100px) scale(0.5);
-    transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: all 1.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .vehicle-container.animate-in {
     transform: translateX(0) translateY(0) scale(1);
 }
 
+/* Push choreography helpers */
+.services-left {
+    overflow: visible;
+}
+
+.vehicle-container.vehicle-clone {
+    z-index: 3;
+    /* under current vehicle */
+}
+
+.vehicle-container.push-incoming {
+    /* small nudge pre-push */
+    transform: translateX(-40px) translateY(0) scale(1);
+}
+
+.vehicle-container.push-incoming.do-push {
+    /* move forward to push */
+    transform: translateX(160px) translateY(0) scale(1);
+    transition: transform 1400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.vehicle-container.push-target {
+    /* target starts slightly ahead */
+    transform: translateX(40px) translateY(0) scale(1);
+    transition: transform 1400ms cubic-bezier(0.22, 1, 0.36, 1), opacity 900ms ease;
+}
+
+.vehicle-container.push-target.pushed-out {
+    /* gets pushed out to the side and fades */
+    transform: translateX(320px) translateY(-50px) scale(0.92) rotate(4deg);
+    opacity: 0;
+}
+
 /* Vehicle specific positions */
-.land-truck-vehicle{
+.land-truck-vehicle {
     bottom: 5%;
 }
 
@@ -164,7 +200,9 @@
 }
 
 @keyframes vehicleFloat {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(0px);
     }
 
@@ -208,13 +246,13 @@
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-    .services-title h2 .brand-name {
-        color: #005cb9;
-    }
+.services-title h2 .brand-name {
+    color: #005cb9;
+}
 
-    .services-title h2 .services-text {
-        color: #2c3e50;
-    }
+.services-title h2 .services-text {
+    color: #2c3e50;
+}
 
 /* Containers Wrapper Animation */
 .containers-wrapper.animation-ready {
@@ -230,6 +268,15 @@
 
 .containers-wrapper.animate-in {
     transform: translateX(0) scale(1);
+}
+
+/* Containers emphasis switch during push */
+.containers-wrapper.containers-switch .service-container {
+    filter: saturate(0.7) brightness(0.95);
+}
+
+.containers-wrapper.containers-switch .service-container.active-container {
+    filter: saturate(1.2) brightness(1.05) drop-shadow(0 8px 20px rgba(0, 0, 0, 0.1));
 }
 
 /* Service Container Animations - Crane Style Positioning */
@@ -285,7 +332,9 @@
 
 /* Container Float Animasyonu */
 @keyframes containerFloat {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(0px);
     }
 
@@ -328,7 +377,9 @@
 }
 
 @keyframes numberPulse {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: scale(1);
     }
 
@@ -370,9 +421,10 @@
 }
 
 @media (max-width: 992px) {
-    .services-section{
+    .services-section {
         min-height: 1200px;
     }
+
     .services-container {
         flex-direction: column;
         height: auto;
@@ -411,9 +463,11 @@
         width: 300px;
         height: 300px;
     }
+
     .services-section {
         min-height: 100vh;
     }
+
     .vehicle-image {
         width: 180px;
     }

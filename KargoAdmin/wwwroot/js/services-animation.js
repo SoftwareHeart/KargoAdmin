@@ -15,8 +15,8 @@ class ServicesAnimationController {
         this.config = {
             rootMargin: '-20% 0px -20% 0px',
             threshold: [0.3],
-            staggerDelay: 200, // Her element arası gecikme
-            animationDuration: 800
+            staggerDelay: 400, // Daha uzun gecikme
+            animationDuration: 1600 // Daha uzun süre
         };
 
         this.init();
@@ -40,6 +40,8 @@ class ServicesAnimationController {
      */
     setup() {
         this.prepareServicesSections();
+        // Keep an ordered list of sections for push choreography
+        this.sections = Array.from(document.querySelectorAll('.services-section'));
         this.setupIntersectionObserver();
         this.isInitialized = true;
         console.log('🚀 Services Animation Controller v3.0 initialized!');
@@ -126,6 +128,9 @@ class ServicesAnimationController {
         // Animate elements with stagger effect
         this.animateElementsWithStagger(section);
 
+        // Perform push transition (previous vehicle gets pushed by current)
+        this.performPushTransition(section);
+
         // Stop observing this section
         this.observers.forEach(observer => observer.unobserve(section));
     }
@@ -144,6 +149,68 @@ class ServicesAnimationController {
                 this.addSpecialEffects(element);
             }, delay);
         });
+    }
+
+    /**
+     * Perform vehicle push choreography between consecutive sections
+     * - Clones previous section's vehicle into current section
+     * - Animates current vehicle pushing previous one out
+     */
+    performPushTransition(currentSection) {
+        if (!this.sections || this.sections.length === 0) return;
+
+        const currentIndex = this.sections.indexOf(currentSection);
+        if (currentIndex <= 0) return; // First services-section does not push anything
+
+        const previousSection = this.sections[currentIndex - 1];
+        const previousVehicle = previousSection.querySelector('.vehicle-container');
+        const currentVehicle = currentSection.querySelector('.vehicle-container');
+        const currentLeft = currentSection.querySelector('.services-left');
+
+        if (!previousVehicle || !currentVehicle || !currentLeft) return;
+
+        // Clone previous vehicle and place it into current section as the target to be pushed
+        const clone = previousVehicle.cloneNode(true);
+        clone.classList.add('vehicle-clone', 'push-target', 'animate-in');
+        clone.classList.remove('animation-ready');
+
+        // Ensure clean animation classes on the clone image too
+        const cloneImg = clone.querySelector('.vehicle-image');
+        if (cloneImg) {
+            cloneImg.style.willChange = 'transform';
+        }
+
+        // Insert clone under current vehicle so current can pass over it
+        currentLeft.appendChild(clone);
+
+        // Prepare incoming vehicle
+        currentVehicle.classList.add('push-incoming');
+
+        // Force reflow before starting transitions
+        // eslint-disable-next-line no-unused-expressions
+        currentVehicle.offsetHeight; // reflow
+
+        // Start push after a short delay so the section's base animations can settle
+        setTimeout(() => {
+            currentVehicle.classList.add('do-push');
+            clone.classList.add('pushed-out');
+
+            const cleanup = () => {
+                currentVehicle.classList.remove('push-incoming', 'do-push');
+                if (clone && clone.parentNode) clone.parentNode.removeChild(clone);
+                currentVehicle.removeEventListener('transitionend', cleanup);
+            };
+
+            // Cleanup after transition completes
+            currentVehicle.addEventListener('transitionend', cleanup);
+        }, this.config.staggerDelay * 2);
+
+        // Containers switch effect (visual emphasis change)
+        const containersWrapper = currentSection.querySelector('.containers-wrapper');
+        if (containersWrapper) {
+            containersWrapper.classList.add('containers-switch');
+            setTimeout(() => containersWrapper.classList.remove('containers-switch'), this.config.animationDuration + this.config.staggerDelay);
+        }
     }
 
     /**

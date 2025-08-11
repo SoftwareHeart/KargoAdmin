@@ -14,12 +14,12 @@
     animation-fill-mode: forwards;
 }
 
-    /* Scroll animasyonu tetiklendiğinde */
-    .sector-leader-section.animate-in {
-        opacity: 1;
-        transform: translateY(0);
-        animation-fill-mode: forwards;
-    }
+/* Scroll animasyonu tetiklendiğinde */
+.sector-leader-section.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+    animation-fill-mode: forwards;
+}
 
 /* Background Video Container - Services ve Animation section ile aynı yapı */
 .sector-leader-video-container {
@@ -102,8 +102,10 @@
 
 .stats-box {
     position: relative;
-    width: 350px; /* 300px'den 350px'e çıkarıldı */
-    height: 300px; /* 200px'den 250px'e çıkarıldı */
+    width: 350px;
+    /* 300px'den 350px'e çıkarıldı */
+    height: 300px;
+    /* 200px'den 250px'e çıkarıldı */
     display: flex;
     flex-direction: column;
     padding-right: 1rem;
@@ -127,6 +129,13 @@
     object-position: center;
     border-radius: 15px;
     z-index: 1;
+    opacity: 0;
+    /* forklift bırakana kadar görünmesin */
+    transition: opacity 0.4s ease;
+}
+
+.stats-box.placed .stats-box-image {
+    opacity: 1;
 }
 
 .stats-box:nth-child(1) {
@@ -175,6 +184,14 @@
     overflow: hidden;
 }
 
+.forklift-vehicle {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
 .forklift-cabin {
     position: absolute;
     right: 50px;
@@ -186,6 +203,7 @@
     animation: slideInFromRight 1.5s ease-out 0.8s forwards;
     opacity: 0;
     transform: translateX(200px);
+    transition: transform 1.4s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .forklift-tip {
@@ -199,6 +217,27 @@
     animation: slideInFromRight 1.8s ease-out 1.2s forwards;
     opacity: 0;
     transform: translateX(250px);
+    transition: transform 1.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* Forklift yük görseli (kutular) */
+.forklift-load {
+    position: absolute;
+    right: 430px;
+    /* forklift ucunun biraz arkasında */
+    top: 50%;
+    width: 220px;
+    height: auto;
+    z-index: 2;
+    opacity: 0;
+    transform: translateX(300px);
+    filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.25));
+}
+
+.forklift-clone {
+    position: absolute;
+    z-index: 2;
+    pointer-events: none;
 }
 
 /* Animations */
@@ -214,6 +253,24 @@
     }
 }
 
+/* Forklift taşıma ve bırakma animasyon durum sınıfları */
+.forklift-moving-in {
+    transition: transform 2.2s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.6s ease;
+}
+
+.forklift-holding-load .forklift-load {
+    opacity: 1;
+    transition: transform 0.8s ease, opacity 0.3s ease;
+}
+
+.forklift-drop {
+    transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s ease;
+}
+
+.forklift-load.dropped {
+    opacity: 0;
+}
+
 @keyframes countUp {
     from {
         opacity: 0;
@@ -227,7 +284,9 @@
 }
 
 @keyframes float {
-    0%, 100% {
+
+    0%,
+    100% {
         opacity: 1;
         transform: translateX(0) translateY(10px);
     }
@@ -246,17 +305,17 @@
     transform: translateX(0) translateY(10px) !important;
 }
 
-    .stats-box.loaded:nth-child(1) {
-        animation-delay: 0s !important;
-    }
+.stats-box.loaded:nth-child(1) {
+    animation-delay: 0s !important;
+}
 
-    .stats-box.loaded:nth-child(2) {
-        animation-delay: 1s !important;
-    }
+.stats-box.loaded:nth-child(2) {
+    animation-delay: 1s !important;
+}
 
-    .stats-box.loaded:nth-child(3) {
-        animation-delay: 2s !important;
-    }
+.stats-box.loaded:nth-child(3) {
+    animation-delay: 2s !important;
+}
 
 /* Drop Animation for Stats Boxes */
 @keyframes dropDown {
@@ -333,7 +392,6 @@
     .sector-leader-title {
         font-size: 3.8rem;
     }
-
     .sector-leader-description {
         font-size: 1.15rem;
         max-width: 950px;
@@ -358,6 +416,7 @@
         width: 320px;
         right: 360px;
     }
+
 }
 
 /* ===== LAPTOP/SMALL DESKTOP (992px - 1199px) ===== */
@@ -365,7 +424,6 @@
     .sector-leader-section {
         min-height: 90vh;
     }
-
     .sector-leader-content {
         padding: 60px 0;
     }
@@ -407,13 +465,13 @@
     /* Forklift Adjustments */
     .forklift-cabin {
         width: 380px;
-        right: 40px;
+        right: 20px;
         top: 35%;
     }
 
     .forklift-tip {
         width: 290px;
-        right: 320px;
+        right: 280px;
         top: 65%;
     }
 
@@ -539,9 +597,10 @@
         line-height: 1.4;
     }
 
-        .sector-leader-title br {
-            display: none; /* Mobilde br kaldır */
-        }
+    .sector-leader-title br {
+        display: none;
+        /* Mobilde br kaldır */
+    }
 
     .sector-leader-description {
         font-size: 0.95rem;
@@ -597,9 +656,9 @@
         line-height: 1.4;
     }
 
-        .sector-leader-title br {
-            display: none;
-        }
+    .sector-leader-title br {
+        display: none;
+    }
 
     .sector-leader-description {
         font-size: 0.9rem;
@@ -709,4 +768,3 @@
         right: 230px;
     }
 }
-
