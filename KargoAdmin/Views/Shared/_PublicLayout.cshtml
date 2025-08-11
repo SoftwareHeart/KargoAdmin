@@ -27,6 +27,11 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
 
     @await RenderSectionAsync("Styles", required: false)
+    <style>
+        .language-flags .flag-icon { cursor: pointer; opacity: 0.6; transition: transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease; }
+        .language-flags .flag-icon:hover { transform: scale(1.05); opacity: 0.85; }
+        .language-flags .flag-icon.active { opacity: 1; box-shadow: 0 0 0 2px #0d6efd inset; cursor: default; pointer-events: none; border-radius: 4px; }
+    </style>
 </head>
 <body>
     @Html.AntiForgeryToken()
@@ -89,8 +94,8 @@
 
                     <!-- Language Flags -->
                     <div class="language-flags">
-                        <img src="~/img/EngIcon.png" alt="English" class="flag-icon @(LanguageService.GetCurrentLanguage() == "en" ? "active" : "")" onclick="changeLanguage('en')" />
-                        <img src="~/img/TrIcon.png" alt="Türkçe" class="flag-icon @(LanguageService.GetCurrentLanguage() == "tr" ? "active" : "")" onclick="changeLanguage('tr')" />
+                        <img src="~/img/EngIcon.png" alt="English" title="@(LanguageService.GetCurrentLanguage() == "en" ? "English (current)" : "English")" aria-current="@(LanguageService.GetCurrentLanguage() == "en" ? "true" : "false")" aria-disabled="@(LanguageService.GetCurrentLanguage() == "en" ? "true" : "false")" class="flag-icon @(LanguageService.GetCurrentLanguage() == "en" ? "active" : "")" onclick="changeLanguage('en')" />
+                        <img src="~/img/TrIcon.png" alt="Türkçe" title="@(LanguageService.GetCurrentLanguage() == "tr" ? "Türkçe (geçerli)" : "Türkçe")" aria-current="@(LanguageService.GetCurrentLanguage() == "tr" ? "true" : "false")" aria-disabled="@(LanguageService.GetCurrentLanguage() == "tr" ? "true" : "false")" class="flag-icon @(LanguageService.GetCurrentLanguage() == "tr" ? "active" : "")" onclick="changeLanguage('tr')" />
                     </div>
                 </div>
 
@@ -427,6 +432,12 @@
 
         // Language change function
         function changeLanguage(lang) {
+            try {
+                var currentLang = '@(LanguageService.GetCurrentLanguage())';
+                if (!lang || lang === currentLang) {
+                    return; // aynı dile tekrar tıklanmasın
+                }
+            } catch { /* ignore */ }
             // AJAX ile dil değiştirme
             fetch('/Language/ChangeLanguage', {
                 method: 'POST',
