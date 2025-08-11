@@ -99,8 +99,8 @@
                     <!-- Social Share -->
                     <div class="blog-share-section">
                         <h4 class="share-title">
-                            <i class="fas fa-share-alt"></i>
-                            @(LanguageService.GetCurrentLanguage() == "en" ? "Share this post" : "Bu yazıyı paylaş")
+                                <i class="fas fa-share-alt"></i>
+                                @(LanguageService.GetCurrentLanguage() == "en" ? "Share this post" : "Bu yazıyı paylaş")
                         </h4>
                         <div class="share-buttons">
                             <a href="javascript:void(0)"
@@ -125,7 +125,7 @@
                                onclick="copyToClipboard(this); return false;"
                                class="share-btn copy">
                                 <i class="fas fa-link"></i>
-                                <span>Linki Kopyala</span>
+                                <span>@(LanguageService.GetCurrentLanguage() == "en" ? "Copy Link" : "Linki Kopyala")</span>
                             </a>
                         </div>
                     </div>
@@ -135,7 +135,7 @@
                 <div class="blog-navigation">
                     <a href="@Url.Action("Index", "PublicBlog")" class="nav-btn back-to-list">
                         <i class="fas fa-arrow-left"></i>
-                        <span>Tüm Yazılara Dön</span>
+                        <span>@(LanguageService.GetCurrentLanguage() == "en" ? "Back to All Posts" : "Tüm Yazılara Dön")</span>
                     </a>
                 </div>
             </div>
@@ -150,21 +150,21 @@
                         <!-- Dinamik Başlık -->
                         <div class="section-header">
                             @{
-                                string sectionTitle = "Son Yazılar";
+                                string sectionTitle = LanguageService.GetCurrentLanguage() == "en" ? "Recent Posts" : "Son Yazılar";
                                 string sectionIcon = "fas fa-clock";
-                                string sectionDescription = "En son yayınlanan yazılarımız";
+                                string sectionDescription = LanguageService.GetCurrentLanguage() == "en" ? "Our most recently published posts" : "En son yayınlanan yazılarımız";
 
                                 if (ViewBag.RelatedPostsType?.ToString() == "related")
                                 {
-                                    sectionTitle = "İlgili Yazılar";
+                                    sectionTitle = LanguageService.GetCurrentLanguage() == "en" ? "Related Posts" : "İlgili Yazılar";
                                     sectionIcon = "fas fa-link";
-                                    sectionDescription = "Bu konuyla ilgili diğer yazılarımız";
+                                    sectionDescription = LanguageService.GetCurrentLanguage() == "en" ? "Other posts related to this topic" : "Bu konuyla ilgili diğer yazılarımız";
                                 }
                                 else if (ViewBag.RelatedPostsType?.ToString() == "popular")
                                 {
-                                    sectionTitle = "Popüler Yazılar";
+                                    sectionTitle = LanguageService.GetCurrentLanguage() == "en" ? "Popular Posts" : "Popüler Yazılar";
                                     sectionIcon = "fas fa-fire";
-                                    sectionDescription = "En çok okunan yazılarımız";
+                                    sectionDescription = LanguageService.GetCurrentLanguage() == "en" ? "Our most read posts" : "En çok okunan yazılarımız";
                                 }
                             }
 
@@ -209,7 +209,7 @@
                                         {
                                             <span class="popularity-badge">
                                                 <i class="fas fa-fire"></i>
-                                                Popüler
+                                                @(LanguageService.GetCurrentLanguage() == "en" ? "Popular" : "Popüler")
                                             </span>
                                         }
                                     </div>
@@ -231,13 +231,13 @@
                                         <!-- Title -->
                                         <h3 class="post-title">
                                             <a href="@Url.Action("Details", "PublicBlog", new { id = relatedBlog.Id, slug = relatedBlog.Slug })">
-                                                @relatedBlog.Title
+                                                @relatedBlog.GetLocalizedTitle(LanguageService)
                                             </a>
                                         </h3>
 
                                         <!-- Excerpt -->
                                         @{
-                                            var excerpt = System.Text.RegularExpressions.Regex.Replace(relatedBlog.Content, "<.*?>", "");
+                                            var excerpt = System.Text.RegularExpressions.Regex.Replace(relatedBlog.GetLocalizedContent(LanguageService), "<.*?>", "");
                                             excerpt = excerpt.Length > 100 ? excerpt.Substring(0, 100) + "..." : excerpt;
                                         }
                                         <p class="post-excerpt">@excerpt</p>
@@ -246,7 +246,7 @@
                                         <div class="read-more-wrapper">
                                             <a href="@Url.Action("Details", "PublicBlog", new { id = relatedBlog.Id, slug = relatedBlog.Slug })"
                                                class="read-more-link">
-                                                Devamını Oku
+                                                @(LanguageService.GetCurrentLanguage() == "en" ? "Read More" : "Devamını Oku")
                                                 <i class="fas fa-chevron-right"></i>
                                             </a>
                                         </div>

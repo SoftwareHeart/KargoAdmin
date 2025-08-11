@@ -49,7 +49,7 @@ namespace KargoAdmin.Controllers
             return View(blogs);
         }
 
-        // Tag ile filtreleme
+        // Tag ile filtreleme (TR+EN tag alanlarını destekle)
         public async Task<IActionResult> Tag(string tag, int page = 1)
         {
             if (string.IsNullOrEmpty(tag))
@@ -60,7 +60,9 @@ namespace KargoAdmin.Controllers
             int pageSize = 6;
 
             var blogs = await _context.Blogs
-                .Where(b => b.IsPublished && b.Tags.Contains(tag) && b.Type == "Haber")
+                .Where(b => b.IsPublished && b.Type == "Haber" &&
+                            ((b.Tags != null && b.Tags.Contains(tag)) ||
+                             (b.TagsEn != null && b.TagsEn.Contains(tag))))
                 .OrderByDescending(b => b.PublishDate)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
@@ -68,7 +70,9 @@ namespace KargoAdmin.Controllers
                 .ToListAsync();
 
             var totalBlogs = await _context.Blogs
-                .Where(b => b.IsPublished && b.Tags.Contains(tag) && b.Type == "Haber")
+                .Where(b => b.IsPublished && b.Type == "Haber" &&
+                            ((b.Tags != null && b.Tags.Contains(tag)) ||
+                             (b.TagsEn != null && b.TagsEn.Contains(tag))))
                 .CountAsync();
 
             ViewBag.CurrentPage = page;
@@ -79,7 +83,7 @@ namespace KargoAdmin.Controllers
             return View("Index", blogs);
         }
 
-        // Arama
+        // Arama (TR+EN alanlarını destekle)
         public async Task<IActionResult> Search(string query, int page = 1)
         {
             if (string.IsNullOrEmpty(query))
@@ -91,9 +95,12 @@ namespace KargoAdmin.Controllers
 
             var blogs = await _context.Blogs
                 .Where(b => b.IsPublished && b.Type == "Haber" &&
-                           (b.Title.Contains(query) ||
-                            b.Content.Contains(query) ||
-                            b.Tags.Contains(query)))
+                           ((b.Title != null && b.Title.Contains(query)) ||
+                            (b.TitleEn != null && b.TitleEn.Contains(query)) ||
+                            (b.Content != null && b.Content.Contains(query)) ||
+                            (b.ContentEn != null && b.ContentEn.Contains(query)) ||
+                            (b.Tags != null && b.Tags.Contains(query)) ||
+                            (b.TagsEn != null && b.TagsEn.Contains(query))))
                 .OrderByDescending(b => b.PublishDate)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
@@ -102,9 +109,12 @@ namespace KargoAdmin.Controllers
 
             var totalBlogs = await _context.Blogs
                 .Where(b => b.IsPublished && b.Type == "Haber" &&
-                           (b.Title.Contains(query) ||
-                            b.Content.Contains(query) ||
-                            b.Tags.Contains(query)))
+                           ((b.Title != null && b.Title.Contains(query)) ||
+                            (b.TitleEn != null && b.TitleEn.Contains(query)) ||
+                            (b.Content != null && b.Content.Contains(query)) ||
+                            (b.ContentEn != null && b.ContentEn.Contains(query)) ||
+                            (b.Tags != null && b.Tags.Contains(query)) ||
+                            (b.TagsEn != null && b.TagsEn.Contains(query))))
                 .CountAsync();
 
             ViewBag.CurrentPage = page;
@@ -135,7 +145,7 @@ namespace KargoAdmin.Controllers
             {
                 blog = await _context.Blogs
                     .Include(b => b.Author)
-                    .FirstOrDefaultAsync(m => m.Slug == slug && m.IsPublished);
+                    .FirstOrDefaultAsync(m => m.IsPublished && (m.Slug == slug || m.SlugEn == slug));
             }
 
             if (blog == null)
@@ -208,26 +218,37 @@ namespace KargoAdmin.Controllers
             return (recentBlogs, relationType);
         }
 
-        // BASİT TAG LİSTESİ - Hata vermez
+        // BASİT TAG LİSTESİ - Dil duyarlı
         private async Task<List<object>> GetAvailableTagsSimple()
         {
             var result = new List<object>();
 
             try
             {
-                // Tüm yayınlanmış blogların tag'lerini al
-                var allTagStrings = await _context.Blogs
-                    .Where(b => b.IsPublished && !string.IsNullOrEmpty(b.Tags) && b.Type == "Haber")
-                    .Select(b => b.Tags)
-                    .ToListAsync();
+                var currentLang = _languageService.GetCurrentLanguage();
 
-                // Tag sayılarını hesapla
-                var tagCounts = new Dictionary<string, int>();
+                // Mevcut dile göre tag alanını seç
+                IQueryable<string> tagQuery;
+                if (currentLang == "en")
+                {
+                    tagQuery = _context.Blogs
+                        .Where(b => b.IsPublished && b.Type == "Haber" && !string.IsNullOrEmpty(b.TagsEn))
+                        .Select(b => b.TagsEn!);
+                }
+                else
+                {
+                    tagQuery = _context.Blogs
+                        .Where(b => b.IsPublished && b.Type == "Haber" && !string.IsNullOrEmpty(b.Tags))
+                        .Select(b => b.Tags!);
+                }
+
+                var allTagStrings = await tagQuery.ToListAsync();
+
+                var tagCounts = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
 
                 foreach (var tagString in allTagStrings)
                 {
-                    // "Dijital Dönüşüm,Teknoloji,Lojistik,IoT" formatındaki string'i ayır
-                    var tags = tagString.Split(',');
+                    var tags = tagString.Split(',', StringSplitOptions.RemoveEmptyEntries);
 
                     foreach (var tag in tags)
                     {
@@ -242,7 +263,6 @@ namespace KargoAdmin.Controllers
                     }
                 }
 
-                // En çok kullanılan tag'lerden az kullanılana doğru sırala
                 var sortedTags = tagCounts
                     .OrderByDescending(x => x.Value)
                     .ThenBy(x => x.Key);
@@ -254,7 +274,6 @@ namespace KargoAdmin.Controllers
             }
             catch (Exception)
             {
-                // Hata durumunda boş liste döndür
                 result = new List<object>();
             }
 

@@ -1,7 +1,10 @@
 ﻿@model IEnumerable<Blog>
 @using System.Text.RegularExpressions
+@using KargoAdmin.Services
+@using KargoAdmin.Helpers
+@inject ILanguageService LanguageService
 @{
-    ViewData["Title"] = "Faydalı Bilgiler";
+    ViewData["Title"] = LanguageService.GetCurrentLanguage() == "en" ? "Useful Information" : "Faydalı Bilgiler";
     Layout = "_PublicLayout";
 }
 
@@ -9,10 +12,11 @@
 <section class="blog-header-section">
     <div class="container blog-header-container">
         <!-- Blog Başlık -->
-        <h1 class="blog-main-title">Faydalı Bilgiler</h1>
+        <h1 class="blog-main-title">@(LanguageService.GetCurrentLanguage() == "en" ? "Useful Information" : "Faydalı Bilgiler")</h1>
         <p class="blog-subtitle">
-            Lojistik ve kargo dünyasında işinizi kolaylaştıracak pratik bilgiler,
-            ipuçları ve uzman önerileriyle donatılmış faydalı içerikler
+            @(LanguageService.GetCurrentLanguage() == "en"
+                ? "Practical tips, insights and expert recommendations to make your logistics and cargo operations easier"
+                : "Lojistik ve kargo dünyasında işinizi kolaylaştıracak pratik bilgiler, ipuçları ve uzman önerileriyle donatılmış faydalı içerikler")
         </p>
 
         <!-- Kategori Tabları - Scroll İpuçları ile -->
@@ -21,7 +25,7 @@
                 <!-- Global Tab -->
                 <a href="@Url.Action("Index", "UsefulInfo")"
                    class="category-tab @(ViewBag.CurrentTag == null ? "active" : "")">
-                    Tümü
+                    @(LanguageService.GetCurrentLanguage() == "en" ? "All" : "Tümü")
                 </a>
 
                 <!-- Dinamik Tag'ler -->
@@ -41,7 +45,7 @@
             <!-- Scroll İpucu -->
             <div class="scroll-hint" id="scrollHint">
                 <i class="fas fa-hand-point-left"></i>
-                Kaydırmak için sürükleyin veya mouse tekerleğini kullanın
+                @(LanguageService.GetCurrentLanguage() == "en" ? "Drag to scroll or use mouse wheel" : "Kaydırmak için sürükleyin veya mouse tekerleğini kullanın")
                 <i class="fas fa-hand-point-right"></i>
             </div>
         </div>
@@ -70,10 +74,10 @@
                 <!-- Filter Alerts -->
                 @if (ViewBag.CurrentTag != null)
                 {
-                    <div class="blog-alert alert-primary">
+                        <div class="blog-alert alert-primary">
                         <div>
-                            <i class="fas fa-tag me-2"></i>
-                            <strong>Kategori:</strong> @ViewBag.CurrentTag
+                                <i class="fas fa-tag me-2"></i>
+                                <strong>@(LanguageService.GetCurrentLanguage() == "en" ? "Category:" : "Kategori:")</strong> @ViewBag.CurrentTag
                         </div>
                         <a href="@Url.Action("Index", "UsefulInfo")" class="close-filter">
                             <i class="fas fa-times"></i>
@@ -83,11 +87,11 @@
 
                 @if (ViewBag.SearchQuery != null)
                 {
-                    <div class="blog-alert alert-info">
+                        <div class="blog-alert alert-info">
                         <div>
-                            <i class="fas fa-search me-2"></i>
-                            <strong>Arama:</strong> "@ViewBag.SearchQuery"
-                            <span class="ms-2 text-muted">(@Model.Count() sonuç)</span>
+                                <i class="fas fa-search me-2"></i>
+                                <strong>@(LanguageService.GetCurrentLanguage() == "en" ? "Search:" : "Arama:")</strong> "@ViewBag.SearchQuery"
+                                <span class="ms-2 text-muted">(@Model.Count() @(LanguageService.GetCurrentLanguage() == "en" ? "results" : "sonuç"))</span>
                         </div>
                         <a href="@Url.Action("Index", "UsefulInfo")" class="close-filter">
                             <i class="fas fa-times"></i>
@@ -102,10 +106,10 @@
                         <div class="empty-icon">
                             <i class="fas fa-lightbulb"></i>
                         </div>
-                        <h3>Henüz Faydalı Bilgi Bulunmuyor</h3>
-                        <p>Bu kategoride henüz faydalı bilgi bulunmamaktadır.</p>
+                        <h3>@(LanguageService.GetCurrentLanguage() == "en" ? "No Content Found" : "Henüz Faydalı Bilgi Bulunmuyor")</h3>
+                        <p>@(LanguageService.GetCurrentLanguage() == "en" ? "No useful information found in this category yet." : "Bu kategoride henüz faydalı bilgi bulunmamaktadır.")</p>
                         <a href="@Url.Action("Index", "UsefulInfo")" class="btn-primary-outline">
-                            Tüm Faydalı Bilgilere Dön
+                            @(LanguageService.GetCurrentLanguage() == "en" ? "Back to All" : "Tüm Faydalı Bilgilere Dön")
                         </a>
                     </div>
                 }
@@ -123,16 +127,16 @@
                                         {
                                             @if (info.ImageUrl.StartsWith("/uploads/") || info.ImageUrl.StartsWith("http"))
                                             {
-                                                <img src="@info.ImageUrl" alt="@info.Title" class="blog-featured-image" loading="lazy">
+                                                <img src="@info.ImageUrl" alt="@info.GetLocalizedTitle(LanguageService)" class="blog-featured-image" loading="lazy">
                                             }
                                             else
                                             {
-                                                <img src="/uploads/@info.ImageUrl" alt="@info.Title" class="blog-featured-image" loading="lazy">
+                                                <img src="/uploads/@info.ImageUrl" alt="@info.GetLocalizedTitle(LanguageService)" class="blog-featured-image" loading="lazy">
                                             }
                                         }
                                         else
                                         {
-                                            <img src="/img/blog-placeholder.png" alt="@info.Title" class="blog-featured-image">
+                                            <img src="/img/blog-placeholder.png" alt="@info.GetLocalizedTitle(LanguageService)" class="blog-featured-image">
                                         }
 
                                         <!-- Image Overlay -->
@@ -145,7 +149,7 @@
 
                                         <!-- Category Badge -->
                                         <span class="category-badge-modern">
-                                            <i class="fas fa-lightbulb me-1"></i>Faydalı Bilgi
+                                            <i class="fas fa-lightbulb me-1"></i>@(LanguageService.GetCurrentLanguage() == "en" ? "Useful Info" : "Faydalı Bilgi")
                                         </span>
 
                                         <!-- Date Badge -->
@@ -163,12 +167,15 @@
                                         <div class="meta-group">
                                             <span class="meta-item">
                                                 <i class="far fa-eye"></i>
-                                                @info.ViewCount görüntülenme
+                                                @info.ViewCount @(LanguageService.GetCurrentLanguage() == "en" ? "views" : "görüntülenme")
                                             </span>
                                             <span class="meta-divider">•</span>
                                             <span class="meta-item">
                                                 @{
-                                                    var readingTime = (info.Content?.Length ?? 0) / 200 + 1;
+                                                    var contentLength = (info.Content ?? string.Empty).Length;
+                                                    var contentLengthEn = (info.ContentEn ?? string.Empty).Length;
+                                                    var lengthToUse = LanguageService.GetCurrentLanguage() == "en" && contentLengthEn > 0 ? contentLengthEn : contentLength;
+                                                    var readingTime = (lengthToUse / 200) + 1;
                                                 }
                                                 <i class="far fa-clock"></i>
                                                 @readingTime dk okuma
@@ -178,14 +185,15 @@
 
                                     <!-- Blog Title -->
                                     <h2 class="blog-title-modern">
-                                        <a href="@Url.Action("Details", "UsefulInfo", new { id = info.Id, slug = info.Slug })">
-                                            @info.Title
+                                        <a href="@Url.Action("Details", "UsefulInfo", new { id = info.Id, slug = (LanguageService.GetCurrentLanguage() == "en" && !string.IsNullOrEmpty(info.SlugEn)) ? info.SlugEn : info.Slug })">
+                                            @info.GetLocalizedTitle(LanguageService)
                                         </a>
                                     </h2>
 
                                     <!-- Blog Excerpt -->
                                     @{
-                                        var plainText = Regex.Replace(info.Content ?? "", "<.*?>", "");
+                                        var localizedContent = LanguageService.GetCurrentLanguage() == "en" && !string.IsNullOrEmpty(info.ContentEn) ? info.ContentEn : info.Content;
+                                        var plainText = Regex.Replace(localizedContent ?? "", "<.*?>", "");
                                         var excerpt = plainText.Length > 140 ? plainText.Substring(0, 140) + "..." : plainText;
                                     }
                                     <p class="blog-excerpt-modern">@excerpt</p>
@@ -204,19 +212,22 @@
                                         }
 
                                         <!-- Tags Preview -->
-                                        @if (!string.IsNullOrEmpty(info.Tags))
+                                        @{
+                                            var localizedTags = info.GetLocalizedTags(LanguageService);
+                                        }
+                                        @if (!string.IsNullOrEmpty(localizedTags))
                                         {
                                             <div class="tags-preview">
-                                                @foreach (var tag in info.Tags.Split(',', StringSplitOptions.RemoveEmptyEntries).Take(2))
+                                                @foreach (var tag in localizedTags.Split(',', StringSplitOptions.RemoveEmptyEntries).Take(2))
                                                 {
                                                     <a href="@Url.Action("Tag", "UsefulInfo", new { tag = tag.Trim() })"
                                                        class="tag-mini">
                                                         #@tag.Trim()
                                                     </a>
                                                 }
-                                                @if (info.Tags.Split(',', StringSplitOptions.RemoveEmptyEntries).Length > 2)
+                                                @if (localizedTags.Split(',', StringSplitOptions.RemoveEmptyEntries).Length > 2)
                                                 {
-                                                    <span class="tag-more">+@(info.Tags.Split(',', StringSplitOptions.RemoveEmptyEntries).Length - 2)</span>
+                                                    <span class="tag-more">+@(localizedTags.Split(',', StringSplitOptions.RemoveEmptyEntries).Length - 2)</span>
                                                 }
                                             </div>
                                         }
@@ -224,17 +235,17 @@
 
                                     <!-- Action Footer -->
                                     <div class="card-action-footer">
-                                        <a href="@Url.Action("Details", "UsefulInfo", new { id = info.Id, slug = info.Slug })"
+                                        <a href="@Url.Action("Details", "UsefulInfo", new { id = info.Id, slug = (LanguageService.GetCurrentLanguage() == "en" && !string.IsNullOrEmpty(info.SlugEn)) ? info.SlugEn : info.Slug })"
                                            class="read-more-modern">
-                                            <span>Detayını Gör</span>
+                                            <span>@(LanguageService.GetCurrentLanguage() == "en" ? "Read More" : "Detayını Gör")</span>
                                             <i class="fas fa-chevron-right"></i>
                                         </a>
 
                                         <!-- Share Action -->
                                         <div class="share-action">
-                                            <button class="share-btn" title="Paylaş">
+                                            <button class="share-btn" title="@(LanguageService.GetCurrentLanguage() == "en" ? "Share" : "Paylaş")">
                                                 <i class="fas fa-share-alt"></i>
-                                                <span>Paylaş</span>
+                                                <span>@(LanguageService.GetCurrentLanguage() == "en" ? "Share" : "Paylaş")</span>
                                             </button>
                                         </div>
                                     </div>

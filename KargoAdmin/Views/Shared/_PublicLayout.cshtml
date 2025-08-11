@@ -6,7 +6,7 @@
 @inject ILanguageService LanguageService
 
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="@(LanguageService.GetCurrentLanguage())">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -41,39 +41,39 @@
 
                 <!-- Menu Items -->
                 <div class="navbar-menu" id="navbarMenu">
-                    <a href="/" class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Index" && ViewContext.RouteData.Values["Controller"].ToString() == "Public" ? "active" : "")">Anasayfa</a>
+                    <a href="/" class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Index" && ViewContext.RouteData.Values["Controller"].ToString() == "Public" ? "active" : "")">@(LanguageService.GetCurrentLanguage() == "en" ? "Home" : "Anasayfa")</a>
 
                     <!-- Hizmetlerimiz Dropdown -->
                     <div class="nav-dropdown">
                         <a href="#" class="nav-item dropdown-toggle @(ViewContext.RouteData.Values["Action"].ToString() == "Services" ? "active" : "")">
-                            Hizmetlerimiz
+                            @(LanguageService.GetCurrentLanguage() == "en" ? "Services" : "Hizmetlerimiz")
                             <i class="fas fa-chevron-down"></i>
                         </a>
                         <div class="dropdown-menu-custom">
                             <a href="/Aleris/Servisler/KaraYolu" class="dropdown-item-custom">
                                 <i class="fas fa-truck"></i>
-                                Kara Yolu Taşımacılığı
+                                @(LanguageService.GetCurrentLanguage() == "en" ? "Land Transport" : "Kara Yolu Taşımacılığı")
                             </a>
                             <a href="/Aleris/Servisler/DenizYolu" class="dropdown-item-custom">
                                 <i class="fas fa-plane"></i>
-                                Hava Yolu Taşımacılığı
+                                @(LanguageService.GetCurrentLanguage() == "en" ? "Air Transport" : "Hava Yolu Taşımacılığı")
                             </a>
                             <a href="/Aleris/Servisler/HavaYolu" class="dropdown-item-custom">
                                 <i class="fas fa-ship"></i>
-                                Deniz Yolu Taşımacılığı
+                                @(LanguageService.GetCurrentLanguage() == "en" ? "Sea Transport" : "Deniz Yolu Taşımacılığı")
                             </a>
                             <a href="/Aleris/Servisler/DepolamaDagitim" class="dropdown-item-custom">
                                 <i class="fas fa-warehouse"></i>
-                                Depolama Dağıtım
+                                @(LanguageService.GetCurrentLanguage() == "en" ? "Storage & Distribution" : "Depolama Dağıtım")
                             </a>
                         </div>
                     </div>
 
-                    <a href="/Blog" class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "PublicBlog" ? "active" : "")">Haberler</a>
+                    <a href="/Blog" class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "PublicBlog" ? "active" : "")">@(LanguageService.GetCurrentLanguage() == "en" ? "News" : "Haberler")</a>
                     <a href="@Url.Action("Index", "UsefulInfo")" class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "UsefulInfo" ? "active" : "")">
-                        Faydalı Bilgiler
+                        @(LanguageService.GetCurrentLanguage() == "en" ? "Useful Information" : "Faydalı Bilgiler")
                     </a>
-                    <a href="/Aleris/Hakkımızda" class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">Hakkımızda</a>
+                    <a href="/Aleris/Hakkımızda" class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">@(LanguageService.GetCurrentLanguage() == "en" ? "About Us" : "Hakkımızda")</a>
                 </div>
 
                 <!-- Right Side - Search & Contact & Language -->
@@ -84,7 +84,7 @@
                     </button>
 
                     <!-- Contact Button -->
-                    <a href="/Aleris/Iletisim" class="contact-btn">İletişime Geç!</a>
+                    <a href="/Aleris/Iletisim" class="contact-btn">@(LanguageService.GetCurrentLanguage() == "en" ? "Contact Us" : "İletişime Geç!")</a>
 
                     <!-- Language Flags -->
                     <div class="language-flags">
@@ -108,28 +108,28 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="searchModalLabel">Arama</h5>
+                    <h5 class="modal-title" id="searchModalLabel">@(LanguageService.GetCurrentLanguage() == "en" ? "Search" : "Arama")</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="searchForm">
                         <div class="mb-3">
-                            <label for="searchQuery" class="form-label">Ne aramak istiyorsunuz?</label>
-                            <input type="text" class="form-control" id="searchQuery" placeholder="Arama teriminizi giriniz...">
+                            <label for="searchQuery" class="form-label">@(LanguageService.GetCurrentLanguage() == "en" ? "What would you like to search?" : "Ne aramak istiyorsunuz?")</label>
+                            <input type="text" class="form-control" id="searchQuery" placeholder="@(LanguageService.GetCurrentLanguage() == "en" ? "Enter your search term..." : "Arama teriminizi giriniz...")">
                         </div>
                         <div class="mb-3">
                             <small class="text-muted">
                                 <i class="fas fa-lightbulb me-1"></i>
-                                İpucu: Hizmetler, blog yazıları veya genel bilgiler arayabilirsiniz.
+                                @(LanguageService.GetCurrentLanguage() == "en" ? "Tip: You can search for services, blog posts or general information." : "İpucu: Hizmetler, blog yazıları veya genel bilgiler arayabilirsiniz.")
                             </small>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@(LanguageService.GetCurrentLanguage() == "en" ? "Close" : "Kapat")</button>
                     <button type="button" class="btn btn-primary" onclick="performSearch()">
                         <i class="fas fa-search me-1"></i>
-                        Ara
+                        @(LanguageService.GetCurrentLanguage() == "en" ? "Search" : "Ara")
                     </button>
                 </div>
             </div>

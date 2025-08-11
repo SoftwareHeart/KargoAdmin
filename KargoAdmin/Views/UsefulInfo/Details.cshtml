@@ -1,7 +1,10 @@
 ﻿@model Blog
 @using System.Text.RegularExpressions
+@using KargoAdmin.Services
+@using KargoAdmin.Helpers
+@inject ILanguageService LanguageService
 @{
-    ViewData["Title"] = Model?.Title ?? "Sayfa Bulunamadı";
+    ViewData["Title"] = Model != null ? Model.GetLocalizedTitle(LanguageService) : "Sayfa Bulunamadı";
     Layout = "_PublicLayout";
 }
 
@@ -14,9 +17,9 @@
             <!-- Breadcrumb -->
             <nav aria-label="breadcrumb" class="blog-breadcrumb-nav">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Aleris")">Ana Sayfa</a></li>
-                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "UsefulInfo")">Faydalı Bilgiler</a></li>
-                    <li class="breadcrumb-item active">@(Model?.Title ?? "Bilinmeyen")</li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Aleris")">@(LanguageService.GetCurrentLanguage() == "en" ? "Home" : "Ana Sayfa")</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "UsefulInfo")">@(LanguageService.GetCurrentLanguage() == "en" ? "Useful Information" : "Faydalı Bilgiler")</a></li>
+                    <li class="breadcrumb-item active">@(Model != null ? Model.GetLocalizedTitle(LanguageService) : "Bilinmeyen")</li>
                 </ol>
             </nav>
 
@@ -24,11 +27,11 @@
             <div class="blog-hero-meta">
                 <div class="meta-item">
                     <i class="far fa-calendar-alt"></i>
-                    <span>@(Model?.PublishDate.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("tr-TR")) ?? "Tarih Bilinmiyor")</span>
+                    <span>@(Model?.PublishDate.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo(LanguageService.GetCurrentLanguage() == "en" ? "en-US" : "tr-TR")) ?? "Tarih Bilinmiyor")</span>
                 </div>
                 <div class="meta-item">
                     <i class="far fa-eye"></i>
-                    <span>@(Model?.ViewCount ?? 0) görüntülenme</span>
+                    <span>@(Model?.ViewCount ?? 0) @(LanguageService.GetCurrentLanguage() == "en" ? "views" : "görüntülenme")</span>
                 </div>
                 @{
                     var wordCount = 0;
@@ -48,7 +51,7 @@
             </div>
 
             <!-- Blog Title -->
-            <h1 class="blog-hero-title">@(Model?.Title ?? "Başlık Bulunamadı")</h1>
+            <h1 class="blog-hero-title">@(Model != null ? Model.GetLocalizedTitle(LanguageService) : "Başlık Bulunamadı")</h1>
 
             <!-- Author Info -->
             @if (!string.IsNullOrEmpty(Model?.Author?.FirstName))
@@ -59,7 +62,7 @@
                     </div>
                     <div class="author-info">
                         <span class="author-name">@Model.Author.FirstName @(Model.Author.LastName ?? "")</span>
-                        <span class="author-title">İçerik Editörü</span>
+                         <span class="author-title">@(LanguageService.GetCurrentLanguage() == "en" ? "Content Editor" : "İçerik Editörü")</span>
                     </div>
                 </div>
             }
@@ -77,19 +80,19 @@
                 <article class="blog-content-card">
                     <!-- Content -->
                     <div class="blog-article-content">
-                        @Html.Raw(Model?.Content ?? "İçerik bulunamadı.")
+                        @Html.Raw(Model != null ? Model.GetLocalizedContent(LanguageService) : "İçerik bulunamadı.")
                     </div>
 
                     <!-- Tags Section -->
-                    @if (!string.IsNullOrEmpty(Model?.Tags))
+                    @if (Model != null && !string.IsNullOrEmpty(Model.GetLocalizedTags(LanguageService)))
                     {
                         <div class="blog-tags-section">
                             <h4 class="tags-title">
                                 <i class="fas fa-tags"></i>
-                                Etiketler
+                                @(LanguageService.GetCurrentLanguage() == "en" ? "Tags" : "Etiketler")
                             </h4>
                             <div class="tags-container">
-                                @foreach (var tag in Model.Tags.Split(',', StringSplitOptions.RemoveEmptyEntries))
+                                @foreach (var tag in Model.GetLocalizedTags(LanguageService).Split(',', StringSplitOptions.RemoveEmptyEntries))
                                 {
                                     <a href="@Url.Action("Tag", "UsefulInfo", new { tag = tag.Trim() })"
                                        class="blog-detail-tag">
@@ -104,7 +107,7 @@
                     <div class="blog-share-section">
                         <h4 class="share-title">
                             <i class="fas fa-share-alt"></i>
-                            Bu faydalı bilgiyi paylaş
+                            @(LanguageService.GetCurrentLanguage() == "en" ? "Share this information" : "Bu faydalı bilgiyi paylaş")
                         </h4>
                         <div class="share-buttons">
                             <a href="javascript:void(0)"
@@ -129,7 +132,7 @@
                                onclick="copyToClipboard(this); return false;"
                                class="share-btn copy">
                                 <i class="fas fa-link"></i>
-                                <span>Linki Kopyala</span>
+                                <span>@(LanguageService.GetCurrentLanguage() == "en" ? "Copy Link" : "Linki Kopyala")</span>
                             </a>
                         </div>
                     </div>
@@ -139,7 +142,7 @@
                 <div class="blog-navigation">
                     <a href="@Url.Action("Index", "UsefulInfo")" class="nav-btn back-to-list">
                         <i class="fas fa-arrow-left"></i>
-                        <span>Tüm Faydalı Bilgilere Dön</span>
+                        <span>@(LanguageService.GetCurrentLanguage() == "en" ? "Back to All" : "Tüm Faydalı Bilgilere Dön")</span>
                     </a>
                 </div>
             </div>

@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using KargoAdmin.Data;
 using KargoAdmin.Models;
 using System.Text.RegularExpressions;
+using KargoAdmin.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace KargoAdmin.Controllers
 {
@@ -22,10 +24,13 @@ namespace KargoAdmin.Controllers
                 .Where(b => b.IsPublished && b.Type == "Faydalı Bilgi")
                 .OrderByDescending(b => b.PublishDate);
 
-            // Tag filtreleme
+            // Tag filtreleme (TR+EN destekli)
             if (!string.IsNullOrEmpty(tag))
             {
-                query = (IOrderedQueryable<Blog>)query.Where(b => b.Tags.Contains(tag));
+                query = (IOrderedQueryable<Blog>)query.Where(b =>
+                    (b.Tags != null && b.Tags.Contains(tag)) ||
+                    (b.TagsEn != null && b.TagsEn.Contains(tag))
+                );
                 ViewBag.CurrentTag = tag;
             }
 
@@ -39,7 +44,7 @@ namespace KargoAdmin.Controllers
                 .Take(pageSize)
                 .ToListAsync();
 
-            // Mevcut etiketleri getir - GetAvailableTagsSimple kullan
+            // Mevcut etiketleri getir - Dil duyarlı
             ViewBag.AvailableTags = await GetAvailableTagsSimple();
             ViewBag.CurrentPage = page;
             ViewBag.TotalPages = totalPages;
@@ -49,7 +54,7 @@ namespace KargoAdmin.Controllers
             return View(usefulInfos);
         }
 
-        // Tag'e göre filtreleme - PublicBlog ile aynı mantık
+        // Tag'e göre filtreleme - TR+EN tag alanlarını destekle
         public async Task<IActionResult> Tag(string tag, int page = 1)
         {
             if (string.IsNullOrEmpty(tag))
@@ -60,7 +65,9 @@ namespace KargoAdmin.Controllers
             int pageSize = 6;
 
             var blogs = await _context.Blogs
-                .Where(b => b.IsPublished && b.Tags.Contains(tag) && b.Type == "Faydalı Bilgi")
+                .Where(b => b.IsPublished && b.Type == "Faydalı Bilgi" &&
+                            ((b.Tags != null && b.Tags.Contains(tag)) ||
+                             (b.TagsEn != null && b.TagsEn.Contains(tag))))
                 .OrderByDescending(b => b.PublishDate)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
@@ -68,7 +75,9 @@ namespace KargoAdmin.Controllers
                 .ToListAsync();
 
             var totalBlogs = await _context.Blogs
-                .Where(b => b.IsPublished && b.Tags.Contains(tag) && b.Type == "Faydalı Bilgi")
+                .Where(b => b.IsPublished && b.Type == "Faydalı Bilgi" &&
+                            ((b.Tags != null && b.Tags.Contains(tag)) ||
+                             (b.TagsEn != null && b.TagsEn.Contains(tag))))
                 .CountAsync();
 
             ViewBag.CurrentPage = page;
@@ -79,7 +88,7 @@ namespace KargoAdmin.Controllers
             return View("Index", blogs);
         }
 
-        // Detay sayfası - PublicBlog ile aynı yapı
+        // Detay sayfası - Slug/SlugEn destekli
         public async Task<IActionResult> Details(int? id, string slug)
         {
             Blog usefulInfo = null;
@@ -98,7 +107,7 @@ namespace KargoAdmin.Controllers
             {
                 usefulInfo = await _context.Blogs
                     .Include(b => b.Author) // Author bilgisini de yükle
-                    .FirstOrDefaultAsync(b => b.Slug == slug &&
+                    .FirstOrDefaultAsync(b => (b.Slug == slug || b.SlugEn == slug) &&
                                             b.IsPublished &&
                                             b.Type == "Faydalı Bilgi");
             }
@@ -147,11 +156,13 @@ namespace KargoAdmin.Controllers
             ViewBag.RelatedInfos = relatedInfos;
 
             // SEO için meta veriler
-            ViewBag.MetaTitle = usefulInfo.Title;
-            ViewBag.MetaDescription = !string.IsNullOrEmpty(usefulInfo.MetaDescription)
-                ? usefulInfo.MetaDescription
-                : StripHtml(usefulInfo.Content).Substring(0, Math.Min(160, usefulInfo.Content.Length));
-            ViewBag.MetaKeywords = usefulInfo.Tags;
+            ViewBag.MetaTitle = string.IsNullOrEmpty(usefulInfo.TitleEn) ? usefulInfo.Title : usefulInfo.TitleEn;
+            var contentFallback = string.IsNullOrEmpty(usefulInfo.ContentEn) ? usefulInfo.Content : usefulInfo.ContentEn;
+            var metaFallback = string.IsNullOrEmpty(usefulInfo.MetaDescriptionEn) ? usefulInfo.MetaDescription : usefulInfo.MetaDescriptionEn;
+            ViewBag.MetaDescription = !string.IsNullOrEmpty(metaFallback)
+                ? metaFallback
+                : StripHtml(contentFallback).Substring(0, Math.Min(160, contentFallback?.Length ?? 0));
+            ViewBag.MetaKeywords = string.IsNullOrEmpty(usefulInfo.TagsEn) ? usefulInfo.Tags : usefulInfo.TagsEn;
 
             return View(usefulInfo);
         }
@@ -199,26 +210,42 @@ namespace KargoAdmin.Controllers
             return Regex.Replace(input, "<.*?>", string.Empty);
         }
 
-        // BASİT TAG LİSTESİ - PublicBlog ile aynı mantık
+        private string GetCurrentLanguage()
+        {
+            var lang = HttpContext?.Session?.GetString("CurrentLanguage");
+            return string.IsNullOrEmpty(lang) ? "tr" : lang;
+        }
+
+        // BASİT TAG LİSTESİ - Dil duyarlı
         private async Task<List<object>> GetAvailableTagsSimple()
         {
             var result = new List<object>();
 
             try
             {
-                // Sadece "Faydalı Bilgi" tipindeki yayınlanmış blogların tag'lerini al
-                var allTagStrings = await _context.Blogs
-                    .Where(b => b.IsPublished && b.Type == "Faydalı Bilgi" && !string.IsNullOrEmpty(b.Tags))
-                    .Select(b => b.Tags)
-                    .ToListAsync();
+                var currentLang = GetCurrentLanguage();
 
-                // Tag sayılarını hesapla
-                var tagCounts = new Dictionary<string, int>();
+                IQueryable<string> tagQuery;
+                if (currentLang == "en")
+                {
+                    tagQuery = _context.Blogs
+                        .Where(b => b.IsPublished && b.Type == "Faydalı Bilgi" && !string.IsNullOrEmpty(b.TagsEn))
+                        .Select(b => b.TagsEn!);
+                }
+                else
+                {
+                    tagQuery = _context.Blogs
+                        .Where(b => b.IsPublished && b.Type == "Faydalı Bilgi" && !string.IsNullOrEmpty(b.Tags))
+                        .Select(b => b.Tags!);
+                }
+
+                var allTagStrings = await tagQuery.ToListAsync();
+
+                var tagCounts = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
 
                 foreach (var tagString in allTagStrings)
                 {
-                    // "Dijital Dönüşüm,Teknoloji,Lojistik,IoT" formatındaki string'i ayır
-                    var tags = tagString.Split(',');
+                    var tags = tagString.Split(',', StringSplitOptions.RemoveEmptyEntries);
 
                     foreach (var tag in tags)
                     {
@@ -233,7 +260,6 @@ namespace KargoAdmin.Controllers
                     }
                 }
 
-                // En çok kullanılan tag'lerden az kullanılana doğru sırala
                 var sortedTags = tagCounts
                     .OrderByDescending(x => x.Value)
                     .ThenBy(x => x.Key);
@@ -245,7 +271,6 @@ namespace KargoAdmin.Controllers
             }
             catch (Exception)
             {
-                // Hata durumunda boş liste döndür
                 result = new List<object>();
             }
 
