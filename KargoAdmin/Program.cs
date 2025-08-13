@@ -43,6 +43,7 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession();
 builder.Services.AddScoped<ILanguageService, LanguageService>();
+builder.Services.AddScoped<ISettingsService, SettingsService>();
 
 // Configure form options (limit upload size)
 builder.Services.Configure<FormOptions>(o =>

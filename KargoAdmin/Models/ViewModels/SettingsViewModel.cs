@@ -20,6 +20,9 @@ namespace KargoAdmin.Models.ViewModels
         [Display(Name = "İletişim Telefon")]
         public string? ContactPhone { get; set; }
 
+        [Display(Name = "Adres")]
+        public string? Address { get; set; }
+
         [Display(Name = "Facebook URL")]
         public string? FacebookUrl { get; set; }
 
@@ -28,5 +31,8 @@ namespace KargoAdmin.Models.ViewModels
 
         [Display(Name = "Instagram URL")]
         public string? InstagramUrl { get; set; }
+
+        [Display(Name = "LinkedIn URL")]
+        public string? LinkedInUrl { get; set; }
     }
 }

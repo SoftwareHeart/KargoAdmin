@@ -50,9 +50,24 @@ namespace KargoAdmin.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public IActionResult Settings()
+        public async Task<IActionResult> Settings()
         {
-            return View();
+            var settings = await _context.Settings.AsNoTracking().ToListAsync();
+
+            var model = new SettingsViewModel
+            {
+                SiteTitle = settings.FirstOrDefault(s => s.Key == "SiteTitle")?.Value ?? string.Empty,
+                SiteDescription = settings.FirstOrDefault(s => s.Key == "SiteDescription")?.Value,
+                ContactEmail = settings.FirstOrDefault(s => s.Key == "ContactEmail")?.Value,
+                ContactPhone = settings.FirstOrDefault(s => s.Key == "ContactPhone")?.Value,
+                Address = settings.FirstOrDefault(s => s.Key == "Address")?.Value,
+                FacebookUrl = settings.FirstOrDefault(s => s.Key == "FacebookUrl")?.Value,
+                TwitterUrl = settings.FirstOrDefault(s => s.Key == "TwitterUrl")?.Value,
+                InstagramUrl = settings.FirstOrDefault(s => s.Key == "InstagramUrl")?.Value,
+                LinkedInUrl = settings.FirstOrDefault(s => s.Key == "LinkedInUrl")?.Value
+            };
+
+            return View(model);
         }
 
         [HttpPost]
@@ -75,6 +90,9 @@ namespace KargoAdmin.Controllers
                 if (!string.IsNullOrEmpty(model.ContactPhone))
                     await SaveSetting("ContactPhone", model.ContactPhone);
 
+                if (!string.IsNullOrEmpty(model.Address))
+                    await SaveSetting("Address", model.Address);
+
                 if (!string.IsNullOrEmpty(model.FacebookUrl))
                     await SaveSetting("FacebookUrl", model.FacebookUrl);
 
@@ -83,6 +101,9 @@ namespace KargoAdmin.Controllers
 
                 if (!string.IsNullOrEmpty(model.InstagramUrl))
                     await SaveSetting("InstagramUrl", model.InstagramUrl);
+
+                if (!string.IsNullOrEmpty(model.LinkedInUrl))
+                    await SaveSetting("LinkedInUrl", model.LinkedInUrl);
 
                 TempData["SuccessMessage"] = "Site ayarları başarıyla güncellendi.";
                 return RedirectToAction(nameof(Settings));

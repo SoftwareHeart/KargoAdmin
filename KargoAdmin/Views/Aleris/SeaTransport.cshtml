@@ -1,5 +1,6 @@
 ﻿@using KargoAdmin.Services
 @inject ILanguageService LanguageService
+@inject ISettingsService Settings
 @{
     ViewData["Title"] = LanguageService.GetLocalizedText("Deniz Yolu Taşımacılığı", "Sea Transport");
     Layout = "_PublicLayout";
@@ -184,11 +185,11 @@
         <p>@LanguageService.GetLocalizedText("Büyük hacimli gönderimleriniz için en uygun navlun fiyatlarını alın. Uzman ekibimiz size en iyi rotayı önerecek!", "Get the most competitive ocean freight for your large shipments. Our experts will recommend the best route!")</p>
 
         <div class="cta-buttons">
-            <a href="/Public/Contact" class="btn-cta-primary">
+            <a href="/Aleris/Iletisim" class="btn-cta-primary">
                 <i class="fas fa-calculator"></i>
                 @LanguageService.GetLocalizedText("Navlun Hesapla", "Calculate Freight")
             </a>
-            <a href="tel:+902123456789" class="btn-cta-secondary">
+            <a href="tel:@(Settings.GetValue("ContactPhone") ?? "+902128431474")" class="btn-cta-secondary">
                 <i class="fas fa-phone"></i>
                 @LanguageService.GetLocalizedText("Uzman Görüşü Al", "Get Expert Advice")
             </a>

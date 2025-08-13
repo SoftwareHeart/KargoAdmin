@@ -147,30 +147,18 @@
 <!-- Newsletter Section -->
 <section class="newsletter-section">
     <div class="newsletter-content">
-        <span class="newsletter-label">@LanguageService.GetLocalizedText("ABONE OL", "SUBSCRIBE")</span>
-        <h2>@LanguageService.GetLocalizedText("Gelişmelerden Haberdar Olun!", "Stay Informed!")</h2>
-        <p>@LanguageService.GetLocalizedText("E-bülten üyeliğimize Abone Olarak PTG LOJİSTİK Haberlerini Tüm Gelişmelerden Haberdar Olun.", "Subscribe to our newsletter and stay informed about Aleris Logistics news and updates.")</p>
+        <span class="newsletter-label">@LanguageService.GetLocalizedText("İLETİŞİM", "CONTACT")</span>
+        <h2>@LanguageService.GetLocalizedText("Bizimle İletişime Geçin", "Get in Touch")</h2>
+        <p>@LanguageService.GetLocalizedText("Her türlü soru, talep veya iş birliği için bizimle iletişime geçebilirsiniz.", "For any questions, requests or collaborations, feel free to contact us.")</p>
 
-        <form class="newsletter-form" onsubmit="return subscribeNewsletter(event)">
-            <input type="email" class="newsletter-input" placeholder="@LanguageService.GetLocalizedText("E-posta adresinizi girin", "Enter your email address")" required>
-            <button type="submit" class="newsletter-btn">@LanguageService.GetLocalizedText("Abone Ol", "Subscribe")</button>
-        </form>
+        <div class="newsletter-cta">
+            <a href="/Aleris/Iletisim" class="newsletter-btn">@LanguageService.GetLocalizedText("İletişime Geç", "Contact Us")</a>
+        </div>
     </div>
 </section>
 
 @section Scripts {
     <script>
-        function subscribeNewsletter(event) {
-            event.preventDefault();
-            const email = event.target.querySelector('input[type="email"]').value;
-
-            // Burada e-posta abone etme işlemi yapılabilir
-            alert('E-bülten aboneliğiniz başarıyla tamamlandı! Teşekkürler.');
-            event.target.reset();
-
-            return false;
-        }
-
         // Smooth scroll for internal links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
