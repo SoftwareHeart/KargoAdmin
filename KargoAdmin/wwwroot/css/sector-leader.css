@@ -392,6 +392,7 @@
     .sector-leader-title {
         font-size: 3.8rem;
     }
+
     .sector-leader-description {
         font-size: 1.15rem;
         max-width: 950px;
@@ -424,6 +425,11 @@
     .sector-leader-section {
         min-height: 90vh;
     }
+
+    .stats-boxes-container {
+        flex-wrap: nowrap;
+    }
+
     .sector-leader-content {
         padding: 60px 0;
     }
@@ -632,6 +638,23 @@
         font-size: 1.1rem;
     }
 
+    /* Mobilde forklift ve ağır animasyonları kapat */
+    .forklift-container {
+        display: none;
+    }
+
+    .stats-box-image {
+        opacity: 1;
+        transition: opacity 0.2s ease;
+    }
+
+    .stats-box,
+    .stats-box.drop,
+    .stats-box.loaded {
+        animation: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+    }
 }
 
 /* ===== MOBILE PORTRAIT (<=575px) ===== */
@@ -695,6 +718,24 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+    }
+
+    /* Küçük mobilde forklift ve ağır animasyonları kapat */
+    .forklift-container {
+        display: none;
+    }
+
+    .stats-box-image {
+        opacity: 1;
+        transition: opacity 0.2s ease;
+    }
+
+    .stats-box,
+    .stats-box.drop,
+    .stats-box.loaded {
+        animation: none !important;
+        transform: none !important;
+        opacity: 1 !important;
     }
 }
 
@@ -766,5 +807,12 @@
     .forklift-tip {
         width: 200px;
         right: 230px;
+    }
+}
+
+/* Tablet dikey yönde forklift'i kapat (görsel stabilitesi için) */
+@media (max-width: 991px) and (min-width: 768px) and (orientation: portrait) {
+    .forklift-container {
+        display: none;
     }
 }

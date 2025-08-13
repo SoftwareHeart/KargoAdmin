@@ -20,21 +20,34 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Counter animation
                 animateCounters(section);
 
-                // Stats box drop animation after initial slide-in (3 saniye sonra)
-                setTimeout(() => {
-                    const statsBoxes = section.querySelectorAll('.stats-box');
+                // Responsive: küçük ekranlarda ağır animasyonları atla
+                const isSmall = window.innerWidth < 768;
+                const isTabletPortrait = window.innerWidth >= 768 && window.innerWidth <= 991 && window.matchMedia('(orientation: portrait)').matches;
 
-                    statsBoxes.forEach((box, index) => {
-                        setTimeout(() => {
-                            box.classList.add('drop');
-
-                            // Add floating animation after drop (1 saniye sonra)
+                if (!isSmall && !isTabletPortrait) {
+                    // Stats box drop animation after initial slide-in (3s later)
+                    setTimeout(() => {
+                        const statsBoxes = section.querySelectorAll('.stats-box');
+                        statsBoxes.forEach((box, index) => {
                             setTimeout(() => {
-                                box.classList.add('loaded');
-                            }, 1000);
-                        }, index * 200);
+                                box.classList.add('drop');
+                                // Add floating animation after drop (1s later)
+                                setTimeout(() => {
+                                    box.classList.add('loaded');
+                                }, 1000);
+                            }, index * 200);
+                        });
+                    }, 3000);
+                } else {
+                    // Mobil/Tablet dikey: son durumu direkt uygula ve görselleri göster
+                    const statsBoxes = section.querySelectorAll('.stats-box');
+                    statsBoxes.forEach((box) => {
+                        box.classList.remove('drop', 'loaded');
+                        box.style.opacity = '1';
+                        const img = box.querySelector('.stats-box-image');
+                        if (img) img.style.opacity = '1';
                     });
-                }, 3000);
+                }
 
                 // Forklift choreography: forklift moves right->left, stops by each box, drops load, proceeds
                 try {
@@ -46,7 +59,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     const mover = forklift; // move the whole container to ensure visible motion
 
                     const boxes = Array.from(section.querySelectorAll('.stats-box'));
-                    if (forklift && vehicle && cabin && tip && load && boxes.length) {
+                    const enableForklift = !isSmall && !isTabletPortrait;
+                    if (enableForklift && forklift && vehicle && cabin && tip && load && boxes.length) {
                         // Ensure initial state
                         forklift.classList.add('forklift-moving-in', 'forklift-holding-load');
                         let currentForkX = 0; // cumulative horizontal movement for forklift
@@ -67,7 +81,9 @@ document.addEventListener('DOMContentLoaded', function () {
                                 const tipRect = tip.getBoundingClientRect();
 
                                 // 1) Move forklift horizontally so that the tip comes near the left side of the target box
-                                const targetTipX = boxRect.left + boxRect.width * 0.10; // slightly less inside so box is more to the right of the tip
+                                // Smaller viewports: go a bit less inside to avoid "overshoot" and long travel
+                                const insideFactor = (window.innerWidth <= 1024) ? 0.07 : (window.innerWidth <= 1366 ? 0.9 : 0.10);
+                                const targetTipX = boxRect.left + boxRect.width * insideFactor;
                                 const currentTipX = tipRect.left;
                                 const forkDeltaX = targetTipX - currentTipX;
 
@@ -79,15 +95,15 @@ document.addEventListener('DOMContentLoaded', function () {
                                 // 2) After forklift reaches the stop point, nudge the load slightly down/right into the box and drop
                                 setTimeout(() => {
                                     const loadRect = load.getBoundingClientRect();
+                                    const tipRectAfter = tip.getBoundingClientRect();
                                     // Desired contact point slightly inside the target box (visually aligns with fork tips)
-                                    const baseAlignX = 0.12; // inside the box width
-                                    const baseAlignY = 0.50; // mid-height of the box
+                                    const baseAlignX = (window.innerWidth <= 1024) ? 0.10 : 0.12;
+                                    const baseAlignY = (window.innerWidth <= 1024) ? 0.60 : 0.55;
 
-                                    // Small viewport-specific nudge to keep alignment consistent on laptops/tablets
-                                    const isLaptop = window.innerWidth >= 992 && window.innerWidth <= 1199;
-                                    const isTablet = window.innerWidth >= 768 && window.innerWidth <= 991;
-                                    const LOAD_ALIGN_X = 36 + (isLaptop ? 10 : 0) + (isTablet ? 8 : 0);
-                                    const LOAD_ALIGN_Y = 0;
+                                    // Responsive nudges based on actual element sizes instead of fixed pixels
+                                    const viewportScale = Math.min(1, Math.max(0.65, window.innerWidth / 1440));
+                                    const LOAD_ALIGN_X = Math.max(10, tipRectAfter.width * 0.16 * viewportScale);
+                                    const LOAD_ALIGN_Y = Math.max(0, boxRect.height * 0.05 * viewportScale);
 
                                     const desiredX = (boxRect.left + boxRect.width * baseAlignX) + LOAD_ALIGN_X;
                                     const desiredY = (boxRect.top + boxRect.height * baseAlignY) + LOAD_ALIGN_Y;
@@ -149,6 +165,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
                         cabin.addEventListener('animationend', () => { clearTimeout(fallback); onCabinEnd(); });
                         tip.addEventListener('animationend', () => { clearTimeout(fallback); onTipEnd(); });
+                    } else {
+                        // Küçük ekran: forklift görsellerini gizle (CSS de gizliyor, yine de garanti)
+                        if (forklift) forklift.style.display = 'none';
                     }
                 } catch (err) {
                     console.warn('Forklift choreography error:', err);
