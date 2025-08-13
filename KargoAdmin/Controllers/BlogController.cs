@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Text;
 
 namespace KargoAdmin.Controllers
 {
@@ -22,6 +23,10 @@ namespace KargoAdmin.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly UserManager<ApplicationUser> _userManager;
+
+        private static readonly string[] AllowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".webp" };
+        private static readonly string[] AllowedContentTypes = new[] { "image/jpeg", "image/png", "image/webp" };
+        private const long MaxFileSizeBytes = 5 * 1024 * 1024; // 5MB
 
         public BlogController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, UserManager<ApplicationUser> userManager)
         {
@@ -136,7 +141,20 @@ namespace KargoAdmin.Controllers
                             DeleteImage(blog.ImageUrl);
                         }
 
-                        fileName = await UploadImage(model.ImageFile);
+                        try
+                        {
+                            fileName = await UploadImage(model.ImageFile);
+                        }
+                        catch (InvalidDataException ex)
+                        {
+                            ModelState.AddModelError("ImageFile", ex.Message);
+                            return View(model);
+                        }
+                        catch (Exception)
+                        {
+                            ModelState.AddModelError("ImageFile", "Görsel yüklenirken bir hata oluştu.");
+                            return View(model);
+                        }
                     }
 
                     // Blog bilgilerini güncelle
@@ -249,7 +267,20 @@ namespace KargoAdmin.Controllers
 
                 if (model.ImageFile != null && model.ImageFile.Length > 0)
                 {
-                    fileName = await UploadImage(model.ImageFile);
+                    try
+                    {
+                        fileName = await UploadImage(model.ImageFile);
+                    }
+                    catch (InvalidDataException ex)
+                    {
+                        ModelState.AddModelError("ImageFile", ex.Message);
+                        return View(model);
+                    }
+                    catch (Exception)
+                    {
+                        ModelState.AddModelError("ImageFile", "Görsel yüklenirken bir hata oluştu.");
+                        return View(model);
+                    }
                 }
 
                 var user = await _userManager.GetUserAsync(User);
@@ -321,10 +352,35 @@ namespace KargoAdmin.Controllers
             if (imageFile == null || imageFile.Length == 0)
                 return null;
 
+            // Boyut kontrolü
+            if (imageFile.Length > MaxFileSizeBytes)
+            {
+                throw new InvalidDataException("Dosya boyutu 5MB'ı aşamaz.");
+            }
+
+            // İçerik türü ve uzantı kontrolü
+            var extension = Path.GetExtension(imageFile.FileName)?.ToLowerInvariant();
+            if (string.IsNullOrWhiteSpace(extension) || !AllowedExtensions.Contains(extension))
+            {
+                throw new InvalidDataException("Sadece JPG, JPEG, PNG veya WEBP formatları desteklenir.");
+            }
+
+            if (!AllowedContentTypes.Contains(imageFile.ContentType))
+            {
+                throw new InvalidDataException("Geçersiz içerik türü.");
+            }
+
+            // Magic number (dosya imzası) kontrolü
+            if (!await IsValidImageSignatureAsync(imageFile, extension))
+            {
+                throw new InvalidDataException("Dosya içeriği geçerli bir görsel değil.");
+            }
+
             var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
             Directory.CreateDirectory(uploadsFolder);
 
-            var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(imageFile.FileName);
+            // Orijinal isim kullanılmaz, yalnızca güvenli uzantı korunur
+            var uniqueFileName = Guid.NewGuid().ToString("N") + extension;
             var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
             using (var fileStream = new FileStream(filePath, FileMode.Create))
@@ -334,6 +390,41 @@ namespace KargoAdmin.Controllers
 
             // ESKİ SİSTEM: Sadece dosya adını döndür
             return uniqueFileName;
+        }
+
+        private static async Task<bool> IsValidImageSignatureAsync(IFormFile file, string extension)
+        {
+            // İmza doğrulama için ilk 12 baytı oku
+            using var stream = file.OpenReadStream();
+            byte[] header = new byte[12];
+            int read = await stream.ReadAsync(header, 0, header.Length);
+            if (read < 12) return false;
+
+            // JPEG: FF D8 FF
+            if (extension == ".jpg" || extension == ".jpeg")
+            {
+                return header[0] == 0xFF && header[1] == 0xD8 && header[2] == 0xFF;
+            }
+
+            // PNG: 89 50 4E 47 0D 0A 1A 0A
+            if (extension == ".png")
+            {
+                byte[] sig = new byte[] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
+                for (int i = 0; i < sig.Length; i++)
+                {
+                    if (header[i] != sig[i]) return false;
+                }
+                return true;
+            }
+
+            // WEBP: RIFF....WEBP
+            if (extension == ".webp")
+            {
+                return Encoding.ASCII.GetString(header, 0, 4) == "RIFF" &&
+                       Encoding.ASCII.GetString(header, 8, 4) == "WEBP";
+            }
+
+            return false;
         }
 
         private void DeleteImage(string imageUrl)
