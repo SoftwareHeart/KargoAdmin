@@ -37,8 +37,8 @@
     <div class="edit-form-container">
         <form asp-action="Edit" enctype="multipart/form-data" class="edit-form" id="blogEditForm">
             <div class="edit-form-body">
-                <!-- Validation Summary -->
-                <div asp-validation-summary="ModelOnly" class="alert alert-danger d-none" role="alert" id="validationSummary"></div>
+				<!-- Validation Summary -->
+				<div asp-validation-summary="ModelOnly" class="alert alert-danger @(ViewData.ModelState.IsValid ? "d-none" : "")" role="alert" id="validationSummary"></div>
 
                 <div class="edit-form-row">
                     <!-- Sol Kolon - Ana İçerik -->
@@ -108,6 +108,7 @@
                                           class="edit-form-control edit-textarea"
                                           placeholder="Blog içeriğinizi buraya yazın..."
                                           required></textarea>
+                            <div class="text-danger" data-valmsg-for="Content" data-valmsg-replace="true"></div>
                             </div>
                             <span asp-validation-for="Content" class="text-danger"></span>
                         </div>
@@ -123,6 +124,7 @@
                                           id="contentEnEditor"
                                           class="edit-form-control edit-textarea"
                                           placeholder="Write your blog content here..."></textarea>
+                            <div class="text-danger" data-valmsg-for="ContentEn" data-valmsg-replace="true"></div>
                             </div>
                             <span asp-validation-for="ContentEn" class="text-danger"></span>
                         </div>
@@ -139,7 +141,7 @@
                                       placeholder="Arama motorları için kısa bir açıklama yazın..."
                                       maxlength="160"
                                       id="metaInput"></textarea>
-                            <span asp-validation-for="MetaDescription" class="text-danger"></span>
+                                <span asp-validation-for="MetaDescription" class="text-danger"></span>
 
                             <div class="edit-progress-wrapper">
                                 <div class="edit-counter">
@@ -164,7 +166,7 @@
                                       placeholder="Write a short description for search engines..."
                                       maxlength="160"
                                       id="metaEnInput"></textarea>
-                            <span asp-validation-for="MetaDescriptionEn" class="text-danger"></span>
+                                <span asp-validation-for="MetaDescriptionEn" class="text-danger"></span>
 
                             <div class="edit-progress-wrapper">
                                 <div class="edit-counter">
@@ -461,6 +463,7 @@
 
 @section Scripts {
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+    <partial name="_ValidationScriptsPartial" />
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 Modern Blog Edit sayfası başlatılıyor...');

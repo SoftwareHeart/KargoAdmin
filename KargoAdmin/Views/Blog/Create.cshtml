@@ -36,9 +36,10 @@
     <!-- Ana Form Container -->
     <div class="create-form-container">
         <form asp-action="Create" enctype="multipart/form-data" class="create-form" id="blogCreateForm">
+            @Html.AntiForgeryToken()
             <div class="create-form-body">
-                <!-- Validation Summary -->
-                <div asp-validation-summary="ModelOnly" class="alert alert-danger d-none create-fade-in" role="alert" id="validationSummary"></div>
+				<!-- Validation Summary -->
+				<div asp-validation-summary="ModelOnly" class="alert alert-danger @(ViewData.ModelState.IsValid ? "d-none" : "") create-fade-in" role="alert" id="validationSummary"></div>
 
                 <div class="create-form-row">
                     <!-- Sol Kolon - Ana İçerik -->
@@ -105,6 +106,7 @@
                                           class="create-form-control create-textarea"
                                           placeholder="Harika içeriğinizi buraya yazın... Hikayenizi anlatın!"
                                           required></textarea>
+                            <div class="text-danger" data-valmsg-for="Content" data-valmsg-replace="true"></div>
                             </div>
                             <span asp-validation-for="Content" class="text-danger"></span>
                             <small class="create-counter-text">
@@ -124,6 +126,7 @@
                                           id="contentEnEditor"
                                           class="create-form-control create-textarea"
                                           placeholder="Write your amazing content here... Tell your story!"></textarea>
+                            <div class="text-danger" data-valmsg-for="ContentEn" data-valmsg-replace="true"></div>
                             </div>
                             <span asp-validation-for="ContentEn" class="text-danger"></span>
                             <small class="create-counter-text">
@@ -422,6 +425,7 @@
 
 @section Scripts {
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+    <partial name="_ValidationScriptsPartial" />
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 Modern Blog Create sayfası başlatılıyor...');
@@ -464,6 +468,14 @@
                     });
 
                     console.log('✅ Türkçe CKEditor başarıyla yüklendi');
+
+                    // CKEditor içeriğini textarea'ya senkronize et
+                    const contentTextArea = document.querySelector('#contentEditor');
+                    if (contentTextArea) {
+                        editor.model.document.on('change:data', () => {
+                            contentTextArea.value = editor.getData();
+                        });
+                    }
                 })
                 .catch(error => {
                     console.error('❌ Türkçe CKEditor Error:', error);
@@ -503,6 +515,14 @@
                     });
 
                     console.log('✅ İngilizce CKEditor başarıyla yüklendi');
+
+                    // CKEditor (EN) içeriğini textarea'ya senkronize et
+                    const contentEnTextArea = document.querySelector('#contentEnEditor');
+                    if (contentEnTextArea) {
+                        editorEn.model.document.on('change:data', () => {
+                            contentEnTextArea.value = editorEn.getData();
+                        });
+                    }
                 })
                 .catch(error => {
                     console.error('❌ İngilizce CKEditor Error:', error);
@@ -980,6 +1000,22 @@
             // ===== Form Gönderme ve Kaydetme =====
             if (form && saveButton && saveText) {
                 form.addEventListener('submit', function(e) {
+                    // CKEditor içeriklerini submit öncesi textarea'lara aktar
+                    try {
+                        if (typeof editor !== 'undefined') {
+                            const contentTextArea = document.querySelector('#contentEditor');
+                            if (contentTextArea) {
+                                contentTextArea.value = editor.getData();
+                            }
+                        }
+                        if (typeof editorEn !== 'undefined') {
+                            const contentEnTextArea = document.querySelector('#contentEnEditor');
+                            if (contentEnTextArea) {
+                                contentEnTextArea.value = editorEn.getData();
+                            }
+                        }
+                    } catch (_) {}
+
                     // Form validasyonu
                     if (!form.checkValidity()) {
                         e.preventDefault();

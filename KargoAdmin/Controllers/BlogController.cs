@@ -242,7 +242,6 @@ namespace KargoAdmin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(BlogCreateViewModel model)
         {
-            ModelState.Remove("ImageFile");
 
             if (ModelState.IsValid)
             {

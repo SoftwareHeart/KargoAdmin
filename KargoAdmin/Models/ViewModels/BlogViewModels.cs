@@ -22,7 +22,7 @@ namespace KargoAdmin.Models.ViewModels
         public string? ContentEn { get; set; }
 
         [Display(Name = "Kapak Görseli")]
-        public IFormFile ImageFile { get; set; }
+		public IFormFile? ImageFile { get; set; }
 
         [Display(Name = "Yayınla")]
         public bool IsPublished { get; set; } = true;
