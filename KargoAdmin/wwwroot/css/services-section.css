@@ -102,11 +102,13 @@
     object-fit: contain;
     filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.15));
     transition: all 0.3s ease;
+    animation: servicesWorldRotate 25s linear infinite;
 }
 
 /* World Pulse Effect */
 .world-services-container.world-pulse .world-services-image {
-    animation: worldPulse 6s ease-in-out infinite;
+    /* Only rotate; disable pulsing to prevent size changes */
+    animation: servicesWorldRotate 25s linear infinite;
 }
 
 @keyframes worldPulse {
@@ -118,6 +120,17 @@
 
     50% {
         transform: scale(1.05);
+    }
+}
+
+/* Continuous rotation for services-section world */
+@keyframes servicesWorldRotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
     }
 }
 
@@ -172,7 +185,7 @@
 }
 
 .land-van-vehicle {
-    bottom: 0;
+    bottom: -10%;
     left: 5%;
 }
 
@@ -413,6 +426,7 @@
         width: 450px;
         height: 450px;
     }
+
     .vehicle-image {
         width: 450px;
     }
@@ -433,6 +447,7 @@
         height: 100%;
         min-height: 100%;
     }
+
     .vehicle-image {
         width: 420px;
     }
@@ -448,21 +463,24 @@
         height: 50vh;
     }
 
-        .services-title {
-            top: 10%;
-        }
-    .container-content.animation-ready{
+    .services-title {
+        top: 10%;
+    }
+
+    .container-content.animation-ready {
         height: 100%;
         position: absolute;
         top: 60%;
     }
-        .container-content.animation-ready:nth-child(4) {
-            height: 100%;
-            position: absolute;
-            top: 60%;
-            left: 2000px;
-            right: 0;
-        }
+
+    .container-content.animation-ready:nth-child(4) {
+        height: 100%;
+        position: absolute;
+        top: 60%;
+        left: 2000px;
+        right: 0;
+    }
+
     .world-services-container {
         position: relative;
         top: auto;
@@ -497,24 +515,28 @@
     .services-title h2 {
         font-size: 2.5rem;
     }
- 
+
     .services-left {
         flex: none;
 
     }
+
     .services-right {
         flex: none;
         height: 50vh;
         top: 10%;
     }
 }
+
 @media (max-width: 568px) {
     .container-content h3 {
         font-size: 1rem
     }
+
     .container-image {
         width: 100px;
     }
+
     .container-content p {
         font-size: 1rem;
     }
@@ -522,9 +544,11 @@
     .container-number {
         font-size: 1rem;
     }
+
     .vehicle-image {
         width: 300px;
     }
+
     .service-container:nth-child(1) {
         top: 30%;
     }
@@ -542,3 +566,24 @@
     }
 }
 
+/* Large desktop and ultra-wide refinements: enlarge world image on big monitors */
+@media (min-width: 1400px) {
+    .world-services-image {
+        width: 650px;
+        height: 650px;
+    }
+}
+
+@media (min-width: 1600px) {
+    .world-services-image {
+        width: 720px;
+        height: 720px;
+    }
+}
+
+@media (min-width: 1920px) {
+    .world-services-image {
+        width: 800px;
+        height: 800px;
+    }
+}

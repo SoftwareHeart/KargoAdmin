@@ -10,7 +10,6 @@
     background: none !important;
     /* Arka plan animasyon için temizlendi */
     overflow: hidden !important;
-    padding-top: 100px !important;
     /* Navbar için alan */
     margin-top: 0 !important;
 }
@@ -276,6 +275,12 @@
     .hero-banner-scroll {
         bottom: 25px !important;
     }
+
+    /* Shrink LinkedIn icon on tablets */
+    .linkedin-floating img {
+        width: 40px !important;
+        height: auto !important;
+    }
 }
 
 /* Hero Services (scroll butonunun üstü) */
@@ -416,5 +421,43 @@
 
     .hero-banner-scroll {
         bottom: 20px !important;
+    }
+
+    /* Shrink LinkedIn icon on mobile */
+    .linkedin-floating img {
+        width: 34px !important;
+        height: auto !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+
+    /* Shrink LinkedIn icon further on small phones */
+    .linkedin-floating img {
+        width: 30px !important;
+        height: auto !important;
+    }
+}
+
+/* Responsive fix: prevent hero-services from overlapping hero text */
+@media (max-width: 991.98px) {
+    .hero-section {
+        padding-bottom: 220px !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .hero-section {
+        padding-bottom: 240px !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .hero-section {
+        padding-bottom: 260px !important;
+    }
+
+    .hero-services {
+        bottom: 70px !important;
     }
 }
