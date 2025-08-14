@@ -35,7 +35,7 @@
                 <i class="fas fa-table me-1"></i>
                 Blog Listesi
             </div>
-            <a href="@Url.Action("Create", "Blog")" class="btn btn-primary">
+            <a href="/admin/blog/create" class="btn btn-primary">
                 <i class="fas fa-plus me-1"></i> Yeni Blog Ekle
             </a>
         </div>
@@ -106,7 +106,7 @@
                                     }
                                 </td>
                                 <td class="title-cell">
-                                    <a href="@Url.Action("Details", "Blog", new { id = item.Id })"
+                                    <a href="/admin/blog/details/@item.Id"
                                        class="text-decoration-none fw-bold blog-title-link"
                                        data-blog-id="@item.Id"
                                        data-action="details">
@@ -177,7 +177,7 @@
                                 </td>
                                 <td class="actions-cell">
                                     <div class="btn-group" role="group">
-                                        <a href="@Url.Action("Details", "Blog", new { id = item.Id })"
+                                        <a href="/admin/blog/details/@item.Id"
                                            class="btn btn-info btn-sm text-white blog-details-btn"
                                            data-blog-id="@item.Id"
                                            data-action="details"
@@ -185,7 +185,7 @@
                                            title="Görüntüle">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <a href="@Url.Action("Edit", "Blog", new { id = item.Id })"
+                                        <a href="/admin/blog/edit/@item.Id"
                                            class="btn btn-primary btn-sm blog-edit-btn"
                                            data-blog-id="@item.Id"
                                            data-action="edit"
@@ -193,7 +193,7 @@
                                            title="Düzenle">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a href="@Url.Action("Delete", "Blog", new { id = item.Id })"
+                                        <a href="/admin/blog/delete/@item.Id"
                                            class="btn btn-danger btn-sm blog-delete-btn"
                                            data-blog-id="@item.Id"
                                            data-action="delete"
@@ -537,20 +537,20 @@
 
                 switch (action) {
                     case 'details':
-                        targetUrl = `@Url.Action("Details", "Blog")?id=${blogId}`;
+                        targetUrl = `/admin/blog/details/${blogId}`;
                         break;
                     case 'edit':
-                        targetUrl = `@Url.Action("Edit", "Blog")?id=${blogId}`;
+                        targetUrl = `/admin/blog/edit/${blogId}`;
                         break;
                     case 'delete':
                         if (confirm(`${blogId} ID'li blog yazısını silmek istediğinize emin misiniz?`)) {
-                            targetUrl = `@Url.Action("Delete", "Blog")?id=${blogId}`;
+                            targetUrl = `/admin/blog/delete/${blogId}`;
                         } else {
                             return;
                         }
                         break;
                     default:
-                        targetUrl = `@Url.Action("Details", "Blog")?id=${blogId}`;
+                        targetUrl = `/admin/blog/details/${blogId}`;
                 }
 
                 console.log(`Navigating to: ${targetUrl}`);

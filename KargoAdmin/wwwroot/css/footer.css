@@ -37,7 +37,7 @@
 /* Footer Grid - 4 kolon */
 .footer-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 2fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 30px;
     margin-bottom: 25px;
 }
@@ -165,8 +165,8 @@
 .footer-social-section {
     display: flex;
     justify-content: flex-end;
-    align-items: center;
-    margin-bottom: 25px;
+    height: 100%;
+    align-items: end;
 }
 
 .footer-social {

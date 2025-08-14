@@ -27,7 +27,7 @@
 <!-- Services Overview -->
 <section class="services-overview">
     <div class="services-overview-content">
-        <h2>@LanguageService.GetLocalizedText("Hava Kargo Hizmetlerimiz", "Our Air Cargo Services")</h2>
+        <h2>@LanguageService.GetLocalizedText("Hizmetlerimiz", "Our Services")</h2>
         <p class="services-overview-intro">
             @LanguageService.GetLocalizedText(
                 "Dünya çapında güvenilir havayolu şirketleriyle kurduğumuz güçlü işbirlikleri sayesinde, acil ve kritik gönderilerinizi en hızlı şekilde hedefe ulaştırıyoruz. Profesyonel ekibimiz ve gelişmiş teknolojimizle, her adımda yanınızdayız.",
@@ -35,88 +35,85 @@
         </p>
 
         <div class="services-grid">
-            <!-- Express Hava Kargo -->
+            <!-- Küresel Acente Ağı -->
             <div class="service-card">
                 <div class="service-card-icon">
-                    <i class="fas fa-plane"></i>
+                    <i class="fas fa-globe"></i>
                 </div>
-                <h3>@LanguageService.GetLocalizedText("Express Hava Kargo", "Express Air Cargo")</h3>
-                <p>@LanguageService.GetLocalizedText("Acil gönderileriniz için 24-48 saat içinde dünya geneline teslimat hizmeti.", "Worldwide delivery within 24-48 hours for your urgent shipments.")</p>
-                <ul class="service-features">
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("24-48 saat express teslimat", "24-48 hour express delivery")</li>
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("Öncelikli gümrük işlemleri", "Priority customs clearance")</li>
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("7/24 takip sistemi", "24/7 tracking system")</li>
-                </ul>
+                <h3>@LanguageService.GetLocalizedText("Küresel Acente Ağı", "Global Agency Network")</h3>
+                <p>@LanguageService.GetLocalizedText("190 ülkede, 300 şehirde 6.750'den fazla acente ile global düzeyde etkin hizmet ağı.", "An effective global service network with 6,750+ agents in 190 countries and 300 cities.")</p>
             </div>
 
-            <!-- Ekonomik Hava Kargo -->
-            <div class="service-card">
-                <div class="service-card-icon">
-                    <i class="fas fa-coins"></i>
-                </div>
-                <h3>@LanguageService.GetLocalizedText("Ekonomik Hava Kargo", "Economy Air Cargo")</h3>
-                <p>@LanguageService.GetLocalizedText("Uygun fiyatlı hava kargo çözümleriyle, bütçenizi zorlamadan güvenli taşımacılık.", "Cost-effective air cargo solutions for secure transportation without straining your budget.")</p>
-                <ul class="service-features">
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("Rekabetçi fiyatlar", "Competitive prices")</li>
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("Konsolide gönderimler", "Consolidated shipments")</li>
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("Esnek teslimat süreleri", "Flexible delivery times")</li>
-                </ul>
-            </div>
-
-            <!-- Özel Kargo Çözümleri -->
-            <div class="service-card">
-                <div class="service-card-icon">
-                    <i class="fas fa-box-open"></i>
-                </div>
-                <h3>@LanguageService.GetLocalizedText("Özel Kargo Çözümleri", "Special Cargo Solutions")</h3>
-                <p>@LanguageService.GetLocalizedText("Değerli, kırılgan veya özel bakım gerektiren yükleriniz için özel taşıma hizmetleri.", "Special transportation services for valuable, fragile or temperature-sensitive cargo.")</p>
-                <ul class="service-features">
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("Değerli eşya taşımacılığı", "Valuable goods transportation")</li>
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("Kırılgan malzeme koruması", "Fragile item protection")</li>
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("Sıcaklık kontrollü taşıma", "Temperature-controlled transport")</li>
-                </ul>
-            </div>
-
-            <!-- Gümrük ve Dokümantasyon -->
-            <div class="service-card">
-                <div class="service-card-icon">
-                    <i class="fas fa-file-alt"></i>
-                </div>
-                <h3>@LanguageService.GetLocalizedText("Gümrük ve Dokümantasyon", "Customs and Documentation")</h3>
-                <p>@LanguageService.GetLocalizedText("Tüm gümrük işlemlerinizi ve gerekli evrak süreçlerinizi uzman ekibimizle yönetiyoruz.", "We manage all your customs procedures and required documentation with our expert team.")</p>
-                <ul class="service-features">
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("Profesyonel gümrük işlemleri", "Professional customs processes")</li>
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("Dokümantasyon desteği", "Documentation support")</li>
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("Vergi ve harç hesaplaması", "Tax and duty calculation")</li>
-                </ul>
-            </div>
-
-            <!-- Kapıdan Kapıya Hizmet -->
+            <!-- Liman ve Kapı Teslim Seçenekleri -->
             <div class="service-card">
                 <div class="service-card-icon">
                     <i class="fas fa-door-open"></i>
                 </div>
-                <h3>@LanguageService.GetLocalizedText("Kapıdan Kapıya Hizmet", "Door-to-Door Service")</h3>
-                <p>@LanguageService.GetLocalizedText("Gönderinizi sizden alıp, alıcısının kapısına kadar teslim ediyoruz.", "We pick up your shipment from you and deliver it to the recipient's door.")</p>
-                <ul class="service-features">
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("Ücretsiz paketleme", "Free packaging")</li>
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("Adrese teslim", "Home delivery")</li>
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("Sigortalı gönderim", "Insured shipment")</li>
-                </ul>
+                <h3>@LanguageService.GetLocalizedText("Liman ve Kapı Teslim Seçenekleri", "Port and Door Delivery Options")</h3>
+                <p>@LanguageService.GetLocalizedText("Tüm dünyada liman ve kapı teslim hizmetleri ile esnek taşıma çözümleri.", "Flexible transport solutions with port-to-port and door-to-door delivery worldwide.")</p>
             </div>
 
-            <!-- Anlık Takip Sistemi -->
+            <!-- Uçuş Avantajları -->
             <div class="service-card">
                 <div class="service-card-icon">
-                    <i class="fas fa-satellite"></i>
+                    <i class="fas fa-plane-departure"></i>
                 </div>
-                <h3>Anlık Takip Sistemi</h3>
-                <p>Gönderinizin her anını takip edebilir, gerçek zamanlı bilgi alabilirsiniz.</p>
-                <ul class="service-features">
-                    <li><i class="fas fa-check-circle"></i> Gerçek zamanlı takip</li>
-                    <li><i class="fas fa-check-circle"></i> SMS ve e-posta bildirimleri</li>
-                    <li><i class="fas fa-check-circle"></i> Teslimat onayı</li>
-                </ul>
+                <h3>@LanguageService.GetLocalizedText("Uçuş Avantajları", "Flight Advantages")</h3>
+                <p>@LanguageService.GetLocalizedText("Geniş taşıyıcı ağı sayesinde uçuşlarda yer ve rekabetçi fiyat avantajı.", "Seat availability and competitive rates thanks to our wide carrier network.")</p>
+            </div>
+
+            <!-- Ekspres ve Hızlı Servis -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3>@LanguageService.GetLocalizedText("Ekspres ve Hızlı Servis", "Express and Fast Service")</h3>
+                <p>@LanguageService.GetLocalizedText("Acil gönderiler için zaman odaklı ekspres taşıma çözümleri.", "Time-critical express transport solutions for urgent shipments.")</p>
+            </div>
+
+            <!-- Konsolidasyon Hizmeti -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <h3>@LanguageService.GetLocalizedText("Konsolidasyon Hizmeti", "Consolidation Service")</h3>
+                <p>@LanguageService.GetLocalizedText("Birden fazla gönderiyi bir araya getirerek maliyet avantajı ve operasyonel verimlilik.", "Combine multiple shipments to gain cost advantages and operational efficiency.")</p>
+            </div>
+
+            <!-- Uçak Kiralama ve Charter Hizmetleri -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-plane"></i>
+                </div>
+                <h3>@LanguageService.GetLocalizedText("Uçak Kiralama ve Charter Hizmetleri", "Aircraft Leasing and Charter Services")</h3>
+                <p>@LanguageService.GetLocalizedText("Full ve kısmi uçak kiralama operasyonları ile özel taşıma çözümleri.", "Full and partial aircraft charter operations for bespoke transport solutions.")</p>
+            </div>
+
+            <!-- Mikro İhracat / İthalat ve Kurye Hizmetleri -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-box"></i>
+                </div>
+                <h3>@LanguageService.GetLocalizedText("Mikro İhracat / İthalat ve Kurye Hizmetleri", "Micro Export/Import and Courier Services")</h3>
+                <p>@LanguageService.GetLocalizedText("Düşük hacimli gönderiler için pratik, hızlı ve uygun maliyetli lojistik çözümleri.", "Practical, fast and cost-effective logistics solutions for low-volume shipments.")</p>
+            </div>
+
+            <!-- Karmaşık Operasyonlarda Uzmanlık -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-diagram-project"></i>
+                </div>
+                <h3>@LanguageService.GetLocalizedText("Karmaşık Operasyonlarda Uzmanlık", "Expertise in Complex Operations")</h3>
+                <p>@LanguageService.GetLocalizedText("Transit taşımacılık, çapraz ticaret, multimodal taşıma ve proje taşımacılığı süreçlerinde deneyimli ekip ve operasyonel yönetim.", "Experienced team and operational management for transit, cross-trade, multimodal and project cargo operations.")</p>
+            </div>
+
+            <!-- Tehlikeli ve Isıya Duyarlı Taşımalar -->
+            <div class="service-card">
+                <div class="service-card-icon">
+                    <i class="fas fa-triangle-exclamation"></i>
+                </div>
+                <h3>@LanguageService.GetLocalizedText("Tehlikeli ve Isıya Duyarlı Taşımalar", "Dangerous and Temperature-Sensitive Cargo")</h3>
+                <p>@LanguageService.GetLocalizedText("ADR uyumlu, sıcaklık kontrollü taşıma çözümleriyle hassas yükler için tam güvenlik.", "ADR-compliant, temperature-controlled transport solutions for maximum safety of sensitive cargo.")</p>
             </div>
         </div>
     </div>

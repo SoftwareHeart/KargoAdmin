@@ -35,7 +35,7 @@
 
     <!-- Ana Form Container -->
     <div class="edit-form-container">
-        <form asp-action="Edit" enctype="multipart/form-data" class="edit-form" id="blogEditForm">
+        <form asp-action="Edit" asp-route-id="@Model.Id" enctype="multipart/form-data" class="edit-form" id="blogEditForm">
             <div class="edit-form-body">
 				<!-- Validation Summary -->
 				<div asp-validation-summary="ModelOnly" class="alert alert-danger @(ViewData.ModelState.IsValid ? "d-none" : "")" role="alert" id="validationSummary"></div>
@@ -387,12 +387,12 @@
                             </h3>
 
                             <div class="d-grid gap-2">
-                                <a href="@Url.Action("Details", "Blog", new { id = Model.Id })"
+                                <a href="/admin/blog/details/@Model.Id"
                                    class="edit-image-btn primary"
                                    target="_blank">
                                     <i class="fas fa-eye"></i> Önizleme
                                 </a>
-                                <a href="@Url.Action("Index", "Blog")"
+                                <a href="/admin/blog"
                                    class="edit-image-btn">
                                     <i class="fas fa-list"></i> Blog Listesi
                                 </a>
@@ -1045,7 +1045,7 @@
                 // Esc ile iptal
                 if (e.key === 'Escape') {
                     if (confirm('Değişiklikleri kaydetmeden çıkmak istediğinize emin misiniz?')) {
-                        window.location.href = '@Url.Action("Index", "Blog")';
+                        window.location.href = '/admin/blog';
                     }
                 }
             });

@@ -9,7 +9,7 @@
     <h1 class="mt-4">Blog Detayları</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="/Admin">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Blog")">Blog Listesi</a></li>
+        <li class="breadcrumb-item"><a href="/admin/blog">Blog Listesi</a></li>
         <li class="breadcrumb-item active">Blog Detayları</li>
     </ol>
 
@@ -161,13 +161,13 @@
 
             <!-- Blog İşlem Butonları -->
             <div class="d-grid gap-2 mb-4">
-                <a href="@Url.Action("Edit", "Blog", new { id = Model.Id })" class="btn btn-primary">
+                <a href="/admin/blog/edit/@Model.Id" class="btn btn-primary">
                     <i class="fas fa-edit me-1"></i> Düzenle
                 </a>
-                <a href="@Url.Action("Delete", "Blog", new { id = Model.Id })" class="btn btn-danger">
+                <a href="/admin/blog/delete/@Model.Id" class="btn btn-danger">
                     <i class="fas fa-trash me-1"></i> Sil
                 </a>
-                <a href="@Url.Action("Index", "Blog")" class="btn btn-secondary">
+                <a href="/admin/blog" class="btn btn-secondary">
                     <i class="fas fa-arrow-left me-1"></i> Listeye Dön
                 </a>
             </div>

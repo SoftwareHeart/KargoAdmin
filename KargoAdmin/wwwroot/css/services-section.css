@@ -97,8 +97,8 @@
 }
 
 .world-services-image {
-    width: 550px;
-    height: 550px;
+    width: 500px;
+    height: 500px;
     object-fit: contain;
     filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.15));
     transition: all 0.3s ease;
@@ -181,7 +181,7 @@
 
 /* Vehicle specific positions */
 .land-truck-vehicle {
-    bottom: 5%;
+    bottom: -5%;
 }
 
 .land-van-vehicle {
@@ -191,11 +191,11 @@
 
 .air-vehicle {
     top: 25%;
-    right: 15%;
+    right: 0%;
 }
 
 .sea-vehicle {
-    bottom: 0;
+    bottom: -5%;
     right: 10%;
 }
 
@@ -338,7 +338,7 @@
 }
 
 .container-image {
-    width: 200px;
+    width: 180px;
     height: 100%;
     object-fit: contain;
     filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
@@ -370,7 +370,7 @@
 /* Container Content Animation */
 .container-content.animation-ready {
     position: absolute;
-    bottom: 20px;
+    bottom: 25px;
     left: 20px;
     right: 20px;
     color: white;
@@ -529,7 +529,7 @@
 }
 
 @media (max-width: 568px) {
-    .container-content h3 {
+    .container-content h4 {
         font-size: 1rem
     }
 

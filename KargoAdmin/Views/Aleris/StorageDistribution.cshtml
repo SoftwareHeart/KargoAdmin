@@ -27,7 +27,7 @@
 <!-- Services Overview -->
 <section class="services-overview">
     <div class="services-overview-content">
-        <h2>@LanguageService.GetLocalizedText("Depolama ve Dağıtım Hizmetlerimiz", "Our Storage & Distribution Services")</h2>
+        <h2>@LanguageService.GetLocalizedText("Hizmetlerimiz", "Our Services")</h2>
         <p class="services-overview-intro">
             @LanguageService.GetLocalizedText(
                 "Stratejik konumlardaki modern depolama tesislerimizde, mallarınızı güvenli koşullarda saklıyoruz. Gelişmiş envanter yönetim sistemi ve hızlı dağıtım ağımız ile tedarik zincirinizin verimliliğini artırıyoruz.",
@@ -35,88 +35,49 @@
         </p>
 
         <div class="services-grid">
-            <!-- Genel Depolama -->
+            <!-- Yurtiçi ve Yurtdışı Depolama -->
             <div class="service-card">
                 <div class="service-card-icon">
                     <i class="fas fa-warehouse"></i>
                 </div>
-                <h3>@LanguageService.GetLocalizedText("Genel Depolama Hizmetleri", "General Warehousing Services")</h3>
-                <p>@LanguageService.GetLocalizedText("Klimatize edilmiş modern depolarımızda her türlü ürün için güvenli depolama hizmeti.", "Secure storage for all kinds of products in our climate-controlled modern warehouses.")</p>
-                <ul class="service-features">
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("7/24 güvenlik sistemi", "24/7 security system")</li>
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("Klima ve nem kontrol", "Climate and humidity control")</li>
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("Esnek depolama süreleri", "Flexible storage durations")</li>
-                </ul>
+                <h3>@LanguageService.GetLocalizedText("Yurtiçi ve Yurtdışı Depolama", "Domestic and International Warehousing")</h3>
+                <p>@LanguageService.GetLocalizedText("Türkiye ve Avrupa'da konumlanmış depo ağımızla, ürünlerinizi en uygun noktada güvenli saklama imkânı.", "With our warehouse network in Turkey and Europe, store your goods safely at the most suitable locations.")</p>
             </div>
 
-            <!-- Soğuk Zincir Depolama -->
+            <!-- Sıcaklık Kontrollü ve Tehlikeli Madde Depolama -->
             <div class="service-card">
                 <div class="service-card-icon">
-                    <i class="fas fa-snowflake"></i>
+                    <i class="fas fa-temperature-low"></i>
                 </div>
-                <h3>@LanguageService.GetLocalizedText("Soğuk Zincir Depolama", "Cold Chain Storage")</h3>
-                <p>@LanguageService.GetLocalizedText("Gıda, ilaç ve soğuk zincir gerektiren ürünler için özel sıcaklık kontrollü depolama.", "Temperature-controlled storage for food, pharmaceuticals and other cold chain products.")</p>
-                <ul class="service-features">
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("-25°C ile +25°C arası kontrol", "Control between -25°C and +25°C")</li>
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("Sürekli sıcaklık izleme", "Continuous temperature monitoring")</li>
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("HACCP sertifikalı tesisler", "HACCP-certified facilities")</li>
-                </ul>
+                <h3>@LanguageService.GetLocalizedText("Sıcaklık Kontrollü ve Tehlikeli Madde Depolama", "Temperature-Controlled and Hazardous Goods Storage")</h3>
+                <p>@LanguageService.GetLocalizedText("Farklı sıcaklık seviyeleri ve tehlikeli ürünler için özel ortamlar; ADR uyumlu güvenli depolama.", "Special environments for different temperature ranges and hazardous goods; ADR-compliant safe storage.")</p>
             </div>
 
-            <!-- Envanter Yönetimi -->
+            <!-- Katma Değerli Hizmetler -->
             <div class="service-card">
                 <div class="service-card-icon">
-                    <i class="fas fa-clipboard-list"></i>
+                    <i class="fas fa-plus-circle"></i>
                 </div>
-                <h3>@LanguageService.GetLocalizedText("Envanter Yönetimi", "Inventory Management")</h3>
-                <p>@LanguageService.GetLocalizedText("WMS (Warehouse Management System) ile gerçek zamanlı stok takibi ve raporlama.", "Real-time stock tracking and reporting with a Warehouse Management System (WMS).")</p>
-                <ul class="service-features">
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("Barkod sistemi ile takip", "Barcode-based tracking")</li>
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("Otomatik stok uyarıları", "Automatic stock alerts")</li>
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("Detaylı raporlama", "Detailed reporting")</li>
-                </ul>
+                <h3>@LanguageService.GetLocalizedText("Katma Değerli Hizmetler", "Value-Added Services")</h3>
+                <p>@LanguageService.GetLocalizedText("Etiketleme, yeniden paketleme, montaj, kitting ve kalite kontrol gibi operasyonlarla lojistiğinize değer katıyoruz.", "Labeling, repackaging, assembly, kitting and quality control to add value to your logistics operations.")</p>
             </div>
 
-            <!-- Pick & Pack Hizmetleri -->
+            <!-- Dağıtım ve Toplama Operasyonları -->
             <div class="service-card">
                 <div class="service-card-icon">
-                    <i class="fas fa-box"></i>
+                    <i class="fas fa-truck"></i>
                 </div>
-                <h3>@LanguageService.GetLocalizedText("Pick & Pack Hizmetleri", "Pick & Pack Services")</h3>
-                <p>@LanguageService.GetLocalizedText("Siparişlerinizi hızlı bir şekilde hazırlayıp, profesyonel paketleme ile gönderiye hazırlıyoruz.", "We quickly prepare your orders and get them ready for shipment with professional packing.")</p>
-                <ul class="service-features">
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("Hızlı sipariş hazırlama", "Fast order preparation")</li>
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("Özel paketleme seçenekleri", "Custom packing options")</li>
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("Aynı gün kargo", "Same-day shipping")</li>
-                </ul>
+                <h3>@LanguageService.GetLocalizedText("Dağıtım ve Toplama Operasyonları", "Distribution and Collection Operations")</h3>
+                <p>@LanguageService.GetLocalizedText("Randevulu teslimatlar, şehir içi ve şehirler arası dağıtım çözümleri; şube ve depolardan toplama hizmetleri.", "Scheduled deliveries, intra-city and intercity distribution; collection from branches and warehouses.")</p>
             </div>
 
-            <!-- Cross-Docking -->
+            <!-- Entegre Lojistik Yönetimi -->
             <div class="service-card">
                 <div class="service-card-icon">
-                    <i class="fas fa-exchange-alt"></i>
+                    <i class="fas fa-network-wired"></i>
                 </div>
-                <h3>@LanguageService.GetLocalizedText("Cross-Docking Hizmetleri", "Cross-Docking Services")</h3>
-                <p>@LanguageService.GetLocalizedText("Gelen yükleri minimum bekleme süresi ile dağıtım araçlarına aktararak hızlı dağıtım sağlıyoruz.", "We transfer incoming loads to distribution vehicles with minimal waiting time to enable fast distribution.")</p>
-                <ul class="service-features">
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("Hızlı aktarım işlemleri", "Fast transfer operations")</li>
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("Minimum stok maliyeti", "Minimal inventory cost")</li>
-                    <li><i class="fas fa-check-circle"></i> @LanguageService.GetLocalizedText("Konsolidasyon hizmetleri", "Consolidation services")</li>
-                </ul>
-            </div>
-
-            <!-- Last Mile Dağıtım -->
-            <div class="service-card">
-                <div class="service-card-icon">
-                    <i class="fas fa-truck-moving"></i>
-                </div>
-                <h3>Son Nokta Dağıtım</h3>
-                <p>Şehir içi ve bölgesel dağıtım ağımızla müşterilerinize hızlı teslimat sağlıyoruz.</p>
-                <ul class="service-features">
-                    <li><i class="fas fa-check-circle"></i> Şehir içi aynı gün teslimat</li>
-                    <li><i class="fas fa-check-circle"></i> Bölgesel dağıtım ağı</li>
-                    <li><i class="fas fa-check-circle"></i> Esnek teslimat saatleri</li>
-                </ul>
+                <h3>@LanguageService.GetLocalizedText("Entegre Lojistik Yönetimi", "Integrated Logistics Management")</h3>
+                <p>@LanguageService.GetLocalizedText("Depolama, taşıma ve envanter süreçlerinde entegre şekilde yönetim; teknoloji destekli izlenebilirlik ve maliyet optimizasyonu.", "Integrated management of warehousing, transportation and inventory; tech-enabled traceability and cost optimization.")</p>
             </div>
         </div>
     </div>

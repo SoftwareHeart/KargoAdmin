@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="@Url.Action("Index", "Blog")">Detayları Görüntüle</a>
+                    <a class="small text-white stretched-link" href="/admin/blog">Detayları Görüntüle</a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="@Url.Action("Index", "Blog")">Detayları Görüntüle</a>
+                    <a class="small text-white stretched-link" href="/admin/blog">Detayları Görüntüle</a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="@Url.Action("Index", "Blog")">Detayları Görüntüle</a>
+                    <a class="small text-white stretched-link" href="/admin/blog">Detayları Görüntüle</a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                     </div>
                 </div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="@Url.Action("Index", "Blog")">Detayları Görüntüle</a>
+                    <a class="small text-white stretched-link" href="/admin/blog">Detayları Görüntüle</a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
@@ -104,10 +104,10 @@
                                         }
                                     </td>
                                     <td>
-                                        <a href="@Url.Action("Edit", "Blog", new { id = blog.Id })" class="btn btn-primary btn-sm">
+                                        <a href="/admin/blog/edit/@blog.Id" class="btn btn-primary btn-sm">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a href="@Url.Action("Details", "Blog", new { id = blog.Id })" class="btn btn-info btn-sm">
+                                        <a href="/admin/blog/details/@blog.Id" class="btn btn-info btn-sm">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                     </td>

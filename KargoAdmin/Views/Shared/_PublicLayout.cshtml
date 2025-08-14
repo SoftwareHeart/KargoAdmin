@@ -4,6 +4,7 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @inject ILanguageService LanguageService
+@inject ISettingsService SettingsService
 
 <!DOCTYPE html>
 <html lang="@(LanguageService.GetCurrentLanguage())">
@@ -235,11 +236,11 @@
 
                             <li><a href="#">Kullanım Koşulları</a></li>
 
-                            <li><a href="#">LinkedIn</a></li>
+                            <li><a href="@(SettingsService.GetValue("LinkedInUrl") ?? "#")" target="_blank" rel="noopener">LinkedIn</a></li>
 
-                            <li><a href="#">Instagram</a></li>
+                            <li><a href="@(SettingsService.GetValue("InstagramUrl") ?? "#")" target="_blank" rel="noopener">Instagram</a></li>
 
-                            <li><a href="#">Facebook</a></li>
+                            <li><a href="@(SettingsService.GetValue("FacebookUrl") ?? "#")" target="_blank" rel="noopener">Facebook</a></li>
 
                             <li><a href="#">YouTube</a></li>
 
@@ -303,15 +304,15 @@
 
                             <div class="footer-social">
 
-                                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                                <a href="@(SettingsService.GetValue("InstagramUrl") ?? "#")" aria-label="Instagram" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
 
-                                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                                <a href="@(SettingsService.GetValue("FacebookUrl") ?? "#")" aria-label="Facebook" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
 
-                                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                                <a href="@(SettingsService.GetValue("TwitterUrl") ?? "#")" aria-label="Twitter" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
 
                                 <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
 
-                                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="@(SettingsService.GetValue("LinkedInUrl") ?? "#")" aria-label="LinkedIn" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
 
                                 <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
 

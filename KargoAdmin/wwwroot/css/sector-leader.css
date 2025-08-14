@@ -223,7 +223,7 @@
 /* Forklift yük görseli (kutular) */
 .forklift-load {
     position: absolute;
-    right: 430px;
+    right: 350px;
     /* forklift ucunun biraz arkasında */
     top: 50%;
     width: 220px;
@@ -420,7 +420,7 @@
 
     .forklift-load {
         width: 130px;
-        right: 100px;
+        right: 100px !important;
         top: 57%;
         opacity: 1;
     }

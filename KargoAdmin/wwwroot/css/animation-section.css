@@ -315,10 +315,6 @@
          font-size: 4rem;
      }
 
-     .top-oval-line {
-         width: 350px;
-         height: 65px;
-     }
 
      .world-image {
          width: 550px;
@@ -828,55 +824,3 @@
      }
  }
 
- /* Landscape Orientation Fix */
- @media (max-width: 767px) and (orientation: landscape) {
-     .animation-section {
-         padding: 20px 0;
-     }
-
-     .animation-container {
-         flex-direction: row;
-         height: 100vh;
-         gap: 20px;
-     }
-
-     .animation-left {
-         flex: 0.6;
-         height: 100vh;
-         justify-content: center;
-         padding: 20px;
-     }
-
-     .animation-right {
-         flex: 0.4;
-         height: 100vh;
-     }
-
-     .animation-title {
-         font-size: 1.8rem;
-         margin-bottom: 20px;
-     }
-
-     .top-oval-line {
-         width: 200px;
-         height: 35px;
-         margin-bottom: 15px;
-     }
-
-     .service-cards-container {
-         flex-direction: row;
-         gap: 15px;
-     }
-
-     .service-mini-card {
-         width: 140px;
-         height: 80px;
-         flex-direction: column;
-         text-align: center;
-     }
-
-     .service-mini-icon {
-         margin-right: 0;
-         margin-bottom: 5px;
-     }
- }

@@ -663,8 +663,9 @@
 
 /* Navigation */
 .blog-navigation {
+    padding-bottom: 1rem;
+    padding-top: 1rem;
     margin-top: 3rem;
-    padding-top: 2rem;
     border-top: 2px solid #f1f5f9;
 }
 

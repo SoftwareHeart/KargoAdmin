@@ -61,9 +61,7 @@
     transition: height 0.3s ease;
 }
 
-.modern-navbar.scrolled .navbar-logo img {
-    height: 35px;
-}
+
 
 /* Menü */
 .navbar-menu {
@@ -341,8 +339,15 @@
 
 @media (max-width: 480px) {
     .navbar-logo img {
-        height: 20px;
+        height: 15px;
         transition: height 0.3s ease;
+    }
+    .contact-btn {
+        padding: 4px 12px;
+    }
+    .search-btn {
+        width: 24px;
+        height: 24px;
     }
 }
 
