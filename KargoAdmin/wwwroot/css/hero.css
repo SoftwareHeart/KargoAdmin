@@ -367,37 +367,38 @@
     .hero-services {
         grid-template-columns: 1fr 1fr !important;
         width: 92vw !important;
-        gap: 10px !important;
+        gap: 5px !important;
         bottom: 85px !important;
     }
 
     .hero-service-card {
         grid-template-columns: 48px 1fr !important;
-        padding: 10px 12px !important;
+        padding: 10px 4px !important;
     }
 
     .hero-service-icon {
-        width: 48px !important;
-        height: 48px !important;
+        width: 36px !important;
+        height: 36px !important;
     }
 
     .hero-service-icon img {
-        width: 30px !important;
-        height: 30px !important;
+        width: 36px !important;
+        height: 36px !important;
     }
 }
 
 @media (max-width: 767.98px) {
-    .hero-section {
-        padding-top: 80px !important;
+
+    .hero-content {
+        padding-bottom: 150px;
     }
 
     .hero-title {
-        font-size: 2.5rem !important;
+        font-size: 2rem !important;
     }
 
     .hero-title span {
-        font-size: 2.5rem !important;
+        font-size: 2rem !important;
     }
 
     .hero-subtitle {
@@ -439,25 +440,49 @@
     }
 }
 
-/* Responsive fix: prevent hero-services from overlapping hero text */
-@media (max-width: 991.98px) {
-    .hero-section {
-        padding-bottom: 220px !important;
-    }
-}
+/* Ultra-small phones: improve layout and spacing */
+@media (max-width: 368.98px) {
 
-@media (max-width: 767.98px) {
+    /* Respect notches/home indicators */
     .hero-section {
-        padding-bottom: 240px !important;
-    }
-}
-
-@media (max-width: 575.98px) {
-    .hero-section {
-        padding-bottom: 260px !important;
+        padding-bottom: calc(280px + env(safe-area-inset-bottom, 0px)) !important;
     }
 
     .hero-services {
-        bottom: 70px !important;
+        grid-template-columns: 1fr !important;
+        /* stack for tiny screens */
+        width: 88vw !important;
+        gap: 10px !important;
+        bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+
+    .hero-service-card {
+        grid-template-columns: 36px 1fr !important;
+        padding: 10px 2px !important;
+    }
+
+    .hero-service-icon {
+        width: 44px !important;
+        height: 44px !important;
+    }
+
+    .hero-service-icon img {
+        width: 16px !important;
+        height: 16px !important;
+    }
+
+    .hero-service-text h4 {
+        font-size: 0.60rem !important;
+    }
+
+    .hero-service-text span {
+        font-size: 0.60rem !important;
+    }
+}
+
+/* Prevent any accidental horizontal overflow on very small widths */
+@media (max-width: 359.98px) {
+    .hero-services {
+        width: 90vw !important;
     }
 }
