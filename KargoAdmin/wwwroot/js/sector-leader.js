@@ -20,11 +20,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Counter animation
                 animateCounters(section);
 
-                // Responsive: küçük ekranlarda ağır animasyonları atla
+                // Responsive: tablet dikeyde ağır animasyonları atla; mobilde forklift koreografisi açık
                 const isSmall = window.innerWidth < 768;
                 const isTabletPortrait = window.innerWidth >= 768 && window.innerWidth <= 991 && window.matchMedia('(orientation: portrait)').matches;
 
-                if (!isSmall && !isTabletPortrait) {
+                if (!isTabletPortrait) {
                     // Stats box drop animation after initial slide-in (3s later)
                     setTimeout(() => {
                         const statsBoxes = section.querySelectorAll('.stats-box');
@@ -42,10 +42,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     // Mobil/Tablet dikey: son durumu direkt uygula ve görselleri göster
                     const statsBoxes = section.querySelectorAll('.stats-box');
                     statsBoxes.forEach((box) => {
-                        box.classList.remove('drop', 'loaded');
+                        box.classList.remove('loaded');
+                        box.classList.add('drop');
                         box.style.opacity = '1';
-                        const img = box.querySelector('.stats-box-image');
-                        if (img) img.style.opacity = '1';
                     });
                 }
 
@@ -59,7 +58,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     const mover = forklift; // move the whole container to ensure visible motion
 
                     const boxes = Array.from(section.querySelectorAll('.stats-box'));
-                    const enableForklift = !isSmall && !isTabletPortrait;
+                    const isMobile = window.innerWidth < 768;
+                    const enableForklift = !isTabletPortrait; // mobil dahil: forklift aktif
                     if (enableForklift && forklift && vehicle && cabin && tip && load && boxes.length) {
                         // Ensure initial state
                         forklift.classList.add('forklift-moving-in', 'forklift-holding-load');
@@ -146,10 +146,26 @@ document.addEventListener('DOMContentLoaded', function () {
                                 // Clear animations to ensure transforms are controlled by JS
                                 cabin.style.animation = 'none';
                                 tip.style.animation = 'none';
-                                // Sequence: visit each box with spacing (slower & smoother)
-                                boxes.forEach((b, i) => {
-                                    const isLast = i === boxes.length - 1;
-                                    moveForkliftNearBoxAndDrop(b, 800 + i * 2400, isLast);
+                                // Force visibility in case CSS kept them hidden on mobile
+                                forklift.style.display = 'block';
+                                cabin.style.opacity = '1';
+                                tip.style.opacity = '1';
+                                load.style.opacity = '1';
+                                // Mobil için farklı sıralama: üstteki 1. kutu sonra alttaki iki kutu
+                                let ordered = boxes;
+                                try {
+                                    const width = window.innerWidth;
+                                    if (width < 768) {
+                                        // 1,2,3 zaten görsel hiyerarşiyi sağlıyor; zamanlamayı biraz hızlandır
+                                        ordered = boxes;
+                                    }
+                                } catch (e) { }
+
+                                ordered.forEach((b, i) => {
+                                    const isLast = i === ordered.length - 1;
+                                    const baseDelay = (window.innerWidth < 768) ? 600 : 800;
+                                    const step = (window.innerWidth < 768) ? 1800 : 2400;
+                                    moveForkliftNearBoxAndDrop(b, baseDelay + i * step, isLast);
                                 });
                             }
                         };
@@ -165,6 +181,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
                         cabin.addEventListener('animationend', () => { clearTimeout(fallback); onCabinEnd(); });
                         tip.addEventListener('animationend', () => { clearTimeout(fallback); onTipEnd(); });
+
+                        // Mobilde bekleme yok: doğrudan başlat
+                        if (isMobile) {
+                            clearTimeout(fallback);
+                            animationsRemaining = 0;
+                            maybeStart();
+                        }
                     } else {
                         // Küçük ekran: forklift görsellerini gizle (CSS de gizliyor, yine de garanti)
                         if (forklift) forklift.style.display = 'none';

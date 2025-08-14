@@ -409,13 +409,20 @@
     }
 
     .forklift-cabin {
-        width: 420px;
+        width: 320px;
         right: 60px;
     }
 
     .forklift-tip {
         width: 320px;
         right: 360px;
+    }
+
+    .forklift-load {
+        width: 130px;
+        right: 100px;
+        top: 57%;
+        opacity: 1;
     }
 
 }
@@ -477,7 +484,7 @@
 
     .forklift-tip {
         width: 290px;
-        right: 280px;
+        right: 250px;
         top: 65%;
     }
 
@@ -552,15 +559,22 @@
     }
 
     .forklift-cabin {
-        width: 300px;
-        right: 20px;
-        top: 40%;
+        width: 200px;
+        right: 90px;
+        top: 44%;
     }
 
     .forklift-tip {
         width: 220px;
-        right: 250px;
-        top: 70%;
+        right: 200px;
+        top: 65%;
+    }
+
+    .forklift-load {
+        width: 130px;
+        right: 100px;
+        top: 57%;
+        opacity: 1;
     }
 
     /* Tablet için özel animasyonlar */
@@ -616,17 +630,35 @@
     }
 
     .stats-boxes-container {
+        /* Mobilde 2+1 üçgen dizilim */
+        display: grid;
+        grid-template-columns: repeat(2, auto);
+        grid-auto-rows: auto;
         justify-content: center;
-        flex-direction: column;
         align-items: center;
-        gap: 1rem;
+        gap: 12px;
         margin-bottom: 1.5rem;
     }
 
     .stats-box {
-        width: 260px;
-        height: 200px;
+        width: 220px;
+        height: 180px;
         margin-right: 0;
+    }
+
+    /* Üstte tek kutu (ilk eleman) ortalanmış */
+    .stats-box:nth-child(1) {
+        grid-column: 1 / span 2;
+        justify-self: center;
+    }
+
+    /* Alttaki iki kutu yan yana */
+    .stats-box:nth-child(2) {
+        grid-column: 1;
+    }
+
+    .stats-box:nth-child(3) {
+        grid-column: 2;
     }
 
     .stats-number {
@@ -638,13 +670,40 @@
         font-size: 1.1rem;
     }
 
-    /* Mobilde forklift ve ağır animasyonları kapat */
+    /* Mobilde forklift görünür ve daha küçük boyutlar */
     .forklift-container {
-        display: none;
+        display: block;
+        right: 0;
+        left: auto;
+        top: 20%;
+        height: 80%;
+        z-index: 4;
     }
 
-    .stats-box-image {
+    .forklift-cabin {
+        width: 250px;
+        right: 40px;
+        top: 60%;
         opacity: 1;
+    }
+
+    .forklift-tip {
+        width: 200px;
+        right: 250px;
+        top: 80%;
+        opacity: 1;
+    }
+
+    .forklift-load {
+        width: 130px;
+        right: 100px;
+        top: 73%;
+        opacity: 1;
+    }
+
+    /* Görseli bırakma öncesi gizli tut (forklift bırakınca görünür) */
+    .stats-box-image {
+        opacity: 0;
         transition: opacity 0.2s ease;
     }
 
@@ -691,53 +750,98 @@
     }
 
     .stats-boxes-container {
+        /* Küçük mobilde de 2+1 üçgen dizilim */
+        display: grid;
+        grid-template-columns: repeat(2, auto);
+        grid-auto-rows: auto;
         justify-content: center;
-        flex-direction: column;
         align-items: center;
-        gap: 0.8rem;
+        gap: 10px;
         margin-bottom: 1rem;
     }
 
     .stats-box {
-        width: 240px;
-        height: 180px;
+        width: 200px;
+        height: 160px;
         margin-right: 0;
+    }
+
+    .stats-box:nth-child(1) {
+        grid-column: 1 / span 2;
+        justify-self: center;
+    }
+
+    .stats-box:nth-child(2) {
+        grid-column: 1;
+    }
+
+    .stats-box:nth-child(3) {
+        grid-column: 2;
     }
 
     .stats-number {
         font-size: 2.4rem;
         margin-bottom: 0.2rem;
+        z-index: 10;
     }
 
     .stats-label {
         font-size: 1rem;
+        z-index: 10;
     }
 
     /* Koliler (stats-box-image) responsive */
     .stats-box-image {
-        width: 100%;
+        width: 80%;
         height: 100%;
         object-fit: cover;
-    }
-
-    /* Küçük mobilde forklift ve ağır animasyonları kapat */
-    .forklift-container {
-        display: none;
-    }
-
-    .stats-box-image {
-        opacity: 1;
+        opacity: 0;
+        /* forklift bırakana kadar görünmesin */
         transition: opacity 0.2s ease;
     }
 
-    .stats-box,
-    .stats-box.drop,
-    .stats-box.loaded {
-        animation: none !important;
-        transform: none !important;
-        opacity: 1 !important;
+    /* Küçük mobilde forklift görünür ve daha küçük boyutlar */
+    .forklift-container {
+        display: block;
+        right: 0;
+        left: auto;
+        top: 22%;
+        height: 78%;
+        z-index: 4;
     }
+
+    .forklift-cabin {
+        width: 200px;
+        right: 60px;
+        top: 63%;
+        opacity: 0;
+    }
+
+    .forklift-tip {
+        width: 200px;
+        right: 210px;
+        top: 80%;
+        opacity: 0;
+    }
+
+    .forklift-load {
+        display: none;
+        width: 130px;
+        right: 50px;
+        top: 73%;
+        opacity: 0.1;
+    }
+
 }
+
+.stats-box,
+.stats-box.drop,
+.stats-box.loaded {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+}
+
 
 /* ===== HOVER EFEKTLERİ RESPONSIVE ===== */
 
