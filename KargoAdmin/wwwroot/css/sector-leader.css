@@ -102,9 +102,9 @@
 
 .stats-box {
     position: relative;
-    width: 350px;
+    width: 300px;
     /* 300px'den 350px'e çıkarıldı */
-    height: 300px;
+    height: 250px;
     /* 200px'den 250px'e çıkarıldı */
     display: flex;
     flex-direction: column;
@@ -194,7 +194,7 @@
 
 .forklift-cabin {
     position: absolute;
-    right: 50px;
+    right: 90px;
     top: 30%;
     width: 400px;
     height: auto;
@@ -208,7 +208,7 @@
 
 .forklift-tip {
     position: absolute;
-    right: 350px;
+    right: 450px;
     top: 60%;
     width: 300px;
     height: auto;
@@ -223,7 +223,7 @@
 /* Forklift yük görseli (kutular) */
 .forklift-load {
     position: absolute;
-    right: 350px;
+    right: 280px;
     /* forklift ucunun biraz arkasında */
     top: 50%;
     width: 220px;
@@ -387,45 +387,6 @@
     }
 }
 
-/* ===== DESKTOP (1200px - 1399px) ===== */
-@media (max-width: 1399px) and (min-width: 1200px) {
-    .sector-leader-title {
-        font-size: 3.8rem;
-    }
-
-    .sector-leader-description {
-        font-size: 1.15rem;
-        max-width: 950px;
-    }
-
-    .stats-box {
-        width: 360px;
-        height: 310px;
-        margin-right: 1.5rem;
-    }
-
-    .stats-number {
-        font-size: 4.2rem;
-    }
-
-    .forklift-cabin {
-        width: 320px;
-        right: 60px;
-    }
-
-    .forklift-tip {
-        width: 320px;
-        right: 360px;
-    }
-
-    .forklift-load {
-        width: 130px;
-        right: 100px !important;
-        top: 57%;
-        opacity: 1;
-    }
-
-}
 
 /* ===== LAPTOP/SMALL DESKTOP (992px - 1199px) ===== */
 @media (max-width: 1199px) and (min-width: 992px) {
