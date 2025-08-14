@@ -82,6 +82,8 @@
                         @(LanguageService.GetCurrentLanguage() == "en" ? "Useful Information" : "Faydalı Bilgiler")
                     </a>
                     <a href="/Aleris/Hakkımızda" class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">@(LanguageService.GetCurrentLanguage() == "en" ? "About Us" : "Hakkımızda")</a>
+                    <!-- Mobile-only Contact link -->
+                    <a href="/Aleris/Iletisim" class="nav-item contact-mobile">@(LanguageService.GetCurrentLanguage() == "en" ? "Contact Us" : "İletişime Geç")</a>
                 </div>
 
                 <!-- Right Side - Search & Contact & Language -->

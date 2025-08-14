@@ -15,37 +15,38 @@
     /* Enhanced transition for smooth hide/show */
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
-    /* Navbar Hide Animation */
-    .modern-navbar.navbar-hidden {
-        transform: translateX(-50%) translateY(-120%);
-        opacity: 0;
-        pointer-events: none;
-    }
 
-    .modern-navbar.scrolled {
-        background: rgba(255, 255, 255, 0.25);
-        box-shadow: 0 6px 35px rgba(0, 0, 0, 0.12);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        top: 10px;
-    }
+/* Navbar Hide Animation */
+.modern-navbar.navbar-hidden {
+    transform: translateX(-50%) translateY(-120%);
+    opacity: 0;
+    pointer-events: none;
+}
 
-    /* Combined states for smooth transition */
-    .modern-navbar.navbar-hidden.scrolled {
-        transform: translateX(-50%) translateY(-120%);
-        top: 10px;
-    }
+.modern-navbar.scrolled {
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 6px 35px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    top: 10px;
+}
 
-    .modern-navbar.navbar-visible.scrolled {
-        transform: translateX(-50%) translateY(0);
-        top: 10px;
-    }
+/* Combined states for smooth transition */
+.modern-navbar.navbar-hidden.scrolled {
+    transform: translateX(-50%) translateY(-120%);
+    top: 10px;
+}
 
-    /* Hover effect when navbar is partially hidden (optional) */
-    .modern-navbar.navbar-hidden:hover {
-        transform: translateX(-50%) translateY(-50%);
-        opacity: 0.7;
-        pointer-events: auto;
-    }
+.modern-navbar.navbar-visible.scrolled {
+    transform: translateX(-50%) translateY(0);
+    top: 10px;
+}
+
+/* Hover effect when navbar is partially hidden (optional) */
+.modern-navbar.navbar-hidden:hover {
+    transform: translateX(-50%) translateY(-50%);
+    opacity: 0.7;
+    pointer-events: auto;
+}
 
 .navbar-container {
     display: flex;
@@ -83,25 +84,25 @@
     text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
 }
 
-    .nav-item:hover {
-        color: #005cb9;
-    }
+.nav-item:hover {
+    color: #005cb9;
+}
 
-    .nav-item.active {
-        color: #005cb9;
-    }
+.nav-item.active {
+    color: #005cb9;
+}
 
-        .nav-item.active::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 30px;
-            height: 3px;
-            background: linear-gradient(90deg, #005cb9, #0080ff);
-            border-radius: 2px;
-        }
+.nav-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 3px;
+    background: linear-gradient(90deg, #005cb9, #0080ff);
+    border-radius: 2px;
+}
 
 /* Dropdown */
 .nav-dropdown {
@@ -115,10 +116,10 @@
     gap: 5px;
 }
 
-    .dropdown-toggle i {
-        font-size: 12px;
-        transition: transform 0.3s ease;
-    }
+.dropdown-toggle i {
+    font-size: 12px;
+    transition: transform 0.3s ease;
+}
 
 .nav-dropdown:hover .dropdown-toggle i {
     transform: rotate(180deg);
@@ -143,9 +144,11 @@
     transition: all 0.3s ease;
     z-index: 1000;
 }
-.dropdown-toggle::after{
+
+.dropdown-toggle::after {
     display: none;
 }
+
 .nav-dropdown:hover .dropdown-menu-custom {
     opacity: 1;
     visibility: visible;
@@ -163,23 +166,28 @@
     transition: all 0.3s ease;
 }
 
-    .dropdown-item-custom:hover {
-        background: rgba(0, 92, 185, 0.1);
-        color: #005cb9;
-    }
+.dropdown-item-custom:hover {
+    background: rgba(0, 92, 185, 0.1);
+    color: #005cb9;
+}
 
-    .dropdown-item-custom i {
-        width: 20px;
-        text-align: center;
-        color: #005cb9;
-        font-size: 16px;
-    }
+.dropdown-item-custom i {
+    width: 20px;
+    text-align: center;
+    color: #005cb9;
+    font-size: 16px;
+}
 
 /* Sağ aksiyonlar */
 .navbar-actions {
     display: flex;
     align-items: center;
     gap: 15px;
+}
+
+/* Mobile-only contact link hidden by default */
+.contact-mobile {
+    display: none;
 }
 
 /* Search buton */
@@ -198,11 +206,12 @@
     cursor: pointer;
 }
 
-    .search-btn:hover {
-        background: #005cb9;
-        color: white;
-        box-shadow: 0 4px 15px rgba(0, 92, 185, 0.3);
-    }
+.search-btn:hover {
+    background: #005cb9;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 92, 185, 0.3);
+}
+
 /* Contact buton */
 .contact-btn {
     background: linear-gradient(135deg, #005cb9, #0080ff);
@@ -215,10 +224,10 @@
     box-shadow: 0 4px 15px rgba(0, 92, 185, 0.2);
 }
 
-    .contact-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0, 92, 185, 0.4);
-    }
+.contact-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 92, 185, 0.4);
+}
 
 /* Dil bayrakları */
 .language-flags {
@@ -235,15 +244,15 @@
     opacity: 0.7;
 }
 
-    .flag-icon:hover {
-        opacity: 1;
-        transform: scale(1.1);
-    }
+.flag-icon:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
 
-    .flag-icon.active {
-        opacity: 1;
-        transform: scale(1.05);
-    }
+.flag-icon.active {
+    opacity: 1;
+    transform: scale(1.05);
+}
 
 /* Mobil */
 .mobile-toggle {
@@ -255,12 +264,12 @@
     cursor: pointer;
 }
 
-    .mobile-toggle span {
-        width: 25px;
-        height: 3px;
-        background: #333;
-        border-radius: 2px;
-    }
+.mobile-toggle span {
+    width: 25px;
+    height: 3px;
+    background: #333;
+    border-radius: 2px;
+}
 
 /* Medium ekran */
 @media (max-width: 1199.98px) {
@@ -274,7 +283,7 @@
 }
 
 /* Tablet ve altı */
-@media (max-width: 991.98px) {
+@media (max-width: 1091.98px) {
     .navbar-menu {
         display: none;
         flex-direction: column;
@@ -288,12 +297,25 @@
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     }
 
-        .navbar-menu.show {
-            display: flex;
-        }
+    .navbar-menu.show {
+        display: flex;
+    }
 
     .mobile-toggle {
         display: flex;
+    }
+
+    /* Show prominent contact button inside mobile menu */
+    .navbar-menu .contact-mobile {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #005cb9, #0080ff);
+        color: #fff;
+        padding: 10px 18px;
+        border-radius: 24px;
+        font-weight: 600;
+        margin-top: 5px;
     }
 }
 
@@ -303,6 +325,7 @@
         height: 30px;
     }
 
+    /* Keep contact button visible; just slightly smaller on small phones */
     .contact-btn {
         padding: 6px 14px;
         font-size: 12px;
@@ -318,23 +341,33 @@
         height: 16px;
     }
 }
+
+/* Very small phones */
+@media (max-width: 400px) {
+
+    /* Hide header contact button under 400px */
+    .contact-btn {
+        display: none;
+    }
+}
+
 @media (max-width: 768px) {
     .modern-navbar {
         width: calc(100% - 20px);
         top: 10px;
     }
 
-        .modern-navbar.scrolled {
-            top: 5px;
-        }
+    .modern-navbar.scrolled {
+        top: 5px;
+    }
 
-        .modern-navbar.navbar-hidden.scrolled {
-            top: 5px;
-        }
+    .modern-navbar.navbar-hidden.scrolled {
+        top: 5px;
+    }
 
-        .modern-navbar.navbar-visible.scrolled {
-            top: 5px;
-        }
+    .modern-navbar.navbar-visible.scrolled {
+        top: 5px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -342,12 +375,13 @@
         height: 15px;
         transition: height 0.3s ease;
     }
+
     .contact-btn {
         padding: 4px 12px;
     }
+
     .search-btn {
         width: 24px;
         height: 24px;
     }
 }
-
