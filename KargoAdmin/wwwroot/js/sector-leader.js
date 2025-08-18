@@ -61,14 +61,18 @@ document.addEventListener('DOMContentLoaded', function () {
                     const isMobile = window.innerWidth < 768;
                     const enableForklift = !isTabletPortrait; // mobil dahil: forklift aktif
                     if (enableForklift && forklift && vehicle && cabin && tip && load && boxes.length) {
-                        // Ensure initial state
+                        // Ensure initial state (parked at right, half-visible)
                         forklift.classList.add('forklift-moving-in', 'forklift-holding-load');
                         let currentForkX = 0; // cumulative horizontal movement for forklift
-                        // Bring forklift elements onscreen smoothly
+                        // Bring forklift elements onscreen in final parked state and kill CSS entrance animations
                         requestAnimationFrame(() => {
                             cabin.style.opacity = '1';
                             tip.style.opacity = '1';
                             load.style.opacity = '1';
+                            cabin.style.animation = 'none';
+                            tip.style.animation = 'none';
+                            cabin.style.transform = 'translateX(0px)';
+                            tip.style.transform = 'translateX(0px)';
                             // Move the whole forklift container for reliable motion
                             mover.style.transform = 'translateX(0px)';
                             // Ensure load starts attached to the forks (no extra offset)
@@ -82,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                                 // 1) Move forklift horizontally so that the tip comes near the left side of the target box
                                 // Smaller viewports: go a bit less inside to avoid "overshoot" and long travel
-                                const insideFactor = (window.innerWidth <= 1024) ? 0.07 : (window.innerWidth <= 1366 ? 0.9 : 0.10);
+                                const insideFactor = (window.innerWidth <= 1024) ? 0.07 : (window.innerWidth <= 1366 ? 0.09 : 0.10);
                                 const targetTipX = boxRect.left + boxRect.width * insideFactor;
                                 const currentTipX = tipRect.left;
                                 const forkDeltaX = targetTipX - currentTipX;
@@ -106,7 +110,8 @@ document.addEventListener('DOMContentLoaded', function () {
                                     const LOAD_ALIGN_Y = Math.max(0, boxRect.height * 0.05 * viewportScale);
 
                                     const desiredX = (boxRect.left + boxRect.width * baseAlignX) + LOAD_ALIGN_X;
-                                    const desiredY = (boxRect.top + boxRect.height * baseAlignY) + LOAD_ALIGN_Y;
+                                    // Keep vertical alignment straight (no downward drop)
+                                    const desiredY = loadRect.top;
 
                                     const deltaX = desiredX - loadRect.left;
                                     const deltaY = desiredY - loadRect.top;
@@ -126,11 +131,12 @@ document.addEventListener('DOMContentLoaded', function () {
                                             load.style.transform = 'translate(0px, 0px)';
                                         }, 500);
 
-                                        // If this was the last box, return forklift to the far right (starting) position
+                                        // Return forklift to the right edge (half visible parked state)
                                         if (isLast) {
                                             setTimeout(() => {
                                                 mover.style.transition = 'transform 1.8s cubic-bezier(0.22, 0.61, 0.36, 1)';
                                                 mover.style.transform = 'translateX(0px)';
+                                                currentForkX = 0;
                                             }, 300);
                                         }
                                     }, 750);
@@ -140,9 +146,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
                         // Wait until cabin and tip entrance animations are finished, then start choreography
                         let animationsRemaining = 2;
+                        let started = false;
                         const maybeStart = () => {
                             animationsRemaining -= 1;
                             if (animationsRemaining <= 0) {
+                                if (started) return;
+                                started = true;
                                 // Clear animations to ensure transforms are controlled by JS
                                 cabin.style.animation = 'none';
                                 tip.style.animation = 'none';
@@ -151,6 +160,9 @@ document.addEventListener('DOMContentLoaded', function () {
                                 cabin.style.opacity = '1';
                                 tip.style.opacity = '1';
                                 load.style.opacity = '1';
+                                // Ensure initial parked state is applied
+                                mover.style.transform = 'translateX(0px)';
+                                currentForkX = 0;
                                 // Mobil için farklı sıralama: üstteki 1. kutu sonra alttaki iki kutu
                                 let ordered = boxes;
                                 try {
@@ -182,12 +194,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         cabin.addEventListener('animationend', () => { clearTimeout(fallback); onCabinEnd(); });
                         tip.addEventListener('animationend', () => { clearTimeout(fallback); onTipEnd(); });
 
-                        // Mobilde bekleme yok: doğrudan başlat
-                        if (isMobile) {
-                            clearTimeout(fallback);
-                            animationsRemaining = 0;
-                            maybeStart();
-                        }
+                        // Tüm cihazlarda bekleme yok: doğrudan başlat (başlatma bir kez çalışır)
+                        clearTimeout(fallback);
+                        animationsRemaining = 0;
+                        maybeStart();
                     } else {
                         // Küçük ekran: forklift görsellerini gizle (CSS de gizliyor, yine de garanti)
                         if (forklift) forklift.style.display = 'none';

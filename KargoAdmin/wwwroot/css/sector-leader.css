@@ -181,7 +181,7 @@
     height: 100%;
     z-index: 2;
     pointer-events: none;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .forklift-vehicle {
@@ -223,12 +223,12 @@
 /* Forklift yük görseli (kutular) */
 .forklift-load {
     position: absolute;
-    right: 330px;
-    /* forklift ucunun biraz arkasında */
+    right: 560px;
+    /* forklift ucunun önünde (uç kısmında) */
     top: 50%;
     width: 220px;
     height: auto;
-    z-index: 2;
+    z-index: 4;
     opacity: 0;
     transform: translateX(300px);
     filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.25));
@@ -350,7 +350,6 @@
 /* ========================================
    SECTOR LEADER RESPONSIVE DESIGN
    ======================================== */
-
 /* ===== LARGE DESKTOPS (1400px+) ===== */
 @media (min-width: 1400px) {
     .sector-leader-title {
@@ -378,18 +377,23 @@
 
     .forklift-cabin {
         width: 450px;
-        right: 80px;
+        right: -80px;
     }
 
     .forklift-tip {
         width: 350px;
-        right: 380px;
+        right: 210px;
+    }
+
+    .forklift-load {
+        right: 360px;
+        top: 51%;
     }
 }
 
 
 /* ===== LAPTOP/SMALL DESKTOP (992px - 1199px) ===== */
-@media (max-width: 1199px) and (min-width: 992px) {
+@media (max-width: 1299px) and (min-width: 992px) {
     .sector-leader-section {
         min-height: 90vh;
     }
@@ -439,7 +443,7 @@
     /* Forklift Adjustments */
     .forklift-cabin {
         width: 380px;
-        right: 20px;
+        right: -80px;
         top: 35%;
     }
 
@@ -448,6 +452,11 @@
         right: 250px;
         top: 65%;
     }
+    .forklift-load {
+        right: 420px;
+        top: 52%;
+    }
+
 
     /* Animasyonları hafiflet */
     @keyframes slideInFromRight {
@@ -521,7 +530,7 @@
 
     .forklift-cabin {
         width: 200px;
-        right: 90px;
+        right: -80px;
         top: 44%;
     }
 
@@ -534,6 +543,7 @@
     .forklift-load {
         width: 130px;
         right: 100px;
+        /* tip'e hizalı */
         top: 57%;
         opacity: 1;
     }
@@ -643,22 +653,23 @@
 
     .forklift-cabin {
         width: 250px;
-        right: 40px;
+        right:-200px;
         top: 60%;
         opacity: 1;
     }
 
     .forklift-tip {
         width: 200px;
-        right: 250px;
+        right: -20px;
         top: 80%;
         opacity: 1;
     }
 
     .forklift-load {
-        width: 130px;
-        right: 100px;
-        top: 73%;
+        width: 120px;
+        right: 40px;
+        /* tip'e hizalı */
+        top: 74%;
         opacity: 1;
     }
 
@@ -773,14 +784,14 @@
 
     .forklift-cabin {
         width: 200px;
-        right: 60px;
+        right: -110px;
         top: 63%;
         opacity: 0;
     }
 
     .forklift-tip {
         width: 200px;
-        right: 210px;
+        right: 0px;
         top: 80%;
         opacity: 0;
     }
@@ -866,12 +877,19 @@
 
     .forklift-cabin {
         width: 280px;
-        right: 30px;
+        right: -80px;
     }
 
     .forklift-tip {
         width: 200px;
-        right: 230px;
+        right: 130px;
+    }
+
+    .forklift-load {
+        width: 160px;
+        right: 200px;
+        /* tip'e hizalı */
+        top: 55%;
     }
 }
 
