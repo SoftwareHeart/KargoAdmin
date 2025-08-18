@@ -45,7 +45,20 @@
      border: 3px solid #005cb9;
      border-radius: 35px;
      margin-bottom: 20px;
-     background: transparent;
+     background: rgba(0, 92, 185, 0.06);
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     padding: 0 24px;
+     font-family: var(--font-family);
+     font-weight: 700;
+     font-size: 1.05rem;
+     letter-spacing: 0.08em;
+     color: #005cb9;
+     white-space: nowrap;
+     box-shadow: 0 8px 24px rgba(0, 92, 185, 0.12);
+     backdrop-filter: saturate(120%) blur(2px);
+     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4), 0 0 8px rgba(0, 92, 185, 0.15);
  }
 
  .animation-title {
@@ -671,7 +684,7 @@
      }
 
      .cloud-container:nth-child(2) {
-         top:15%;
+         top: 15%;
          right: 5%;
      }
 
@@ -819,4 +832,3 @@
          width: 60px;
      }
  }
-

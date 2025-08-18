@@ -283,206 +283,57 @@
     }
 }
 
-/* Hero Services (scroll butonunun üstü) */
-.hero-services {
-    position: absolute !important;
-    left: 50% !important;
-    bottom: 70px !important;
-    /* scroll ikonunun biraz üstü */
-    transform: translateX(-50%) !important;
-    z-index: 2 !important;
-    /* overlay üstünde */
-    display: grid !important;
-    grid-template-columns: repeat(4, minmax(180px, 1fr)) !important;
-    gap: 14px !important;
-    width: min(1100px, 92vw) !important;
-}
-
-.hero-service-card {
-    display: grid !important;
-    grid-template-columns: 56px 1fr !important;
-    gap: 12px !important;
-    align-items: center !important;
-    padding: 12px 14px !important;
-    border-radius: 14px !important;
-    text-decoration: none !important;
-    background: rgba(255, 255, 255, 0.12) !important;
-    backdrop-filter: blur(8px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.25) !important;
-    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease !important;
-    color: #fff !important;
-}
-
-.hero-service-card:hover {
-    transform: translateY(-4px) !important;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25) !important;
-    background: rgba(255, 255, 255, 0.18) !important;
-}
-
-.hero-service-icon {
-    width: 56px !important;
-    height: 56px !important;
-    border-radius: 12px !important;
-    background: rgba(255, 255, 255, 0.2) !important;
-    display: grid !important;
-    place-items: center !important;
-}
-
-.hero-service-icon img {
-    width: 36px !important;
-    height: 36px !important;
-    object-fit: contain !important;
-}
-
-.hero-service-text h4 {
-    font-size: 0.8rem !important;
-    line-height: 1.2 !important;
-    margin: 0 0 4px 0 !important;
-    color: #fff !important;
-    font-weight: 700 !important;
-}
-
-.hero-service-text span {
-    font-size: 0.85rem !important;
-    color: rgba(255, 255, 255, 0.85) !important;
-}
-
-@media (max-width: 1199.98px) {
-    .hero-services {
-        grid-template-columns: repeat(4, minmax(150px, 1fr)) !important;
-        width: min(1000px, 94vw) !important;
-        gap: 12px !important;
-    }
-}
-
-@media (max-width: 991.98px) {
-    .hero-services {
-        grid-template-columns: repeat(2, minmax(180px, 1fr)) !important;
-        bottom: 90px !important;
-        gap: 12px !important;
-    }
-}
-
-@media (max-width: 575.98px) {
-    .hero-services {
-        grid-template-columns: 1fr 1fr !important;
-        width: 92vw !important;
-        gap: 5px !important;
-        bottom: 85px !important;
-    }
-
-    .hero-service-card {
-        grid-template-columns: 48px 1fr !important;
-        padding: 10px 4px !important;
-    }
-
-    .hero-service-icon {
-        width: 36px !important;
-        height: 36px !important;
-    }
-
-    .hero-service-icon img {
-        width: 36px !important;
-        height: 36px !important;
-    }
-}
+/* Hero Services (scroll butonunun üstü) - KALDIRILDI */
 
 @media (max-width: 767.98px) {
 
-    .hero-content {
-        padding-bottom: 150px;
-    }
+	.hero-content {
+		padding-bottom: 150px;
+	}
 
-    .hero-title {
-        font-size: 2rem !important;
-    }
+	.hero-title {
+		font-size: 2rem !important;
+	}
 
-    .hero-title span {
-        font-size: 2rem !important;
-    }
+	.hero-title span {
+		font-size: 2rem !important;
+	}
 
-    .hero-subtitle {
-        font-size: 1.3rem !important;
-    }
+	.hero-subtitle {
+		font-size: 1.3rem !important;
+	}
 
-    .hero-text {
-        font-size: 0.95rem !important;
-        max-width: 100% !important;
-    }
+	.hero-text {
+		font-size: 0.95rem !important;
+		max-width: 100% !important;
+	}
 
-    .hero-section .btn {
-        padding: 12px 24px !important;
-        font-size: 0.9rem !important;
-    }
+	.hero-section .btn {
+		padding: 12px 24px !important;
+		font-size: 0.9rem !important;
+	}
 
-    .linkedin-floating {
-        bottom: 20px !important;
-        right: 20px !important;
-    }
+	.linkedin-floating {
+		bottom: 20px !important;
+		right: 20px !important;
+	}
 
-    .hero-banner-scroll {
-        bottom: 20px !important;
-    }
+	.hero-banner-scroll {
+		bottom: 20px !important;
+	}
 
-    /* Shrink LinkedIn icon on mobile */
-    .linkedin-floating img {
-        width: 34px !important;
-        height: auto !important;
-    }
+	/* Shrink LinkedIn icon on mobile */
+	.linkedin-floating img {
+		width: 34px !important;
+		height: auto !important;
+	}
 }
 
 @media (max-width: 575.98px) {
 
-    /* Shrink LinkedIn icon further on small phones */
-    .linkedin-floating img {
-        width: 30px !important;
-        height: auto !important;
-    }
-}
-
-/* Ultra-small phones: improve layout and spacing */
-@media (max-width: 368.98px) {
-
-    /* Respect notches/home indicators */
-    .hero-section {
-        padding-bottom: calc(280px + env(safe-area-inset-bottom, 0px)) !important;
-    }
-
-    .hero-services {
-        grid-template-columns: 1fr !important;
-        /* stack for tiny screens */
-        width: 88vw !important;
-        gap: 10px !important;
-        bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
-    }
-
-    .hero-service-card {
-        grid-template-columns: 36px 1fr !important;
-        padding: 10px 2px !important;
-    }
-
-    .hero-service-icon {
-        width: 44px !important;
-        height: 44px !important;
-    }
-
-    .hero-service-icon img {
-        width: 16px !important;
-        height: 16px !important;
-    }
-
-    .hero-service-text h4 {
-        font-size: 0.60rem !important;
-    }
-
-    .hero-service-text span {
-        font-size: 0.60rem !important;
-    }
-}
-
-/* Prevent any accidental horizontal overflow on very small widths */
-@media (max-width: 359.98px) {
-    .hero-services {
-        width: 90vw !important;
-    }
+	/* Shrink LinkedIn icon further on small phones */
+	.linkedin-floating img {
+		width: 30px !important;
+		height: auto !important;
+	}
 }
