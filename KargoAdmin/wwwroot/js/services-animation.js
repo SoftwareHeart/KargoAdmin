@@ -15,8 +15,8 @@ class ServicesAnimationController {
         this.config = {
             rootMargin: '-20% 0px -20% 0px',
             threshold: [0.3],
-            staggerDelay: 400, // Daha uzun gecikme
-            animationDuration: 1600 // Daha uzun süre
+            staggerDelay: 600, // Daha uzun gecikme
+            animationDuration: 2600 // Daha uzun süre
         };
 
         this.init();

@@ -64,7 +64,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 50%;
+    height: 100%;
 }
 
 /* ===== ANİMASYON ELEMENTLERİ - SCROLL İLE GELİR ===== */
@@ -139,7 +139,7 @@
     position: absolute;
     z-index: 4;
     transform: translateX(-200px) translateY(100px) scale(0.5);
-    transition: all 1.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: all 2.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .vehicle-container.animate-in {
@@ -164,13 +164,13 @@
 .vehicle-container.push-incoming.do-push {
     /* move forward to push */
     transform: translateX(160px) translateY(0) scale(1);
-    transition: transform 1400ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 2600ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .vehicle-container.push-target {
     /* target starts slightly ahead */
     transform: translateX(40px) translateY(0) scale(1);
-    transition: transform 1400ms cubic-bezier(0.22, 1, 0.36, 1), opacity 900ms ease;
+    transition: transform 2600ms cubic-bezier(0.22, 1, 0.36, 1), opacity 1600ms ease;
 }
 
 .vehicle-container.push-target.pushed-out {
@@ -181,11 +181,11 @@
 
 /* Vehicle specific positions */
 .land-truck-vehicle {
-    top: 100%;
+    bottom: -5%;
 }
 
 .land-van-vehicle {
-    top: 50%;
+    bottom: -5%;
     left: 5%;
 }
 
@@ -195,7 +195,7 @@
 }
 
 .sea-vehicle {
-    top: 100%;
+    bottom: 0%;
     right: 10%;
 }
 
