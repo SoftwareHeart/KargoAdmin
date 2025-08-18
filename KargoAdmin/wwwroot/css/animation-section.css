@@ -188,84 +188,9 @@
      }
  }
 
- /* Bulutlar - Görseldeki gibi düzenlenmiş */
- .cloud-container {
-     position: absolute;
-     z-index: 4;
- }
 
- .cloud-container:nth-child(2) {
-     top: 10%;
-     right: 20%;
-     animation: cloudFloat1 8s ease-in-out infinite;
- }
 
- .cloud-container:nth-child(3) {
-     top: 45%;
-     right: 0%;
-     animation: cloudFloat2 6s ease-in-out infinite 2s;
- }
 
- .cloud-container:nth-child(4) {
-     bottom: 42%;
-     right: 25%;
-     animation: cloudFloat3 10s ease-in-out infinite 4s;
- }
-
- .cloud-image {
-     width: 380px;
-     height: auto;
-     object-fit: contain;
-     opacity: 0.85;
-     filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.15));
- }
-
- .cloud-container:nth-child(2) .cloud-image {
-     width: 350px;
-     opacity: 0.75;
- }
-
- .cloud-container:nth-child(3) .cloud-image {
-     width: 400px;
-     opacity: 0.8;
- }
-
- /* Bulut animasyonları */
- @keyframes cloudFloat1 {
-
-     0%,
-     100% {
-         transform: translateX(0px) translateY(0px);
-     }
-
-     50% {
-         transform: translateX(-25px) translateY(-15px);
-     }
- }
-
- @keyframes cloudFloat2 {
-
-     0%,
-     100% {
-         transform: translateX(0px) translateY(0px);
-     }
-
-     50% {
-         transform: translateX(20px) translateY(-18px);
-     }
- }
-
- @keyframes cloudFloat3 {
-
-     0%,
-     100% {
-         transform: translateX(0px) translateY(0px);
-     }
-
-     50% {
-         transform: translateX(-18px) translateY(-20px);
-     }
- }
 
  /* Uçak animasyonu - Görseldeki gibi büyük ve merkezi */
  .plane-container {
@@ -364,19 +289,6 @@
          width: 520px;
      }
 
-     .cloud-image {
-         width: 300px;
-     }
-
-     .cloud-container:nth-child(2) .cloud-image {
-         width: 260px;
-     }
-
-     .cloud-container:nth-child(3) .cloud-image {
-         width: 280px;
-     }
-
-
      .service-cards-container {
          gap: 30px;
      }
@@ -461,32 +373,7 @@
          width: 380px;
      }
 
-     .cloud-container:nth-child(2) {
-         top: 15%;
-         right: 70%;
-     }
-
-     .cloud-container:nth-child(3) {
-         top: 65%;
-         right: 20%;
-     }
-
-     .cloud-container:nth-child(4) {
-         top: 25%;
-         right: 15%;
-     }
-
-     .cloud-image {
-         width: 220px;
-     }
-
-     .cloud-container:nth-child(2) .cloud-image {
-         width: 200px;
-     }
-
-     .cloud-container:nth-child(3) .cloud-image {
-         width: 210px;
-     }
+ 
  }
 
  /* Mobile Landscape (576px - 767px) */
@@ -569,33 +456,6 @@
 
      .plane-image {
          width: 280px;
-     }
-
-     .cloud-container:nth-child(2) {
-         top: 20%;
-         right: 80%;
-     }
-
-     .cloud-container:nth-child(3) {
-         top: 70%;
-         right: 10%;
-     }
-
-     .cloud-container:nth-child(4) {
-         top: 30%;
-         right: 5%;
-     }
-
-     .cloud-image {
-         width: 150px;
-     }
-
-     .cloud-container:nth-child(2) .cloud-image {
-         width: 130px;
-     }
-
-     .cloud-container:nth-child(3) .cloud-image {
-         width: 140px;
      }
  }
 
@@ -683,32 +543,7 @@
          width: 200px;
      }
 
-     .cloud-container:nth-child(2) {
-         top: 15%;
-         right: 5%;
-     }
-
-     .cloud-container:nth-child(3) {
-         top: 10%;
-         right: 45%;
-     }
-
-     .cloud-container:nth-child(4) {
-         top: 35%;
-         right: 25%;
-     }
-
-     .cloud-image {
-         width: 200px;
-     }
-
-     .cloud-container:nth-child(2) .cloud-image {
-         width: 190px;
-     }
-
-     .cloud-container:nth-child(3) .cloud-image {
-         width: 190px;
-     }
+  
  }
 
  /* Extra Small Mobile (320px - 479px) */
@@ -761,18 +596,6 @@
 
      .plane-image {
          width: 350px;
-     }
-
-     .cloud-image {
-         width: 160px;
-     }
-
-     .cloud-container:nth-child(2) .cloud-image {
-         width: 160px;
-     }
-
-     .cloud-container:nth-child(3) .cloud-image {
-         width: 160px;
      }
  }
 
