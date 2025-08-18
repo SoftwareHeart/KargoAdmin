@@ -64,7 +64,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    height: 50%;
 }
 
 /* ===== ANİMASYON ELEMENTLERİ - SCROLL İLE GELİR ===== */
@@ -181,11 +181,11 @@
 
 /* Vehicle specific positions */
 .land-truck-vehicle {
-    bottom: -5%;
+    top: 100%;
 }
 
 .land-van-vehicle {
-    bottom: -10%;
+    top: 50%;
     left: 5%;
 }
 
@@ -195,7 +195,7 @@
 }
 
 .sea-vehicle {
-    bottom: -5%;
+    top: 100%;
     right: 10%;
 }
 
@@ -585,5 +585,24 @@
     .world-services-image {
         width: 800px;
         height: 800px;
+    }
+
+    .land-truck-vehicle {
+        top: 50%;
+    }
+
+    .land-van-vehicle {
+        top: 50%;
+        left: 5%;
+    }
+
+    .air-vehicle {
+        top: 25%;
+        right: 0%;
+    }
+
+    .sea-vehicle {
+        top: 50%;
+        right: 10%;
     }
 }

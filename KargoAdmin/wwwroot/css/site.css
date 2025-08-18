@@ -1,1 +1,14 @@
-﻿
+﻿/* Aleris Global Lojistik - Global Layout Helpers */
+
+/* Consistent page width across the site */
+.page-container {
+    max-width: 2000px;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+/* Optional: prevent ultra-small viewport from breaking layout */
+body {
+    min-width: 360px;
+}

@@ -2,7 +2,7 @@
 
 .sector-leader-section {
     position: relative;
-    min-height: 100vh;
+    max-height: 1200px;
     display: flex;
     align-items: center;
     overflow: hidden;
@@ -897,5 +897,22 @@
 @media (max-width: 991px) and (min-width: 768px) and (orientation: portrait) {
     .forklift-container {
         display: none;
+    }
+}
+
+@media (min-width: 1600px) {
+    .forklift-cabin {
+        width: 450px;
+        right: -80px;
+    }
+
+    .forklift-tip {
+        width: 350px;
+        right: 210px;
+    }
+
+    .forklift-load {
+        right: 360px;
+        top: 51%;
     }
 }
