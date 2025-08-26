@@ -77,10 +77,23 @@
                         </div>
                     </div>
 
-                    <a href="/Blog" class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "PublicBlog" ? "active" : "")">@(LanguageService.GetCurrentLanguage() == "en" ? "News" : "Haberler")</a>
-                    <a href="@Url.Action("Index", "UsefulInfo")" class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "UsefulInfo" ? "active" : "")">
-                        @(LanguageService.GetCurrentLanguage() == "en" ? "Useful Information" : "Faydalı Bilgiler")
-                    </a>
+                    <!-- Faydalı Bilgiler Dropdown -->
+                    <div class="nav-dropdown">
+                        <a href="#" class="nav-item dropdown-toggle @(ViewContext.RouteData.Values["Controller"].ToString() == "UsefulInfo" ? "active" : "")">
+                            @(LanguageService.GetCurrentLanguage() == "en" ? "Useful Information" : "Faydalı Bilgiler")
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <div class="dropdown-menu-custom">
+                            <a href="@Url.Action("Index", "UsefulInfo")" class="dropdown-item-custom">
+                                <i class="fas fa-info-circle"></i>
+                                @(LanguageService.GetCurrentLanguage() == "en" ? "All Useful Information" : "Tüm Faydalı Bilgiler")
+                            </a>
+                            <a href="/UsefulInfo/LdmCalculator" class="dropdown-item-custom">
+                                <i class="fas fa-calculator"></i>
+                                @(LanguageService.GetCurrentLanguage() == "en" ? "LDM Calculator" : "LDM Hesapla")
+                            </a>
+                        </div>
+                    </div>
                     <a href="/Aleris/Hakkımızda" class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">@(LanguageService.GetCurrentLanguage() == "en" ? "About Us" : "Hakkımızda")</a>
                     <!-- Mobile-only Contact link -->
                     <a href="/Aleris/Iletisim" class="nav-item contact-mobile">@(LanguageService.GetCurrentLanguage() == "en" ? "Contact Us" : "İletişime Geç")</a>
@@ -130,22 +143,17 @@
                         </div>
                         <div class="search-helper">
                             <i class="fas fa-lightbulb me-1"></i>
-                            @(LanguageService.GetCurrentLanguage() == "en" ? "Try keywords like 'air cargo', 'sea transport', 'blog'" : "'hava kargo', 'deniz taşımacılığı', 'blog' gibi anahtar kelimeleri deneyin")
+                            @(LanguageService.GetCurrentLanguage() == "en" ? "Try keywords like 'air cargo', 'sea transport', 'storage'" : "'hava kargo', 'deniz taşımacılığı', 'depolama' gibi anahtar kelimeleri deneyin")
                         </div>
                         <div class="search-chips">
                             <span class="search-chip" onclick="fillAndSearch(this)">@(LanguageService.GetCurrentLanguage() == "en" ? "Air Cargo" : "Hava Kargo")</span>
                             <span class="search-chip" onclick="fillAndSearch(this)">@(LanguageService.GetCurrentLanguage() == "en" ? "Sea Transport" : "Deniz Taşımacılığı")</span>
                             <span class="search-chip" onclick="fillAndSearch(this)">@(LanguageService.GetCurrentLanguage() == "en" ? "Storage" : "Depolama")</span>
-                            <span class="search-chip" onclick="fillAndSearch(this)">Blog</span>
                         </div>
                         <div class="search-suggestions" id="searchSuggestions" style="display:none;">
                             <div class="suggestion-group" id="suggestPages" style="display:none;">
                                 <div class="suggestion-group-title">@(LanguageService.GetCurrentLanguage() == "en" ? "Pages" : "Sayfalar")</div>
                                 <ul class="suggestion-list" id="suggestPagesList"></ul>
-                            </div>
-                            <div class="suggestion-group" id="suggestNews" style="display:none;">
-                                <div class="suggestion-group-title">@(LanguageService.GetCurrentLanguage() == "en" ? "News" : "Haberler")</div>
-                                <ul class="suggestion-list" id="suggestNewsList"></ul>
                             </div>
                             <div class="suggestion-group" id="suggestUseful" style="display:none;">
                                 <div class="suggestion-group-title">@(LanguageService.GetCurrentLanguage() == "en" ? "Useful Info" : "Faydalı Bilgi")</div>
@@ -216,7 +224,6 @@
 
                             <li><a href="/Public/Services#air">Hava Kargo</a></li>
 
-                            <li><a href="/PublicBlog">Blog</a></li>
 
                             <li><a href="#">Store</a></li>
 
@@ -477,10 +484,8 @@
         let suggestTimer = null;
         const suggestionsRoot = document.getElementById('searchSuggestions');
         const pagesList = document.getElementById('suggestPagesList');
-        const newsList = document.getElementById('suggestNewsList');
         const usefulList = document.getElementById('suggestUsefulList');
         const groupPages = document.getElementById('suggestPages');
-        const groupNews = document.getElementById('suggestNews');
         const groupUseful = document.getElementById('suggestUseful');
 
         searchInputEl.addEventListener('input', function () {
@@ -506,14 +511,12 @@
                         });
                     }
                     fillList(pagesList, data.pages || []);
-                    fillList(newsList, data.news || []);
                     fillList(usefulList, data.useful || []);
 
                     groupPages.style.display = (data.pages && data.pages.length) ? '' : 'none';
-                    groupNews.style.display = (data.news && data.news.length) ? '' : 'none';
                     groupUseful.style.display = (data.useful && data.useful.length) ? '' : 'none';
 
-                    const hasAny = (data.pages && data.pages.length) || (data.news && data.news.length) || (data.useful && data.useful.length);
+                    const hasAny = (data.pages && data.pages.length) || (data.useful && data.useful.length);
                     suggestionsRoot.style.display = hasAny ? '' : 'none';
                 } catch { suggestionsRoot.style.display = 'none'; }
             }, 250);

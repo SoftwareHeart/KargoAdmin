@@ -201,6 +201,13 @@ namespace KargoAdmin.Controllers
             return View("Index", results);
         }
 
+        // LDM Hesaplama Sayfası
+        public IActionResult LdmCalculator()
+        {
+            ViewData["Title"] = "LDM Hesaplama";
+            return View();
+        }
+
         // HTML etiketlerini temizleme
         private string StripHtml(string input)
         {

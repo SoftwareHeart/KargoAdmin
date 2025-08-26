@@ -32,22 +32,9 @@ namespace KargoAdmin.Controllers
 
             string query = q.Trim();
 
-            // Haberler (Blog/News)
-            var blogQueryable = _context.Blogs
-                .Where(b => b.IsPublished && b.Type == "Haber" &&
-                            ((b.Title != null && b.Title.Contains(query)) ||
-                             (b.TitleEn != null && b.TitleEn.Contains(query)) ||
-                             (b.Content != null && b.Content.Contains(query)) ||
-                             (b.ContentEn != null && b.ContentEn.Contains(query)) ||
-                             (b.Tags != null && b.Tags.Contains(query)) ||
-                             (b.TagsEn != null && b.TagsEn.Contains(query))));
-
-            int blogTotal = await blogQueryable.CountAsync();
-            var blogResults = await blogQueryable
-                .OrderByDescending(b => b.PublishDate)
-                .Include(b => b.Author)
-                .Take(6)
-                .ToListAsync();
+            // Blog/News functionality removed
+            var blogResults = new List<Blog>();
+            int blogTotal = 0;
 
             // Faydalı Bilgiler
             var usefulQueryable = _context.Blogs
@@ -90,15 +77,11 @@ namespace KargoAdmin.Controllers
             {
                 var lang = _languageService.GetCurrentLanguage();
 
-                IQueryable<string> haberTags = lang == "en"
-                    ? _context.Blogs.Where(b => b.IsPublished && b.Type == "Haber" && b.TagsEn != null).Select(b => b.TagsEn!)
-                    : _context.Blogs.Where(b => b.IsPublished && b.Type == "Haber" && b.Tags != null).Select(b => b.Tags!);
-
                 IQueryable<string> usefulTags = lang == "en"
                     ? _context.Blogs.Where(b => b.IsPublished && b.Type == "Faydalı Bilgi" && b.TagsEn != null).Select(b => b.TagsEn!)
                     : _context.Blogs.Where(b => b.IsPublished && b.Type == "Faydalı Bilgi" && b.Tags != null).Select(b => b.Tags!);
 
-                var all = await haberTags.Concat(usefulTags).ToListAsync();
+                var all = await usefulTags.ToListAsync();
 
                 var tagCounts = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
                 foreach (var s in all)
@@ -131,7 +114,7 @@ namespace KargoAdmin.Controllers
         {
             if (string.IsNullOrWhiteSpace(q))
             {
-                return Json(new { pages = Array.Empty<object>(), news = Array.Empty<object>(), useful = Array.Empty<object>() });
+                return Json(new { pages = Array.Empty<object>(), useful = Array.Empty<object>() });
             }
 
             string query = q.Trim();
@@ -143,19 +126,8 @@ namespace KargoAdmin.Controllers
                 .Select(p => new { title = p.Title, url = p.Url })
                 .ToList();
 
-            // News titles
-            var news = await _context.Blogs
-                .Where(b => b.IsPublished && b.Type == "Haber" &&
-                            ((b.Title != null && b.Title.Contains(query)) ||
-                             (b.TitleEn != null && b.TitleEn.Contains(query))))
-                .OrderByDescending(b => b.PublishDate)
-                .Select(b => new
-                {
-                    title = lang == "en" && b.TitleEn != null && b.TitleEn != string.Empty ? b.TitleEn : b.Title,
-                    url = Url.Action("Details", "PublicBlog", new { id = b.Id, slug = lang == "en" && !string.IsNullOrEmpty(b.SlugEn) ? b.SlugEn : b.Slug })
-                })
-                .Take(5)
-                .ToListAsync();
+            // News functionality removed
+            var news = new List<object>();
 
             // Useful info titles
             var useful = await _context.Blogs
@@ -171,7 +143,7 @@ namespace KargoAdmin.Controllers
                 .Take(5)
                 .ToListAsync();
 
-            return Json(new { pages, news, useful });
+            return Json(new { pages, useful });
         }
         private List<SearchViewModel.PageResult> BuildPageMatches(string query)
         {
@@ -186,7 +158,6 @@ namespace KargoAdmin.Controllers
                 (Title: "Hava Yolu Taşımacılığı", Url: "/Aleris/Servisler/HavaYolu", Keywords: new[]{"hava","uçak","air","air cargo","uçuş"}),
                 (Title: "Deniz Yolu Taşımacılığı", Url: "/Aleris/Servisler/DenizYolu", Keywords: new[]{"deniz","gemi","sea","ocean","ship"}),
                 (Title: "Depolama ve Dağıtım", Url: "/Aleris/Servisler/DepolamaDagitim", Keywords: new[]{"depo","depolama","dağıtım","storage","distribution"}),
-                (Title: "Blog/Haber", Url: "/Blog", Keywords: new[]{"blog","haber","news","yazı"}),
                 (Title: "Blog/Faydalı Bilgiler", Url: "/UsefulInfo", Keywords: new[]{"faydalı","bilgi","rehber","guide","ipucu","blog"})
             };
 

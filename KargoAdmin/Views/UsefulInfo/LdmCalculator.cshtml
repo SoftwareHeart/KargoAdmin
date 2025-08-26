@@ -1,0 +1,596 @@
+@using KargoAdmin.Services
+@inject ILanguageService LanguageService
+@{
+    ViewData["Title"] = LanguageService.GetLocalizedText("LDM Hesaplama", "LDM Calculator");
+    Layout = "_PublicLayout";
+}
+
+<link rel="stylesheet" href="~/css/ldm-calculator.css" asp-append-version="true" />
+
+<!-- LDM Calculator Section -->
+<section class="ldm-calculator-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <!-- Header -->
+                <div class="ldm-header text-center mb-5">
+                    <h1 class="ldm-title">
+                        @LanguageService.GetLocalizedText("LDM Hesaplayıcı", "LDM Calculator")
+                    </h1>
+                    <p class="ldm-subtitle">
+                        @LanguageService.GetLocalizedText("Kargo yükünüzün hacimsel ağırlığını kolayca hesaplayın", "Easily calculate the volumetric weight of your cargo")
+                    </p>
+                </div>
+
+                <!-- Calculator Card -->
+                <div class="ldm-calculator-card">
+                    <div class="card-header">
+                        <h3>@LanguageService.GetLocalizedText("Hesaplama Aracı", "Calculation Tool")</h3>
+                        <p>@LanguageService.GetLocalizedText("Kolilerinizin ölçülerini girerek LDM değerini hesaplayın", "Enter your package dimensions to calculate LDM value")</p>
+                    </div>
+                    
+                    <div class="card-body">
+                        <!-- Single Package Calculator -->
+                        <div class="calculator-section">
+                            <h4 class="section-title">
+                                <i class="fas fa-box"></i>
+                                @LanguageService.GetLocalizedText("Tek Koli Hesaplama", "Single Package Calculation")
+                            </h4>
+                            
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <label>@LanguageService.GetLocalizedText("Uzunluk", "Length") (cm)</label>
+                                        <input type="number" id="length" class="form-control calculator-input" placeholder="0" min="0" step="0.1">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <label>@LanguageService.GetLocalizedText("Genişlik", "Width") (cm)</label>
+                                        <input type="number" id="width" class="form-control calculator-input" placeholder="0" min="0" step="0.1">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <label>@LanguageService.GetLocalizedText("Yükseklik", "Height") (cm)</label>
+                                        <input type="number" id="height" class="form-control calculator-input" placeholder="0" min="0" step="0.1">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <label>@LanguageService.GetLocalizedText("Adet", "Quantity")</label>
+                                        <input type="number" id="quantity" class="form-control calculator-input" placeholder="1" min="1" step="1" value="1">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="calculation-buttons">
+                                <button type="button" class="btn btn-primary calculate-btn" onclick="calculateSingle()">
+                                    <i class="fas fa-calculator"></i>
+                                    @LanguageService.GetLocalizedText("Hesapla", "Calculate")
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary clear-btn" onclick="clearSingle()">
+                                    <i class="fas fa-trash"></i>
+                                    @LanguageService.GetLocalizedText("Temizle", "Clear")
+                                </button>
+                            </div>
+                            
+                            <!-- Single Result -->
+                            <div class="result-section" id="singleResult" style="display: none;">
+                                <div class="result-card">
+                                    <h5>@LanguageService.GetLocalizedText("Sonuç", "Result")</h5>
+                                    <div class="result-grid">
+                                        <div class="result-item">
+                                            <label>@LanguageService.GetLocalizedText("Hacim", "Volume"):</label>
+                                            <span id="singleVolume">0</span> m³
+                                        </div>
+                                        <div class="result-item">
+                                            <label>@LanguageService.GetLocalizedText("LDM Değeri", "LDM Value"):</label>
+                                            <span id="singleLDM" class="ldm-result">0</span> LDM
+                                        </div>
+                                        <div class="result-item">
+                                            <label>@LanguageService.GetLocalizedText("Toplam Hacim", "Total Volume"):</label>
+                                            <span id="singleTotalVolume">0</span> m³
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Multiple Package Calculator -->
+                        <div class="calculator-section">
+                            <h4 class="section-title">
+                                <i class="fas fa-boxes"></i>
+                                @LanguageService.GetLocalizedText("Çoklu Koli Hesaplama", "Multiple Package Calculation")
+                            </h4>
+                            
+                            <div id="multiplePackages">
+                                <div class="package-row" data-index="1">
+                                    <div class="row align-items-end">
+                                        <div class="col-md-2">
+                                            <div class="input-group">
+                                                <label>@LanguageService.GetLocalizedText("Uzunluk", "Length") (cm)</label>
+                                                <input type="number" class="form-control multi-length" placeholder="0" min="0" step="0.1">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="input-group">
+                                                <label>@LanguageService.GetLocalizedText("Genişlik", "Width") (cm)</label>
+                                                <input type="number" class="form-control multi-width" placeholder="0" min="0" step="0.1">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="input-group">
+                                                <label>@LanguageService.GetLocalizedText("Yükseklik", "Height") (cm)</label>
+                                                <input type="number" class="form-control multi-height" placeholder="0" min="0" step="0.1">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="input-group">
+                                                <label>@LanguageService.GetLocalizedText("Adet", "Quantity")</label>
+                                                <input type="number" class="form-control multi-quantity" placeholder="1" min="1" step="1" value="1">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="input-group">
+                                                <label>@LanguageService.GetLocalizedText("LDM", "LDM")</label>
+                                                <input type="text" class="form-control multi-result" readonly placeholder="0 LDM">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="button" class="btn btn-outline-danger remove-package-btn" onclick="removePackage(1)" style="display: none;">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="calculation-buttons">
+                                <button type="button" class="btn btn-success add-package-btn" onclick="addPackage()">
+                                    <i class="fas fa-plus"></i>
+                                    @LanguageService.GetLocalizedText("Koli Ekle", "Add Package")
+                                </button>
+                                <button type="button" class="btn btn-primary calculate-btn" onclick="calculateMultiple()">
+                                    <i class="fas fa-calculator"></i>
+                                    @LanguageService.GetLocalizedText("Hesapla", "Calculate")
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary clear-btn" onclick="clearMultiple()">
+                                    <i class="fas fa-trash"></i>
+                                    @LanguageService.GetLocalizedText("Temizle", "Clear")
+                                </button>
+                            </div>
+                            
+                            <!-- Multiple Result -->
+                            <div class="result-section" id="multipleResult" style="display: none;">
+                                <div class="result-card">
+                                    <h5>@LanguageService.GetLocalizedText("Genel Sonuç", "Overall Result")</h5>
+                                    <div class="result-grid">
+                                        <div class="result-item">
+                                            <label>@LanguageService.GetLocalizedText("Toplam Koli Sayısı", "Total Packages"):</label>
+                                            <span id="totalPackages">0</span>
+                                        </div>
+                                        <div class="result-item">
+                                            <label>@LanguageService.GetLocalizedText("Toplam Hacim", "Total Volume"):</label>
+                                            <span id="multipleVolume">0</span> m³
+                                        </div>
+                                        <div class="result-item">
+                                            <label>@LanguageService.GetLocalizedText("Toplam LDM", "Total LDM"):</label>
+                                            <span id="multipleLDM" class="ldm-result">0</span> LDM
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Truck Visualization Section -->
+                <div class="truck-visualization-section mt-5" id="truckVisualization" style="display: none;">
+                    <div class="truck-card">
+                        <div class="truck-header">
+                            <h4>
+                                <i class="fas fa-truck"></i>
+                                @LanguageService.GetLocalizedText("Tır Yükleme Görselleştirmesi", "Truck Loading Visualization")
+                            </h4>
+                            <p>@LanguageService.GetLocalizedText("Hesaplanan LDM değerinizin tırda ne kadar yer kaplayacağını görün", "See how much space your calculated LDM will take in the truck")</p>
+                        </div>
+                        
+                        <div class="truck-container">
+                            <!-- Truck SVG -->
+                            <div class="truck-svg-container">
+                                <svg viewBox="0 0 800 300" class="truck-svg">
+                                    <!-- Truck Body -->
+                                    <rect x="50" y="120" width="600" height="120" fill="#e9ecef" stroke="#005cb9" stroke-width="3" rx="10"/>
+                                    <!-- Truck Cab -->
+                                    <rect x="650" y="100" width="120" height="140" fill="#005cb9" rx="15"/>
+                                    <!-- Wheels -->
+                                    <circle cx="120" cy="260" r="20" fill="#495057"/>
+                                    <circle cx="180" cy="260" r="20" fill="#495057"/>
+                                    <circle cx="520" cy="260" r="20" fill="#495057"/>
+                                    <circle cx="580" cy="260" r="20" fill="#495057"/>
+                                    <circle cx="680" cy="260" r="20" fill="#495057"/>
+                                    <circle cx="740" cy="260" r="20" fill="#495057"/>
+                                    <!-- Truck Details -->
+                                    <rect x="660" y="120" width="80" height="40" fill="#ffffff" opacity="0.3" rx="5"/>
+                                    <rect x="665" y="125" width="70" height="30" fill="#87ceeb" opacity="0.7" rx="3"/>
+                                    <!-- Loading Area -->
+                                    <rect x="60" y="130" width="580" height="100" fill="#f8f9fa" stroke="#dee2e6" stroke-width="1" rx="5"/>
+                                    
+                                    <!-- Loading Bars (will be filled dynamically) -->
+                                    <g id="loadingBars">
+                                        <rect x="70" y="140" width="56" height="80" fill="#28a745" opacity="0" class="loading-bar" rx="3"/>
+                                        <rect x="132" y="140" width="56" height="80" fill="#28a745" opacity="0" class="loading-bar" rx="3"/>
+                                        <rect x="194" y="140" width="56" height="80" fill="#28a745" opacity="0" class="loading-bar" rx="3"/>
+                                        <rect x="256" y="140" width="56" height="80" fill="#28a745" opacity="0" class="loading-bar" rx="3"/>
+                                        <rect x="318" y="140" width="56" height="80" fill="#28a745" opacity="0" class="loading-bar" rx="3"/>
+                                        <rect x="380" y="140" width="56" height="80" fill="#28a745" opacity="0" class="loading-bar" rx="3"/>
+                                        <rect x="442" y="140" width="56" height="80" fill="#28a745" opacity="0" class="loading-bar" rx="3"/>
+                                        <rect x="504" y="140" width="56" height="80" fill="#28a745" opacity="0" class="loading-bar" rx="3"/>
+                                        <rect x="566" y="140" width="56" height="80" fill="#28a745" opacity="0" class="loading-bar" rx="3"/>
+                                    </g>
+                                    
+                                    <!-- Capacity Text -->
+                                    <text x="350" y="190" text-anchor="middle" fill="#005cb9" font-size="14" font-weight="bold" id="capacityText">0 / 13.6 LDM</text>
+                                </svg>
+                            </div>
+                            
+                            <!-- Truck Stats -->
+                            <div class="truck-stats">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="truck-stat">
+                                            <i class="fas fa-ruler-horizontal"></i>
+                                            <span class="stat-label">@LanguageService.GetLocalizedText("Uzunluk", "Length")</span>
+                                            <span class="stat-value">13.6m</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="truck-stat">
+                                            <i class="fas fa-weight-hanging"></i>
+                                            <span class="stat-label">@LanguageService.GetLocalizedText("Maks. Kapasite", "Max Capacity")</span>
+                                            <span class="stat-value">13.6 LDM</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="truck-stat">
+                                            <i class="fas fa-percentage"></i>
+                                            <span class="stat-label">@LanguageService.GetLocalizedText("Doluluk", "Occupancy")</span>
+                                            <span class="stat-value" id="occupancyRate">0%</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="truck-stat">
+                                            <i class="fas fa-boxes"></i>
+                                            <span class="stat-label">@LanguageService.GetLocalizedText("Kalan Kapasite", "Remaining")</span>
+                                            <span class="stat-value" id="remainingCapacity">13.6 LDM</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Capacity Warning -->
+                            <div class="capacity-warning" id="capacityWarning" style="display: none;">
+                                <div class="alert alert-warning">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <strong>@LanguageService.GetLocalizedText("Uyarı!", "Warning!")</strong>
+                                    @LanguageService.GetLocalizedText("Hesaplanan LDM değeri tır kapasitesini aşıyor. Ek tır gerekebilir.", "Calculated LDM exceeds truck capacity. Additional truck may be needed.")
+                                </div>
+                            </div>
+                            
+                            <div class="capacity-overflow" id="capacityOverflow" style="display: none;">
+                                <div class="alert alert-danger">
+                                    <i class="fas fa-times-circle"></i>
+                                    <strong>@LanguageService.GetLocalizedText("Kapasite Aşımı!", "Capacity Exceeded!")</strong>
+                                    <span id="overflowText"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Information Section -->
+                <div class="ldm-info-section mt-5">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="info-card">
+                                <h4>@LanguageService.GetLocalizedText("LDM Nedir?", "What is LDM?")</h4>
+                                <p>@LanguageService.GetLocalizedText("LDM (Loading Meter / Yükleme Metre), bir kolinin hacimsel ağırlığını hesaplamak için kullanılan standarttır. Formül: LDM = Hacim(m³) × 200", "LDM (Loading Meter) is a standard used to calculate the volumetric weight of a package. Formula: LDM = Volume(m³) × 200")</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-card">
+                                <h4>@LanguageService.GetLocalizedText("Nasıl Hesaplanır?", "How to Calculate?")</h4>
+                                <p>@LanguageService.GetLocalizedText("1. Kolinin uzunluk, genişlik ve yüksekliğini cm cinsinden ölçün\n2. Bu üç değeri çarpın\n3. Sonucu 5000'e bölün\n4. Çıkan sonuç LDM değeridir", "1. Measure length, width and height of the package in cm\n2. Multiply these three values\n3. Divide the result by 5000\n4. The result is the LDM value")</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        let packageCount = 1;
+
+        function calculateSingle() {
+            const length = parseFloat(document.getElementById('length').value) || 0;
+            const width = parseFloat(document.getElementById('width').value) || 0;
+            const height = parseFloat(document.getElementById('height').value) || 0;
+            const quantity = parseInt(document.getElementById('quantity').value) || 1;
+
+            if (length <= 0 || width <= 0 || height <= 0) {
+                alert('@LanguageService.GetLocalizedText("Lütfen tüm ölçüleri doğru şekilde girin", "Please enter all dimensions correctly")');
+                return;
+            }
+
+            const volumeCm3 = length * width * height;
+            const volumeM3 = volumeCm3 / 1000000; // cm³ to m³
+            
+            // LDM Calculation: (L×W×H in m³) × 200
+            // Convert cm to m first, then calculate LDM
+            const ldmPerPackage = volumeM3 * 200;
+            const totalVolume = volumeM3 * quantity;
+            const totalLDM = ldmPerPackage * quantity;
+
+            document.getElementById('singleVolume').textContent = volumeM3.toFixed(4);
+            document.getElementById('singleLDM').textContent = ldmPerPackage.toFixed(2);
+            document.getElementById('singleTotalVolume').textContent = totalVolume.toFixed(4);
+            document.getElementById('singleResult').style.display = 'block';
+            
+            // Update truck visualization
+            updateTruckVisualization(totalLDM);
+        }
+
+        function clearSingle() {
+            document.getElementById('length').value = '';
+            document.getElementById('width').value = '';
+            document.getElementById('height').value = '';
+            document.getElementById('quantity').value = '1';
+            document.getElementById('singleResult').style.display = 'none';
+            document.getElementById('truckVisualization').style.display = 'none';
+        }
+
+        function addPackage() {
+            packageCount++;
+            const multiplePackages = document.getElementById('multiplePackages');
+            const packageRow = document.createElement('div');
+            packageRow.className = 'package-row';
+            packageRow.setAttribute('data-index', packageCount);
+            
+            packageRow.innerHTML = `
+                <div class="row align-items-end">
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <label>@LanguageService.GetLocalizedText("Uzunluk", "Length") (cm)</label>
+                            <input type="number" class="form-control multi-length" placeholder="0" min="0" step="0.1">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <label>@LanguageService.GetLocalizedText("Genişlik", "Width") (cm)</label>
+                            <input type="number" class="form-control multi-width" placeholder="0" min="0" step="0.1">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <label>@LanguageService.GetLocalizedText("Yükseklik", "Height") (cm)</label>
+                            <input type="number" class="form-control multi-height" placeholder="0" min="0" step="0.1">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <label>@LanguageService.GetLocalizedText("Adet", "Quantity")</label>
+                            <input type="number" class="form-control multi-quantity" placeholder="1" min="1" step="1" value="1">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <label>@LanguageService.GetLocalizedText("LDM", "LDM")</label>
+                            <input type="text" class="form-control multi-result" readonly placeholder="0 kg">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-outline-danger remove-package-btn" onclick="removePackage(${packageCount})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            multiplePackages.appendChild(packageRow);
+            updateRemoveButtons();
+        }
+
+        function removePackage(index) {
+            const packageRow = document.querySelector(`[data-index="${index}"]`);
+            if (packageRow) {
+                packageRow.remove();
+                updateRemoveButtons();
+            }
+        }
+
+        function updateRemoveButtons() {
+            const packages = document.querySelectorAll('.package-row');
+            packages.forEach((pkg, idx) => {
+                const removeBtn = pkg.querySelector('.remove-package-btn');
+                if (packages.length > 1) {
+                    removeBtn.style.display = 'block';
+                } else {
+                    removeBtn.style.display = 'none';
+                }
+            });
+        }
+
+        function calculateMultiple() {
+            const packageRows = document.querySelectorAll('.package-row');
+            let totalVolume = 0;
+            let totalLDM = 0;
+            let totalPackageCount = 0;
+            let validPackages = 0;
+
+            packageRows.forEach(row => {
+                const length = parseFloat(row.querySelector('.multi-length').value) || 0;
+                const width = parseFloat(row.querySelector('.multi-width').value) || 0;
+                const height = parseFloat(row.querySelector('.multi-height').value) || 0;
+                const quantity = parseInt(row.querySelector('.multi-quantity').value) || 1;
+                const resultField = row.querySelector('.multi-result');
+
+                if (length > 0 && width > 0 && height > 0) {
+                    const volumeCm3 = length * width * height;
+                    const volumeM3 = volumeCm3 / 1000000;
+                    const ldmPerPackage = volumeM3 * 200;
+                    const packageTotalLDM = ldmPerPackage * quantity;
+                    
+                    totalVolume += volumeM3 * quantity;
+                    totalLDM += packageTotalLDM;
+                    totalPackageCount += quantity;
+                    validPackages++;
+                    
+                    resultField.value = packageTotalLDM.toFixed(2) + ' LDM';
+                } else {
+                    resultField.value = '0 LDM';
+                }
+            });
+
+            if (validPackages === 0) {
+                alert('@LanguageService.GetLocalizedText("En az bir koli için tüm ölçüleri girin", "Enter all dimensions for at least one package")');
+                return;
+            }
+
+            document.getElementById('totalPackages').textContent = totalPackageCount;
+            document.getElementById('multipleVolume').textContent = totalVolume.toFixed(4);
+            document.getElementById('multipleLDM').textContent = totalLDM.toFixed(2);
+            document.getElementById('multipleResult').style.display = 'block';
+            
+            // Update truck visualization
+            updateTruckVisualization(totalLDM);
+        }
+
+        function clearMultiple() {
+            const multiplePackages = document.getElementById('multiplePackages');
+            multiplePackages.innerHTML = `
+                <div class="package-row" data-index="1">
+                    <div class="row align-items-end">
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <label>@LanguageService.GetLocalizedText("Uzunluk", "Length") (cm)</label>
+                                <input type="number" class="form-control multi-length" placeholder="0" min="0" step="0.1">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <label>@LanguageService.GetLocalizedText("Genişlik", "Width") (cm)</label>
+                                <input type="number" class="form-control multi-width" placeholder="0" min="0" step="0.1">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <label>@LanguageService.GetLocalizedText("Yükseklik", "Height") (cm)</label>
+                                <input type="number" class="form-control multi-height" placeholder="0" min="0" step="0.1">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <label>@LanguageService.GetLocalizedText("Adet", "Quantity")</label>
+                                <input type="number" class="form-control multi-quantity" placeholder="1" min="1" step="1" value="1">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <label>@LanguageService.GetLocalizedText("LDM", "LDM")</label>
+                                <input type="text" class="form-control multi-result" readonly placeholder="0 LDM">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-outline-danger remove-package-btn" onclick="removePackage(1)" style="display: none;">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            packageCount = 1;
+            document.getElementById('multipleResult').style.display = 'none';
+            document.getElementById('truckVisualization').style.display = 'none';
+            updateRemoveButtons();
+        }
+
+        // Truck Visualization Function
+        function updateTruckVisualization(ldmValue) {
+            const truckVisualization = document.getElementById('truckVisualization');
+            const maxCapacity = 13.6; // Standard truck LDM capacity
+            const loadingBars = document.querySelectorAll('.loading-bar');
+            const capacityText = document.getElementById('capacityText');
+            const occupancyRate = document.getElementById('occupancyRate');
+            const remainingCapacity = document.getElementById('remainingCapacity');
+            const capacityWarning = document.getElementById('capacityWarning');
+            const capacityOverflow = document.getElementById('capacityOverflow');
+            const overflowText = document.getElementById('overflowText');
+
+            // Show truck visualization
+            truckVisualization.style.display = 'block';
+            truckVisualization.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // Calculate percentages
+            const occupancyPercent = Math.min((ldmValue / maxCapacity) * 100, 100);
+            const remaining = Math.max(maxCapacity - ldmValue, 0);
+
+            // Update stats
+            occupancyRate.textContent = occupancyPercent.toFixed(1) + '%';
+            remainingCapacity.textContent = remaining.toFixed(2) + ' LDM';
+            capacityText.textContent = ldmValue.toFixed(2) + ' / ' + maxCapacity + ' LDM';
+
+            // Reset all bars
+            loadingBars.forEach(bar => {
+                bar.style.opacity = '0';
+                bar.style.fill = '#28a745';
+            });
+
+            // Calculate how many bars to fill (9 bars total)
+            const barsToFill = Math.min(Math.ceil((ldmValue / maxCapacity) * 9), 9);
+            
+            // Fill bars with animation
+            for (let i = 0; i < barsToFill; i++) {
+                setTimeout(() => {
+                    loadingBars[i].style.opacity = '0.8';
+                    loadingBars[i].style.transition = 'opacity 0.3s ease';
+                    
+                    // Change color based on capacity
+                    if (ldmValue > maxCapacity) {
+                        loadingBars[i].style.fill = '#dc3545'; // Red for overflow
+                    } else if (occupancyPercent > 80) {
+                        loadingBars[i].style.fill = '#ffc107'; // Yellow for near capacity
+                    } else {
+                        loadingBars[i].style.fill = '#28a745'; // Green for normal
+                    }
+                }, i * 100);
+            }
+
+            // Handle warnings
+            capacityWarning.style.display = 'none';
+            capacityOverflow.style.display = 'none';
+
+            if (ldmValue > maxCapacity) {
+                const excess = ldmValue - maxCapacity;
+                const additionalTrucks = Math.ceil(excess / maxCapacity);
+                overflowText.textContent = '@LanguageService.GetLocalizedText("", "")' + 
+                    (('@LanguageService.GetCurrentLanguage()' === 'en') 
+                        ? ` You need ${additionalTrucks} additional truck(s) for ${excess.toFixed(2)} LDM excess.`
+                        : ` ${excess.toFixed(2)} LDM fazlası için ${additionalTrucks} ek tır gerekiyor.`);
+                capacityOverflow.style.display = 'block';
+            } else if (occupancyPercent > 85) {
+                capacityWarning.style.display = 'block';
+            }
+        }
+
+        // Input değişikliklerinde otomatik hesaplama
+        document.addEventListener('input', function(e) {
+            if (e.target.classList.contains('calculator-input')) {
+                // Single calculator için otomatik hesaplama isteğe bağlı
+            }
+        });
+    </script>
+}
