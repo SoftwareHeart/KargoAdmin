@@ -25,6 +25,8 @@
      height: 100vh;
      display: flex;
      position: relative;
+     align-items: center;
+     justify-content: center;
  }
 
  /* Sol taraf - Text */
@@ -36,6 +38,7 @@
      padding: 10px 60px;
      position: relative;
      z-index: 2;
+     align-items: center;
  }
 
  /* Üst oval çizgi - Sade */
@@ -61,13 +64,17 @@
      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4), 0 0 8px rgba(0, 92, 185, 0.15);
  }
 
+ .top-oval-line em {
+     font-style: italic;
+ }
+
  .animation-title {
      font-size: 4.5rem;
      font-weight: 700;
      color: #2c3e50;
      line-height: 1.1;
      margin-bottom: 80px;
-     text-align: left;
+     text-align: center;
      letter-spacing: -0.02em;
  }
 
@@ -193,53 +200,33 @@
 
 
  /* Uçak animasyonu - Görseldeki gibi büyük ve merkezi */
- .plane-container {
-     position: absolute;
-     top: 35%;
-     right: 10%;
-     z-index: 5;
-     animation: planeFlight 12s linear infinite;
- }
+ /* Plane animation removed */
+ /*
+.plane-container {
+    position: absolute;
+    top: 35%;
+    right: 10%;
+    z-index: 5;
+    animation: planeFlight 12s linear infinite;
+}
 
- .plane-image {
-     width: 680px;
-     height: auto;
-     object-fit: contain;
-     filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.25));
- }
+.plane-image {
+    width: 680px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.25));
+}
 
- /* Uçak hareketi - Görsele uygun büyük animasyon */
- @keyframes planeFlight {
-     0% {
-         transform: translateX(-700px) translateY(180px) rotate(-15deg);
-         opacity: 0;
-     }
-
-     8% {
-         opacity: 1;
-     }
-
-     25% {
-         transform: translateX(-250px) translateY(80px) rotate(-8deg);
-     }
-
-     50% {
-         transform: translateX(120px) translateY(-30px) rotate(5deg);
-     }
-
-     75% {
-         transform: translateX(450px) translateY(-140px) rotate(18deg);
-     }
-
-     92% {
-         opacity: 1;
-     }
-
-     100% {
-         transform: translateX(700px) translateY(-220px) rotate(25deg);
-         opacity: 0;
-     }
- }
+@keyframes planeFlight {
+    0% { transform: translateX(-700px) translateY(180px) rotate(-15deg); opacity: 0; }
+    8% { opacity: 1; }
+    25% { transform: translateX(-250px) translateY(80px) rotate(-8deg); }
+    50% { transform: translateX(120px) translateY(-30px) rotate(5deg); }
+    75% { transform: translateX(450px) translateY(-140px) rotate(18deg); }
+    92% { opacity: 1; }
+    100% { transform: translateX(700px) translateY(-220px) rotate(25deg); opacity: 0; }
+}
+*/
 
  /* Responsive Design - Tasarıma Uygun Güncellemeler */
 
@@ -373,7 +360,7 @@
          width: 380px;
      }
 
- 
+
  }
 
  /* Mobile Landscape (576px - 767px) */
@@ -543,7 +530,7 @@
          width: 200px;
      }
 
-  
+
  }
 
  /* Extra Small Mobile (320px - 479px) */

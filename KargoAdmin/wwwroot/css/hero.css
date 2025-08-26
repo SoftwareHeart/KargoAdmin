@@ -44,14 +44,7 @@
     margin-bottom: 1.5rem !important;
 }
 
-.hero-text {
-    color: rgba(255, 255, 255, 0.9) !important;
-    font-size: 1.1rem !important;
-    max-width: 700px !important;
-    margin: 0 auto 2rem auto !important;
-    line-height: 1.6 !important;
-    text-align: center;
-}
+/* .hero-text removed as content deprecated */
 
 /* LinkedIn Icon - Hero section içinde sağ alt köşede, sabit kalır */
 .linkedin-floating {
@@ -263,9 +256,7 @@
         font-size: 1.5rem !important;
     }
 
-    .hero-text {
-        font-size: 1rem !important;
-    }
+    /* .hero-text removed */
 
     .linkedin-floating {
         bottom: 25px !important;
@@ -303,10 +294,7 @@
         font-size: 1.3rem !important;
     }
 
-    .hero-text {
-        font-size: 0.95rem !important;
-        max-width: 100% !important;
-    }
+    /* .hero-text removed */
 
     .hero-section .btn {
         padding: 12px 24px !important;

@@ -128,7 +128,7 @@ class ServicesAnimationController {
         // Animate elements with stagger effect
         this.animateElementsWithStagger(section);
 
-        // Perform push transition (previous vehicle gets pushed by current)
+        // Simplified: vehicles enter from right and stay; previous exits left by CSS clone choreography
         this.performPushTransition(section);
 
         // Stop observing this section
@@ -169,7 +169,7 @@ class ServicesAnimationController {
 
         if (!previousVehicle || !currentVehicle || !currentLeft) return;
 
-        // Clone previous vehicle and place it into current section as the target to be pushed
+        // Clone previous vehicle so current vehicle can replace it while clone exits to the left
         const clone = previousVehicle.cloneNode(true);
         clone.classList.add('vehicle-clone', 'push-target', 'animate-in');
         clone.classList.remove('animation-ready');
@@ -183,7 +183,7 @@ class ServicesAnimationController {
         // Insert clone under current vehicle so current can pass over it
         currentLeft.appendChild(clone);
 
-        // Prepare incoming vehicle
+        // Prepare incoming vehicle (from right to center)
         currentVehicle.classList.add('push-incoming');
 
         // Force reflow before starting transitions

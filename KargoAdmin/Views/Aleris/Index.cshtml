@@ -25,13 +25,8 @@
         <div class="row justify-content-center">
             <div class="col-lg-12 hero-content">
                 <h1 class="hero-title">
-                    @LanguageService.GetLocalizedText("Geleceğe umut taşımaktır,", "Carrying hope to the future,")
-                    <span>@LanguageService.GetLocalizedText("en büyük hayalimiz!", "is our greatest dream!")</span>
+                    @LanguageService.GetLocalizedText("Sözümüz taşır, gücümüz ulaştırır", "Our Word carries, our strength delivers")
                 </h1>
-                <p class="hero-text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy nibh
-                    euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim
-                </p>
             </div>
         </div>
     </div>
@@ -147,40 +142,20 @@
         <!-- Sol taraf - Text ve Service Cards -->
         <div class="animation-left">
             <!-- Üst oval çizgi -->
-            <div class="top-oval-line"> @LanguageService.GetLocalizedText("//mükemmelliğitaşır", "//carriesperfection")</div>
+            <div class="top-oval-line"><em>@LanguageService.GetLocalizedText("//mükemmelliğitaşır", "//carriesperfection")</em></div>
 
             <h2 class="animation-title">
                 Arelis Global:<br>
                 @LanguageService.GetLocalizedText("Sektöre Yeni Bir Soluk.", "A New Breath to the Industry.")
             </h2>
 
-            <!-- Service Mini Cards -->
-            <div class="service-cards-container">
-                <div class="service-mini-card">
-                    <div class="service-mini-icon">
-                        <img src="~/img/UluslarArasıTasimacilikIcon.png" alt="@LanguageService.GetLocalizedText("Uluslararası Taşımacılık", "International Transport")" class="service-icon-img">
-                    </div>
-                    <h4 class="service-mini-title">@LanguageService.GetLocalizedText("Uluslararası", "International")<br>@LanguageService.GetLocalizedText("Taşımacılık", "Transport")</h4>
-                </div>
-                <div class="service-mini-card">
-                    <div class="service-mini-icon">
-                        <img src="~/img/LojistikVeDeopalamIcon.png" alt="@LanguageService.GetLocalizedText("Lojistik ve Depolama", "Logistics and Warehousing")" class="service-icon-img">
-                    </div>
-                    <h4 class="service-mini-title">@LanguageService.GetLocalizedText("Lojistik ve", "Logistics and")<br>@LanguageService.GetLocalizedText("Depolama", "Warehousing")</h4>
-                </div>
-            </div>
+            
         </div>
 
-        <!-- Sağ taraf - Animasyon Alanı -->
+        <!-- Sağ taraf - Animasyon Alanı (Uçak kaldırıldı) -->
         <div class="animation-right">
-            <!-- Dünya -->
             <div class="world-container">
                 <img src="~/img/Dunya.png" alt="@LanguageService.GetLocalizedText("Dünya", "World")" class="world-image" />
-            </div>
-
-            <!-- Uçak -->
-            <div class="plane-container">
-                <img src="~/img/UcakSag.png" alt="@LanguageService.GetLocalizedText("Uçak", "Plane")" class="plane-image" />
             </div>
         </div>
     </div>
@@ -204,7 +179,7 @@
             </div>
             <!-- Vehicle -->
             <div class="vehicle-container land-truck-vehicle">
-                <img src="~/img/Tir.png" alt="Tır" class="vehicle-image" />
+                <img src="~/img/Minivan.png" alt="Minivan" class="vehicle-image" />
 
             </div>
 
@@ -432,9 +407,11 @@
             <div class="world-services-container">
                 <img src="~/img/Dunya.png" alt="@LanguageService.GetLocalizedText("Dünya", "World")" class="world-services-image" />
             </div>
-            <!-- Vehicle -->
-            <div class="vehicle-container land-van-vehicle">
-                <img src="~/img/Minivan.png" alt="Minivan" class="vehicle-image" />
+            <!-- Vehicle replaced with Forklift choreography (CSS-only) -->
+            <div class="land-van-forklift">
+                <img src="~/img/ForkliftKabin.png" alt="@LanguageService.GetLocalizedText("Forklift Kabin", "Forklift Cabin")" class="forklift-cabin" />
+                <img src="~/img/ForkliftUcu.png" alt="@LanguageService.GetLocalizedText("Forklift Ucu", "Forklift Tip")" class="forklift-tip" />
+                <img src="~/img/Koliler.png" alt="@LanguageService.GetLocalizedText("Palet", "Pallet")" class="forklift-pallet" />
             </div>
         </div>
 
@@ -487,67 +464,6 @@
                     </a>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
-<!-- Sector Leader Section -->
-<section class="sector-leader-section">
-    <!-- Background Video -->
-    <div class="sector-leader-video-container">
-        <video class="sector-leader-background-video" autoplay muted loop playsinline>
-            <source src="~/videos/PoligonelBgReverseUp.mp4" type="video/mp4">
-        </video>
-    </div>
-
-    <!-- Content -->
-    <div class="sector-leader-content">
-        <div class="container-fluid">
-            <div class="row align-items-center h-100 w-100">
-                <div class="col-lg-12">
-                    <div class="sector-leader-text">
-                        <h2 class="sector-leader-title">
-                            @LanguageService.GetLocalizedText("Neden sektör lideri bir", "Why should you work with a")<br>
-                            @LanguageService.GetLocalizedText("çözüm ortağı ile çalışmalısınız?", "sector-leading solution partner?")
-                        </h2>
-                        <p class="sector-leader-description">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy nibh
-                            euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad
-                            minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex
-                            ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit
-                            esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et
-                            accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue
-                        </p>
-
-                        <!-- Stats Boxes -->
-                        <div class="stats-boxes-container">
-                            <div class="stats-box" data-target="104">
-                                <img src="~/img/Koliler.png" alt="@LanguageService.GetLocalizedText("Koliler", "Boxes")" class="stats-box-image">
-                                <div class="stats-number">104+</div>
-                                <div class="stats-label">@LanguageService.GetLocalizedText("Kişilik Kadromuz", "Team Members")</div>
-                            </div>
-                            <div class="stats-box" data-target="40">
-                                <img src="~/img/Koliler.png" alt="@LanguageService.GetLocalizedText("Koliler", "Boxes")" class="stats-box-image">
-                                <div class="stats-number">40+</div>
-                                <div class="stats-label">@LanguageService.GetLocalizedText("Yıllık Tecrübe", "Years of Experience")</div>
-                            </div>
-                            <div class="stats-box" data-target="97">
-                                <img src="~/img/Koliler.png" alt="@LanguageService.GetLocalizedText("Koliler", "Boxes")" class="stats-box-image">
-                                <div class="stats-number">97+</div>
-                                <div class="stats-label">@LanguageService.GetLocalizedText("Araçlarımız", "Our Vehicles")</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Forklift Container -->
-    <div class="forklift-container">
-        <div class="forklift-vehicle">
-            <img src="~/img/ForkliftKabin.png" alt="@LanguageService.GetLocalizedText("Forklift Kabin", "Forklift Cabin")" class="forklift-cabin">
-            <img src="~/img/ForkliftUcu.png" alt="@LanguageService.GetLocalizedText("Forklift Ucu", "Forklift Tip")" class="forklift-tip">
-            <img src="~/img/Koliler.png" alt="@LanguageService.GetLocalizedText("Forklift Yük", "Forklift Load")" class="forklift-load">
         </div>
     </div>
 </section>
@@ -757,7 +673,8 @@
 
 @section Scripts {
     <script src="~/js/services-animation.js"></script>
-    <script src="~/js/sector-leader.js"></script>
+    <script src="~/js/services-animation-forklift.js"></script>
+    
     <script>
         // Video loop handling
         document.addEventListener('DOMContentLoaded', function() {
