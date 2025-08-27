@@ -5,12 +5,14 @@
     padding: 60px 20px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
 @supports (padding-top: calc(6rem + var(--navbar-height, 80px))) {
     body {
         padding-top: calc(4rem + var(--navbar-height, 0px)) !important;
         padding-bottom: 1rem;
     }
 }
+
 /* Header Section */
 .contact-header {
     text-align: center;
@@ -58,10 +60,10 @@
     border: 1px solid #f0f0f0;
 }
 
-    .contact-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-    }
+.contact-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
 
 /* Icon Styles */
 .contact-icon {
@@ -117,10 +119,10 @@
     display: inline-block;
 }
 
-    .contact-link:hover {
-        color: #2980b9;
-        text-decoration: underline;
-    }
+.contact-link:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
 
 .contact-address {
     line-height: 1.6;
@@ -153,15 +155,21 @@
     background: white;
 }
 
-    .social-icon:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
+.social-icon:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
 
 .facebook-icon:hover {
     background-color: #3b5998;
     color: white;
     border-color: #3b5998;
+}
+
+.linkedin-icon:hover {
+    background-color: #0a66c2;
+    color: white;
+    border-color: #0a66c2;
 }
 
 .instagram-icon:hover {

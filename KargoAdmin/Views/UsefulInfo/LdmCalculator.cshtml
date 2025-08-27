@@ -6,6 +6,8 @@
 }
 
 <link rel="stylesheet" href="~/css/ldm-calculator.css" asp-append-version="true" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
 <!-- LDM Calculator Section -->
 <section class="ldm-calculator-section">
@@ -18,294 +20,229 @@
                         @LanguageService.GetLocalizedText("LDM Hesaplayıcı", "LDM Calculator")
                     </h1>
                     <p class="ldm-subtitle">
-                        @LanguageService.GetLocalizedText("Kargo yükünüzün hacimsel ağırlığını kolayca hesaplayın", "Easily calculate the volumetric weight of your cargo")
+                        @LanguageService.GetLocalizedText("LDM değerinizi kolayca hesaplayın", "Easily calculate your LDM value")
                     </p>
                 </div>
 
-                <!-- Calculator Card -->
-                <div class="ldm-calculator-card">
-                    <div class="card-header">
-                        <h3>@LanguageService.GetLocalizedText("Hesaplama Aracı", "Calculation Tool")</h3>
-                        <p>@LanguageService.GetLocalizedText("Kolilerinizin ölçülerini girerek LDM değerini hesaplayın", "Enter your package dimensions to calculate LDM value")</p>
-                    </div>
-                    
-                    <div class="card-body">
-                        <!-- Single Package Calculator -->
-                        <div class="calculator-section">
-                            <h4 class="section-title">
-                                <i class="fas fa-box"></i>
-                                @LanguageService.GetLocalizedText("Tek Koli Hesaplama", "Single Package Calculation")
-                            </h4>
-                            
+                <!-- Calculator Section -->
+                <div class="calculator-section">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-lg-7">
                                     <div class="input-group">
-                                        <label>@LanguageService.GetLocalizedText("Uzunluk", "Length") (cm)</label>
-                                        <input type="number" id="length" class="form-control calculator-input" placeholder="0" min="0" step="0.1">
+                                        <label>@LanguageService.GetLocalizedText("Uzunluk", "Length"): cm.</label>
+                                        <input type="number" id="length" class="form-control" placeholder="0" min="0" step="0.1">
                                     </div>
-                                </div>
-                                <div class="col-md-3">
                                     <div class="input-group">
-                                        <label>@LanguageService.GetLocalizedText("Genişlik", "Width") (cm)</label>
-                                        <input type="number" id="width" class="form-control calculator-input" placeholder="0" min="0" step="0.1">
+                                        <label>@LanguageService.GetLocalizedText("Genişlik", "Width"): cm.</label>
+                                        <input type="number" id="width" class="form-control" placeholder="0" min="0" step="0.1">
                                     </div>
-                                </div>
-                                <div class="col-md-3">
                                     <div class="input-group">
-                                        <label>@LanguageService.GetLocalizedText("Yükseklik", "Height") (cm)</label>
-                                        <input type="number" id="height" class="form-control calculator-input" placeholder="0" min="0" step="0.1">
+                                        <label>@LanguageService.GetLocalizedText("Yükseklik", "Height"): cm.</label>
+                                        <input type="number" id="height" class="form-control" placeholder="0" min="0" step="0.1">
                                     </div>
-                                </div>
-                                <div class="col-md-3">
                                     <div class="input-group">
-                                        <label>@LanguageService.GetLocalizedText("Adet", "Quantity")</label>
-                                        <input type="number" id="quantity" class="form-control calculator-input" placeholder="1" min="1" step="1" value="1">
+                                        <label>@LanguageService.GetLocalizedText("Paket Sayısı", "Quantity"): @LanguageService.GetLocalizedText("adet..", "pcs")</label>
+                                        <input type="number" id="quantity" class="form-control" placeholder="1" min="1" step="1" value="1">
                                     </div>
-                                </div>
-                            </div>
-                            
-                            <div class="calculation-buttons">
-                                <button type="button" class="btn btn-primary calculate-btn" onclick="calculateSingle()">
-                                    <i class="fas fa-calculator"></i>
-                                    @LanguageService.GetLocalizedText("Hesapla", "Calculate")
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary clear-btn" onclick="clearSingle()">
-                                    <i class="fas fa-trash"></i>
-                                    @LanguageService.GetLocalizedText("Temizle", "Clear")
-                                </button>
-                            </div>
-                            
-                            <!-- Single Result -->
-                            <div class="result-section" id="singleResult" style="display: none;">
-                                <div class="result-card">
-                                    <h5>@LanguageService.GetLocalizedText("Sonuç", "Result")</h5>
-                                    <div class="result-grid">
-                                        <div class="result-item">
-                                            <label>@LanguageService.GetLocalizedText("Hacim", "Volume"):</label>
-                                            <span id="singleVolume">0</span> m³
-                                        </div>
-                                        <div class="result-item">
-                                            <label>@LanguageService.GetLocalizedText("LDM Değeri", "LDM Value"):</label>
-                                            <span id="singleLDM" class="ldm-result">0</span> LDM
-                                        </div>
-                                        <div class="result-item">
-                                            <label>@LanguageService.GetLocalizedText("Toplam Hacim", "Total Volume"):</label>
-                                            <span id="singleTotalVolume">0</span> m³
-                                        </div>
+                                    <div class="input-group">
+                                        <label>@LanguageService.GetLocalizedText("Birbiri üstüne yüklenebilir mi?", "Stackable?"): </label>
+                                        <select id="stackable" class="form-select" style="margin-left: 10px; max-width: 200px;">
+                                            <option value="yes">@LanguageService.GetLocalizedText("EVET", "YES")</option>
+                                            <option value="no">@LanguageService.GetLocalizedText("HAYIR", "NO")</option>
+                                        </select>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- Multiple Package Calculator -->
-                        <div class="calculator-section">
-                            <h4 class="section-title">
-                                <i class="fas fa-boxes"></i>
-                                @LanguageService.GetLocalizedText("Çoklu Koli Hesaplama", "Multiple Package Calculation")
-                            </h4>
-                            
-                            <div id="multiplePackages">
-                                <div class="package-row" data-index="1">
-                                    <div class="row align-items-end">
-                                        <div class="col-md-2">
-                                            <div class="input-group">
-                                                <label>@LanguageService.GetLocalizedText("Uzunluk", "Length") (cm)</label>
-                                                <input type="number" class="form-control multi-length" placeholder="0" min="0" step="0.1">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="input-group">
-                                                <label>@LanguageService.GetLocalizedText("Genişlik", "Width") (cm)</label>
-                                                <input type="number" class="form-control multi-width" placeholder="0" min="0" step="0.1">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="input-group">
-                                                <label>@LanguageService.GetLocalizedText("Yükseklik", "Height") (cm)</label>
-                                                <input type="number" class="form-control multi-height" placeholder="0" min="0" step="0.1">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="input-group">
-                                                <label>@LanguageService.GetLocalizedText("Adet", "Quantity")</label>
-                                                <input type="number" class="form-control multi-quantity" placeholder="1" min="1" step="1" value="1">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="input-group">
-                                                <label>@LanguageService.GetLocalizedText("LDM", "LDM")</label>
-                                                <input type="text" class="form-control multi-result" readonly placeholder="0 LDM">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <button type="button" class="btn btn-outline-danger remove-package-btn" onclick="removePackage(1)" style="display: none;">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
+                            <div class="mt-4">
+                                <div class="display-4" style="font-weight:700;">
+                                    <span id="ldmBigValue">0.0</span> LDM
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <div class="ldm-legend">
+                                    <span id="ldmCapacityText">0.0 / 13.6 LDM</span>
+                                    <span id="ldmPercentText">0%</span>
+                                </div>
+                                <div class="truck-visual">
+                                    <svg viewBox="0 0 900 350" class="truck-svg">
+                                        <!-- Gradients and Definitions -->
+                                        <defs>
+                                            <linearGradient id="trailerGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+                                                <stop offset="50%" style="stop-color:#f8f9fa;stop-opacity:1" />
+                                                <stop offset="100%" style="stop-color:#e9ecef;stop-opacity:1" />
+                                            </linearGradient>
+                                            <linearGradient id="cabGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                <stop offset="0%" style="stop-color:#0066cc;stop-opacity:1" />
+                                                <stop offset="50%" style="stop-color:#005cb9;stop-opacity:1" />
+                                                <stop offset="100%" style="stop-color:#004494;stop-opacity:1" />
+                                            </linearGradient>
+                                            <radialGradient id="wheelGradient" cx="50%" cy="30%" r="70%">
+                                                <stop offset="0%" style="stop-color:#6c757d;stop-opacity:1" />
+                                                <stop offset="70%" style="stop-color:#495057;stop-opacity:1" />
+                                                <stop offset="100%" style="stop-color:#343a40;stop-opacity:1" />
+                                            </radialGradient>
+                                            <linearGradient id="cargoGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                <stop offset="0%" style="stop-color:#28a745;stop-opacity:0.9" />
+                                                <stop offset="50%" style="stop-color:#20c997;stop-opacity:0.9" />
+                                                <stop offset="100%" style="stop-color:#17a2b8;stop-opacity:0.9" />
+                                            </linearGradient>
+                                        </defs>
+                                        
+                                        <!-- Ground shadow -->
+                                        <ellipse cx="450" cy="320" rx="420" ry="18" fill="#000000" opacity="0.15"/>
+                                        
+                                        <!-- Trailer Main Body (Much Bigger) -->
+                                        <rect x="70" y="100" width="700" height="160" rx="15" fill="url(#trailerGradient)" stroke="#005cb9" stroke-width="3" class="trailer"/>
+                                        
+                                        <!-- Trailer Floor -->
+                                        <rect x="75" y="250" width="690" height="10" rx="3" fill="#adb5bd" opacity="0.9"/>
+                                        <rect x="75" y="255" width="690" height="4" rx="2" fill="#6c757d" opacity="0.7"/>
+                                        
+                                        <!-- Cargo Area Interior (Much Bigger) -->
+                                        <rect x="75" y="105" width="690" height="145" rx="10" fill="#f1f3f5" stroke="#dee2e6" stroke-width="2"/>
+                                        
+                                        <!-- Cargo fill overlay (Much Bigger) -->
+                                        <rect id="cargoFill" x="82" y="112" width="0" height="131" rx="8" fill="url(#cargoGradient)" opacity="0.85" />
+                                        
+                                        <!-- Cargo Area Ceiling -->
+                                        <rect x="75" y="105" width="690" height="7" rx="3" fill="#e9ecef" opacity="0.9"/>
+                                        
+                                        <!-- Side Rails (Much Bigger) -->
+                                        <rect x="75" y="115" width="4" height="130" rx="2" fill="#6c757d" opacity="0.8"/>
+                                        <rect x="761" y="115" width="4" height="130" rx="2" fill="#6c757d" opacity="0.8"/>
+                                        
+                                        <!-- Loading Dock Rear (Much Bigger) -->
+                                        <rect x="70" y="115" width="10" height="130" rx="5" fill="#495057"/>
+                                        <rect x="72" y="120" width="6" height="120" rx="3" fill="#6c757d" opacity="0.8"/>
+                                        
+                                        <!-- Cargo Doors (Rear, Bigger) -->
+                                        <rect x="72" y="155" width="3" height="50" rx="2" fill="#343a40"/>
+                                        <circle cx="73" cy="170" r="1.5" fill="#ffc107"/>
+                                        <circle cx="73" cy="190" r="1.5" fill="#ffc107"/>
+                                        
+                                        <!-- Floor Texture Lines -->
+                                        <g opacity="0.4">
+                                            <line x1="82" y1="253" x2="758" y2="253" stroke="#6c757d" stroke-width="0.8"/>
+                                            <line x1="150" y1="250" x2="150" y2="259" stroke="#6c757d" stroke-width="0.6"/>
+                                            <line x1="250" y1="250" x2="250" y2="259" stroke="#6c757d" stroke-width="0.6"/>
+                                            <line x1="350" y1="250" x2="350" y2="259" stroke="#6c757d" stroke-width="0.6"/>
+                                            <line x1="450" y1="250" x2="450" y2="259" stroke="#6c757d" stroke-width="0.6"/>
+                                            <line x1="550" y1="250" x2="550" y2="259" stroke="#6c757d" stroke-width="0.6"/>
+                                            <line x1="650" y1="250" x2="650" y2="259" stroke="#6c757d" stroke-width="0.6"/>
+                                        </g>
+                                        
+                                        <!-- Side Wall Support Beams (Much Bigger) -->
+                                        <rect x="170" y="108" width="3" height="137" rx="1" fill="#adb5bd" opacity="0.6"/>
+                                        <rect x="310" y="108" width="3" height="137" rx="1" fill="#adb5bd" opacity="0.6"/>
+                                        <rect x="450" y="108" width="3" height="137" rx="1" fill="#adb5bd" opacity="0.6"/>
+                                        <rect x="590" y="108" width="3" height="137" rx="1" fill="#adb5bd" opacity="0.6"/>
+                                        <rect x="730" y="108" width="3" height="137" rx="1" fill="#adb5bd" opacity="0.6"/>
+                                        
+                                        <!-- Truck Cab (Drawn) -->
+                                        <g id="truckCab" transform="translate(760,95)">
+                                            <!-- Main cab body -->
+                                            <rect x="0" y="50" width="120" height="90" rx="12" fill="url(#cabGradient)" stroke="#003d80" stroke-width="3"/>
+                                            
+                                            <!-- Engine Hood/Motor Area -->
+                                            <rect x="110" y="60" width="45" height="80" rx="8" fill="url(#cabGradient)" stroke="#003d80" stroke-width="3"/>
+                                            <!-- Hood Lines -->
+                                            <line x1="115" y1="70" x2="150" y2="70" stroke="#003d80" stroke-width="1" opacity="0.7"/>
+                                            <line x1="115" y1="85" x2="150" y2="85" stroke="#003d80" stroke-width="1" opacity="0.7"/>
+                                            <line x1="115" y1="100" x2="150" y2="100" stroke="#003d80" stroke-width="1" opacity="0.7"/>
+                                            
+                                            <!-- Front Grille (Motor Area) -->
+                                            <rect x="150" y="75" width="8" height="50" rx="3" fill="#343a40" stroke="#495057" stroke-width="1"/>
+                                            <line x1="154" y1="80" x2="154" y2="120" stroke="#6c757d" stroke-width="1.5"/>
+                                            <rect x="151" y="82" width="6" height="3" fill="#6c757d"/>
+                                            <rect x="151" y="88" width="6" height="3" fill="#6c757d"/>
+                                            <rect x="151" y="94" width="6" height="3" fill="#6c757d"/>
+                                            <rect x="151" y="100" width="6" height="3" fill="#6c757d"/>
+                                            <rect x="151" y="106" width="6" height="3" fill="#6c757d"/>
+                                            <rect x="151" y="112" width="6" height="3" fill="#6c757d"/>
+                                            
+                                            <!-- Windshield -->
+                                            <rect x="10" y="60" width="70" height="35" rx="6" fill="#b3d7ff" stroke="#003d80" stroke-width="2"/>
+                                            <line x1="45" y1="60" x2="45" y2="95" stroke="#003d80" stroke-width="1.5" opacity="0.7"/>
+                                            
+                                            <!-- Side window -->
+                                            <rect x="85" y="75" width="20" height="20" rx="4" fill="#b3d7ff" stroke="#003d80" stroke-width="2"/>
+                                            
+                                            <!-- Side Door -->
+                                            <rect x="85" y="100" width="20" height="35" rx="4" fill="#0066cc" stroke="#003d80" stroke-width="2"/>
+                                            <circle cx="100" cy="120" r="2" fill="#ffc107"/>
+                                            
+                                            <!-- Lower Grill/Air Intake -->
+                                            <rect x="115" y="125" width="35" height="8" rx="3" fill="#343a40" stroke="#495057" stroke-width="1"/>
+                                            <rect x="117" y="127" width="31" height="4" fill="#495057"/>
+                                            
+                                            <!-- Bumper -->
+                                            <rect x="0" y="140" width="155" height="12" rx="6" fill="#6c757d" stroke="#495057" stroke-width="2"/>
+                                            
+                                            <!-- Headlights -->
+                                            <circle cx="145" cy="85" r="8" fill="#fff3cd" stroke="#ffc107" stroke-width="2"/>
+                                            <circle cx="145" cy="85" r="5" fill="#ffffff" opacity="0.9"/>
+                                            <circle cx="145" cy="110" r="8" fill="#fff3cd" stroke="#ffc107" stroke-width="2"/>
+                                            <circle cx="145" cy="110" r="5" fill="#ffffff" opacity="0.9"/>
+                                            
+                                            <!-- Turn Signals -->
+                                            <circle cx="150" cy="65" r="4" fill="#ff8c00" stroke="#e0a800" stroke-width="1"/>
+                                            <circle cx="150" cy="130" r="4" fill="#ff8c00" stroke="#e0a800" stroke-width="1"/>
+                                            
+                                            <!-- Cab Wheels Area -->
+                                            <ellipse cx="30" cy="155" rx="25" ry="8" fill="#495057" opacity="0.3"/>
+                                            <ellipse cx="90" cy="155" rx="25" ry="8" fill="#495057" opacity="0.3"/>
+                                        </g>
+                                        
+                                        <!-- Cab Wheels -->
+                                        <circle cx="790" cy="275" r="25" fill="url(#wheelGradient)"/>
+                                        <circle cx="790" cy="275" r="15" fill="#343a40"/>
+                                        <circle cx="790" cy="268" r="4" fill="#6c757d"/>
+                                        
+                                        <circle cx="850" cy="275" r="25" fill="url(#wheelGradient)"/>
+                                        <circle cx="850" cy="275" r="15" fill="#343a40"/>
+                                        <circle cx="850" cy="268" r="4" fill="#6c757d"/>
+                                        
+                                        <!-- Wheels with improved design (Bigger) -->
+                                        <circle cx="140" cy="275" r="25" fill="url(#wheelGradient)"/>
+                                        <circle cx="140" cy="275" r="15" fill="#343a40"/>
+                                        <circle cx="140" cy="268" r="4" fill="#6c757d"/>
+                                        
+                                        <circle cx="220" cy="275" r="25" fill="url(#wheelGradient)"/>
+                                        <circle cx="220" cy="275" r="15" fill="#343a40"/>
+                                        <circle cx="220" cy="268" r="4" fill="#6c757d"/>
+                                        
+                                        <circle cx="580" cy="275" r="25" fill="url(#wheelGradient)"/>
+                                        <circle cx="580" cy="275" r="15" fill="#343a40"/>
+                                        <circle cx="580" cy="268" r="4" fill="#6c757d"/>
+                                        
+                                        <circle cx="660" cy="275" r="25" fill="url(#wheelGradient)"/>
+                                        <circle cx="660" cy="275" r="15" fill="#343a40"/>
+                                        <circle cx="660" cy="268" r="4" fill="#6c757d"/>
+                                        
+                                        <!-- Cab wheels likely present in image; keep trailer wheels only -->
+                                        
+                                        <!-- Exhaust pipe (Bigger) -->
+                                        <rect x="760" y="190" width="8" height="35" rx="4" fill="#495057"/>
+                                        <ellipse cx="764" cy="190" rx="4" ry="3" fill="#6c757d"/>
+                                    </svg>
+                                </div>
+                                </div>
+                                </div>
+                                <div class="col-lg-5">
+                                    <div class="info-card">
+                                        <h4>@LanguageService.GetLocalizedText("LDM Nedir?", "What is LDM?")</h4>
+                                        <p>@LanguageService.GetLocalizedText("LDM (Loading Meter / Yükleme Metre), bir gönderinin tır zemini üzerinde kapladığı uzunluğu ifade eder. Standart formül: LDM = (Uzunluk(m) × Genişlik(m)) / 2.4", "LDM (Loading Meter) represents how much length on the truck floor a shipment occupies. Standard formula: LDM = (Length(m) × Width(m)) / 2.4")</p>
+                                    </div>
+                                    <div class="info-card mt-3">
+                                        <h4>@LanguageService.GetLocalizedText("Nasıl Hesaplanır?", "How to Calculate?")</h4>
+                                        <p>@LanguageService.GetLocalizedText("1. Uzunluğu ve genişliği cm cinsinden girin\n2. cm değerlerini metreye çevirin (cm / 100)\n3. Uzunluk(m) × Genişlik(m) hesaplayın\n4. Sonucu 2.4'e bölün (standart tır iç genişliği)\n5. Çıkan sonuç LDM değeridir", "1. Enter length and width in cm\n2. Convert cm to meters (cm / 100)\n3. Calculate Length(m) × Width(m)\n4. Divide the result by 2.4 (standard truck inner width)\n5. The result is the LDM value")</p>
                                     </div>
                                 </div>
                             </div>
-                            
-                            <div class="calculation-buttons">
-                                <button type="button" class="btn btn-success add-package-btn" onclick="addPackage()">
-                                    <i class="fas fa-plus"></i>
-                                    @LanguageService.GetLocalizedText("Koli Ekle", "Add Package")
-                                </button>
-                                <button type="button" class="btn btn-primary calculate-btn" onclick="calculateMultiple()">
-                                    <i class="fas fa-calculator"></i>
-                                    @LanguageService.GetLocalizedText("Hesapla", "Calculate")
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary clear-btn" onclick="clearMultiple()">
-                                    <i class="fas fa-trash"></i>
-                                    @LanguageService.GetLocalizedText("Temizle", "Clear")
-                                </button>
-                            </div>
-                            
-                            <!-- Multiple Result -->
-                            <div class="result-section" id="multipleResult" style="display: none;">
-                                <div class="result-card">
-                                    <h5>@LanguageService.GetLocalizedText("Genel Sonuç", "Overall Result")</h5>
-                                    <div class="result-grid">
-                                        <div class="result-item">
-                                            <label>@LanguageService.GetLocalizedText("Toplam Koli Sayısı", "Total Packages"):</label>
-                                            <span id="totalPackages">0</span>
-                                        </div>
-                                        <div class="result-item">
-                                            <label>@LanguageService.GetLocalizedText("Toplam Hacim", "Total Volume"):</label>
-                                            <span id="multipleVolume">0</span> m³
-                                        </div>
-                                        <div class="result-item">
-                                            <label>@LanguageService.GetLocalizedText("Toplam LDM", "Total LDM"):</label>
-                                            <span id="multipleLDM" class="ldm-result">0</span> LDM
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
-                <!-- Truck Visualization Section -->
-                <div class="truck-visualization-section mt-5" id="truckVisualization" style="display: none;">
-                    <div class="truck-card">
-                        <div class="truck-header">
-                            <h4>
-                                <i class="fas fa-truck"></i>
-                                @LanguageService.GetLocalizedText("Tır Yükleme Görselleştirmesi", "Truck Loading Visualization")
-                            </h4>
-                            <p>@LanguageService.GetLocalizedText("Hesaplanan LDM değerinizin tırda ne kadar yer kaplayacağını görün", "See how much space your calculated LDM will take in the truck")</p>
-                        </div>
-                        
-                        <div class="truck-container">
-                            <!-- Truck SVG -->
-                            <div class="truck-svg-container">
-                                <svg viewBox="0 0 800 300" class="truck-svg">
-                                    <!-- Truck Body -->
-                                    <rect x="50" y="120" width="600" height="120" fill="#e9ecef" stroke="#005cb9" stroke-width="3" rx="10"/>
-                                    <!-- Truck Cab -->
-                                    <rect x="650" y="100" width="120" height="140" fill="#005cb9" rx="15"/>
-                                    <!-- Wheels -->
-                                    <circle cx="120" cy="260" r="20" fill="#495057"/>
-                                    <circle cx="180" cy="260" r="20" fill="#495057"/>
-                                    <circle cx="520" cy="260" r="20" fill="#495057"/>
-                                    <circle cx="580" cy="260" r="20" fill="#495057"/>
-                                    <circle cx="680" cy="260" r="20" fill="#495057"/>
-                                    <circle cx="740" cy="260" r="20" fill="#495057"/>
-                                    <!-- Truck Details -->
-                                    <rect x="660" y="120" width="80" height="40" fill="#ffffff" opacity="0.3" rx="5"/>
-                                    <rect x="665" y="125" width="70" height="30" fill="#87ceeb" opacity="0.7" rx="3"/>
-                                    <!-- Loading Area -->
-                                    <rect x="60" y="130" width="580" height="100" fill="#f8f9fa" stroke="#dee2e6" stroke-width="1" rx="5"/>
-                                    
-                                    <!-- Loading Bars (will be filled dynamically) -->
-                                    <g id="loadingBars">
-                                        <rect x="70" y="140" width="56" height="80" fill="#28a745" opacity="0" class="loading-bar" rx="3"/>
-                                        <rect x="132" y="140" width="56" height="80" fill="#28a745" opacity="0" class="loading-bar" rx="3"/>
-                                        <rect x="194" y="140" width="56" height="80" fill="#28a745" opacity="0" class="loading-bar" rx="3"/>
-                                        <rect x="256" y="140" width="56" height="80" fill="#28a745" opacity="0" class="loading-bar" rx="3"/>
-                                        <rect x="318" y="140" width="56" height="80" fill="#28a745" opacity="0" class="loading-bar" rx="3"/>
-                                        <rect x="380" y="140" width="56" height="80" fill="#28a745" opacity="0" class="loading-bar" rx="3"/>
-                                        <rect x="442" y="140" width="56" height="80" fill="#28a745" opacity="0" class="loading-bar" rx="3"/>
-                                        <rect x="504" y="140" width="56" height="80" fill="#28a745" opacity="0" class="loading-bar" rx="3"/>
-                                        <rect x="566" y="140" width="56" height="80" fill="#28a745" opacity="0" class="loading-bar" rx="3"/>
-                                    </g>
-                                    
-                                    <!-- Capacity Text -->
-                                    <text x="350" y="190" text-anchor="middle" fill="#005cb9" font-size="14" font-weight="bold" id="capacityText">0 / 13.6 LDM</text>
-                                </svg>
-                            </div>
-                            
-                            <!-- Truck Stats -->
-                            <div class="truck-stats">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="truck-stat">
-                                            <i class="fas fa-ruler-horizontal"></i>
-                                            <span class="stat-label">@LanguageService.GetLocalizedText("Uzunluk", "Length")</span>
-                                            <span class="stat-value">13.6m</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="truck-stat">
-                                            <i class="fas fa-weight-hanging"></i>
-                                            <span class="stat-label">@LanguageService.GetLocalizedText("Maks. Kapasite", "Max Capacity")</span>
-                                            <span class="stat-value">13.6 LDM</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="truck-stat">
-                                            <i class="fas fa-percentage"></i>
-                                            <span class="stat-label">@LanguageService.GetLocalizedText("Doluluk", "Occupancy")</span>
-                                            <span class="stat-value" id="occupancyRate">0%</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="truck-stat">
-                                            <i class="fas fa-boxes"></i>
-                                            <span class="stat-label">@LanguageService.GetLocalizedText("Kalan Kapasite", "Remaining")</span>
-                                            <span class="stat-value" id="remainingCapacity">13.6 LDM</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Capacity Warning -->
-                            <div class="capacity-warning" id="capacityWarning" style="display: none;">
-                                <div class="alert alert-warning">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                    <strong>@LanguageService.GetLocalizedText("Uyarı!", "Warning!")</strong>
-                                    @LanguageService.GetLocalizedText("Hesaplanan LDM değeri tır kapasitesini aşıyor. Ek tır gerekebilir.", "Calculated LDM exceeds truck capacity. Additional truck may be needed.")
-                                </div>
-                            </div>
-                            
-                            <div class="capacity-overflow" id="capacityOverflow" style="display: none;">
-                                <div class="alert alert-danger">
-                                    <i class="fas fa-times-circle"></i>
-                                    <strong>@LanguageService.GetLocalizedText("Kapasite Aşımı!", "Capacity Exceeded!")</strong>
-                                    <span id="overflowText"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Information Section -->
-                <div class="ldm-info-section mt-5">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="info-card">
-                                <h4>@LanguageService.GetLocalizedText("LDM Nedir?", "What is LDM?")</h4>
-                                <p>@LanguageService.GetLocalizedText("LDM (Loading Meter / Yükleme Metre), bir kolinin hacimsel ağırlığını hesaplamak için kullanılan standarttır. Formül: LDM = Hacim(m³) × 200", "LDM (Loading Meter) is a standard used to calculate the volumetric weight of a package. Formula: LDM = Volume(m³) × 200")</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="info-card">
-                                <h4>@LanguageService.GetLocalizedText("Nasıl Hesaplanır?", "How to Calculate?")</h4>
-                                <p>@LanguageService.GetLocalizedText("1. Kolinin uzunluk, genişlik ve yüksekliğini cm cinsinden ölçün\n2. Bu üç değeri çarpın\n3. Sonucu 5000'e bölün\n4. Çıkan sonuç LDM değeridir", "1. Measure length, width and height of the package in cm\n2. Multiply these three values\n3. Divide the result by 5000\n4. The result is the LDM value")</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Truck Visualization Section removed; Info cards moved to the right column -->
             </div>
         </div>
     </div>
@@ -313,284 +250,210 @@
 
 @section Scripts {
     <script>
-        let packageCount = 1;
-
-        function calculateSingle() {
+        function recalcLDM() {
             const length = parseFloat(document.getElementById('length').value) || 0;
             const width = parseFloat(document.getElementById('width').value) || 0;
             const height = parseFloat(document.getElementById('height').value) || 0;
             const quantity = parseInt(document.getElementById('quantity').value) || 1;
+            const stackable = document.getElementById('stackable').value;
 
-            if (length <= 0 || width <= 0 || height <= 0) {
-                alert('@LanguageService.GetLocalizedText("Lütfen tüm ölçüleri doğru şekilde girin", "Please enter all dimensions correctly")');
+            if (length <= 0 || width <= 0) {
+                document.getElementById('ldmBigValue').textContent = '0.0';
+                updateVisualization(0);
+                // Only show error if user has entered values but they are invalid
+                if (length > 0 && width <= 0) {
+                    showToast('⚠️ Genişlik değeri 0\'dan büyük olmalıdır!', 'error');
+                } else if (length <= 0 && width > 0) {
+                    showToast('⚠️ Uzunluk değeri 0\'dan büyük olmalıdır!', 'error');
+                }
                 return;
             }
 
-            const volumeCm3 = length * width * height;
-            const volumeM3 = volumeCm3 / 1000000; // cm³ to m³
+            const lengthM = length / 100;
+            const widthM = width / 100;
+            const heightM = height / 100;
             
-            // LDM Calculation: (L×W×H in m³) × 200
-            // Convert cm to m first, then calculate LDM
-            const ldmPerPackage = volumeM3 * 200;
-            const totalVolume = volumeM3 * quantity;
-            const totalLDM = ldmPerPackage * quantity;
-
-            document.getElementById('singleVolume').textContent = volumeM3.toFixed(4);
-            document.getElementById('singleLDM').textContent = ldmPerPackage.toFixed(2);
-            document.getElementById('singleTotalVolume').textContent = totalVolume.toFixed(4);
-            document.getElementById('singleResult').style.display = 'block';
+            // Truck standard dimensions
+            const truckWidth = 2.4; // meters
+            const truckHeight = 2.7; // meters (standard internal height)
             
-            // Update truck visualization
-            updateTruckVisualization(totalLDM);
-        }
-
-        function clearSingle() {
-            document.getElementById('length').value = '';
-            document.getElementById('width').value = '';
-            document.getElementById('height').value = '';
-            document.getElementById('quantity').value = '1';
-            document.getElementById('singleResult').style.display = 'none';
-            document.getElementById('truckVisualization').style.display = 'none';
-        }
-
-        function addPackage() {
-            packageCount++;
-            const multiplePackages = document.getElementById('multiplePackages');
-            const packageRow = document.createElement('div');
-            packageRow.className = 'package-row';
-            packageRow.setAttribute('data-index', packageCount);
+            // Basic LDM calculation
+            let ldmPer = (lengthM * widthM) / truckWidth;
+            let toastMessage = '';
+            let toastType = 'success';
             
-            packageRow.innerHTML = `
-                <div class="row align-items-end">
-                    <div class="col-md-2">
-                        <div class="input-group">
-                            <label>@LanguageService.GetLocalizedText("Uzunluk", "Length") (cm)</label>
-                            <input type="number" class="form-control multi-length" placeholder="0" min="0" step="0.1">
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="input-group">
-                            <label>@LanguageService.GetLocalizedText("Genişlik", "Width") (cm)</label>
-                            <input type="number" class="form-control multi-width" placeholder="0" min="0" step="0.1">
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="input-group">
-                            <label>@LanguageService.GetLocalizedText("Yükseklik", "Height") (cm)</label>
-                            <input type="number" class="form-control multi-height" placeholder="0" min="0" step="0.1">
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="input-group">
-                            <label>@LanguageService.GetLocalizedText("Adet", "Quantity")</label>
-                            <input type="number" class="form-control multi-quantity" placeholder="1" min="1" step="1" value="1">
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="input-group">
-                            <label>@LanguageService.GetLocalizedText("LDM", "LDM")</label>
-                            <input type="text" class="form-control multi-result" readonly placeholder="0 kg">
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <button type="button" class="btn btn-outline-danger remove-package-btn" onclick="removePackage(${packageCount})">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            multiplePackages.appendChild(packageRow);
-            updateRemoveButtons();
-        }
-
-        function removePackage(index) {
-            const packageRow = document.querySelector(`[data-index="${index}"]`);
-            if (packageRow) {
-                packageRow.remove();
-                updateRemoveButtons();
-            }
-        }
-
-        function updateRemoveButtons() {
-            const packages = document.querySelectorAll('.package-row');
-            packages.forEach((pkg, idx) => {
-                const removeBtn = pkg.querySelector('.remove-package-btn');
-                if (packages.length > 1) {
-                    removeBtn.style.display = 'block';
-                } else {
-                    removeBtn.style.display = 'none';
+            // Height consideration: if height exceeds truck height, needs extra space
+            let heightLayers = 1;
+            if (heightM > 0) {
+                heightLayers = Math.ceil(heightM / truckHeight);
+                if (heightLayers > 1) {
+                    ldmPer = ldmPer * heightLayers;
+                    toastMessage += `📏 Yükseklik ${heightM.toFixed(1)}m olduğu için ${heightLayers} katman gerekiyor. `;
                 }
-            });
-        }
-
-        function calculateMultiple() {
-            const packageRows = document.querySelectorAll('.package-row');
-            let totalVolume = 0;
-            let totalLDM = 0;
-            let totalPackageCount = 0;
-            let validPackages = 0;
-
-            packageRows.forEach(row => {
-                const length = parseFloat(row.querySelector('.multi-length').value) || 0;
-                const width = parseFloat(row.querySelector('.multi-width').value) || 0;
-                const height = parseFloat(row.querySelector('.multi-height').value) || 0;
-                const quantity = parseInt(row.querySelector('.multi-quantity').value) || 1;
-                const resultField = row.querySelector('.multi-result');
-
-                if (length > 0 && width > 0 && height > 0) {
-                    const volumeCm3 = length * width * height;
-                    const volumeM3 = volumeCm3 / 1000000;
-                    const ldmPerPackage = volumeM3 * 200;
-                    const packageTotalLDM = ldmPerPackage * quantity;
-                    
-                    totalVolume += volumeM3 * quantity;
-                    totalLDM += packageTotalLDM;
-                    totalPackageCount += quantity;
-                    validPackages++;
-                    
-                    resultField.value = packageTotalLDM.toFixed(2) + ' LDM';
-                } else {
-                    resultField.value = '0 LDM';
-                }
-            });
-
-            if (validPackages === 0) {
-                alert('@LanguageService.GetLocalizedText("En az bir koli için tüm ölçüleri girin", "Enter all dimensions for at least one package")');
-                return;
             }
-
-            document.getElementById('totalPackages').textContent = totalPackageCount;
-            document.getElementById('multipleVolume').textContent = totalVolume.toFixed(4);
-            document.getElementById('multipleLDM').textContent = totalLDM.toFixed(2);
-            document.getElementById('multipleResult').style.display = 'block';
             
-            // Update truck visualization
-            updateTruckVisualization(totalLDM);
-        }
-
-        function clearMultiple() {
-            const multiplePackages = document.getElementById('multiplePackages');
-            multiplePackages.innerHTML = `
-                <div class="package-row" data-index="1">
-                    <div class="row align-items-end">
-                        <div class="col-md-2">
-                            <div class="input-group">
-                                <label>@LanguageService.GetLocalizedText("Uzunluk", "Length") (cm)</label>
-                                <input type="number" class="form-control multi-length" placeholder="0" min="0" step="0.1">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="input-group">
-                                <label>@LanguageService.GetLocalizedText("Genişlik", "Width") (cm)</label>
-                                <input type="number" class="form-control multi-width" placeholder="0" min="0" step="0.1">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="input-group">
-                                <label>@LanguageService.GetLocalizedText("Yükseklik", "Height") (cm)</label>
-                                <input type="number" class="form-control multi-height" placeholder="0" min="0" step="0.1">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="input-group">
-                                <label>@LanguageService.GetLocalizedText("Adet", "Quantity")</label>
-                                <input type="number" class="form-control multi-quantity" placeholder="1" min="1" step="1" value="1">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="input-group">
-                                <label>@LanguageService.GetLocalizedText("LDM", "LDM")</label>
-                                <input type="text" class="form-control multi-result" readonly placeholder="0 LDM">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <button type="button" class="btn btn-outline-danger remove-package-btn" onclick="removePackage(1)" style="display: none;">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-            packageCount = 1;
-            document.getElementById('multipleResult').style.display = 'none';
-            document.getElementById('truckVisualization').style.display = 'none';
-            updateRemoveButtons();
-        }
-
-        // Truck Visualization Function
-        function updateTruckVisualization(ldmValue) {
-            const truckVisualization = document.getElementById('truckVisualization');
-            const maxCapacity = 13.6; // Standard truck LDM capacity
-            const loadingBars = document.querySelectorAll('.loading-bar');
-            const capacityText = document.getElementById('capacityText');
-            const occupancyRate = document.getElementById('occupancyRate');
-            const remainingCapacity = document.getElementById('remainingCapacity');
-            const capacityWarning = document.getElementById('capacityWarning');
-            const capacityOverflow = document.getElementById('capacityOverflow');
-            const overflowText = document.getElementById('overflowText');
-
-            // Show truck visualization
-            truckVisualization.style.display = 'block';
-            truckVisualization.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-            // Calculate percentages
-            const occupancyPercent = Math.min((ldmValue / maxCapacity) * 100, 100);
-            const remaining = Math.max(maxCapacity - ldmValue, 0);
-
-            // Update stats
-            occupancyRate.textContent = occupancyPercent.toFixed(1) + '%';
-            remainingCapacity.textContent = remaining.toFixed(2) + ' LDM';
-            capacityText.textContent = ldmValue.toFixed(2) + ' / ' + maxCapacity + ' LDM';
-
-            // Reset all bars
-            loadingBars.forEach(bar => {
-                bar.style.opacity = '0';
-                bar.style.fill = '#28a745';
-            });
-
-            // Calculate how many bars to fill (9 bars total)
-            const barsToFill = Math.min(Math.ceil((ldmValue / maxCapacity) * 9), 9);
-            
-            // Fill bars with animation
-            for (let i = 0; i < barsToFill; i++) {
-                setTimeout(() => {
-                    loadingBars[i].style.opacity = '0.8';
-                    loadingBars[i].style.transition = 'opacity 0.3s ease';
+            // Stackable logic
+            let totalLdm;
+            if (stackable === 'yes') {
+                // If stackable, calculate how many can fit in truck height
+                if (heightM > 0) {
+                    const stacksPerHeight = Math.floor(truckHeight / heightM);
+                    const totalStacks = Math.ceil(quantity / stacksPerHeight);
+                    totalLdm = ldmPer * totalStacks;
                     
-                    // Change color based on capacity
-                    if (ldmValue > maxCapacity) {
-                        loadingBars[i].style.fill = '#dc3545'; // Red for overflow
-                    } else if (occupancyPercent > 80) {
-                        loadingBars[i].style.fill = '#ffc107'; // Yellow for near capacity
+                    if (stacksPerHeight >= quantity) {
+                        toastMessage += `📦 ${quantity} adet paket üst üste yüklenebilir (${stacksPerHeight} adete kadar sığar). Tek paket alanı kullanıldı.`;
                     } else {
-                        loadingBars[i].style.fill = '#28a745'; // Green for normal
+                        toastMessage += `📦 Paketler üst üste yüklenebilir ancak ${stacksPerHeight} adet sığdığı için ${totalStacks} grup halinde yerleştirildi.`;
                     }
-                }, i * 100);
+                } else {
+                    totalLdm = ldmPer;
+                    toastMessage += `📦 Paketler üst üste yüklenebilir. Tek paket alanı kullanıldı.`;
+                }
+            } else {
+                // If not stackable, each package needs separate space
+                totalLdm = ldmPer * quantity;
+                toastMessage += `📋 Paketler üst üste yüklenemez. Her paket için ayrı alan hesaplandı (${quantity} × ${ldmPer.toFixed(2)} LDM).`;
+            }
+            
+            // Only show toast for warnings/errors
+            if (totalLdm > 13.6) {
+                toastType = 'error';
+                toastMessage = `⚠️ UYARI: ${totalLdm.toFixed(1)} LDM tır kapasitesini (13.6 LDM) aşıyor! Ek tır gerekli.`;
+                showToast(toastMessage, toastType);
+            } else if (totalLdm > 10.9) {
+                toastType = 'warning';
+                toastMessage = `⚡ Dikkat! Kapasite %80'i aştı (${totalLdm.toFixed(1)}/13.6 LDM). Dikkatli yükleme gerekir.`;
+                showToast(toastMessage, toastType);
             }
 
-            // Handle warnings
-            capacityWarning.style.display = 'none';
-            capacityOverflow.style.display = 'none';
-
-            if (ldmValue > maxCapacity) {
-                const excess = ldmValue - maxCapacity;
-                const additionalTrucks = Math.ceil(excess / maxCapacity);
-                overflowText.textContent = '@LanguageService.GetLocalizedText("", "")' + 
-                    (('@LanguageService.GetCurrentLanguage()' === 'en') 
-                        ? ` You need ${additionalTrucks} additional truck(s) for ${excess.toFixed(2)} LDM excess.`
-                        : ` ${excess.toFixed(2)} LDM fazlası için ${additionalTrucks} ek tır gerekiyor.`);
-                capacityOverflow.style.display = 'block';
-            } else if (occupancyPercent > 85) {
-                capacityWarning.style.display = 'block';
-            }
+            document.getElementById('ldmBigValue').textContent = totalLdm.toFixed(1);
+            updateVisualization(totalLdm);
+        }
+        
+        function showToast(message, type = 'success') {
+            const colors = {
+                success: '#28a745',
+                warning: '#ffc107', 
+                error: '#dc3545',
+                info: '#17a2b8'
+            };
+            
+            Toastify({
+                text: message,
+                duration: 6000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                backgroundColor: colors[type] || colors.info,
+                style: {
+                    background: colors[type] || colors.info,
+                    borderRadius: '12px',
+                    fontSize: '14px',
+                    boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
+                    padding: '16px 20px',
+                    maxWidth: '400px'
+                },
+                onClick: function(){} 
+            }).showToast();
         }
 
-        // Input değişikliklerinde otomatik hesaplama
-        document.addEventListener('input', function(e) {
-            if (e.target.classList.contains('calculator-input')) {
-                // Single calculator için otomatik hesaplama isteğe bağlı
-            }
+        let toastTimeout;
+        
+        ['length','width','quantity','stackable','height'].forEach(function(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            const evt = (el.tagName === 'SELECT') ? 'change' : 'input';
+            el.addEventListener(evt, function() {
+                // Clear previous timeout
+                if (toastTimeout) {
+                    clearTimeout(toastTimeout);
+                }
+                
+                // Set new timeout to show toast after user stops typing/changing values
+                toastTimeout = setTimeout(function() {
+                    recalcLDM();
+                }, 1500); // Show toast 1.5 seconds after user stops interaction
+                
+                // Immediate silent calculation for live updates
+                recalcLDMSilent();
+            });
         });
+        
+        // Silent calculation function (no toast messages)
+        function recalcLDMSilent() {
+            const length = parseFloat(document.getElementById('length').value) || 0;
+            const width = parseFloat(document.getElementById('width').value) || 0;
+            const height = parseFloat(document.getElementById('height').value) || 0;
+            const quantity = parseInt(document.getElementById('quantity').value) || 1;
+            const stackable = document.getElementById('stackable').value;
+
+            if (length <= 0 || width <= 0) {
+                document.getElementById('ldmBigValue').textContent = '0.0';
+                updateVisualization(0);
+                return;
+            }
+
+            const lengthM = length / 100;
+            const widthM = width / 100;
+            const heightM = height / 100;
+            
+            const truckWidth = 2.4;
+            const truckHeight = 2.7;
+            
+            let ldmPer = (lengthM * widthM) / truckWidth;
+            
+            let heightLayers = 1;
+            if (heightM > 0) {
+                heightLayers = Math.ceil(heightM / truckHeight);
+                if (heightLayers > 1) {
+                    ldmPer = ldmPer * heightLayers;
+                }
+            }
+            
+            let totalLdm;
+            if (stackable === 'yes') {
+                if (heightM > 0) {
+                    const stacksPerHeight = Math.floor(truckHeight / heightM);
+                    const totalStacks = Math.ceil(quantity / stacksPerHeight);
+                    totalLdm = ldmPer * totalStacks;
+                } else {
+                    totalLdm = ldmPer;
+                }
+            } else {
+                totalLdm = ldmPer * quantity;
+            }
+
+            document.getElementById('ldmBigValue').textContent = totalLdm.toFixed(1);
+            updateVisualization(totalLdm);
+        }
+
+        // Initial calculate (silent, no toast)
+        recalcLDMSilent();
+
+        function updateVisualization(ldmValue) {
+            const maxCapacity = 13.6;
+            const percent = Math.max(0, Math.min(100, (ldmValue / maxCapacity) * 100));
+            const fill = document.getElementById('cargoFill');
+            const capText = document.getElementById('ldmCapacityText');
+            const pctText = document.getElementById('ldmPercentText');
+
+            if (!fill) return;
+
+            // Trailer inner drawable width in SVG (approx): 690 - padding 15 = 675
+            const maxWidth = 675;
+            const widthPx = (percent / 100) * maxWidth;
+            fill.setAttribute('width', widthPx);
+
+            fill.classList.remove('near-limit', 'over-limit');
+            if (ldmValue > maxCapacity) {
+                fill.classList.add('over-limit');
+            } else if (percent > 80) {
+                fill.classList.add('near-limit');
+            }
+
+            if (capText) capText.textContent = ldmValue.toFixed(1) + ' / ' + maxCapacity + ' LDM';
+            if (pctText) pctText.textContent = percent.toFixed(0) + '%';
+        }
     </script>
 }

@@ -22,7 +22,7 @@
                     <img src="~/img/mail-icon.png" alt="E-posta İkonu" class="contact-icon-img">
                 </div>
                 <h3 class="contact-card-title">@LanguageService.GetLocalizedText("E-posta", "Email")</h3>
-                <p class="contact-card-description">@LanguageService.GetLocalizedText("Lorem ipsum dolor sit amet", "Lorem ipsum dolor sit amet")</p>
+                <p class="contact-card-description"></p>
                 <a href="mailto:@(Settings.GetValue("ContactEmail") ?? "help@info.com")" class="contact-link">@(Settings.GetValue("ContactEmail") ?? "help@info.com")</a>
             </div>
 
@@ -32,7 +32,7 @@
                     <img src="~/img/phone-icon.png" alt="Telefon İkonu" class="contact-icon-img">
                 </div>
                 <h3 class="contact-card-title">@LanguageService.GetLocalizedText("Telefon", "Phone")</h3>
-                <p class="contact-card-description">@LanguageService.GetLocalizedText("Lorem ipsum dolor sit amet", "Lorem ipsum dolor sit amet")</p>
+                <p class="contact-card-description"></p>
                 <a href="tel:@(Settings.GetValue("ContactPhone") ?? "+7-843-672-431")" class="contact-link">@(Settings.GetValue("ContactPhone") ?? "+7-843-672-431")</a>
             </div>
 
@@ -42,7 +42,7 @@
                     <img src="~/img/address-icon.png" alt="Adres İkonu" class="contact-icon-img">
                 </div>
                 <h3 class="contact-card-title">@LanguageService.GetLocalizedText("Adres", "Address")</h3>
-                <p class="contact-card-description">@LanguageService.GetLocalizedText("Lorem ipsum dolor sit amet", "Lorem ipsum dolor sit amet")</p>
+                <p class="contact-card-description"></p>
                 <div class="contact-address">
                     <span class="contact-link">@(Settings.GetValue("Address") ?? LanguageService.GetLocalizedText("Sokak / Mahalle / İlçe / İl Açık", "Street / Neighbourhood / District / City"))</span>
                 </div>
@@ -53,8 +53,8 @@
     <!-- Sosyal Medya İkonları -->
     <div class="social-media-section">
         <div class="social-icons">
-            <a href="@(Settings.GetValue("FacebookUrl") ?? "#")" class="social-icon facebook-icon" target="_blank" rel="noopener">
-                <i class="fab fa-facebook-f"></i>
+            <a href="@(Settings.GetValue("LinkedInUrl") ?? "#")" class="social-icon linkedin-icon" target="_blank" rel="noopener">
+                <i class="fab fa-linkedin-in"></i>
             </a>
             <a href="@(Settings.GetValue("InstagramUrl") ?? "#")" class="social-icon instagram-icon" target="_blank" rel="noopener">
                 <i class="fab fa-instagram"></i>

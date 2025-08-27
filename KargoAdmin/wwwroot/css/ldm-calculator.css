@@ -27,52 +27,103 @@
     margin: 0 auto;
 }
 
-/* Main Calculator Card */
-.ldm-calculator-card {
-    background: #ffffff;
-    border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    margin-bottom: 3rem;
-}
-
-.ldm-calculator-card .card-header {
-    background: linear-gradient(135deg, #005cb9 0%, #004494 100%);
-    color: white;
-    padding: 2rem;
-    text-align: center;
-    border: none;
-}
-
-.ldm-calculator-card .card-header h3 {
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-}
-
-.ldm-calculator-card .card-header p {
-    font-size: 1rem;
-    opacity: 0.9;
-    margin-bottom: 0;
-}
-
-.ldm-calculator-card .card-body {
-    padding: 3rem;
-}
 
 /* Calculator Sections */
 .calculator-section {
-    background: #f8f9fa;
-    border-radius: 15px;
-    padding: 2.5rem;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 3rem;
     margin-bottom: 3rem;
-    border: 2px solid #e9ecef;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    border: 2px solid transparent;
     transition: all 0.3s ease;
 }
 
 .calculator-section:hover {
     border-color: #005cb9;
-    box-shadow: 0 10px 30px rgba(0, 92, 185, 0.1);
+    box-shadow: 0 25px 80px rgba(0, 92, 185, 0.15);
+    transform: translateY(-2px);
+}
+
+/* LDM Visualization */
+.ldm-visualization {
+    background: #ffffff;
+    border: 2px solid #e9ecef;
+    border-radius: 14px;
+    padding: 1.25rem 1.25rem 1rem 1.25rem;
+}
+
+.ldm-legend {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    color: #005cb9;
+    font-weight: 700;
+}
+
+.truck-visual {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 2px solid #e9ecef;
+    border-radius: 14px;
+    padding: 1rem;
+}
+
+.truck-svg {
+    width: 100%;
+    height: auto;
+    max-width: 900px;
+    display: block;
+    margin: 0 auto;
+}
+
+#cargoFill {
+    transition: width 600ms cubic-bezier(.2, .8, .2, 1), fill 300ms ease, opacity 300ms ease;
+}
+
+#cargoFill.near-limit {
+    fill: #ffc107;
+}
+
+#cargoFill.over-limit {
+    fill: #dc3545;
+    opacity: 0.9;
+}
+
+.ldm-track {
+    position: relative;
+    height: 22px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #f1f3f5 0%, #e9ecef 100%);
+    overflow: hidden;
+    border: 1px solid #dee2e6;
+}
+
+.ldm-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #28a745, #20c997);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+    transition: width 600ms cubic-bezier(.2, .8, .2, 1), background 300ms ease;
+}
+
+.ldm-scale {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+.ldm-fill.near-limit {
+    background: linear-gradient(90deg, #ffc107, #ffcd39);
+}
+
+.ldm-fill.over-limit {
+    background: linear-gradient(90deg, #dc3545, #e55353);
 }
 
 .section-title {
@@ -103,7 +154,11 @@
 }
 
 .calculator-input,
-.multi-length, .multi-width, .multi-height, .multi-quantity, .multi-result {
+.multi-length,
+.multi-width,
+.multi-height,
+.multi-quantity,
+.multi-result {
     border: 2px solid #e9ecef;
     border-radius: 10px;
     padding: 12px 15px;
@@ -113,7 +168,10 @@
 }
 
 .calculator-input:focus,
-.multi-length:focus, .multi-width:focus, .multi-height:focus, .multi-quantity:focus {
+.multi-length:focus,
+.multi-width:focus,
+.multi-height:focus,
+.multi-quantity:focus {
     border-color: #005cb9;
     box-shadow: 0 0 0 3px rgba(0, 92, 185, 0.1);
     outline: none;
@@ -225,6 +283,7 @@
         opacity: 0;
         transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -288,16 +347,8 @@
     background: white;
     padding: 2rem;
     border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    height: 100%;
     border: 2px solid transparent;
     transition: all 0.3s ease;
-}
-
-.info-card:hover {
-    border-color: #005cb9;
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0, 92, 185, 0.15);
 }
 
 .info-card h4 {
@@ -319,42 +370,42 @@
     .ldm-calculator-section {
         padding: 80px 0 60px 0;
     }
-    
+
     .ldm-title {
         font-size: 2.2rem;
     }
-    
+
     .ldm-subtitle {
         font-size: 1.1rem;
     }
-    
+
     .ldm-calculator-card .card-body {
         padding: 2rem 1.5rem;
     }
-    
+
     .calculator-section {
         padding: 1.5rem;
     }
-    
+
     .calculation-buttons {
         flex-direction: column;
         align-items: center;
     }
-    
+
     .calculation-buttons .btn {
         width: 100%;
         max-width: 250px;
     }
-    
+
     .result-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .package-row {
         padding: 1rem;
     }
-    
-    .package-row .row > div {
+
+    .package-row .row>div {
         margin-bottom: 1rem;
     }
 }
@@ -363,23 +414,23 @@
     .ldm-title {
         font-size: 1.8rem;
     }
-    
+
     .section-title {
         font-size: 1.3rem;
     }
-    
+
     .ldm-calculator-card .card-header {
         padding: 1.5rem;
     }
-    
+
     .ldm-calculator-card .card-body {
         padding: 1.5rem 1rem;
     }
-    
+
     .calculator-section {
         padding: 1rem;
     }
-    
+
     .info-card {
         padding: 1.5rem;
     }
@@ -412,8 +463,13 @@
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /* Focus Improvements */
@@ -569,13 +625,16 @@
         opacity: 0;
         transform: scale(0.3);
     }
+
     50% {
         opacity: 1;
         transform: scale(1.05);
     }
+
     70% {
         transform: scale(0.9);
     }
+
     100% {
         opacity: 1;
         transform: scale(1);
@@ -594,6 +653,7 @@
         opacity: 0;
         transform: scaleY(0);
     }
+
     to {
         opacity: 0.8;
         transform: scaleY(1);
@@ -610,38 +670,38 @@
     .truck-container {
         padding: 1.5rem;
     }
-    
+
     .truck-svg-container {
         padding: 1rem;
     }
-    
+
     .truck-stat {
         margin-bottom: 1rem;
         padding: 1rem;
     }
-    
+
     .truck-stat i {
         font-size: 1.5rem;
     }
-    
+
     .truck-stat .stat-value {
         font-size: 1.1rem;
     }
-    
+
     .truck-header {
         padding: 1.5rem;
     }
-    
+
     .truck-header h4 {
         font-size: 1.4rem;
     }
 }
 
 @media (max-width: 576px) {
-    .truck-stats .row > div {
+    .truck-stats .row>div {
         margin-bottom: 1rem;
     }
-    
+
     .truck-svg {
         height: 200px;
     }

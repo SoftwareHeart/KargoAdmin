@@ -1,4 +1,4 @@
-﻿/* Footer Component - Tasarıma Uygun Yeni Footer */
+﻿/* Footer Component - Modern Design Compliant Footer */
 
 /* Footer Reset ve Base Styles */
 .modern-footer {
@@ -8,7 +8,7 @@
     border-top: 1px solid #e9ecef;
 }
 
-/* Ana Footer Container */
+/* Main Footer Container */
 .footer-main {
     padding: 40px 0 30px 0;
     background: #f8f9fa;
@@ -20,7 +20,7 @@
     padding: 0 20px;
 }
 
-/* Logo Section - Üst kısım */
+/* Logo Section - Top section */
 .footer-logo-section {
     display: flex;
     justify-content: flex-start;
@@ -34,7 +34,7 @@
     width: auto;
 }
 
-/* Footer Grid - 4 kolon */
+/* Footer Grid - 4 columns */
 .footer-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -149,7 +149,7 @@
     max-width: 400px;
 }
 
-/* Description Text - Sol alt kısım */
+/* Description Text - Bottom left section */
 .footer-description-section {
     margin-bottom: 25px;
 }
@@ -161,7 +161,7 @@
     max-width: 500px;
 }
 
-/* Social Icons Section - Sağ alt */
+/* Social Icons Section - Bottom right */
 .footer-social-section {
     display: flex;
     justify-content: flex-end;

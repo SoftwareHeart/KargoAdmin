@@ -44,7 +44,7 @@
                         </div>
                         <h3>@(LanguageService.GetCurrentLanguage() == "en" ? "No results found" : "Sonuç bulunamadı")</h3>
                         <p>@(LanguageService.GetCurrentLanguage() == "en" ? "Try different keywords or check your spelling." : "Farklı anahtar kelimeler deneyin veya yazımı kontrol edin.")</p>
-                        <a href="@Url.Action("Index", "PublicBlog")" class="btn-primary-outline">
+                        <a href="@Url.Action("Index", "UsefulInfo")" class="btn-primary-outline">
                             @(LanguageService.GetCurrentLanguage() == "en" ? "Go to Blog" : "Blog'a Git")
                         </a>
                     </div>
