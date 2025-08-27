@@ -26,45 +26,46 @@
 
                 <!-- Calculator Section -->
                 <div class="calculator-section">
-                            <div class="row">
-                                <div class="col-lg-7">
+                            <div class="row g-4 align-items-stretch">
+                                <div class="col-lg-6">
+                                    <h5 class="section-title">@LanguageService.GetLocalizedText("Paket Ölçüleri", "Package Dimensions")</h5>
                                     <div class="input-group">
-                                        <label>@LanguageService.GetLocalizedText("Uzunluk", "Length"): cm.</label>
-                                        <input type="number" id="length" class="form-control" placeholder="0" min="0" step="0.1">
+                                        <label>@LanguageService.GetLocalizedText("Uzunluk", "Length") (cm)</label>
+                                        <input type="number" id="length" class="form-control calculator-input" placeholder="0" min="0" step="0.1">
                                     </div>
                                     <div class="input-group">
-                                        <label>@LanguageService.GetLocalizedText("Genişlik", "Width"): cm.</label>
-                                        <input type="number" id="width" class="form-control" placeholder="0" min="0" step="0.1">
+                                        <label>@LanguageService.GetLocalizedText("Genişlik", "Width") (cm)</label>
+                                        <input type="number" id="width" class="form-control calculator-input" placeholder="0" min="0" step="0.1">
                                     </div>
                                     <div class="input-group">
-                                        <label>@LanguageService.GetLocalizedText("Yükseklik", "Height"): cm.</label>
-                                        <input type="number" id="height" class="form-control" placeholder="0" min="0" step="0.1">
+                                        <label>@LanguageService.GetLocalizedText("Yükseklik", "Height") (cm)</label>
+                                        <input type="number" id="height" class="form-control calculator-input" placeholder="0" min="0" step="0.1">
                                     </div>
                                     <div class="input-group">
-                                        <label>@LanguageService.GetLocalizedText("Paket Sayısı", "Quantity"): @LanguageService.GetLocalizedText("adet..", "pcs")</label>
-                                        <input type="number" id="quantity" class="form-control" placeholder="1" min="1" step="1" value="1">
+                                        <label>@LanguageService.GetLocalizedText("Paket Sayısı", "Quantity")</label>
+                                        <input type="number" id="quantity" class="form-control calculator-input" placeholder="1" min="1" step="1" value="1">
                                     </div>
                                     <div class="input-group">
-                                        <label>@LanguageService.GetLocalizedText("Birbiri üstüne yüklenebilir mi?", "Stackable?"): </label>
-                                        <select id="stackable" class="form-select" style="margin-left: 10px; max-width: 200px;">
+                                        <label>@LanguageService.GetLocalizedText("Birbiri üstüne yüklenebilir mi?", "Stackable?")</label>
+                                        <select id="stackable" class="form-select" style="max-width: 220px;">
                                             <option value="yes">@LanguageService.GetLocalizedText("EVET", "YES")</option>
                                             <option value="no">@LanguageService.GetLocalizedText("HAYIR", "NO")</option>
                                         </select>
                                     </div>
-
-                            <div class="mt-4">
-                                <div class="display-4" style="font-weight:700;">
-                                    <span id="ldmBigValue">0.0</span> LDM
                                 </div>
-                            </div>
-
-                            <div class="mt-4">
-                                <div class="ldm-legend">
-                                    <span id="ldmCapacityText">0.0 / 13.6 LDM</span>
-                                    <span id="ldmPercentText">0%</span>
-                                </div>
-                                <div class="truck-visual">
-                                    <svg viewBox="0 0 900 350" class="truck-svg">
+                                <div class="col-lg-6">
+                                    <div class="result-card h-100 d-flex flex-column">
+                                        <h5>@LanguageService.GetLocalizedText("Sonuç", "Result")</h5>
+                                        <div class="text-center mb-3" style="font-weight:700; font-size: 2.5rem;">
+                                            <span id="ldmBigValue">0.0</span> LDM
+                                        </div>
+                                        <div class="ldm-visualization mt-auto">
+                                            <div class="ldm-legend">
+                                                <span id="ldmCapacityText">0.0 / 13.6 LDM</span>
+                                                <span id="ldmPercentText">0%</span>
+                                            </div>
+                                            <div class="truck-visual">
+                                                <svg viewBox="0 0 900 350" class="truck-svg">
                                         <!-- Gradients and Definitions -->
                                         <defs>
                                             <linearGradient id="trailerGradient" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -225,24 +226,29 @@
                                         <!-- Exhaust pipe (Bigger) -->
                                         <rect x="760" y="190" width="8" height="35" rx="4" fill="#495057"/>
                                         <ellipse cx="764" cy="190" rx="4" ry="3" fill="#6c757d"/>
-                                    </svg>
-                                </div>
-                                </div>
-                                </div>
-                                <div class="col-lg-5">
-                                    <div class="info-card">
-                                        <h4>@LanguageService.GetLocalizedText("LDM Nedir?", "What is LDM?")</h4>
-                                        <p>@LanguageService.GetLocalizedText("LDM (Loading Meter / Yükleme Metre), bir gönderinin tır zemini üzerinde kapladığı uzunluğu ifade eder. Standart formül: LDM = (Uzunluk(m) × Genişlik(m)) / 2.4", "LDM (Loading Meter) represents how much length on the truck floor a shipment occupies. Standard formula: LDM = (Length(m) × Width(m)) / 2.4")</p>
-                                    </div>
-                                    <div class="info-card mt-3">
-                                        <h4>@LanguageService.GetLocalizedText("Nasıl Hesaplanır?", "How to Calculate?")</h4>
-                                        <p>@LanguageService.GetLocalizedText("1. Uzunluğu ve genişliği cm cinsinden girin\n2. cm değerlerini metreye çevirin (cm / 100)\n3. Uzunluk(m) × Genişlik(m) hesaplayın\n4. Sonucu 2.4'e bölün (standart tır iç genişliği)\n5. Çıkan sonuç LDM değeridir", "1. Enter length and width in cm\n2. Convert cm to meters (cm / 100)\n3. Calculate Length(m) × Width(m)\n4. Divide the result by 2.4 (standard truck inner width)\n5. The result is the LDM value")</p>
+                                                </svg>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                 </div>
-
-                <!-- Truck Visualization Section removed; Info cards moved to the right column -->
+                <div class="ldm-info-section">
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="info-card">
+                                <h4>@LanguageService.GetLocalizedText("LDM Nedir?", "What is LDM?")</h4>
+                                <p>@LanguageService.GetLocalizedText("LDM (Loading Meter / Yükleme Metre), bir gönderinin tır zemini üzerinde kapladığı uzunluğu ifade eder. Standart formül: LDM = (Uzunluk(m) × Genişlik(m)) / 2.4", "LDM (Loading Meter) represents how much length on the truck floor a shipment occupies. Standard formula: LDM = (Length(m) × Width(m)) / 2.4")</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="info-card">
+                                <h4>@LanguageService.GetLocalizedText("Nasıl Hesaplanır?", "How to Calculate?")</h4>
+                                <p>@LanguageService.GetLocalizedText("1. Uzunluğu ve genişliği cm cinsinden girin\n2. cm değerlerini metreye çevirin (cm / 100)\n3. Uzunluk(m) × Genişlik(m) hesaplayın\n4. Sonucu 2.4'e bölün (standart tır iç genişliği)\n5. Çıkan sonuç LDM değeridir", "1. Enter length and width in cm\n2. Convert cm to meters (cm / 100)\n3. Calculate Length(m) × Width(m)\n4. Divide the result by 2.4 (standard truck inner width)\n5. The result is the LDM value")</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
