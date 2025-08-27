@@ -81,7 +81,7 @@
 .land-van-forklift .forklift-cabin {
     position: absolute;
     right: 120px;
-    top: 40%;
+    top: 35%;
     width: 360px;
     height: auto;
     z-index: 3;
@@ -109,8 +109,8 @@
 .land-van-forklift .forklift-pallet {
     position: absolute;
     right: 510px;
-    top: 50%;
-    width: 200px;
+    top: 42%;
+    width: 275px;
     height: auto;
     z-index: 4;
     opacity: 0;
@@ -125,21 +125,21 @@
         right: -12%;
         top: 20%;
     }
-    
+
     .land-van-forklift .forklift-cabin {
         right: 80px;
         width: 280px;
     }
-    
+
     .land-van-forklift .forklift-tip {
         right: 320px;
         width: 220px;
     }
-    
+
     .land-van-forklift .forklift-pallet {
         right: 380px;
         top: 48%;
-        width: 150px;
+        width: 250px;
     }
 }
 
@@ -148,21 +148,21 @@
         right: -10%;
         top: 19%;
     }
-    
+
     .land-van-forklift .forklift-cabin {
         right: 100px;
         width: 320px;
     }
-    
+
     .land-van-forklift .forklift-tip {
         right: 370px;
         width: 250px;
     }
-    
+
     .land-van-forklift .forklift-pallet {
         right: 450px;
         top: 49%;
-        width: 175px;
+        width: 275px;
     }
 }
 
@@ -320,6 +320,76 @@
     object-fit: contain;
     filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
     transition: all 0.3s ease;
+}
+
+/* Truck + Minivan combo in first land section */
+.land-truck-vehicle .vehicle-truck-left {
+    position: absolute;
+    bottom: 0px !important;
+    width: 550px;
+    left: -350px;
+    z-index: 3;
+}
+
+.land-truck-vehicle .vehicle-minivan {
+    position: absolute;
+    bottom: 0px !important;
+    width: 400px;
+    z-index: 3;
+}
+
+@media (max-width: 1200px) {
+    .land-truck-vehicle .vehicle-truck-left {
+        left: -80px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .land-truck-vehicle .vehicle-truck-left {
+        left: -450px;
+        width: 360px;
+        top: 10px
+    }
+
+    .land-truck-vehicle .vehicle-minivan {
+        width: 300px;
+        left: -210px;
+        top: -10px
+    }
+}
+
+@media (max-width: 768px) {
+    .land-truck-vehicle .vehicle-truck-left {
+        left: -40px;
+        width: 380px;
+    }
+}
+
+@media (max-width: 568px) {
+    .land-truck-vehicle .vehicle-truck-left {
+        left: -100px;
+        width: 260px;
+        top: 10px
+    }
+
+    .land-truck-vehicle .vehicle-minivan {
+        width: 220px;
+        top: -10px
+    }
+}
+
+@media (max-width: 448px) {
+    .land-truck-vehicle .vehicle-truck-left {
+        left: -100px;
+        width: 260px;
+        top: 10px
+    }
+
+    .land-truck-vehicle .vehicle-minivan {
+        width: 220px;
+        top: -10px;
+        left: 10px;
+    }
 }
 
 /* Vehicle Float Effect */
@@ -553,7 +623,7 @@
     }
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1024.5px) {
     .services-section {
         min-height: 1200px;
     }

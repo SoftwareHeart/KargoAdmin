@@ -14,6 +14,9 @@
     <title>@ViewData["Title"] - Aleris Global Lojistik</title>
     <link rel="icon" type="image/png" href="~/img/Logo.png" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/poppins-fonts.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Sacramento&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/public.css" asp-append-version="true" />
@@ -86,7 +89,7 @@
                         <div class="dropdown-menu-custom">
                             <a href="@Url.Action("Index", "UsefulInfo")" class="dropdown-item-custom">
                                 <i class="fas fa-info-circle"></i>
-                                @(LanguageService.GetCurrentLanguage() == "en" ? "Useful Information/Blog" : "Faydalı Bilgiler/Blog")
+                                @(LanguageService.GetCurrentLanguage() == "en" ? "Useful Information" : "Faydalı Bilgiler")
                             </a>
                             <a href="/UsefulInfo/LdmCalculator" class="dropdown-item-custom">
                                 <i class="fas fa-calculator"></i>

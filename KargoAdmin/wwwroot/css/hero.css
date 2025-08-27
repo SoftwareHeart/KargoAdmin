@@ -22,27 +22,15 @@
 }
 
 .hero-title {
-    font-size: 4rem !important;
-    font-weight: 900 !important;
+    font-size: 6rem !important;
+    font-weight: 500 !important;
     line-height: 1.1 !important;
-    margin-bottom: 1.5rem !important;
     color: white !important;
     text-align: center;
     text-transform: none !important;
+    font-family: 'Sacramento', 'Dancing Script', cursive !important;
 }
 
-.hero-title span {
-    display: block !important;
-    font-size: 4rem !important;
-    color: #ff6a00 !important;
-    font-weight: 900 !important;
-}
-
-.hero-subtitle {
-    font-size: 1.8rem !important;
-    color: white !important;
-    margin-bottom: 1.5rem !important;
-}
 
 /* .hero-text removed as content deprecated */
 
