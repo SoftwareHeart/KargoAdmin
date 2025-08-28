@@ -390,6 +390,11 @@
         top: -10px;
         left: 10px;
     }
+
+
+    .container-content h4 {
+        font-size: 0.8rem;
+    }
 }
 
 /* Vehicle Float Effect */
