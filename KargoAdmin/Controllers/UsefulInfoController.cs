@@ -208,6 +208,20 @@ namespace KargoAdmin.Controllers
             return View();
         }
 
+        // CBM Hesaplama Sayfası
+        public IActionResult CbmCalculator()
+        {
+            ViewData["Title"] = "CBM Hesaplama";
+            return View();
+        }
+
+        // CW Hesaplama Sayfası
+        public IActionResult CwCalculator()
+        {
+            ViewData["Title"] = "CW Hesaplama";
+            return View();
+        }
+
         // HTML etiketlerini temizleme
         private string StripHtml(string input)
         {

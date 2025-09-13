@@ -1,0 +1,235 @@
+@using KargoAdmin.Services
+@inject ILanguageService LanguageService
+@{
+    ViewData["Title"] = LanguageService.GetLocalizedText("Havayolu CW Hesaplama", "Airway CW Calculation");
+    Layout = "_PublicLayout";
+}
+
+<link rel="stylesheet" href="~/css/cw-calculator.css" asp-append-version="true" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+<!-- CW Calculator Section -->
+<section class="cw-calculator-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <!-- Header -->
+                <div class="cw-header text-center mb-5">
+                    <h1 class="cw-title">
+                        @LanguageService.GetLocalizedText("HAVAYOLU CW HESAPLAMA", "AIRWAY CW CALCULATION")
+                    </h1>
+                    <p class="cw-subtitle">
+                        @LanguageService.GetLocalizedText("Havayolu Hacim Hesaplama", "Airway Volume Calculation")
+                    </p>
+                </div>
+
+                <!-- Calculator Section -->
+                <div class="calculator-section">
+                    <h5 class="section-title">@LanguageService.GetLocalizedText("Paket Detayları", "Package Details")</h5>
+                    
+                    <!-- CW Calculation Table -->
+                    <div class="cw-table-container">
+                        <table class="cw-table">
+                            <thead>
+                                <tr>
+                                    <th>@LanguageService.GetLocalizedText("ADET", "QTY")</th>
+                                    <th>@LanguageService.GetLocalizedText("EN [cm]", "WIDTH [cm]")</th>
+                                    <th>@LanguageService.GetLocalizedText("BOY [cm]", "LENGTH [cm]")</th>
+                                    <th>@LanguageService.GetLocalizedText("YÜKSEKLİK [cm]", "HEIGHT [cm]")</th>
+                                    <th>@LanguageService.GetLocalizedText("KG", "KG")</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cwTableBody">
+                                <!-- Rows will be added dynamically -->
+                            </tbody>
+                        </table>
+                        
+                        <!-- Add Row Button -->
+                        <button type="button" class="add-row-btn" onclick="addRow()">
+                            <i class="fas fa-plus"></i> @LanguageService.GetLocalizedText("Satır Ekle", "Add Row")
+                        </button>
+                    </div>
+                    
+                    <!-- Results Section -->
+                    <div class="results-section mt-4">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="result-item">
+                                    <label>@LanguageService.GetLocalizedText("Hacim Ağırlık", "Volume Weight")</label>
+                                    <input type="text" id="volumeWeight" class="result-input" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="result-item">
+                                    <label>@LanguageService.GetLocalizedText("Gerçek Ağırlık", "Actual Weight")</label>
+                                    <input type="text" id="actualWeight" class="result-input" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="result-item">
+                                    <label>@LanguageService.GetLocalizedText("Ücrete Konu Ağırlık", "Chargeable Weight")</label>
+                                    <input type="text" id="chargeableWeight" class="result-input" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Clear Button -->
+                    <div class="action-buttons mt-4">
+                        <button type="button" class="clear-btn" onclick="clearAll()">
+                            @LanguageService.GetLocalizedText("Temizle", "Clear")
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="cw-info-section">
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="info-card">
+                                <h4>@LanguageService.GetLocalizedText("CW Nedir?", "What is CW?")</h4>
+                                <p>@LanguageService.GetLocalizedText("CW (Chargeable Weight / Ücrete Konu Ağırlık), havayolu taşımacılığında fiyatlandırma için kullanılan ağırlık değeridir. Gerçek ağırlık ile hacim ağırlığından büyük olanı alınır.", "CW (Chargeable Weight) is the weight value used for pricing in air transport. The greater of actual weight and volume weight is taken.")</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="info-card">
+                                <h4>@LanguageService.GetLocalizedText("Nasıl Hesaplanır?", "How to Calculate?")</h4>
+                                <p>@LanguageService.GetLocalizedText("1. En × Boy × Yükseklik hesaplayın (cm)\n2. Sonucu 6000'e bölün (IATA standardı)\n3. Adet ile çarpın\n4. Gerçek ağırlık ile karşılaştırın\n5. Büyük olanı ücrete konu ağırlık olarak alın", "1. Calculate Width × Length × Height (cm)\n2. Divide result by 6000 (IATA standard)\n3. Multiply by quantity\n4. Compare with actual weight\n5. Take the greater as chargeable weight")</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        let rowCount = 0;
+
+        // Initialize with one row
+        document.addEventListener('DOMContentLoaded', function() {
+            addRow();
+        });
+
+        function addRow() {
+            rowCount++;
+            const tbody = document.getElementById('cwTableBody');
+            const row = document.createElement('tr');
+            row.id = `row-${rowCount}`;
+            
+            row.innerHTML = `
+                <td><input type="number" class="table-input quantity-input" placeholder="1" min="1" step="1" value="1" oninput="calculateRow(${rowCount})"></td>
+                <td><input type="number" class="table-input width-input" placeholder="0" min="0" step="0.1" oninput="calculateRow(${rowCount})"></td>
+                <td><input type="number" class="table-input length-input" placeholder="0" min="0" step="0.1" oninput="calculateRow(${rowCount})"></td>
+                <td><input type="number" class="table-input height-input" placeholder="0" min="0" step="0.1" oninput="calculateRow(${rowCount})"></td>
+                <td><input type="number" class="table-input weight-input" placeholder="0" min="0" step="0.1" oninput="calculateRow(${rowCount})"></td>
+            `;
+            
+            tbody.appendChild(row);
+            calculateTotals();
+        }
+
+        function calculateRow(rowId) {
+            const row = document.getElementById(`row-${rowId}`);
+            const quantity = parseInt(row.querySelector('.quantity-input').value) || 1;
+            const width = parseFloat(row.querySelector('.width-input').value) || 0;
+            const length = parseFloat(row.querySelector('.length-input').value) || 0;
+            const height = parseFloat(row.querySelector('.height-input').value) || 0;
+            const weight = parseFloat(row.querySelector('.weight-input').value) || 0;
+            
+            calculateTotals();
+        }
+
+        function calculateTotals() {
+            const rows = document.querySelectorAll('#cwTableBody tr');
+            let totalVolumeWeight = 0;
+            let maxActualWeight = 0; // Paket başına maksimum ağırlık
+            
+            rows.forEach(row => {
+                const quantity = parseInt(row.querySelector('.quantity-input').value) || 1;
+                const width = parseFloat(row.querySelector('.width-input').value) || 0;
+                const length = parseFloat(row.querySelector('.length-input').value) || 0;
+                const height = parseFloat(row.querySelector('.height-input').value) || 0;
+                const weight = parseFloat(row.querySelector('.weight-input').value) || 0;
+                
+                // Calculate volume weight for this row (IATA standard: L×W×H/6000)
+                let volumeWeight = 0;
+                if (width > 0 && length > 0 && height > 0) {
+                    volumeWeight = (width * length * height) / 6000 * quantity;
+                }
+                
+                totalVolumeWeight += volumeWeight;
+                maxActualWeight = Math.max(maxActualWeight, weight); // Paket başına maksimum ağırlık
+            });
+            
+            // Chargeable weight is the greater of volume weight and max actual weight per package
+            const chargeableWeight = Math.max(totalVolumeWeight, maxActualWeight);
+            
+            // Update result displays - resimdeki format gibi
+            document.getElementById('volumeWeight').value = totalVolumeWeight.toFixed(3);
+            document.getElementById('actualWeight').value = maxActualWeight.toFixed(0); // Paket başına ağırlık, ondalık yok
+            document.getElementById('chargeableWeight').value = chargeableWeight.toFixed(3);
+            
+            // Show warnings if needed
+            showWarnings(totalVolumeWeight, maxActualWeight, chargeableWeight);
+        }
+
+        function showWarnings(volumeWeight, actualWeight, chargeableWeight) {
+            let message = '';
+            let type = 'warning';
+            
+            // Only show warnings for significant differences
+            const difference = Math.abs(volumeWeight - actualWeight);
+            const percentage = Math.min(volumeWeight, actualWeight) > 0 ? 
+                (difference / Math.min(volumeWeight, actualWeight)) * 100 : 0;
+            
+            if (percentage > 50 && Math.min(volumeWeight, actualWeight) > 0) {
+                if (volumeWeight > actualWeight) {
+                    message = `📦 Hacim ağırlığı (${volumeWeight.toFixed(3)} kg) gerçek ağırlıktan (${actualWeight.toFixed(0)} kg) %${percentage.toFixed(0)} daha büyük. Ücrete konu ağırlık: ${chargeableWeight.toFixed(3)} kg`;
+                } else {
+                    message = `⚖️ Gerçek ağırlık (${actualWeight.toFixed(0)} kg) hacim ağırlığından (${volumeWeight.toFixed(3)} kg) %${percentage.toFixed(0)} daha büyük. Ücrete konu ağırlık: ${chargeableWeight.toFixed(3)} kg`;
+                }
+                showToast(message, type);
+            }
+        }
+
+        function clearAll() {
+            const tbody = document.getElementById('cwTableBody');
+            tbody.innerHTML = '';
+            rowCount = 0;
+            addRow(); // Add one empty row
+            document.getElementById('volumeWeight').value = '';
+            document.getElementById('actualWeight').value = '';
+            document.getElementById('chargeableWeight').value = '';
+        }
+
+        function showToast(message, type = 'success') {
+            const colors = {
+                success: '#28a745',
+                warning: '#ffc107', 
+                error: '#dc3545',
+                info: '#17a2b8'
+            };
+            
+            Toastify({
+                text: message,
+                duration: 4000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                backgroundColor: colors[type] || colors.info,
+                style: {
+                    background: colors[type] || colors.info,
+                    borderRadius: '12px',
+                    fontSize: '14px',
+                    boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
+                    padding: '16px 20px',
+                    maxWidth: '400px'
+                },
+                onClick: function(){} 
+            }).showToast();
+        }
+    </script>
+}

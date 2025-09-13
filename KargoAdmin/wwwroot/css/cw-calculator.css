@@ -1,0 +1,418 @@
+/* CW Calculator Styles */
+
+.cw-calculator-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    min-height: 100vh;
+    padding: 100px 0 80px 0;
+}
+
+/* Header */
+.cw-header {
+    margin-bottom: 4rem;
+}
+
+.cw-title {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #005cb9;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(0, 92, 185, 0.1);
+    letter-spacing: 2px;
+}
+
+.cw-subtitle {
+    font-size: 1.2rem;
+    color: #6c757d;
+    font-weight: 400;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Calculator Sections */
+.calculator-section {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 3rem;
+    margin-bottom: 3rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.calculator-section:hover {
+    border-color: #005cb9;
+    box-shadow: 0 25px 80px rgba(0, 92, 185, 0.15);
+    transform: translateY(-2px);
+}
+
+.section-title {
+    color: #005cb9;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-title i {
+    font-size: 1.3rem;
+}
+
+/* CW Table Styles */
+.cw-table-container {
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 2px solid #e9ecef;
+}
+
+.cw-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+}
+
+.cw-table th {
+    background: linear-gradient(135deg, #005cb9 0%, #004494 100%);
+    color: white;
+    padding: 1rem 0.5rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: 1px solid #003366;
+    letter-spacing: 1px;
+}
+
+.cw-table td {
+    padding: 0.5rem;
+    text-align: center;
+    border: 1px solid #e9ecef;
+    vertical-align: middle;
+}
+
+.table-input {
+    width: 100%;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    background: #ffffff;
+    font-weight: 500;
+}
+
+.table-input:focus {
+    border-color: #005cb9;
+    box-shadow: 0 0 0 3px rgba(0, 92, 185, 0.1);
+    outline: none;
+}
+
+.table-input::placeholder {
+    color: #adb5bd;
+    font-weight: 400;
+}
+
+/* Add Row Button */
+.add-row-btn {
+    background: linear-gradient(135deg, #28a745 0%, #20993a 100%);
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+    cursor: pointer;
+}
+
+.add-row-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+    background: linear-gradient(135deg, #20993a 0%, #1e7e34 100%);
+}
+
+.add-row-btn i {
+    margin-right: 8px;
+}
+
+/* Results Section */
+.results-section {
+    background: linear-gradient(135deg, #005cb9 0%, #004494 100%);
+    border-radius: 15px;
+    padding: 2rem;
+    color: white;
+}
+
+.results-section .result-item {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    height: 100%;
+    transition: all 0.3s ease;
+}
+
+.results-section .result-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+.results-section .result-item label {
+    display: block;
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.result-input {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ffc107;
+    text-align: center;
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.result-input:focus {
+    border-color: #ffc107;
+    box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2);
+    outline: none;
+}
+
+/* Action Buttons */
+.action-buttons {
+    text-align: left;
+}
+
+.clear-btn {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    border: none;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+    cursor: pointer;
+}
+
+.clear-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4);
+    background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+}
+
+/* Information Section */
+.cw-info-section {
+    margin-top: 4rem;
+}
+
+.info-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.info-card:hover {
+    border-color: #005cb9;
+    box-shadow: 0 10px 30px rgba(0, 92, 185, 0.1);
+    transform: translateY(-2px);
+}
+
+.info-card h4 {
+    color: #005cb9;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.info-card p {
+    color: #6c757d;
+    line-height: 1.7;
+    margin-bottom: 0;
+    white-space: pre-line;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .cw-calculator-section {
+        padding: 80px 0 60px 0;
+    }
+
+    .cw-title {
+        font-size: 2.2rem;
+        letter-spacing: 1px;
+    }
+
+    .cw-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .calculator-section {
+        padding: 1.5rem;
+    }
+
+    .cw-table-container {
+        padding: 1rem;
+        overflow-x: auto;
+    }
+
+    .cw-table {
+        min-width: 500px;
+    }
+
+    .cw-table th,
+    .cw-table td {
+        padding: 0.3rem;
+        font-size: 0.8rem;
+    }
+
+    .table-input {
+        padding: 6px 8px;
+        font-size: 0.8rem;
+    }
+
+    .results-section {
+        padding: 1.5rem;
+    }
+
+    .result-input {
+        font-size: 1rem;
+        padding: 8px 12px;
+    }
+
+    .info-card {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .cw-title {
+        font-size: 1.8rem;
+    }
+
+    .section-title {
+        font-size: 1.3rem;
+    }
+
+    .calculator-section {
+        padding: 1rem;
+    }
+
+    .info-card {
+        padding: 1.5rem;
+    }
+
+    .cw-table {
+        min-width: 450px;
+    }
+}
+
+/* Enhanced Hover Effects */
+.calculator-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.calculator-section:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 92, 185, 0.05), transparent);
+    transition: left 0.5s ease;
+}
+
+.calculator-section:hover:before {
+    left: 100%;
+}
+
+/* Table Row Hover Effects */
+.cw-table tbody tr:hover {
+    background: rgba(0, 92, 185, 0.05);
+    transition: background 0.3s ease;
+}
+
+/* Input Focus Animations */
+.table-input:focus {
+    transform: scale(1.02);
+}
+
+/* Result Item Animations */
+.results-section .result-item {
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Loading States */
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn.loading {
+    position: relative;
+    pointer-events: none;
+}
+
+.btn.loading:after {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 50%;
+    left: 50%;
+    margin-left: -8px;
+    margin-top: -8px;
+    border: 2px solid transparent;
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Focus Improvements */
+.btn:focus,
+.form-control:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 92, 185, 0.25);
+}

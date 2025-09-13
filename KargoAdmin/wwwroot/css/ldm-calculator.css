@@ -143,6 +143,9 @@
 /* Input Groups */
 .input-group {
     margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .input-group label {
@@ -151,27 +154,33 @@
     color: #495057;
     margin-bottom: 0.5rem;
     font-size: 0.9rem;
+    width: 100%;
+    text-align: left;
 }
+
 
 .calculator-input,
 .multi-length,
 .multi-width,
 .multi-height,
 .multi-quantity,
-.multi-result {
+.multi-result,
+.form-select {
     border: 2px solid #e9ecef;
     border-radius: 10px;
     padding: 12px 15px;
     font-size: 1rem;
     transition: all 0.3s ease;
     background: #ffffff;
+    width: 100%;
 }
 
 .calculator-input:focus,
 .multi-length:focus,
 .multi-width:focus,
 .multi-height:focus,
-.multi-quantity:focus {
+.multi-quantity:focus,
+.form-select:focus {
     border-color: #005cb9;
     box-shadow: 0 0 0 3px rgba(0, 92, 185, 0.1);
     outline: none;
@@ -181,6 +190,17 @@
     background: #e9ecef !important;
     color: #005cb9;
     font-weight: 600;
+}
+
+/* Stackable dropdown specific styling */
+#stackable {
+    max-width: none !important;
+    width: 100% !important;
+}
+
+.input-group>.form-control,
+.input-group>.form-select {
+    width: 100%;
 }
 
 /* Package Rows */

@@ -95,6 +95,14 @@
                                 <i class="fas fa-calculator"></i>
                                 @(LanguageService.GetCurrentLanguage() == "en" ? "LDM Calculator" : "LDM Hesapla")
                             </a>
+                            <a href="/UsefulInfo/CbmCalculator" class="dropdown-item-custom">
+                                <i class="fas fa-cube"></i>
+                                @(LanguageService.GetCurrentLanguage() == "en" ? "CBM Calculator" : "CBM Hesapla")
+                            </a>
+                            <a href="/UsefulInfo/CwCalculator" class="dropdown-item-custom">
+                                <i class="fas fa-plane"></i>
+                                @(LanguageService.GetCurrentLanguage() == "en" ? "CW Calculator" : "CW Hesapla")
+                            </a>
                         </div>
                     </div>
                     <a href="/Aleris/Hakkımızda" class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">@(LanguageService.GetCurrentLanguage() == "en" ? "About Us" : "Hakkımızda")</a>

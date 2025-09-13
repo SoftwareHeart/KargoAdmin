@@ -1,0 +1,256 @@
+@using KargoAdmin.Services
+@inject ILanguageService LanguageService
+@{
+    ViewData["Title"] = LanguageService.GetLocalizedText("CBM Hesaplama", "CBM Calculator");
+    Layout = "_PublicLayout";
+}
+
+<link rel="stylesheet" href="~/css/cbm-calculator.css" asp-append-version="true" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+<!-- CBM Calculator Section -->
+<section class="cbm-calculator-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <!-- Header -->
+                <div class="cbm-header text-center mb-5">
+                    <h1 class="cbm-title">
+                        @LanguageService.GetLocalizedText("CBM Hesaplayıcı", "CBM Calculator")
+                    </h1>
+                    <p class="cbm-subtitle">
+                        @LanguageService.GetLocalizedText("Kargo hacminizi kolayca hesaplayın", "Easily calculate your cargo volume")
+                    </p>
+                </div>
+
+                <!-- Calculator Section -->
+                <div class="calculator-section">
+                    <h5 class="section-title">@LanguageService.GetLocalizedText("Paket Ölçüleri", "Package Dimensions")</h5>
+                    
+                    <!-- CBM Calculation Table -->
+                    <div class="cbm-table-container">
+                        <table class="cbm-table">
+                            <thead>
+                                <tr>
+                                    <th>@LanguageService.GetLocalizedText("En [cm]", "Width [cm]")</th>
+                                    <th></th>
+                                    <th>@LanguageService.GetLocalizedText("Boy [cm]", "Length [cm]")</th>
+                                    <th></th>
+                                    <th>@LanguageService.GetLocalizedText("Yükseklik [cm]", "Height [cm]")</th>
+                                    <th>@LanguageService.GetLocalizedText("Adet", "Quantity")</th>
+                                    <th>@LanguageService.GetLocalizedText("Hacim [m³]", "Volume [m³]")</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cbmTableBody">
+                                <!-- Rows will be added dynamically -->
+                            </tbody>
+                        </table>
+                        
+                        <!-- Add Row Button -->
+                        <button type="button" class="add-row-btn" onclick="addRow()">
+                            <i class="fas fa-plus"></i> @LanguageService.GetLocalizedText("Satır Ekle", "Add Row")
+                        </button>
+                    </div>
+                    
+                    <!-- Transport Mode Selection -->
+                    <div class="transport-selection mt-4">
+                        <label class="transport-label">@LanguageService.GetLocalizedText("Taşıma Modu", "Transport Mode"):</label>
+                        <select id="transportMode" class="transport-dropdown">
+                            <option value="kara">@LanguageService.GetLocalizedText("Kara", "Land")</option>
+                            <option value="hava">@LanguageService.GetLocalizedText("Hava", "Air")</option>
+                            <option value="deniz">@LanguageService.GetLocalizedText("Deniz", "Sea")</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Results Section -->
+                    <div class="results-section mt-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="result-item">
+                                    <label>@LanguageService.GetLocalizedText("Toplam Hacim", "Total Volume"):</label>
+                                    <input type="text" id="totalVolume" class="result-input" readonly> m³
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="result-item">
+                                    <label>@LanguageService.GetLocalizedText("Tahmini Ağırlık", "Estimated Weight"):</label>
+                                    <input type="text" id="totalWeight" class="result-input" readonly> kg
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Clear Button -->
+                    <div class="action-buttons mt-4">
+                        <button type="button" class="clear-btn" onclick="clearAll()">
+                            @LanguageService.GetLocalizedText("Temizle", "Clear")
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="cbm-info-section">
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="info-card">
+                                <h4>@LanguageService.GetLocalizedText("CBM Nedir?", "What is CBM?")</h4>
+                                <p>@LanguageService.GetLocalizedText("CBM (Cubic Meter / Metreküp), bir gönderinin kapladığı hacmi ifade eder. Standart formül: CBM = Uzunluk(m) × Genişlik(m) × Yükseklik(m)", "CBM (Cubic Meter) represents the volume occupied by a shipment. Standard formula: CBM = Length(m) × Width(m) × Height(m)")</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="info-card">
+                                <h4>@LanguageService.GetLocalizedText("Nasıl Hesaplanır?", "How to Calculate?")</h4>
+                                <p>@LanguageService.GetLocalizedText("1. Uzunluk, genişlik ve yüksekliği cm cinsinden girin\n2. cm değerlerini metreye çevirin (cm / 100)\n3. Uzunluk(m) × Genişlik(m) × Yükseklik(m) hesaplayın\n4. Sonucu paket sayısı ile çarpın\n5. Çıkan sonuç CBM değeridir", "1. Enter length, width and height in cm\n2. Convert cm to meters (cm / 100)\n3. Calculate Length(m) × Width(m) × Height(m)\n4. Multiply the result by quantity\n5. The result is the CBM value")</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        let rowCount = 0;
+
+        // Initialize with one row
+        document.addEventListener('DOMContentLoaded', function() {
+            addRow();
+        });
+
+        function addRow() {
+            rowCount++;
+            const tbody = document.getElementById('cbmTableBody');
+            const row = document.createElement('tr');
+            row.id = `row-${rowCount}`;
+            
+            row.innerHTML = `
+                <td><input type="number" class="table-input width-input" placeholder="0" min="0" step="0.1" oninput="calculateRow(${rowCount})"></td>
+                <td class="multiply-symbol">×</td>
+                <td><input type="number" class="table-input length-input" placeholder="0" min="0" step="0.1" oninput="calculateRow(${rowCount})"></td>
+                <td class="multiply-symbol">×</td>
+                <td><input type="number" class="table-input height-input" placeholder="0" min="0" step="0.1" oninput="calculateRow(${rowCount})"></td>
+                <td><input type="number" class="table-input quantity-input" placeholder="1" min="1" step="1" value="1" oninput="calculateRow(${rowCount})"></td>
+                <td><input type="text" class="table-input volume-input" readonly></td>
+            `;
+            
+            tbody.appendChild(row);
+            calculateTotals();
+        }
+
+        function calculateRow(rowId) {
+            const row = document.getElementById(`row-${rowId}`);
+            const width = parseFloat(row.querySelector('.width-input').value) || 0;
+            const length = parseFloat(row.querySelector('.length-input').value) || 0;
+            const height = parseFloat(row.querySelector('.height-input').value) || 0;
+            const quantity = parseInt(row.querySelector('.quantity-input').value) || 1;
+            
+            let volume = 0;
+            if (width > 0 && length > 0 && height > 0) {
+                // Convert cm to meters and calculate volume
+                const volumeM3 = (width / 100) * (length / 100) * (height / 100) * quantity;
+                volume = volumeM3;
+            }
+            
+            row.querySelector('.volume-input').value = volume.toFixed(3);
+            calculateTotals();
+        }
+
+        function calculateTotals() {
+            const rows = document.querySelectorAll('#cbmTableBody tr');
+            let totalVolume = 0;
+            let totalWeight = 0;
+            
+            rows.forEach(row => {
+                const volume = parseFloat(row.querySelector('.volume-input').value) || 0;
+                totalVolume += volume;
+            });
+            
+            // Calculate estimated weight based on transport mode
+            const transportMode = document.getElementById('transportMode').value;
+            let density = 1000; // Default density kg/m³
+            
+            switch(transportMode) {
+                case 'kara':
+                    density = 333; // Land transport - 1 CBM = 333 kg (LDM based calculation)
+                    break;
+                case 'hava':
+                    density = 167; // Air transport - 1 CBM = 167 kg (IATA standard)
+                    break;
+                case 'deniz':
+                    density = 1000; // Sea transport - 1 CBM = 1000 kg (volume/weight ratio)
+                    break;
+            }
+            
+            totalWeight = totalVolume * density;
+            
+            // Update result displays
+            document.getElementById('totalVolume').value = totalVolume.toFixed(3);
+            document.getElementById('totalWeight').value = totalWeight.toFixed(1);
+            
+            // Show warnings if needed
+            showWarnings(totalVolume, totalWeight, transportMode);
+        }
+
+        function showWarnings(totalVolume, totalWeight, transportMode) {
+            let message = '';
+            let type = 'warning';
+            
+            // Only show warnings for capacity issues, not for successful calculations
+            const containerCapacity = 76.0;
+            if (totalVolume > containerCapacity) {
+                const containersNeeded = Math.ceil(totalVolume / containerCapacity);
+                type = 'error';
+                message = `⚠️ UYARI: ${totalVolume.toFixed(1)} m³ konteyner kapasitesini (${containerCapacity} m³) aşıyor! ${containersNeeded} konteyner gerekli.`;
+                showToast(message, type);
+            } else if (totalVolume > containerCapacity * 0.8) {
+                type = 'warning';
+                message = `⚡ Dikkat! Kapasite %80'i aştı (${totalVolume.toFixed(1)}/${containerCapacity} m³). Dikkatli yükleme gerekir.`;
+                showToast(message, type);
+            }
+            // Removed the success message - no notification for normal calculations
+        }
+
+        function clearAll() {
+            const tbody = document.getElementById('cbmTableBody');
+            tbody.innerHTML = '';
+            rowCount = 0;
+            addRow(); // Add one empty row
+            document.getElementById('totalVolume').value = '';
+            document.getElementById('totalWeight').value = '';
+        }
+
+        function showToast(message, type = 'success') {
+            const colors = {
+                success: '#28a745',
+                warning: '#ffc107', 
+                error: '#dc3545',
+                info: '#17a2b8'
+            };
+            
+            Toastify({
+                text: message,
+                duration: 4000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                backgroundColor: colors[type] || colors.info,
+                style: {
+                    background: colors[type] || colors.info,
+                    borderRadius: '12px',
+                    fontSize: '14px',
+                    boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
+                    padding: '16px 20px',
+                    maxWidth: '400px'
+                },
+                onClick: function(){} 
+            }).showToast();
+        }
+
+        // Transport mode change handler
+        document.getElementById('transportMode').addEventListener('change', function() {
+            calculateTotals();
+        });
+    </script>
+}
