@@ -10,7 +10,7 @@
 
 <!-- Modern Blog Detail Header -->
 <section class="blog-detail-hero">
-    <div class="blog-hero-background" style="background-image: url('@(!string.IsNullOrEmpty(Model?.ImageUrl) ? "/uploads/" + Model.ImageUrl : "/img/blog-no-image.png")')"></div>
+    <div class="blog-hero-background" style="background-image: url('@(!string.IsNullOrEmpty(Model?.ImageUrl) ? "/uploads/blogs/" + Model.ImageUrl : "/img/blog-no-image.png")')"></div>
     <div class="blog-hero-overlay"></div>
     <div class="container">
         <div class="blog-hero-content">
@@ -178,7 +178,7 @@
                                 <article class="modern-post-card">
                                     <!-- Card Image -->
                                     <div class="card-image-wrapper">
-                                        <img src="@(!string.IsNullOrEmpty(relatedInfo.ImageUrl) ? "/uploads/" + relatedInfo.ImageUrl : "/img/blog-no-image.png")"
+                                        <img src="@(!string.IsNullOrEmpty(relatedInfo.ImageUrl) ? "/uploads/blogs/" + relatedInfo.ImageUrl : "/img/blog-no-image.png")"
                                              alt="@relatedInfo.Title"
                                              class="card-image">
 

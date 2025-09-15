@@ -1,6 +1,7 @@
 using KargoAdmin.Data;
 using KargoAdmin.Models;
 using KargoAdmin.Services;
+using KargoAdmin.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
@@ -46,10 +47,15 @@ builder.Services.AddSession();
 builder.Services.AddScoped<ILanguageService, LanguageService>();
 builder.Services.AddScoped<ISettingsService, SettingsService>();
 
-// Configure form options (limit upload size)
+// Modern File Service ekleyin
+builder.Services.AddScoped<IFileService, FileService>();
+
+// Configure form options (modern file upload limits)
 builder.Services.Configure<FormOptions>(o =>
 {
-    o.MultipartBodyLengthLimit = 5 * 1024 * 1024; // 5 MB
+    o.MultipartBodyLengthLimit = 10 * 1024 * 1024; // 10 MB
+    o.ValueLengthLimit = int.MaxValue;
+    o.MultipartHeadersLengthLimit = int.MaxValue;
 });
 
 // Configure application cookie

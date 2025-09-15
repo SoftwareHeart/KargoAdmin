@@ -1,8 +1,8 @@
 using KargoAdmin.Data;
 using KargoAdmin.Models;
 using KargoAdmin.Models.ViewModels;
+using KargoAdmin.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,22 +14,20 @@ namespace KargoAdmin.Controllers
     public class BlogController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IFileService _fileService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<BlogController> _logger;
 
-        private static readonly string[] AllowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".webp" };
-        private static readonly string[] AllowedContentTypes = new[] { "image/jpeg", "image/png", "image/webp" };
-        private const long MaxFileSizeBytes = 5 * 1024 * 1024; // 5MB
+        private static readonly string[] AllowedImageTypes = new[] { ".jpg", ".jpeg", ".png", ".webp" };
 
         public BlogController(
-            ApplicationDbContext context, 
-            IWebHostEnvironment webHostEnvironment, 
+            ApplicationDbContext context,
+            IFileService fileService,
             UserManager<ApplicationUser> userManager,
             ILogger<BlogController> logger)
         {
             _context = context;
-            _webHostEnvironment = webHostEnvironment;
+            _fileService = fileService;
             _userManager = userManager;
             _logger = logger;
         }
@@ -120,12 +118,25 @@ namespace KargoAdmin.Controllers
 
                 string? fileName = null;
 
-                // Resim yükleme işlemi
+                // Modern resim yükleme işlemi
                 if (model.ImageFile != null && model.ImageFile.Length > 0)
                 {
                     try
                     {
-                        fileName = await UploadImageAsync(model.ImageFile);
+                        // Dosya validasyonu
+                        if (!_fileService.IsValidFileType(model.ImageFile, AllowedImageTypes))
+                        {
+                            ModelState.AddModelError("ImageFile", "Sadece JPG, JPEG, PNG veya WEBP formatları desteklenir.");
+                            return View(model);
+                        }
+
+                        if (!_fileService.IsValidFileSize(model.ImageFile, 10 * 1024 * 1024)) // 10MB
+                        {
+                            ModelState.AddModelError("ImageFile", "Dosya boyutu 10MB'ı aşamaz.");
+                            return View(model);
+                        }
+
+                        fileName = await _fileService.UploadFileAsync(model.ImageFile, "blogs");
                         _logger.LogInformation("Resim başarıyla yüklendi: {FileName}", fileName);
                     }
                     catch (Exception ex)
@@ -267,18 +278,31 @@ namespace KargoAdmin.Controllers
 
                 string? imageUrl = blog.ImageUrl;
 
-                // Yeni resim yüklendiyse
+                // Yeni resim yüklendiyse (Modern approach)
                 if (model.ImageFile != null && model.ImageFile.Length > 0)
                 {
                     try
                     {
+                        // Dosya validasyonu
+                        if (!_fileService.IsValidFileType(model.ImageFile, AllowedImageTypes))
+                        {
+                            ModelState.AddModelError("ImageFile", "Sadece JPG, JPEG, PNG veya WEBP formatları desteklenir.");
+                            return View(model);
+                        }
+
+                        if (!_fileService.IsValidFileSize(model.ImageFile, 10 * 1024 * 1024)) // 10MB
+                        {
+                            ModelState.AddModelError("ImageFile", "Dosya boyutu 10MB'ı aşamaz.");
+                            return View(model);
+                        }
+
                         // Eski resmi sil
                         if (!string.IsNullOrEmpty(blog.ImageUrl))
                         {
-                            DeleteImage(blog.ImageUrl);
+                            await _fileService.DeleteFileAsync(blog.ImageUrl);
                         }
 
-                        imageUrl = await UploadImageAsync(model.ImageFile);
+                        imageUrl = await _fileService.UploadFileAsync(model.ImageFile, "blogs");
                         _logger.LogInformation("Blog için yeni resim yüklendi. ID: {Id}, FileName: {FileName}", id, imageUrl);
                     }
                     catch (Exception ex)
@@ -386,10 +410,10 @@ namespace KargoAdmin.Controllers
                     return RedirectToAction(nameof(Index));
                 }
 
-                // Resmi sil
+                // Resmi sil (Modern approach)
                 if (!string.IsNullOrEmpty(blog.ImageUrl))
                 {
-                    DeleteImage(blog.ImageUrl);
+                    await _fileService.DeleteFileAsync(blog.ImageUrl);
                 }
 
                 _context.Blogs.Remove(blog);
@@ -443,143 +467,6 @@ namespace KargoAdmin.Controllers
             return string.IsNullOrEmpty(title) ? Guid.NewGuid().ToString("N")[0..8] : title;
         }
 
-        private async Task<string> UploadImageAsync(IFormFile imageFile)
-        {
-            if (imageFile == null || imageFile.Length == 0)
-                throw new ArgumentException("Geçerli bir resim dosyası seçin.");
-
-            // Boyut kontrolü
-            if (imageFile.Length > MaxFileSizeBytes)
-            {
-                throw new InvalidOperationException("Dosya boyutu 5MB'ı aşamaz.");
-            }
-
-            // İçerik türü ve uzantı kontrolü
-            var extension = Path.GetExtension(imageFile.FileName)?.ToLowerInvariant();
-            if (string.IsNullOrWhiteSpace(extension) || !AllowedExtensions.Contains(extension))
-            {
-                throw new InvalidOperationException("Sadece JPG, JPEG, PNG veya WEBP formatları desteklenir.");
-            }
-
-            if (!AllowedContentTypes.Contains(imageFile.ContentType))
-            {
-                throw new InvalidOperationException("Geçersiz dosya türü.");
-            }
-
-            // Magic number kontrolü
-            if (!await IsValidImageSignatureAsync(imageFile, extension))
-            {
-                throw new InvalidOperationException("Dosya içeriği geçerli bir görsel değil.");
-            }
-
-            try
-            {
-                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
-                
-                // Klasör yoksa oluştur
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                    _logger.LogInformation("Uploads klasörü oluşturuldu: {Path}", uploadsFolder);
-                }
-
-                // Güvenli dosya adı oluştur
-                var uniqueFileName = $"{Guid.NewGuid():N}{extension}";
-                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                // Dosyayı kaydet
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await imageFile.CopyToAsync(fileStream);
-                }
-
-                _logger.LogInformation("Resim başarıyla kaydedildi: {FileName}", uniqueFileName);
-                return uniqueFileName;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Resim yükleme sırasında dosya sistemi hatası");
-                throw new InvalidOperationException("Resim kaydedilirken bir hata oluştu.");
-            }
-        }
-
-        private static async Task<bool> IsValidImageSignatureAsync(IFormFile file, string extension)
-        {
-            try
-            {
-                using var stream = file.OpenReadStream();
-                var header = new byte[12];
-                var read = await stream.ReadAsync(header, 0, header.Length);
-                
-                if (read < 8) return false;
-
-                // JPEG: FF D8 FF
-                if (extension == ".jpg" || extension == ".jpeg")
-                {
-                    return header[0] == 0xFF && header[1] == 0xD8 && header[2] == 0xFF;
-                }
-
-                // PNG: 89 50 4E 47 0D 0A 1A 0A
-                if (extension == ".png")
-                {
-                    byte[] pngSignature = { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
-                    for (int i = 0; i < pngSignature.Length; i++)
-                    {
-                        if (header[i] != pngSignature[i]) return false;
-                    }
-                    return true;
-                }
-
-                // WEBP: RIFF....WEBP
-                if (extension == ".webp")
-                {
-                    return header[0] == 0x52 && header[1] == 0x49 && header[2] == 0x46 && header[3] == 0x46 &&
-                           header[8] == 0x57 && header[9] == 0x45 && header[10] == 0x42 && header[11] == 0x50;
-                }
-
-                return false;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        private void DeleteImage(string? imageUrl)
-        {
-            if (string.IsNullOrWhiteSpace(imageUrl))
-                return;
-
-            try
-            {
-                string imagePath;
-
-                // Sadece dosya adı varsa uploads klasöründe ara
-                if (!imageUrl.StartsWith("/") && !imageUrl.StartsWith("http"))
-                {
-                    imagePath = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", imageUrl);
-                }
-                else
-                {
-                    // Tam yol varsa relative path'e çevir
-                    imagePath = Path.Combine(_webHostEnvironment.WebRootPath, imageUrl.TrimStart('/'));
-                }
-
-                if (System.IO.File.Exists(imagePath))
-                {
-                    System.IO.File.Delete(imagePath);
-                    _logger.LogInformation("Resim dosyası silindi: {ImagePath}", imagePath);
-                }
-                else
-                {
-                    _logger.LogWarning("Silinecek resim dosyası bulunamadı: {ImagePath}", imagePath);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Resim silme sırasında hata oluştu: {ImageUrl}", imageUrl);
-            }
-        }
 
         #endregion
     }
