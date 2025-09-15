@@ -73,48 +73,101 @@
     <div class="row">
         <div class="col-xl-6">
             <div class="card mb-4">
-                <div class="card-header">
-                    <i class="fas fa-chart-area me-1"></i>
-                    Son Yazılar
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="fas fa-blog me-1"></i>
+                        Son Blog Yazıları
+                    </div>
+                    <a href="@Url.Action("Index", "Blog")" class="btn btn-primary btn-sm">
+                        <i class="fas fa-list me-1"></i> Tümünü Gör
+                    </a>
                 </div>
                 <div class="card-body">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Başlık</th>
-                                <th>Tarih</th>
-                                <th>Durum</th>
-                                <th>İşlemler</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var blog in ViewBag.RecentBlogs)
-                            {
-                                <tr>
-                                    <td>@blog.Title</td>
-                                    <td>@blog.PublishDate.ToString("dd.MM.yyyy")</td>
-                                    <td>
-                                        @if (blog.IsPublished)
-                                        {
-                                            <span class="badge bg-success">Yayında</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-warning text-dark">Taslak</span>
-                                        }
-                                    </td>
-                                    <td>
-                                        <a href="/admin/blog/edit/@blog.Id" class="btn btn-primary btn-sm">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <a href="/admin/blog/details/@blog.Id" class="btn btn-info btn-sm">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                    @if (ViewBag.RecentBlogs != null && ((IEnumerable<dynamic>)ViewBag.RecentBlogs).Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="recentBlogsTable">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th width="40%">Başlık</th>
+                                        <th width="20%">Tarih</th>
+                                        <th width="20%">Durum</th>
+                                        <th width="20%">İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var blog in ViewBag.RecentBlogs)
+                                    {
+                                        <tr data-blog-id="@blog.Id">
+                                            <td>
+                                                <div class="fw-bold text-truncate" style="max-width: 200px;" title="@blog.Title">
+                                                    @blog.Title
+                                                </div>
+                                                <small class="text-muted">ID: @blog.Id</small>
+                                            </td>
+                                            <td>
+                                                <small>
+                                                    @blog.PublishDate.ToString("dd.MM.yyyy")<br>
+                                                    <span class="text-muted">@blog.PublishDate.ToString("HH:mm")</span>
+                                                </small>
+                                            </td>
+                                            <td>
+                                                @if (blog.IsPublished)
+                                                {
+                                                    <span class="badge bg-success">
+                                                        <i class="fas fa-check-circle me-1"></i>Yayında
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-warning text-dark">
+                                                        <i class="fas fa-clock me-1"></i>Taslak
+                                                    </span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm" role="group">
+                                                    <a href="@Url.Action("Details", "Blog", new { id = blog.Id })" 
+                                                       class="btn btn-outline-info" 
+                                                       title="Görüntüle"
+                                                       data-blog-action="details"
+                                                       data-blog-id="@blog.Id">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a href="@Url.Action("Edit", "Blog", new { id = blog.Id })" 
+                                                       class="btn btn-outline-primary" 
+                                                       title="Düzenle"
+                                                       data-blog-action="edit"
+                                                       data-blog-id="@blog.Id">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <a href="@Url.Action("Delete", "Blog", new { id = blog.Id })" 
+                                                       class="btn btn-outline-danger delete-blog-btn" 
+                                                       title="Sil"
+                                                       data-blog-action="delete"
+                                                       data-blog-id="@blog.Id"
+                                                       data-blog-title="@blog.Title">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-4">
+                            <i class="fas fa-blog fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">Henüz blog yazısı yok</h5>
+                            <p class="text-muted">İlk blog yazınızı oluşturmak için butona tıklayın.</p>
+                            <a href="@Url.Action("Create", "Blog")" class="btn btn-primary">
+                                <i class="fas fa-plus me-1"></i> İlk Blog Yazısını Oluştur
+                            </a>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
@@ -142,3 +195,28 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Silme butonları için onay dialogu
+    const deleteButtons = document.querySelectorAll('.delete-blog-btn');
+    
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const blogId = this.getAttribute('data-blog-id');
+            const blogTitle = this.getAttribute('data-blog-title');
+            const deleteUrl = this.getAttribute('href');
+            
+            if (confirm(`"${blogTitle}" başlıklı blog yazısını silmek istediğinize emin misiniz?\n\nID: ${blogId}\n\nBu işlem geri alınamaz!`)) {
+                window.location.href = deleteUrl;
+            }
+        });
+    });
+    
+    // Debug için
+    console.log('🛠️ Admin Dashboard Blog Tablosu hazır');
+    console.log(`📊 Toplam ${deleteButtons.length} adet silme butonu bulundu`);
+});
+</script>

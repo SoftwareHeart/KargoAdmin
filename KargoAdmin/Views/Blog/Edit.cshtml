@@ -183,7 +183,7 @@
                         <div class="edit-form-group">
                             <label asp-for="Tags" class="edit-form-label">
                                 <i class="fas fa-tags"></i>
-                                Etiketler (Türkçe)
+                                Etiketler (Türkçe) <span class="text-muted">(Opsiyonel)</span>
                             </label>
                             <div class="edit-tag-container" id="tagContainer">
                                 <input type="text"
@@ -304,17 +304,17 @@
 
                             <div class="edit-type-wrapper">
                                 <div class="edit-type-info">
-                                    <h6>Bu içerik nedir?</h6>
-                                    <small>Haber mi yoksa faydalı bilgi mi?</small>
+                                    <h6>Bu içerik türü nedir?</h6>
+                                    <small>İçerik kategorisini belirleyin</small>
                                 </div>
 
                                 <div class="edit-type-selection">
-                                    <div class="edit-type-option">
-                                        <input asp-for="Type" type="radio" id="editTypeHaber" value="Haber" class="edit-type-radio">
-                                        <label for="editTypeHaber" class="edit-type-label">
+                                    <div class="edit-type-option disabled">
+                                        <input asp-for="Type" type="radio" id="editTypeHaber" value="Haber" disabled class="edit-type-radio">
+                                        <label for="editTypeHaber" class="edit-type-label disabled">
                                             <i class="fas fa-newspaper"></i>
                                             <span>Haber</span>
-                                            <small>Güncel haberler ve duyurular</small>
+                                            <small>Güncel haberler ve duyurular (Şu an kullanılamaz)</small>
                                         </label>
                                     </div>
 
@@ -323,7 +323,7 @@
                                         <label for="editTypeFaydaliBilgi" class="edit-type-label">
                                             <i class="fas fa-lightbulb"></i>
                                             <span>Faydalı Bilgi</span>
-                                            <small>Rehberler ve ipuçları</small>
+                                            <small>Rehberler, ipuçları ve faydalı içerikler</small>
                                         </label>
                                     </div>
                                 </div>

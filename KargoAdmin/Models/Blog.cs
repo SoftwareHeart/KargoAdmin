@@ -54,7 +54,7 @@ namespace KargoAdmin.Models
         public string? SlugEn { get; set; }
 
         [StringLength(20)]
-        public string Type { get; set; } = "Haber";
+        public string Type { get; set; } = "Faydalı Bilgi";
 
         // Dil durumu
         public bool HasEnglishContent => !string.IsNullOrEmpty(TitleEn) && !string.IsNullOrEmpty(ContentEn);

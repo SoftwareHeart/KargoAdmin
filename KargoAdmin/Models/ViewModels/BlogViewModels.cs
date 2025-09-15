@@ -36,14 +36,14 @@ namespace KargoAdmin.Models.ViewModels
         public string? MetaDescriptionEn { get; set; }
 
         [Display(Name = "Etiketler")]
-        public string Tags { get; set; } = "";  // Boş string ata
+        public string Tags { get; set; } = ""; // Boş string ata
 
         [Display(Name = "İngilizce Etiketler")]
         public string? TagsEn { get; set; }
 
         [Required(ErrorMessage = "İçerik türü seçilmelidir")]
         [Display(Name = "İçerik Türü")]
-        public string Type { get; set; } = "Haber"; // Default: Haber
+        public string Type { get; set; } = "Faydalı Bilgi"; // Default: Faydalı Bilgi
     }
 
     public class BlogEditViewModel
@@ -83,13 +83,13 @@ namespace KargoAdmin.Models.ViewModels
         public string? MetaDescriptionEn { get; set; }
 
         [Display(Name = "Etiketler")]
-        public string? Tags { get; set; }
+        public string? Tags { get; set; } = "";
 
         [Display(Name = "İngilizce Etiketler")]
         public string? TagsEn { get; set; }
 
         [Required(ErrorMessage = "İçerik türü seçilmelidir")]
         [Display(Name = "İçerik Türü")]
-        public string Type { get; set; } = "Haber"; // Default: Haber
+        public string Type { get; set; } = "Faydalı Bilgi"; // Default: Faydalı Bilgi
     }
 }

@@ -1,4 +1,4 @@
-﻿@model BlogCreateViewModel
+@model BlogCreateViewModel
 
 @{
     ViewData["Title"] = "Yeni Blog Oluştur";
@@ -39,16 +39,33 @@
             @Html.AntiForgeryToken()
             <div class="create-form-body">
 				<!-- Validation Summary -->
-				<div asp-validation-summary="ModelOnly" class="alert alert-danger @(ViewData.ModelState.IsValid ? "d-none" : "") create-fade-in" role="alert" id="validationSummary"></div>
+				<div asp-validation-summary="All" class="alert alert-danger validation-summary @(ViewData.ModelState.IsValid ? "d-none" : "")" role="alert" id="validationSummary">
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="fas fa-exclamation-triangle fa-lg me-2"></i>
+                        <strong>Lütfen aşağıdaki hataları düzeltin:</strong>
+                    </div>
+                </div>
+
+                <!-- Form Progress Indicator -->
+                <div class="form-progress-container" id="formProgress">
+                    <div class="form-progress-header">
+                        <span class="form-progress-text">Form Tamamlanma</span>
+                        <span class="form-progress-percentage" id="progressPercentage">0%</span>
+                    </div>
+                    <div class="form-progress-bar">
+                        <div class="form-progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
 
                 <div class="create-form-row">
                     <!-- Sol Kolon - Ana İçerik -->
                     <div class="create-main-content">
                         <!-- Blog Başlığı - Türkçe -->
                         <div class="create-form-group">
-                            <label asp-for="Title" class="create-form-label">
+                            <label asp-for="Title" class="create-form-label required-field">
                                 <i class="fas fa-heading"></i>
                                 Blog Başlığı (Türkçe)
+                                <span class="required-asterisk">*</span>
                             </label>
                             <input asp-for="Title"
                                    class="create-form-control"
@@ -96,9 +113,10 @@
 
                         <!-- Blog İçeriği -->
                         <div class="create-form-group">
-                            <label asp-for="Content" class="create-form-label">
+                            <label asp-for="Content" class="create-form-label required-field">
                                 <i class="fas fa-feather-alt"></i>
                                 Blog İçeriği (Türkçe)
+                                <span class="required-asterisk">*</span>
                             </label>
                             <div class="create-editor-wrapper">
                                 <textarea asp-for="Content"
@@ -185,82 +203,46 @@
                             </div>
                         </div>
 
-                        <!-- Etiketler -->
-                        <div class="create-form-group">
-                            <label asp-for="Tags" class="create-form-label">
-                                <i class="fas fa-hashtag"></i>
-                                Etiketler (Türkçe)
-                            </label>
-                            <div class="create-tag-container" id="tagContainer">
-                                <input type="text"
-                                       class="create-tag-input"
-                                       id="tagInput"
-                                       placeholder="Etiket yazıp Enter'a basın..." />
-                            </div>
-                            <input type="hidden" asp-for="Tags" id="tagsHidden" />
-                            <small class="create-counter-text">
-                                <i class="fas fa-lightbulb me-1"></i>
-                                <strong>Popüler etiketler:</strong> teknoloji, lojistik, kargo, dijital, yazılım, AI, veri
-                            </small>
-                        </div>
-
-                        <!-- Etiketler - İngilizce -->
-                        <div class="create-form-group">
-                            <label asp-for="TagsEn" class="create-form-label">
-                                <i class="fas fa-hashtag"></i>
-                                Etiketler (İngilizce) <span class="text-muted">(Opsiyonel)</span>
-                            </label>
-                            <div class="create-tag-container" id="tagEnContainer">
-                                <input type="text"
-                                       class="create-tag-input"
-                                       id="tagEnInput"
-                                       placeholder="Write tags and press Enter..." />
-                            </div>
-                            <input type="hidden" asp-for="TagsEn" id="tagsEnHidden" />
-                            <small class="create-counter-text">
-                                <i class="fas fa-lightbulb me-1"></i>
-                                <strong>Popular tags:</strong> technology, logistics, cargo, digital, software, AI, data
-                            </small>
-                        </div>
-                    </div>
-                    <!-- İçerik Türü Seçimi -->
-                    <div class="create-sidebar-section">
-                        <h3 class="create-sidebar-title">
-                            <i class="fas fa-layer-group"></i>
-                            İçerik Türü
-                        </h3>
-
-                        <div class="create-type-wrapper">
-                            <div class="create-type-info">
-                                <h6>Bu içerik nedir?</h6>
-                                <small>Haber mi yoksa faydalı bilgi mi?</small>
-                            </div>
-
-                            <div class="create-type-selection">
-                                <div class="create-type-option">
-                                    <input asp-for="Type" type="radio" id="typeHaber" value="Haber" checked class="create-type-radio">
-                                    <label for="typeHaber" class="create-type-label">
-                                        <i class="fas fa-newspaper"></i>
-                                        <span>Haber</span>
-                                        <small>Güncel haberler ve duyurular</small>
-                                    </label>
-                                </div>
-
-                                <div class="create-type-option">
-                                    <input asp-for="Type" type="radio" id="typeFaydaliBilgi" value="Faydalı Bilgi" class="create-type-radio">
-                                    <label for="typeFaydaliBilgi" class="create-type-label">
-                                        <i class="fas fa-lightbulb"></i>
-                                        <span>Faydalı Bilgi</span>
-                                        <small>Rehberler ve ipuçları</small>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <span asp-validation-for="Type" class="text-danger"></span>
-                        </div>
                     </div>
                     <!-- Sağ Kolon - Yan Panel -->
                     <div class="create-sidebar">
+                        <!-- İçerik Türü Seçimi -->
+                        <div class="create-sidebar-section">
+                            <h3 class="create-sidebar-title">
+                                <i class="fas fa-layer-group"></i>
+                                İçerik Türü
+                            </h3>
+
+                            <div class="create-type-wrapper">
+                                <div class="create-type-info">
+                                    <h6>Bu içerik türü nedir?</h6>
+                                    <small>İçerik kategorisini belirleyin</small>
+                                </div>
+
+                                <div class="create-type-selection">
+                                    <div class="create-type-option disabled">
+                                        <input asp-for="Type" type="radio" id="typeHaber" value="Haber" disabled class="create-type-radio">
+                                        <label for="typeHaber" class="create-type-label disabled">
+                                            <i class="fas fa-newspaper"></i>
+                                            <span>Haber</span>
+                                            <small>Güncel haberler ve duyurular (Şu an kullanılamaz)</small>
+                                        </label>
+                                    </div>
+
+                                    <div class="create-type-option">
+                                        <input asp-for="Type" type="radio" id="typeFaydaliBilgi" value="Faydalı Bilgi" checked class="create-type-radio">
+                                        <label for="typeFaydaliBilgi" class="create-type-label selected">
+                                            <i class="fas fa-lightbulb"></i>
+                                            <span>Faydalı Bilgi</span>
+                                            <small>Rehberler, ipuçları ve faydalı içerikler</small>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <span asp-validation-for="Type" class="text-danger"></span>
+                            </div>
+                        </div>
+
                         <!-- Yayınlama Durumu -->
                         <div class="create-sidebar-section">
                             <h3 class="create-sidebar-title">
@@ -316,6 +298,53 @@
                                     <i class="fas fa-info-circle me-1"></i>
                                     <strong>Önerilen:</strong> 1200x630px (16:9 oran) • <strong>Maks:</strong> 5MB<br>
                                     <strong>Format:</strong> JPG, PNG, WebP
+                                </small>
+                            </div>
+                        </div>
+
+
+                        <!-- Etiketler -->
+                        <div class="create-sidebar-section">
+                            <h3 class="create-sidebar-title">
+                                <i class="fas fa-hashtag"></i>
+                                Etiketler
+                            </h3>
+
+                            <!-- Türkçe Etiketler -->
+                            <div class="create-form-group mb-3">
+                                <label asp-for="Tags" class="create-form-label">
+                                    <i class="fas fa-globe"></i>
+                                    Türkçe
+                                </label>
+                                <div class="create-tag-container" id="tagContainer">
+                                    <input type="text"
+                                           class="create-tag-input"
+                                           id="tagInput"
+                                           placeholder="Etiket yazıp Enter'a basın..." />
+                                </div>
+                                <input type="hidden" asp-for="Tags" id="tagsHidden" />
+                                <small class="create-counter-text">
+                                    <i class="fas fa-lightbulb me-1"></i>
+                                    <strong>Popüler:</strong> teknoloji, lojistik, kargo, dijital, yazılım, AI, veri
+                                </small>
+                            </div>
+
+                            <!-- İngilizce Etiketler -->
+                            <div class="create-form-group">
+                                <label asp-for="TagsEn" class="create-form-label">
+                                    <i class="fas fa-flag-usa"></i>
+                                    İngilizce <span class="text-muted">(Opsiyonel)</span>
+                                </label>
+                                <div class="create-tag-container" id="tagEnContainer">
+                                    <input type="text"
+                                           class="create-tag-input"
+                                           id="tagEnInput"
+                                           placeholder="Write tags and press Enter..." />
+                                </div>
+                                <input type="hidden" asp-for="TagsEn" id="tagsEnHidden" />
+                                <small class="create-counter-text">
+                                    <i class="fas fa-lightbulb me-1"></i>
+                                    <strong>Popular:</strong> technology, logistics, cargo, digital, software, AI, data
                                 </small>
                             </div>
                         </div>
@@ -1016,18 +1045,28 @@
                         }
                     } catch (_) {}
 
-                    // Form validasyonu
-                    if (!form.checkValidity()) {
+                    // Custom form validation
+                    if (!validateForm()) {
                         e.preventDefault();
                         e.stopPropagation();
-                        form.classList.add('was-validated');
-
+                        
                         // Hata animasyonu
                         form.classList.add('create-error-shake');
                         setTimeout(() => {
                             form.classList.remove('create-error-shake');
                         }, 500);
 
+                        // Error toast
+                        showErrorToast('Lütfen zorunlu alanları doldurun!');
+                        return;
+                    }
+
+                    // Browser validation check
+                    if (!form.checkValidity()) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        form.classList.add('was-validated');
+                        showErrorToast('Form doğrulama hatası!');
                         return;
                     }
 
@@ -1088,12 +1127,189 @@
                 }
             });
 
+            // ===== FORM VALIDATION & PROGRESS =====
+            function updateFormProgress() {
+                const requiredFields = [
+                    { element: titleInput, weight: 30 },
+                    { element: document.querySelector('#contentEditor'), weight: 40 },
+                    { element: metaInput, weight: 20 },
+                    { element: imageFile, weight: 10, checkFiles: true }
+                ];
+
+                let completedWeight = 0;
+                let totalWeight = 100;
+
+                requiredFields.forEach(field => {
+                    if (field.element) {
+                        let isComplete = false;
+                        
+                        if (field.checkFiles) {
+                            isComplete = field.element.files && field.element.files.length > 0;
+                        } else {
+                            isComplete = field.element.value && field.element.value.trim().length > 0;
+                        }
+
+                        if (isComplete) {
+                            completedWeight += field.weight;
+                        }
+                    }
+                });
+
+                const percentage = Math.round(completedWeight);
+                const progressFill = document.getElementById('progressFill');
+                const progressPercentage = document.getElementById('progressPercentage');
+
+                if (progressFill) {
+                    progressFill.style.width = `${percentage}%`;
+                }
+                
+                if (progressPercentage) {
+                    progressPercentage.textContent = `${percentage}%`;
+                }
+
+                // Progress color
+                if (progressFill) {
+                    if (percentage < 30) {
+                        progressFill.style.background = 'linear-gradient(90deg, #dc3545 0%, #fd7e7e 100%)';
+                    } else if (percentage < 70) {
+                        progressFill.style.background = 'linear-gradient(90deg, #ffc107 0%, #ffed4a 100%)';
+                    } else {
+                        progressFill.style.background = 'linear-gradient(90deg, #28a745 0%, #48d365 100%)';
+                    }
+                }
+
+                return percentage;
+            }
+
+            function validateField(field, value) {
+                const formGroup = field.closest('.create-form-group');
+                const fieldName = field.getAttribute('name') || field.id;
+                let isValid = true;
+                let errorMessage = '';
+
+                // Remove existing validation classes
+                field.classList.remove('is-valid', 'is-invalid');
+                if (formGroup) {
+                    formGroup.classList.remove('has-error', 'has-success');
+                }
+
+                // Validation rules
+                if (field.hasAttribute('required') && (!value || value.trim() === '')) {
+                    isValid = false;
+                    errorMessage = 'Bu alan zorunludur.';
+                } else if (fieldName === 'Title' && value.length < 10) {
+                    isValid = false;
+                    errorMessage = 'Başlık en az 10 karakter olmalıdır.';
+                } else if (fieldName === 'Title' && value.length > 100) {
+                    isValid = false;
+                    errorMessage = 'Başlık en fazla 100 karakter olabilir.';
+                } else if (fieldName === 'MetaDescription' && value.length > 160) {
+                    isValid = false;
+                    errorMessage = 'Meta açıklama en fazla 160 karakter olabilir.';
+                }
+
+                // Apply validation classes
+                if (isValid && value && value.trim() !== '') {
+                    field.classList.add('is-valid');
+                    if (formGroup) {
+                        formGroup.classList.add('has-success');
+                    }
+                } else if (!isValid) {
+                    field.classList.add('is-invalid');
+                    if (formGroup) {
+                        formGroup.classList.add('has-error');
+                    }
+                    
+                    // Show error message
+                    showFieldError(field, errorMessage);
+                }
+
+                return isValid;
+            }
+
+            function showFieldError(field, message) {
+                // Remove existing error message
+                const existingError = field.parentElement.querySelector('.field-validation-error');
+                if (existingError) {
+                    existingError.remove();
+                }
+
+                // Create new error message
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'field-validation-error';
+                errorDiv.innerHTML = `<i class="fas fa-exclamation-circle me-1"></i>${message}`;
+                
+                field.parentElement.appendChild(errorDiv);
+
+                // Auto-hide after 5 seconds
+                setTimeout(() => {
+                    if (errorDiv.parentElement) {
+                        errorDiv.remove();
+                    }
+                }, 5000);
+            }
+
+            function validateForm() {
+                let isFormValid = true;
+                const errors = [];
+
+                // Validate title
+                if (titleInput) {
+                    const titleValid = validateField(titleInput, titleInput.value);
+                    if (!titleValid) {
+                        isFormValid = false;
+                        errors.push('Blog başlığı gereklidir ve en az 10 karakter olmalıdır.');
+                    }
+                }
+
+                // Validate content (CKEditor)
+                if (typeof editor !== 'undefined') {
+                    const content = editor.getData();
+                    const contentTextArea = document.querySelector('#contentEditor');
+                    if (contentTextArea) {
+                        contentTextArea.value = content;
+                        const contentValid = validateField(contentTextArea, content);
+                        if (!contentValid) {
+                            isFormValid = false;
+                            errors.push('Blog içeriği zorunludur.');
+                        }
+                    }
+                }
+
+                // Show validation summary
+                const validationSummary = document.getElementById('validationSummary');
+                if (validationSummary) {
+                    if (!isFormValid) {
+                        validationSummary.classList.remove('d-none');
+                        validationSummary.innerHTML = `
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-exclamation-triangle fa-lg me-2"></i>
+                                <strong>Lütfen aşağıdaki hataları düzeltin:</strong>
+                            </div>
+                            <ul class="mb-0">
+                                ${errors.map(error => `<li>${error}</li>`).join('')}
+                            </ul>
+                        `;
+                        
+                        // Scroll to validation summary
+                        validationSummary.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    } else {
+                        validationSummary.classList.add('d-none');
+                    }
+                }
+
+                return isFormValid;
+            }
+
             // ===== Auto-save Detection =====
             function markAsChanged() {
                 if (!hasChanges) {
                     hasChanges = true;
                     console.log('📝 Form değişikliği algılandı');
                 }
+                
+                // Update progress when form changes
+                updateFormProgress();
             }
 
             // Form ayrılma uyarısı
@@ -1148,6 +1364,76 @@
                 });
             }, 100);
 
+            // ===== Toast Functions =====
+            function showErrorToast(message) {
+                const toast = document.createElement('div');
+                toast.className = 'toast-container position-fixed top-0 end-0 p-3';
+                toast.style.zIndex = '9999';
+                toast.innerHTML = `
+                    <div class="toast show" role="alert">
+                        <div class="toast-header bg-danger text-white">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            <strong class="me-auto">Validation Hatası</strong>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+                        </div>
+                        <div class="toast-body">${message}</div>
+                    </div>
+                `;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 5000);
+            }
+
+            function showSuccessToast(message) {
+                const toast = document.createElement('div');
+                toast.className = 'toast-container position-fixed top-0 end-0 p-3';
+                toast.style.zIndex = '9999';
+                toast.innerHTML = `
+                    <div class="toast show" role="alert">
+                        <div class="toast-header bg-success text-white">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <strong class="me-auto">Başarılı</strong>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+                        </div>
+                        <div class="toast-body">${message}</div>
+                    </div>
+                `;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
+            }
+
+            // ===== Real-time Validation =====
+            if (titleInput) {
+                titleInput.addEventListener('blur', () => validateField(titleInput, titleInput.value));
+                titleInput.addEventListener('input', () => {
+                    updateTitleProgress();
+                    if (titleInput.value.length >= 10) {
+                        validateField(titleInput, titleInput.value);
+                    }
+                });
+            }
+
+            if (metaInput) {
+                metaInput.addEventListener('blur', () => validateField(metaInput, metaInput.value));
+                metaInput.addEventListener('input', () => {
+                    updateMetaProgress();
+                    validateField(metaInput, metaInput.value);
+                });
+            }
+
+            if (imageFile) {
+                imageFile.addEventListener('change', () => {
+                    updateFormProgress();
+                    if (imageFile.files.length > 0) {
+                        showSuccessToast('Görsel başarıyla seçildi!');
+                    }
+                });
+            }
+
+            // Initial progress update
+            setTimeout(() => {
+                updateFormProgress();
+            }, 1000);
+
             // ===== Debug ve Monitoring =====
             console.log('✅ Blog Create sayfası tam olarak yüklendi!');
             console.log('📊 Aktif özellikler:');
@@ -1156,9 +1442,10 @@
             console.log('  • Tag Sistemi');
             console.log('  • Drag & Drop Görsel Yükleme');
             console.log('  • SEO Canlı Önizleme');
+            console.log('  • Real-time Validation');
+            console.log('  • Form Progress Tracking');
             console.log('  • Keyboard Shortcuts (Ctrl+S, Ctrl+Enter, Esc)');
             console.log('  • Auto-save Detection');
-            console.log('  • Form Validation');
             console.log('  • Animation & UX Effects');
             console.log('🚀 Sayfa kullanıma hazır - Harika bloglar oluşturun!');
 
