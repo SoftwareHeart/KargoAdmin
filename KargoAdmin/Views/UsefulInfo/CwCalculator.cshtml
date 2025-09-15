@@ -145,7 +145,7 @@
         function calculateTotals() {
             const rows = document.querySelectorAll('#cwTableBody tr');
             let totalVolumeWeight = 0;
-            let maxActualWeight = 0; // Paket başına maksimum ağırlık
+            let totalActualWeight = 0; // Tüm satırlardaki toplam gerçek ağırlık (adet ile çarpılmadan)
             
             rows.forEach(row => {
                 const quantity = parseInt(row.querySelector('.quantity-input').value) || 1;
@@ -161,38 +161,25 @@
                 }
                 
                 totalVolumeWeight += volumeWeight;
-                maxActualWeight = Math.max(maxActualWeight, weight); // Paket başına maksimum ağırlık
+                // Gerçek ağırlık, satır bazında girilen kg değerlerinin toplamıdır (adet ile çarpılmaz)
+                totalActualWeight += weight;
             });
             
-            // Chargeable weight is the greater of volume weight and max actual weight per package
-            const chargeableWeight = Math.max(totalVolumeWeight, maxActualWeight);
+            // Chargeable weight is the greater of total volume weight and total actual weight
+            const chargeableWeight = Math.max(totalVolumeWeight, totalActualWeight);
             
-            // Update result displays - resimdeki format gibi
+            // Update result displays
             document.getElementById('volumeWeight').value = totalVolumeWeight.toFixed(3);
-            document.getElementById('actualWeight').value = maxActualWeight.toFixed(0); // Paket başına ağırlık, ondalık yok
+            document.getElementById('actualWeight').value = totalActualWeight.toFixed(0);
             document.getElementById('chargeableWeight').value = chargeableWeight.toFixed(3);
             
             // Show warnings if needed
-            showWarnings(totalVolumeWeight, maxActualWeight, chargeableWeight);
+            showWarnings(totalVolumeWeight, totalActualWeight, chargeableWeight);
         }
 
         function showWarnings(volumeWeight, actualWeight, chargeableWeight) {
-            let message = '';
-            let type = 'warning';
-            
-            // Only show warnings for significant differences
-            const difference = Math.abs(volumeWeight - actualWeight);
-            const percentage = Math.min(volumeWeight, actualWeight) > 0 ? 
-                (difference / Math.min(volumeWeight, actualWeight)) * 100 : 0;
-            
-            if (percentage > 50 && Math.min(volumeWeight, actualWeight) > 0) {
-                if (volumeWeight > actualWeight) {
-                    message = `📦 Hacim ağırlığı (${volumeWeight.toFixed(3)} kg) gerçek ağırlıktan (${actualWeight.toFixed(0)} kg) %${percentage.toFixed(0)} daha büyük. Ücrete konu ağırlık: ${chargeableWeight.toFixed(3)} kg`;
-                } else {
-                    message = `⚖️ Gerçek ağırlık (${actualWeight.toFixed(0)} kg) hacim ağırlığından (${volumeWeight.toFixed(3)} kg) %${percentage.toFixed(0)} daha büyük. Ücrete konu ağırlık: ${chargeableWeight.toFixed(3)} kg`;
-                }
-                showToast(message, type);
-            }
+            // İstek gereği: Sarı uyarılar gösterilmesin. Şimdilik bilgilendirme/uyarı kapalı.
+            return;
         }
 
         function clearAll() {
