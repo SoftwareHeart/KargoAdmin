@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,6 +60,8 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.Cookie.SameSite = SameSiteMode.Lax;
     options.SlidingExpiration = true;
     options.ExpireTimeSpan = TimeSpan.FromHours(8);
+    options.LoginPath = "/Identity/Account/Login";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
 });
 var app = builder.Build();
 
@@ -79,6 +82,14 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the HTTP request pipeline...
+// Forward proxy headers (X-Forwarded-Proto/X-Forwarded-For) in production
+if (!app.Environment.IsDevelopment())
+{
+    app.UseForwardedHeaders(new ForwardedHeadersOptions
+    {
+        ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+    });
+}
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
