@@ -1,4 +1,4 @@
-using KargoAdmin.Data;
+﻿using KargoAdmin.Data;
 using KargoAdmin.Models;
 using KargoAdmin.Models.ViewModels;
 using KargoAdmin.Services.Interfaces;
@@ -91,7 +91,7 @@ namespace KargoAdmin.Controllers
         public IActionResult Create()
         {
             _logger.LogInformation("Blog oluşturma sayfası açıldı");
-            return View(new BlogCreateViewModel { IsPublished = true, Type = "Faydalı Bilgi" });
+            return View(new BlogCreateViewModel { IsPublished = false, Type = "Faydalı Bilgi" });
         }
 
         // POST: Blog/Create

@@ -125,14 +125,7 @@
                                     <div class="blog-image-container">
                                         @if (!string.IsNullOrEmpty(info.ImageUrl))
                                         {
-                                            @if (info.ImageUrl.StartsWith("/uploads/blogs") || info.ImageUrl.StartsWith("http"))
-                                            {
-                                                <img src="@info.ImageUrl" alt="@info.GetLocalizedTitle(LanguageService)" class="blog-featured-image" loading="lazy">
-                                            }
-                                            else
-                                            {
-                                                <img src="/uploads/blogs/@info.ImageUrl" alt="@info.GetLocalizedTitle(LanguageService)" class="blog-featured-image" loading="lazy">
-                                            }
+                                            <img src="~/@info.ImageUrl" alt="@info.GetLocalizedTitle(LanguageService)" class="blog-featured-image" loading="lazy">
                                         }
                                         else
                                         {
