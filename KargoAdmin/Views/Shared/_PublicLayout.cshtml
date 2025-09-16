@@ -261,10 +261,6 @@
 
                             <li><a href="@(SettingsService.GetValue("InstagramUrl") ?? "#")" target="_blank" rel="noopener">Instagram</a></li>
 
-                            <li><a href="@(SettingsService.GetValue("FacebookUrl") ?? "#")" target="_blank" rel="noopener">Facebook</a></li>
-
-                            <li><a href="#">YouTube</a></li>
-
                         </ul>
 
                     </div>
@@ -282,10 +278,6 @@
                             <li><a href="@(SettingsService.GetValue("LinkedInUrl") ?? "#")" target="_blank" rel="noopener">LinkedIn</a></li>
 
                             <li><a href="@(SettingsService.GetValue("InstagramUrl") ?? "#")" target="_blank" rel="noopener">Instagram</a></li>
-
-                            <li><a href="@(SettingsService.GetValue("FacebookUrl") ?? "#")" target="_blank" rel="noopener">Facebook</a></li>
-
-                            <li><a href="#">YouTube</a></li>
 
                         </ul>
 
@@ -325,15 +317,7 @@
 
                                 <a href="@(SettingsService.GetValue("InstagramUrl") ?? "#")" aria-label="Instagram" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
 
-                                <a href="@(SettingsService.GetValue("FacebookUrl") ?? "#")" aria-label="Facebook" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
-
-                                <a href="@(SettingsService.GetValue("TwitterUrl") ?? "#")" aria-label="Twitter" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
-
-                                <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-
                                 <a href="@(SettingsService.GetValue("LinkedInUrl") ?? "#")" aria-label="LinkedIn" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
-
-                                <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
 
                             </div>
 
@@ -362,8 +346,6 @@
                         <a href="#">@(LanguageService.GetCurrentLanguage() == "en" ? "Terms & Conditions" : "Şartlar ve Koşullar")</a>
 
                         <a href="#">@(LanguageService.GetCurrentLanguage() == "en" ? "Privacy" : "Gizlilik")</a>
-
-                        <a href="#">@(LanguageService.GetCurrentLanguage() == "en" ? "Cookies" : "Çerezler")</a>
 
                     </div>
 

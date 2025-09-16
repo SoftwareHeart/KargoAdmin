@@ -165,10 +165,11 @@
                                             <span class="meta-divider">•</span>
                                             <span class="meta-item">
                                                 @{
-                                                    var contentLength = (info.Content ?? string.Empty).Length;
-                                                    var contentLengthEn = (info.ContentEn ?? string.Empty).Length;
-                                                    var lengthToUse = LanguageService.GetCurrentLanguage() == "en" && contentLengthEn > 0 ? contentLengthEn : contentLength;
-                                                    var readingTime = (lengthToUse / 200) + 1;
+                                                    var localizedContentForTime = info.GetLocalizedContent(LanguageService);
+                                                    var wordCount = Regex.Replace(localizedContentForTime ?? "", "<.*?>", string.Empty).Split(new char[] { ' ', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Length;
+                                                    var wordsPerMinute = 250;
+                                                    var readingTime = (int)Math.Ceiling((double)wordCount / wordsPerMinute);
+                                                    if (readingTime == 0) readingTime = 1;
                                                 }
                                                 <i class="far fa-clock"></i>
                                                 @readingTime dk okuma
