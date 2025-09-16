@@ -253,9 +253,6 @@
 
                         <ul>
 
-                            <li><a href="#">@(LanguageService.GetCurrentLanguage() == "en" ? "Privacy Policy" : "Gizlilik Politikası")</a></li>
-
-                            <li><a href="#">@(LanguageService.GetCurrentLanguage() == "en" ? "Terms of Service" : "Kullanım Koşulları")</a></li>
 
                             <li><a href="@(SettingsService.GetValue("LinkedInUrl") ?? "#")" target="_blank" rel="noopener">LinkedIn</a></li>
 
@@ -340,14 +337,6 @@
             <div class="footer-bottom-container">
 
                 <div class="footer-bottom-left">
-
-                    <div class="footer-bottom-links">
-
-                        <a href="#">@(LanguageService.GetCurrentLanguage() == "en" ? "Terms & Conditions" : "Şartlar ve Koşullar")</a>
-
-                        <a href="#">@(LanguageService.GetCurrentLanguage() == "en" ? "Privacy" : "Gizlilik")</a>
-
-                    </div>
 
                 </div>
 
