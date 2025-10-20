@@ -12,24 +12,47 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Aleris Global Lojistik</title>
-    <link rel="icon" type="image/png" href="~/img/Logo.png" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/poppins-fonts.css" asp-append-version="true" />
+
+    <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Sacramento&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+
+    <link rel="icon" type="image/png" href="~/img/Logo.png" asp-append-version="true" />
+
+    <!-- Critical CSS - inline later for best performance -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/public.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/poppins-fonts.css" asp-append-version="true" />
+
+    <!-- Fonts with font-display swap -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Sacramento&display=swap" rel="stylesheet">
+
+    <!-- Defer non-critical CSS -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="~/css/public.css" asp-append-version="true" media="print" onload="this.media='all'" />
     <link rel="stylesheet" href="~/css/navbar.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/hero.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/animation-section.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/services-section.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/fleet-showcase.css" asp-append-version="true" />
-    
+    <link rel="stylesheet" href="~/css/hero.css" asp-append-version="true" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="~/css/animation-section.css" asp-append-version="true" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="~/css/services-section.css" asp-append-version="true" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="~/css/fleet-showcase.css" asp-append-version="true" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="~/css/footer.css" asp-append-version="true" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="~/css/search-modal.css" asp-append-version="true" media="print" onload="this.media='all'" />
+
+    <!-- Font Awesome CDN - defer loading -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/public.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/hero.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/animation-section.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/services-section.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/fleet-showcase.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/footer.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/search-modal.css" asp-append-version="true" />
-    <!-- Font Awesome CDN -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+    </noscript>
 
     @await RenderSectionAsync("Styles", required: false)
     <style>
@@ -46,7 +69,7 @@
                 <!-- Logo -->
                 <div class="navbar-logo">
                     <a href="/">
-                        <img src="~/img/Logo.png" alt="Aleris Global Lojistik" />
+                        <img src="~/img/Logo.png" alt="Aleris Global Lojistik" width="150" height="50" loading="eager" fetchpriority="high" />
                     </a>
                 </div>
 
@@ -122,8 +145,8 @@
 
                     <!-- Language Flags -->
                     <div class="language-flags">
-                        <img src="~/img/EngIcon.png" alt="English" title="@(LanguageService.GetCurrentLanguage() == "en" ? "English (current)" : "English")" aria-current="@(LanguageService.GetCurrentLanguage() == "en" ? "true" : "false")" aria-disabled="@(LanguageService.GetCurrentLanguage() == "en" ? "true" : "false")" class="flag-icon @(LanguageService.GetCurrentLanguage() == "en" ? "active" : "")" onclick="changeLanguage('en')" />
-                        <img src="~/img/TrIcon.png" alt="Türkçe" title="@(LanguageService.GetCurrentLanguage() == "tr" ? "Türkçe (geçerli)" : "Türkçe")" aria-current="@(LanguageService.GetCurrentLanguage() == "tr" ? "true" : "false")" aria-disabled="@(LanguageService.GetCurrentLanguage() == "tr" ? "true" : "false")" class="flag-icon @(LanguageService.GetCurrentLanguage() == "tr" ? "active" : "")" onclick="changeLanguage('tr')" />
+                        <img src="~/img/EngIcon.png" alt="English" title="@(LanguageService.GetCurrentLanguage() == "en" ? "English (current)" : "English")" aria-current="@(LanguageService.GetCurrentLanguage() == "en" ? "true" : "false")" aria-disabled="@(LanguageService.GetCurrentLanguage() == "en" ? "true" : "false")" class="flag-icon @(LanguageService.GetCurrentLanguage() == "en" ? "active" : "")" onclick="changeLanguage('en')" width="32" height="32" loading="eager" />
+                        <img src="~/img/TrIcon.png" alt="Türkçe" title="@(LanguageService.GetCurrentLanguage() == "tr" ? "Türkçe (geçerli)" : "Türkçe")" aria-current="@(LanguageService.GetCurrentLanguage() == "tr" ? "true" : "false")" aria-disabled="@(LanguageService.GetCurrentLanguage() == "tr" ? "true" : "false")" class="flag-icon @(LanguageService.GetCurrentLanguage() == "tr" ? "active" : "")" onclick="changeLanguage('tr')" width="32" height="32" loading="eager" />
                     </div>
                 </div>
 
@@ -207,7 +230,7 @@
 
                     <div class="footer-logo">
 
-                        <img src="~/img/Logo.png" alt="Aleris Global Lojistik" />
+                        <img src="~/img/Logo.png" alt="Aleris Global Lojistik" width="150" height="50" loading="lazy" />
 
                     </div>
 
@@ -332,10 +355,10 @@
         </div>
 
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js" defer></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" defer></script>
 
-    <script>
+    <script defer>
             (function() {
             let lastScrollTop = 0;
             let scrollDirection = 'up';

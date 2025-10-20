@@ -10,15 +10,15 @@
     <!-- Video Background Container -->
     <div class="hero-animation-container">
         <!-- Arka plan video 1 -->
-        <video id="heroVideo1" autoplay muted playsinline preload="auto" class="hero-background-video hero-video-1">
+        <video id="heroVideo1" autoplay muted playsinline preload="metadata" class="hero-background-video hero-video-1">
             <source src="~/videos/BannerVideo.mp4" type="video/mp4">
         </video>
         <!-- Arka plan video 2 (çapraz geçiş için) -->
-        <video id="heroVideo2" autoplay muted playsinline preload="auto" class="hero-background-video hero-video-2">
+        <video id="heroVideo2" autoplay muted playsinline preload="none" class="hero-background-video hero-video-2">
             <source src="~/videos/BannerVideo.mp4" type="video/mp4">
         </video>
         <!-- Fallback image - sadece video yüklenemezse göster -->
-        <img src="~/img/hero-fallback.jpg" alt="Aleris Global Lojistik" class="hero-fallback-image" style="display: none;">
+        <img src="~/img/hero-fallback.jpg" alt="Aleris Global Lojistik" class="hero-fallback-image" loading="eager" style="display: none;">
     </div>
 
     <div class="container">
@@ -35,12 +35,12 @@
 
     <!-- Hero Banner Scroll Icon - Alt ortada -->
     <div class="hero-banner-scroll" onclick="scrollToNext()">
-        <img src="~/img/BannerScrollIcon.png" alt="Scroll Down" />
+        <img src="~/img/BannerScrollIcon.png" alt="Scroll Down" loading="lazy" width="50" height="50" />
     </div>
 
     <!-- LinkedIn Icon - Sağ alt köşede -->
     <div class="linkedin-floating" onclick="openLinkedIn()">
-        <img src="~/img/LinkedinIcon.png" alt="LinkedIn" />
+        <img src="~/img/LinkedinIcon.png" alt="LinkedIn" loading="lazy" width="50" height="50" />
     </div>
 </section>
 
@@ -133,7 +133,7 @@
 <section class="animation-section" id="animation-section">
     <!-- Network Video Background -->
     <div class="network-video-container">
-        <video class="network-video" autoplay muted loop playsinline>
+        <video class="network-video" autoplay muted loop playsinline preload="none" loading="lazy">
             <source src="~/videos/PoligonelBg.mp4" type="video/mp4">
         </video>
     </div>
@@ -155,7 +155,7 @@
         <!-- Sağ taraf - Animasyon Alanı (Uçak kaldırıldı) -->
         <div class="animation-right">
             <div class="world-container">
-                <img src="~/img/Dunya.png" alt="@LanguageService.GetLocalizedText("Dünya", "World")" class="world-image" />
+                <img src="~/img/Dunya.png" alt="@LanguageService.GetLocalizedText("Dünya", "World")" class="world-image" loading="lazy" width="600" height="600" />
             </div>
         </div>
     </div>
@@ -164,7 +164,7 @@
 <section class="services-section" id="services-section-land-truck">
     <!-- Background Video -->
     <div class="services-background-video">
-        <video class="services-video" autoplay muted loop playsinline>
+        <video class="services-video" autoplay muted loop playsinline preload="none" loading="lazy">
             <source src="~/videos/PoligonelBgReverse.mp4" type="video/mp4">
         </video>
         <div class="services-overlay"></div>
@@ -175,12 +175,12 @@
         <!-- Left Side - World -->
         <div class="services-left">
             <div class="world-services-container">
-                <img src="~/img/Dunya.png" alt="@LanguageService.GetLocalizedText("Dünya", "World")" class="world-services-image" />
+                <img src="~/img/Dunya.png" alt="@LanguageService.GetLocalizedText("Dünya", "World")" class="world-services-image" loading="lazy" width="500" height="500" />
             </div>
             <!-- Vehicle -->
             <div class="vehicle-container land-truck-vehicle">
-                <img src="~/img/Tir.png" alt="Tır" class="vehicle-image vehicle-truck-left" />
-                <img src="~/img/Minivan.png" alt="Minivan" class="vehicle-image vehicle-minivan" />
+                <img src="~/img/Tir.png" alt="Tır" class="vehicle-image vehicle-truck-left" loading="lazy" width="400" height="200" />
+                <img src="~/img/Minivan.png" alt="Minivan" class="vehicle-image vehicle-minivan" loading="lazy" width="300" height="150" />
             </div>
 
         </div>
@@ -199,7 +199,7 @@
             <div class="containers-wrapper land-truck-containers">
                 <!-- Kara Taşımacılık - Turuncu -->
                 <div class="service-container  active-container">
-                    <img src="~/img/ArtboardTuruncu.png" alt="@LanguageService.GetLocalizedText("Kara Taşımacılık Konteynır", "Land Transport Container")" class="container-image" />
+                    <img src="~/img/ArtboardTuruncu.png" alt="@LanguageService.GetLocalizedText("Kara Taşımacılık Konteynır", "Land Transport Container")" class="container-image" loading="lazy" width="250" height="300" />
                     <a class="container-content" href="/Aleris/Servisler/KaraYolu">
                         <h4>@LanguageService.GetLocalizedText("Karayolu Taşımacılığı", "Land Transport")</h4>
                         <div class="container-number">50+</div>
@@ -208,7 +208,7 @@
                 </div>
                 <!-- Hava Taşımacılık - Mavi -->
                 <div class="service-container ">
-                    <img src="~/img/ArtboardMavi.png" alt="@LanguageService.GetLocalizedText("Hava Taşımacılık Konteynır", "Air Transport Container")" class="container-image" />
+                    <img src="~/img/ArtboardMavi.png" alt="@LanguageService.GetLocalizedText("Hava Taşımacılık Konteynır", "Air Transport Container")" class="container-image" loading="lazy" width="250" height="300" />
                     <a class="container-content" href="/Aleris/Servisler/HavaYolu">
                         <h4>@LanguageService.GetLocalizedText("Havayolu Taşımacılığı", "Air Transport")</h4>
                         <div class="container-number">50+</div>
@@ -217,7 +217,7 @@
                 </div>
                 <!-- Deniz Taşımacılık - Mavi -->
                 <div class="service-container ">
-                    <img src="~/img/ArtboardMavi.png" alt="@LanguageService.GetLocalizedText("Deniz Taşımacılık Konteynır", "Sea Transport Container")" class="container-image" />
+                    <img src="~/img/ArtboardMavi.png" alt="@LanguageService.GetLocalizedText("Deniz Taşımacılık Konteynır", "Sea Transport Container")" class="container-image" loading="lazy" width="250" height="300" />
                     <a class="container-content" href="/Aleris/Servisler/DenizYolu">
                         <h4>@LanguageService.GetLocalizedText("Denizyolu Taşımacılığı", "Sea Transport")</h4>
                         <div class="container-number">50+</div>
@@ -226,7 +226,7 @@
                 </div>
                 <!-- Depolama - Mavi -->
                 <div class="service-container">
-                    <img src="~/img/ArtboardMavi.png" alt="@LanguageService.GetLocalizedText("Depolama Konteynır", "Storage Container")" class="container-image" />
+                    <img src="~/img/ArtboardMavi.png" alt="@LanguageService.GetLocalizedText("Depolama Konteynır", "Storage Container")" class="container-image" loading="lazy" width="250" height="300" />
                     <a class="container-content" href="/Aleris/Servisler/DepolamaDagitim">
                         <h4>@LanguageService.GetLocalizedText("Depolama ve Dağıtım", "Storage & Distribution")</h4>
                         <div class="container-number">50+</div>
@@ -242,7 +242,7 @@
 <section class="services-section" id="services-section-air">
     <!-- Background Video -->
     <div class="services-background-video">
-        <video class="services-video" autoplay muted loop playsinline>
+        <video class="services-video" autoplay muted loop playsinline preload="none" loading="lazy">
             <source src="~/videos/PoligonelBgReverse.mp4" type="video/mp4">
         </video>
         <div class="services-overlay"></div>
@@ -253,11 +253,11 @@
         <!-- Left Side - World -->
         <div class="services-left">
             <div class="world-services-container">
-                <img src="~/img/Dunya.png" alt="@LanguageService.GetLocalizedText("Dünya", "World")" class="world-services-image" />
+                <img src="~/img/Dunya.png" alt="@LanguageService.GetLocalizedText("Dünya", "World")" class="world-services-image" loading="lazy" width="500" height="500" />
             </div>
             <!-- Vehicle -->
             <div class="vehicle-container air-vehicle">
-                <img src="~/img/UcakSol.png" alt="Uçak" class="vehicle-image" />
+                <img src="~/img/UcakSol.png" alt="Uçak" class="vehicle-image" loading="lazy" width="400" height="200" />
             </div>
         </div>
 
@@ -284,7 +284,7 @@
                 </div>
                 <!-- Hava Taşımacılık - Turuncu -->
                 <div class="service-container active-container">
-                    <img src="~/img/ArtboardTuruncu.png" alt="@LanguageService.GetLocalizedText("Hava Taşımacılık Konteynır", "Air Transport Container")" class="container-image" />
+                    <img src="~/img/ArtboardTuruncu.png" alt="@LanguageService.GetLocalizedText("Hava Taşımacılık Konteynır", "Air Transport Container")" class="container-image" loading="lazy" width="250" height="300" />
                     <a class="container-content" href="/Aleris/Servisler/HavaYolu">
                         <h4>@LanguageService.GetLocalizedText("Havayolu Taşımacılığı", "Air Transport")</h4>
                         <div class="container-number">50+</div>
@@ -293,7 +293,7 @@
                 </div>
                 <!-- Deniz Taşımacılık - Mavi -->
                 <div class="service-container blue-container">
-                    <img src="~/img/ArtboardMavi.png" alt="@LanguageService.GetLocalizedText("Deniz Taşımacılık Konteynır", "Sea Transport Container")" class="container-image" />
+                    <img src="~/img/ArtboardMavi.png" alt="@LanguageService.GetLocalizedText("Deniz Taşımacılık Konteynır", "Sea Transport Container")" class="container-image" loading="lazy" width="250" height="300" />
                     <a class="container-content" href="/Aleris/Servisler/DenizYolu">
                         <h4>@LanguageService.GetLocalizedText("Denizyolu Taşımacılığı", "Sea Transport")</h4>
                         <div class="container-number">50+</div>
@@ -302,7 +302,7 @@
                 </div>
                 <!-- Depolama - Mavi -->
                 <div class="service-container blue-container">
-                    <img src="~/img/ArtboardMavi.png" alt="@LanguageService.GetLocalizedText("Depolama Konteynır", "Storage Container")" class="container-image" />
+                    <img src="~/img/ArtboardMavi.png" alt="@LanguageService.GetLocalizedText("Depolama Konteynır", "Storage Container")" class="container-image" loading="lazy" width="250" height="300" />
                     <a class="container-content" href="/Aleris/Servisler/DepolamaDagitim">
                         <h4>@LanguageService.GetLocalizedText("Depolama ve Dağıtım", "Storage & Distribution")</h4>
                         <div class="container-number">50+</div>
@@ -318,7 +318,7 @@
 <section class="services-section" id="services-section-sea">
     <!-- Background Video -->
     <div class="services-background-video">
-        <video class="services-video" autoplay muted loop playsinline>
+        <video class="services-video" autoplay muted loop playsinline preload="none" loading="lazy">
             <source src="~/videos/PoligonelBgReverse.mp4" type="video/mp4">
         </video>
         <div class="services-overlay"></div>
@@ -329,11 +329,11 @@
         <!-- Left Side - World -->
         <div class="services-left">
             <div class="world-services-container">
-                <img src="~/img/Dunya.png" alt="@LanguageService.GetLocalizedText("Dünya", "World")" class="world-services-image" />
+                <img src="~/img/Dunya.png" alt="@LanguageService.GetLocalizedText("Dünya", "World")" class="world-services-image" loading="lazy" width="500" height="500" />
             </div>
             <!-- Vehicle -->
             <div class="vehicle-container sea-vehicle">
-                <img src="~/img/Yukgemisi.png" alt="Yük Gemisi" class="vehicle-image" />
+                <img src="~/img/Yukgemisi.png" alt="Yük Gemisi" class="vehicle-image" loading="lazy" width="400" height="200" />
             </div>
         </div>
 
@@ -360,7 +360,7 @@
                 </div>
                 <!-- Hava Taşımacılık - Mavi -->
                 <div class="service-container">
-                    <img src="~/img/ArtboardMavi.png" alt="@LanguageService.GetLocalizedText("Hava Taşımacılık Konteynır", "Air Transport Container")" class="container-image" />
+                    <img src="~/img/ArtboardMavi.png" alt="@LanguageService.GetLocalizedText("Hava Taşımacılık Konteynır", "Air Transport Container")" class="container-image" loading="lazy" width="250" height="300" />
                     <a class="container-content" href="/Aleris/Servisler/HavaYolu">
                         <h4>@LanguageService.GetLocalizedText("Havayolu Taşımacılığı", "Air Transport")</h4>
                         <div class="container-number">50+</div>
@@ -369,7 +369,7 @@
                 </div>
                 <!-- Deniz Taşımacılık - Turuncu -->
                 <div class="service-container orange-container active-container">
-                    <img src="~/img/ArtboardTuruncu.png" alt="@LanguageService.GetLocalizedText("Deniz Taşımacılık Konteynır", "Sea Transport Container")" class="container-image" />
+                    <img src="~/img/ArtboardTuruncu.png" alt="@LanguageService.GetLocalizedText("Deniz Taşımacılık Konteynır", "Sea Transport Container")" class="container-image" loading="lazy" width="250" height="300" />
                     <a class="container-content" href="/Aleris/Servisler/DenizYolu">
                         <h4>@LanguageService.GetLocalizedText("Denizyolu Taşımacılığı", "Sea Transport")</h4>
                         <div class="container-number">50+</div>
@@ -378,7 +378,7 @@
                 </div>
                 <!-- Depolama - Mavi -->
                 <div class="service-container blue-container">
-                    <img src="~/img/ArtboardMavi.png" alt="@LanguageService.GetLocalizedText("Depolama Konteynır", "Storage Container")" class="container-image" />
+                    <img src="~/img/ArtboardMavi.png" alt="@LanguageService.GetLocalizedText("Depolama Konteynır", "Storage Container")" class="container-image" loading="lazy" width="250" height="300" />
                     <a class="container-content" href="/Aleris/Servisler/DepolamaDagitim">
                         <h4>@LanguageService.GetLocalizedText("Depolama ve Dağıtım", "Storage & Distribution")</h4>
                         <div class="container-number">50+</div>
@@ -394,7 +394,7 @@
 <section class="services-section" id="services-section-land-van">
     <!-- Background Video -->
     <div class="services-background-video">
-        <video class="services-video" autoplay muted loop playsinline>
+        <video class="services-video" autoplay muted loop playsinline preload="none" loading="lazy">
             <source src="~/videos/PoligonelBgReverse.mp4" type="video/mp4">
         </video>
         <div class="services-overlay"></div>
@@ -405,13 +405,13 @@
         <!-- Left Side - World -->
         <div class="services-left">
             <div class="world-services-container">
-                <img src="~/img/Dunya.png" alt="@LanguageService.GetLocalizedText("Dünya", "World")" class="world-services-image" />
+                <img src="~/img/Dunya.png" alt="@LanguageService.GetLocalizedText("Dünya", "World")" class="world-services-image" loading="lazy" width="500" height="500" />
             </div>
             <!-- Vehicle replaced with Forklift choreography (CSS-only) -->
             <div class="land-van-forklift">
-                <img src="~/img/ForkliftKabin.png" alt="@LanguageService.GetLocalizedText("Forklift Kabin", "Forklift Cabin")" class="forklift-cabin" />
-                <img src="~/img/ForkliftUcu.png" alt="@LanguageService.GetLocalizedText("Forklift Ucu", "Forklift Tip")" class="forklift-tip" />
-                <img src="~/img/Koliler.png" alt="@LanguageService.GetLocalizedText("Palet", "Pallet")" class="forklift-pallet" />
+                <img src="~/img/ForkliftKabin.png" alt="@LanguageService.GetLocalizedText("Forklift Kabin", "Forklift Cabin")" class="forklift-cabin" loading="lazy" width="300" height="200" />
+                <img src="~/img/ForkliftUcu.png" alt="@LanguageService.GetLocalizedText("Forklift Ucu", "Forklift Tip")" class="forklift-tip" loading="lazy" width="150" height="100" />
+                <img src="~/img/Koliler.png" alt="@LanguageService.GetLocalizedText("Palet", "Pallet")" class="forklift-pallet" loading="lazy" width="200" height="150" />
             </div>
         </div>
 
@@ -438,7 +438,7 @@
                 </div>
                 <!-- Hava Taşımacılık - Mavi -->
                 <div class="service-container">
-                    <img src="~/img/ArtboardMavi.png" alt="@LanguageService.GetLocalizedText("Hava Taşımacılık Konteynır", "Air Transport Container")" class="container-image" />
+                    <img src="~/img/ArtboardMavi.png" alt="@LanguageService.GetLocalizedText("Hava Taşımacılık Konteynır", "Air Transport Container")" class="container-image" loading="lazy" width="250" height="300" />
                     <a class="container-content" href="/Aleris/Servisler/HavaYolu">
                         <h4>@LanguageService.GetLocalizedText("Havayolu Taşımacılığı", "Air Transport")</h4>
                         <div class="container-number">50+</div>
@@ -447,7 +447,7 @@
                 </div>
                 <!-- Deniz Taşımacılık - Mavi -->
                 <div class="service-container">
-                    <img src="~/img/ArtboardMavi.png" alt="@LanguageService.GetLocalizedText("Deniz Taşımacılık Konteynır", "Sea Transport Container")" class="container-image" />
+                    <img src="~/img/ArtboardMavi.png" alt="@LanguageService.GetLocalizedText("Deniz Taşımacılık Konteynır", "Sea Transport Container")" class="container-image" loading="lazy" width="250" height="300" />
                     <a class="container-content" href="/Aleris/Servisler/DenizYolu">
                         <h4>@LanguageService.GetLocalizedText("Denizyolu Taşımacılığı", "Sea Transport")</h4>
                         <div class="container-number">50+</div>
@@ -456,7 +456,7 @@
                 </div>
                 <!-- Depolama - Turuncu (Active) -->
                 <div class="service-container active-container">
-                    <img src="~/img/ArtboardTuruncu.png" alt="@LanguageService.GetLocalizedText("Depolama Konteynır", "Storage Container")" class="container-image" />
+                    <img src="~/img/ArtboardTuruncu.png" alt="@LanguageService.GetLocalizedText("Depolama Konteynır", "Storage Container")" class="container-image" loading="lazy" width="250" height="300" />
                     <a class="container-content" href="/Aleris/Servisler/DepolamaDagitim">
                         <h4>@LanguageService.GetLocalizedText("Depolama ve Dağıtım", "Storage & Distribution")</h4>
                         <div class="container-number">50+</div>
@@ -471,7 +471,7 @@
 <section class="fleet-showcase-section">
     <!-- Background Video -->
     <div class="fleet-video-container">
-        <video class="fleet-background-video" autoplay muted loop playsinline>
+        <video class="fleet-background-video" autoplay muted loop playsinline preload="none" loading="lazy">
             <source src="~/videos/MapsPin.mp4" type="video/mp4">
         </video>
     </div>
@@ -638,10 +638,10 @@
 </section> *@
 
 @section Scripts {
-    <script src="~/js/services-animation.js"></script>
-    <script src="~/js/services-animation-forklift.js"></script>
-    
-    <script>
+    <script src="~/js/services-animation.js" defer></script>
+    <script src="~/js/services-animation-forklift.js" defer></script>
+
+    <script defer>
         // Video loop handling
         document.addEventListener('DOMContentLoaded', function() {
             const video = document.getElementById('heroVideo1');
